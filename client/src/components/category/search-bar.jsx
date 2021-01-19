@@ -28,7 +28,7 @@ const onSubmit = (e) =>{
           onChange = {(e) => onChange(e)}>
         </input>
       </div>
-      <button className = 'lupa' type = "submit"><img src = {image} className = "img" alt = ""></img></button>
+      <button className = 'button' type = "submit"><img src = {image} className = "img" alt = ""></img></button>
         </form>
 
     )
