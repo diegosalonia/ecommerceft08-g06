@@ -3,7 +3,6 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
@@ -16,17 +15,16 @@ const validationSchema = yup.object({
   name: yup
     .string('Enter category name')
     .required('Category name is required')
-    .min(1, 'Please enter category name'),
+    .min(4, 'Please enter category name (min 4 characters)'),
   description: yup
   .string('Enter category description'),
-
 });
 
 const CategoryForm = () => {
   const formik = useFormik({
     initialValues: {
-      name: null,
-      description: null,
+      name: '',
+      description: '',
       parent_id: null,
       image: null
     },
