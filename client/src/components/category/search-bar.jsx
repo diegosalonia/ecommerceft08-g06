@@ -1,5 +1,5 @@
 import React ,{ useState }from 'react';
-import image from "../../resourses/lupa1.png"
+import image from "../../resourses/search-icon.png"
 import './search-bar.css'
 
 export default function SearchBar(){
@@ -11,10 +11,8 @@ const onChange = (e) =>{
 }
 
 const onSubmit = (e) =>{
-    e.preventDefault();
-    console.log(input)
+    e.preventDefault()
     setInput("")
-    console.log("send the values to the store")
 }
 
     return(
@@ -33,4 +31,3 @@ const onSubmit = (e) =>{
 
     )
 }
-
