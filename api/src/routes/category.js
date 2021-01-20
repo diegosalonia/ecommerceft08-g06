@@ -6,7 +6,9 @@ server.post('/', (req, res) =>{
     .then(category => {
         res.status(200).send(category)
     })
-    .catch(
+    .catch(error =>{
+        res.status(400).send(error)
+    }
 })
 
 module.exports = server;
