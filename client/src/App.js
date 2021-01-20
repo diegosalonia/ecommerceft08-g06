@@ -1,14 +1,18 @@
 import React from 'react';
 import logo from './logo.svg';
-import CategoryForm from './components/category/CategoryForm'
+import CategoryForm from './components/category/CategoryForm';
+import ProductForm from './components/product/ProductForm'
 import './App.css';
+import { Provider } from 'react-redux';
+import store from './redux/store';
 
 function App() {
   return (
-    <div className="App">
+    <Provider store={store}>
+      <ProductForm />
       <CategoryForm />
-    </div>
+    </Provider>
   );
-}
+};
 
 export default App;
