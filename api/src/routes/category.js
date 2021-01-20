@@ -8,7 +8,29 @@ server.post('/', (req, res) =>{
     })
     .catch(error =>{
         res.status(400).send(error)
-    }
+    })
 })
+
+server.delete('/', (req, res) =>{
+    Category.destroy({
+        where: {
+            id: req.body.category_id
+        }
+    })
+    .then(category => {
+        return res.send("deleted");
+    })
+    .catch(error =>{
+       return res.status(500).json(error)
+    })
+})
+
+server.put('/', (req, res) =>{
+    Category.update({name: req.body.name, description: req.body.description},{where: {id: req.body.category_id} })
+    .then((rowsUpdated) => (res.json(rowsUpdated)))
+    .catch(err => {res.status(400).send(err)})
+})
+
+
 
 module.exports = server;
