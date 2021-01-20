@@ -1,5 +1,6 @@
 import React from 'react';
 import logo from './logo.svg';
+import CategoryForm from './components/category/CategoryForm'
 import './App.css';
 import Product from './components/product/Product';
 
@@ -19,6 +20,7 @@ const obj = {
 function App() {
   return (
     <div className="App">
+      <CategoryForm />
       <Product description={obj.description}
                discount={obj.discount} 
                featured={obj.featured}
