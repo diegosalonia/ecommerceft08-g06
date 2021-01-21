@@ -11,15 +11,15 @@ server.get('/', (req, res, next) => {
 });
 
 server.post('/', (req, res) =>{
+
     Product.create(req.body.form)
     .then(category => {
-        res.status(200).send(category)
+        res.status(201).send(category)
     })
     .catch(error =>{
         res.status(400).send(error)
     })
 })
-// this is from task 25 and it is incomplete, but i needed a small part of the path to do my task
 
 server.post('/:productId/category/:categoryId', async (req, res) =>{
 	const category =  await Category.findByPk(req.params.categoryId)
