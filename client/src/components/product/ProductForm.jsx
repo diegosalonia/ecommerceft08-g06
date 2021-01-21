@@ -78,8 +78,8 @@ const ProductForm = () => {
                         label="Name"
                         value={formik.values.name}
                         onChange={formik.handleChange}
-                        error={formik.touched.description && Boolean(formik.errors.description)}
-                        helperText={formik.touched.description && formik.errors.description}
+                        error={formik.touched.name && Boolean(formik.errors.name)}
+                        helperText={formik.touched.name && formik.errors.name}
                     />
                      <TextField
                         fullWidth
@@ -88,8 +88,8 @@ const ProductForm = () => {
                         label="Price"
                         value={formik.values.price}
                         onChange={formik.handleChange}
-                        error={formik.touched.description && Boolean(formik.errors.description)}
-                        helperText={formik.touched.description && formik.errors.description}
+                        error={formik.touched.price && Boolean(formik.errors.price)}
+                        helperText={formik.touched.price && formik.errors.price}
                         required
                     />
                     <TextField
@@ -109,8 +109,8 @@ const ProductForm = () => {
                         label="Stock"
                         value={formik.values.stock}
                         onChange={formik.handleChange}
-                        error={formik.touched.description && Boolean(formik.errors.description)}
-                        helperText={formik.touched.description && formik.errors.description}
+                        error={formik.touched.stock && Boolean(formik.errors.stock)}
+                        helperText={formik.touched.stock && formik.errors.stock}
                     />
                     <TextField
                         fullWidth
@@ -119,8 +119,8 @@ const ProductForm = () => {
                         label="Discount"
                         value={formik.values.discount}
                         onChange={formik.handleChange}
-                        error={formik.touched.description && Boolean(formik.errors.description)}
-                        helperText={formik.touched.description && formik.errors.description}
+                        error={formik.touched.discount && Boolean(formik.errors.discount)}
+                        helperText={formik.touched.discount && formik.errors.discount}
                     />
                     <FormControlLabel
                         control={<Switch
