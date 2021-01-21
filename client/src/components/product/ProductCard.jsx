@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, CssBaseline, Button, Typography, } from '@material-ui/core';
+import { Button, Container, CssBaseline, Typography, } from '@material-ui/core';
 import { useStylesProductCard } from './styles';
 
 function ProductCard({ productId, discount, featured, image, 
@@ -10,7 +10,7 @@ function ProductCard({ productId, discount, featured, image,
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
-            <div className={style.imgWrapper} onClick={() => alert("te llevo al detalle del producto, papi?")}> {/*dispatchear la action para ir al detalle*/}
+            <div className={style.imgWrapper} onClick={() => alert("te llevo al detalle del producto?")}> {/*dispatchear la action para ir al detalle*/}
                 <div className={style.img}>
                     <img src={ image } alt={ name }></img>
                 </div>
