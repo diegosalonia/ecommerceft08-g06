@@ -1,24 +1,37 @@
 import React from 'react';
 import logo from './logo.svg';
+import CategoryForm from './components/category/CategoryForm'
 import './App.css';
+import Product from './components/product/Product';
+
+const obj = {
+  description: "lalallla", 
+  discount: 0, 
+  featured: true, 
+  image: '', 
+  name: 'Tijera', 
+  price: 59, 
+  rating: 5, 
+  stock: 15, 
+  categories: ['Cortacorta', 'Pinchapincha'], 
+  quantityInCart: 1,
+}
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <CategoryForm />
+      <Product description={obj.description}
+               discount={obj.discount} 
+               featured={obj.featured}
+               image={obj.image}
+               name={obj.name}
+               price={obj.price}
+               rating={obj.rating}
+               stock={obj.stock}
+               categories={obj.categories}
+               quantityInCart={obj.quantityInCart}
+               />
     </div>
   );
 }
