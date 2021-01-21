@@ -1,14 +1,15 @@
 import React from 'react';
 import logo from './logo.svg';
-import CategoryForm from './components/category/CategoryForm'
+// import CategoryForm from './components/category/CategoryForm'
 import './App.css';
 import Product from './components/product/Product';
+import image from './lala.png';
 
 const obj = {
   description: "lalallla", 
   discount: 0, 
   featured: true, 
-  image: '', 
+  image: image, 
   name: 'Tijera', 
   price: 59, 
   rating: 5, 
@@ -20,7 +21,7 @@ const obj = {
 function App() {
   return (
     <div className="App">
-      <CategoryForm />
+      {/* <CategoryForm /> */}
       <Product description={obj.description}
                discount={obj.discount} 
                featured={obj.featured}
