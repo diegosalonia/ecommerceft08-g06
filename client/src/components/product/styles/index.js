@@ -14,13 +14,21 @@ export const useStylesProductForm = makeStyles(theme => ({
     },
     imageUpload: {
         display: 'flex',
-        justifyContent: 'flex-start',
         margin: '10px 0 15px 0',
-    },
-    inputImage: {
-        // display: 'none',
+        justifyContent: 'center',
+        border: '1px dashed gray',
     },
     labelImage: {
         marginRight: '10px',
+    },
+    previewImageDiv: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    previewImage: {
+        maxWidth: '200px',
+        maxHeight: '130px',
     }
 }));

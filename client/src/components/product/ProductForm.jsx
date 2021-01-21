@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { useDropzone } from 'react-dropzone';
 import { Container, TextField, Typography, Button, CssBaseline, Switch, FormControlLabel } from '@material-ui/core';
 
 import { useStylesProductForm } from './styles';
@@ -26,7 +27,8 @@ const validationSchema = yup.object({
   });  
 
 const ProductForm = () => {
-    // const { image, setImage } = useState();
+    const [ images, setImages ] = useState([]);
+    const style = useStylesProductForm();
     const formik = useFormik({
         initialValues: {
           name: '',
@@ -35,14 +37,32 @@ const ProductForm = () => {
           stock: '',
           discount: '',
           featured: false,
-          image: '',
+          image: [],
         },
         validationSchema: validationSchema,
         onSubmit: values => {
-
+            console.log("values: ", values);
         }
     });
-    const style = useStylesProductForm();
+
+    const { getRootProps, getInputProps } = useDropzone({
+        accept: 'image/*',
+        maxFiles: 3,
+        onDrop: acceptedImages => {
+            setImages(
+                acceptedImages.map(image => Object.assign(image, {
+                    preview: URL.createObjectURL(image)
+                }))
+            );
+        }
+    })
+    const previews = images.map(image => (
+        <div key={image.name} >
+            <div>
+                <img className={style.previewImage} src={image.preview} alt={image.name} />
+            </div>
+        </div>
+    ))
 
     return (
         <div className={style.productForm}>
@@ -114,10 +134,11 @@ const ProductForm = () => {
                         label="Featured"
                         className={style.formSwitch}
                     />
-                    <div className={style.imageUpload}>
-                        <label className={style.labelImage}>Image</label>
-                        <input required id="file" name="file" className={style.inputImage} type="file" onChange={(event) => formik.setFieldValue("image", event.currentTarget.files[0])}  />
+                    <div className={style.imageUpload} {...getRootProps()} >
+                        <input {...getInputProps()} />
+                        <p>Drop your product images here</p>
                     </div>
+                    <div className={style.previewImageDiv} >{ previews }</div>
                 </Container>
                 <Button color="primary" variant="contained" fullWidth type="submit" >
                         Submit
