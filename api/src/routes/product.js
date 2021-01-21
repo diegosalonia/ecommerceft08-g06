@@ -10,6 +10,17 @@ server.get('/', (req, res, next) => {
 		.catch(next);
 });
 
+server.get('/category/:name', async (req,res,next)=>{
+	const category = await Category.findOne({where: {name: req.params.name}})
+	await category.getProducts()
+	.then(categories=>{
+		res.json(categories);
+	})
+	.catch(err=>{
+		res.send(err);
+	})
+});
+
 server.delete('/:id',  async (req, res) => {
 	const product = await Product.findByPk(req.params.id)
 	await product.destroy()
