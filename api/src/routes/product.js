@@ -1,5 +1,4 @@
 const server = require('express').Router();
-const e = require('express');
 const { response } = require('express');
 const { Product, Category } = require('../db.js');
 
