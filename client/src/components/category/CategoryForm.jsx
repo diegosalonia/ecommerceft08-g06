@@ -1,13 +1,9 @@
 import React from 'react';
-import { useFormik } from 'formik';
+import {useFormik} from 'formik';
 import * as yup from 'yup';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Container from '@material-ui/core/Container';
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-
+import {Button, TextField, CssBaseline, Container, makeStyles, Typography} from '@material-ui/core';
+import {DropzoneArea} from 'material-ui-dropzone'
+import AttachFileIcon from '@material-ui/icons/AttachFile';
 
 
 
@@ -30,7 +26,7 @@ const CategoryForm = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-     //Do something with values. 
+     //Do something with values and image uploads. 
     },
   });
 
@@ -81,6 +77,11 @@ const CategoryForm = () => {
             onChange={formik.handleChange}
             error={formik.touched.description && Boolean(formik.errors.description)}
             helperText={formik.touched.description && formik.errors.description}
+            />
+            <DropzoneArea
+              acceptedFiles={['image/*']}
+              dropzoneText={"Drag and drop an image here or click"}
+              onChange={(files) => console.log('Files:', files)}
             />
             <Button color="primary" variant="contained" fullWidth type="submit" className={classes.submit}>
             Submit
