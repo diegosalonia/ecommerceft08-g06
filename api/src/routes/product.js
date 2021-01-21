@@ -21,9 +21,17 @@ server.post('/', (req, res) =>{
 })
 // this is from task 25 and it is incomplete, but i needed a small part of the path to do my task
 
-server.put('/:id', (req, res) =>{
-	const product = Product.findByPk(req.params.id)
+server.put('/:id', async (req, res) =>{
+	const product = await Product.findByPk(req.params.id)
+	Object.assign(product, req.body.form)
 
+	product.save()
+	 .then(response =>{
+		 res.status(201).send(response)
+	 })
+	 .catch(error =>{
+		 res.status(400).send(error)
+	 })
 })
 
 server.post('/:productId/category/:categoryId', async (req, res) =>{
