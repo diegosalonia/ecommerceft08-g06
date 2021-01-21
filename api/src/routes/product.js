@@ -10,6 +10,17 @@ server.get('/', (req, res, next) => {
 		.catch(next);
 });
 
+server.delete('/:id',  async (req, res) => {
+	const product = await Product.findByPk(req.params.id)
+	await product.destroy()
+	.then(() => {
+		res.status(201).send("se ha eliminado con exito")
+	})
+	.catch(error => {
+		res.send(error)
+	})
+})
+
 server.post('/', (req, res) =>{
     Product.create(req.body.form)
     .then(category => {
