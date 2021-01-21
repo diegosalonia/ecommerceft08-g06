@@ -21,7 +21,7 @@ server.delete('/', (req, res) =>{
         return res.send("deleted");
     })
     .catch(error =>{
-       return res.status(500).json(error)
+       return res.status(409).json(error)
     })
 })
 
