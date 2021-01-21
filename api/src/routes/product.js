@@ -1,4 +1,5 @@
 const server = require('express').Router();
+const e = require('express');
 const { response } = require('express');
 const { Product, Category } = require('../db.js');
 
@@ -8,6 +9,17 @@ server.get('/', (req, res, next) => {
 			res.send(products);
 		})
 		.catch(next);
+});
+
+server.get('/category/:name', async (req,res,next)=>{
+	const category = await Category.findOne({where: {name: req.params.name}})
+	await category.getProducts()
+	.then(categories=>{
+		res.json(categories);
+	})
+	.catch(err=>{
+		res.send(err);
+	})
 });
 
 server.delete('/:id',  async (req, res) => {
