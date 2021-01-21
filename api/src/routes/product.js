@@ -21,6 +21,11 @@ server.post('/', (req, res) =>{
 })
 // this is from task 25 and it is incomplete, but i needed a small part of the path to do my task
 
+server.put('/:id', (req, res) =>{
+	const product = Product.findByPk(req.params.id)
+
+})
+
 server.post('/:productId/category/:categoryId', async (req, res) =>{
 	const category =  await Category.findByPk(req.params.categoryId)
 	const product = await Product.findByPk(req.params.productId)
