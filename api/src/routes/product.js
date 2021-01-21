@@ -14,7 +14,7 @@ server.delete('/:id',  async (req, res) => {
 	const product = await Product.findByPk(req.params.id)
 	await product.destroy()
 	.then(() => {
-		res.status(201).send("se ha eliminado con exito")
+		res.status(201).send("has been removed successfully")
 	})
 	.catch(error => {
 		res.send(error)
