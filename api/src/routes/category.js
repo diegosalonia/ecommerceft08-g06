@@ -11,10 +11,10 @@ server.post('/', (req, res) =>{
     })
 })
 
-server.delete('/', (req, res) =>{
+server.delete('/:id', (req, res) =>{
     Category.destroy({
         where: {
-            id: req.body.category_id
+            id: req.params.id
         }
     })
     .then(category => {
@@ -25,10 +25,16 @@ server.delete('/', (req, res) =>{
     })
 })
 
-server.put('/', (req, res) =>{
-    Category.update({name: req.body.name, description: req.body.description},{where: {id: req.body.category_id} })
-    .then((rowsUpdated) => (res.json(rowsUpdated)))
-    .catch(err => {res.status(400).send(err)})
+server.put('/:id', async (req, res) =>{
+    const categoryUpdate = await Category.findByPk(req.params.id)
+    Object.assign(categoryUpdate, req.body.form);
+    await categoryUpdate.save()
+    .then(category => {
+        res.send(category);
+    })
+    .catch(err => {
+        res.status(409).send(err);
+    })
 })
 
 module.exports = server;
