@@ -64,6 +64,23 @@ const ProductForm = () => {
         </div>
     ))
 
+    // if (files[0]){
+    //     const uploadTask = firebase.storage().ref().child(`/category/images/${files[0].name}`).put(files[0]);
+    //     uploadTask.on(
+        
+    //       "state_changed",
+    //       snapshot => {},
+    //       error => {console.log(error)},
+    //       () => {
+    //         storage
+    //           .ref("category/images")
+    //           .child(files[0].name)
+    //           .getDownloadURL()
+    //           .then(url => {console.log("Download url: ",url )})
+    //       }
+    //     )
+    //   }
+
     return (
         <div className={style.productForm}>
             {/* {console.log("formik: ", formik)} */}
