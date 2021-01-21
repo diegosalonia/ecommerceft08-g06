@@ -7,6 +7,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import axios from 'axios';
 
 
 
@@ -30,7 +31,10 @@ const CategoryForm = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-     //Do something with values. 
+      console.log(values);
+      axios.post('http://localhost/3000/category/', {form:values})
+      .then((res) => console.log("Respuesta: ",res))
+      .catch(error => console.log("Error: ",error))
     },
   });
 
