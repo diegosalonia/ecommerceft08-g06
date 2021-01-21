@@ -2,9 +2,10 @@ import React from 'react';
 import {useFormik} from 'formik';
 import * as yup from 'yup';
 import {Button, TextField, CssBaseline, Container, makeStyles, Typography} from '@material-ui/core';
-import {DropzoneArea} from 'material-ui-dropzone'
+import {DropzoneArea} from 'material-ui-dropzone';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
-
+import { storage } from "../firebase"
+import firebase from "../firebase"
 
 
 const validationSchema = yup.object({
@@ -17,6 +18,7 @@ const validationSchema = yup.object({
 });
 
 const CategoryForm = () => {
+
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -81,7 +83,26 @@ const CategoryForm = () => {
             <DropzoneArea
               acceptedFiles={['image/*']}
               dropzoneText={"Drag and drop an image here or click"}
-              onChange={(files) => console.log('Files:', files)}
+              onChange={(files) => {
+                //todo (Upload form on send, not just onchange, do forEach magic to upload multiple images)
+                console.log('Files:', files)
+                if (files[0]){
+                  const uploadTask = firebase.storage().ref().child(`/category/images/${files[0].name}`).put(files[0]);
+                  uploadTask.on(
+                  
+                    "state_changed",
+                    snapshot => {},
+                    error => {console.log(error)},
+                    () => {
+                      storage
+                        .ref("category/images")
+                        .child(files[0].name)
+                        .getDownloadURL()
+                        .then(url => {console.log("Download url: ",url )})
+                    }
+                  )
+                }
+              }}
             />
             <Button color="primary" variant="contained" fullWidth type="submit" className={classes.submit}>
             Submit
