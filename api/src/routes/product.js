@@ -1,5 +1,4 @@
 const server = require('express').Router();
-const e = require('express');
 const { response } = require('express');
 const { Product, Category } = require('../db.js');
 
@@ -36,8 +35,8 @@ server.delete('/:id',  async (req, res) => {
 server.post('/', (req, res) =>{
 
     Product.create(req.body.form)
-    .then(category => {
-        res.status(201).send(category)
+    .then(product => {
+        res.status(201).send(product)
     })
     .catch(error =>{
         res.status(400).send(error)

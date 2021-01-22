@@ -7,7 +7,7 @@ function Product({ description, discount, featured,
         <div>
             <img src={ image } alt={ name }></img>
             <h2>{ name }</h2>
-            { categories.map(category => <span>{category}</span>) }
+            { categories?.map(category => <span>{category}</span>) }
             { discount !== 0 ? 
                              <span> <span className={"lineThrough"}>${ price }</span>
                                 ${ price - (discount * price) }
