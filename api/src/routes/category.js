@@ -37,4 +37,10 @@ server.put('/:id', async (req, res) =>{
     })
 })
 
+server.get('/all', (req, res) => {
+    Category.findAll()
+    .then(categories => res.json(categories))
+    .catch(error => res.status(500).send(error))
+})
+
 module.exports = server;
