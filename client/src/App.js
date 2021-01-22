@@ -1,13 +1,13 @@
 import React from 'react';
-import CategoryForm from './components/category/CategoryForm'
 import './App.css';
-import Product from './components/product/Product';
 import Routes from './routes/routes.js'
 import { BrowserRouter } from 'react-router-dom'
+import CssBaseLine from '@material-ui/core/CssBaseline';
 
 function App() {
   return (
     <BrowserRouter>
+      <CssBaseLine />
       <Routes />
     </BrowserRouter>
   );
