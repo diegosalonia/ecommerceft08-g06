@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from './logo.svg';
+import FilterCatalog from './components/catalog/FilterCatalog'
 import CategoryForm from './components/category/CategoryForm'
 import './App.css';
 import Product from './components/product/Product';
@@ -32,6 +32,7 @@ function App() {
                categories={obj.categories}
                quantityInCart={obj.quantityInCart}
                />
+      <FilterCatalog />          
     </div>
   );
 }
