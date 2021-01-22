@@ -4,7 +4,7 @@ import * as yup from 'yup';
 import { storage } from "../firebase";
 import firebase from "../firebase";
 import axios from 'axios';
-import {DropzoneArea} from 'material-ui-dropzone';
+import { DropzoneArea } from 'material-ui-dropzone';
 import { Container, TextField, Typography, Button, CssBaseline, Switch, FormControlLabel } from '@material-ui/core';
 
 import { useStylesProductForm } from './styles';
@@ -27,9 +27,9 @@ const validationSchema = yup.object({
         .required('asdlaskd'),
     featured: yup
         .boolean('Mark if product is featured'),
-  });  
+  });
 
-const ProductForm = () => {
+const CreateProductForm = () => {
     const [ images, setImages ] = useState([]);
     const style = useStylesProductForm();
     const formik = useFormik({
@@ -175,4 +175,4 @@ const ProductForm = () => {
     );
 };
 
-export default ProductForm
+export default CreateProductForm;
