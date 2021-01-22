@@ -43,15 +43,11 @@ const CategoryForm = () => {
                     .getDownloadURL()
                     .then(url => {
                         formik.values.image.push(url);
-                        console.log("URL: ", url);
-                        console.log("Formik.image: ", formik.values.image);
                     });
                 
             }
         )
     });
-    console.log("images in values: ", values.image);
-    console.log("values: ", values);
     axios.post('http://localhost/3000/category/', {form: {...values, image: JSON.stringify(values.image)}})
       .then((res) => console.log("Respuesta: ",res))
       .catch(error => console.log("Error: ",error))
