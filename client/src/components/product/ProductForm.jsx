@@ -43,9 +43,8 @@ const ProductForm = () => {
           image: [],
         },
         validationSchema: validationSchema,
-        onSubmit: values => {
-            console.log("values: ", values);
-            images.forEach(image => {
+        onSubmit: async values => {
+            await images.forEach(image => {
                 const uploadImage = firebase.storage().ref().child(`/category/images/${image.name}`).put(image);
                 uploadImage.on (
                     "state_changed",
@@ -58,23 +57,30 @@ const ProductForm = () => {
                             .getDownloadURL()
                             .then(url => {
                                 formik.values.image.push(url);
-                                console.log("URL: ", url);
-                                console.log("Formik.image: ", formik.values.image);
                             });
-                        
                     }
                 )
             })
-            console.log("images in values: ", values.image);
-            console.log("values: ", values);
-            axios.post('http://localhost:3000/products', {form: {...values, image: JSON.stringify(values.image)}})
-            .then(res => console.log("Enviado! Respuesta: ", res));
+            setTimeout(() => {
+                axios.post('http://localhost:3000/products', {form: {...values, image: JSON.stringify(values.image)}})
+                .then(res => {
+                    console.log("Enviado! Respuesta: ", res)
+                    formik.values.name = '';
+                    formik.values.price = '';
+                    formik.values.description = '';
+                    formik.values.stock = '';
+                    formik.values.discount = '';
+                    formik.values.featured = false;
+                    formik.values.image = [];
+                    formik.resetForm({});
+                    console.log(formik.values);
+                });
+            }, 500);
         }
     });
 
     return (
         <div className={style.productForm}>
-            {/* {console.log("formik: ", formik)} */}
             <form onSubmit={formik.handleSubmit} >
                 <Container component="main" maxWidth="xs">
                     <CssBaseline />
