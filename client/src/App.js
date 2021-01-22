@@ -1,5 +1,5 @@
 import React from 'react';
-import CategoryForm from './components/category/CategoryForm'
+import CategoryForm from './components/category/CategoryForm';
 import './App.css';
 import Product from './components/product/Product';
 import Routes from './routes/routes.js'
