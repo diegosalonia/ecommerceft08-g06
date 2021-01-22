@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useFormik} from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
@@ -21,24 +21,11 @@ const CategoryForm = () => {
 
   const [images, setImages] = useState(false);
 
-  const sendImages = () => {
-    if (images){
-      const uploadTask = firebase.storage().ref().child(`/category/images/${images[0].name}`).put(images[0]);
-      uploadTask.on(
-      
-        "state_changed",
-        snapshot => {},
-        error => {console.log(error)},
-        () => {
-          storage
-            .ref("category/images")
-            .child(images[0].name)
-            .getDownloadURL()
-            .then(url => {console.log("Download url: ",url )})
-        }
-      )
+  useEffect(() => {
+    if(images){
+      console.log("images state: ", images)
     }
-  }
+  }, [images])
 
   const formik = useFormik({
     initialValues: {
@@ -48,18 +35,18 @@ const CategoryForm = () => {
       image: null
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      console.log(values);
+    //SUBMIT CONTROL -----------------------------------------
+    onSubmit:  (values) => {
+      var formValues = {...values};
       axios.post('http://localhost:3000/category/', {form:values})
       .then((res) => {
-        console.log("Succes",res)
-        console.log("Start image upload")
-        
+        console.log("Succes",res);
+        sendImages(images, formValues);
       })
       .catch(error => console.log("Error axios: ",error))
     },
   });
-
+//STYLES-------------------------
   const useStyles = makeStyles((theme) => ({
     paper: {
       marginTop: theme.spacing(8),
@@ -77,6 +64,36 @@ const CategoryForm = () => {
   }));
 
   const classes = useStyles();
+
+  //IMAGE CONTROL ------------------------------------------------- 
+  const sendImages = (images, formval) => {
+    if (images, formval){
+      console.log("Start image upload");
+      const uploadTask = firebase.storage().ref().child(`/category/${formval.name}/${images[0].name}`).put(images[0]);
+      uploadTask.on(
+      
+        "state_changed",
+        snapshot => {},
+        error => {console.log(error)},
+        () => {
+          storage
+            .ref(`category/${formval.name}`)
+            .child(images[0].name)
+            .getDownloadURL()
+            .then(url => {console.log("Download url: ",url ); sendImgUrl(url, formval)})
+        }
+      )
+    }
+  }
+
+  //IMAGE URL TO DATABASE
+  const sendImgUrl = (url, formval) => {
+    console.log(formval);
+    const valuesToDb = {...formval};
+    valuesToDb.image = url;
+    console.log("Values to Db: ",valuesToDb);
+  }
+
 
 
   return (
@@ -110,10 +127,12 @@ const CategoryForm = () => {
             />
             <DropzoneArea
               acceptedFiles={['image/*']}
-              dropzoneText={"Drag and drop an image here or click"}
+              filesLimit= {1}
+              dropzoneText={"Drag and drop image here or click"}
               onChange={(files) => {
                 //todo (Upload form on send, not just onchange, do forEach magic to upload multiple images)
                 console.log('Files:', files)
+                setImages(files);
               }}
             />
             <Button color="primary" variant="contained" fullWidth type="submit" className={classes.submit}>
