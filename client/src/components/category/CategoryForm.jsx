@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useFormik} from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
@@ -19,6 +19,27 @@ const validationSchema = yup.object({
 
 const CategoryForm = () => {
 
+  const [images, setImages] = useState(false);
+
+  const sendImages = () => {
+    if (images){
+      const uploadTask = firebase.storage().ref().child(`/category/images/${images[0].name}`).put(images[0]);
+      uploadTask.on(
+      
+        "state_changed",
+        snapshot => {},
+        error => {console.log(error)},
+        () => {
+          storage
+            .ref("category/images")
+            .child(images[0].name)
+            .getDownloadURL()
+            .then(url => {console.log("Download url: ",url )})
+        }
+      )
+    }
+  }
+
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -29,9 +50,13 @@ const CategoryForm = () => {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       console.log(values);
-      axios.post('http://localhost/3000/category/', {form:values})
-      .then((res) => console.log("Respuesta: ",res))
-      .catch(error => console.log("Error: ",error))
+      axios.post('http://localhost:3000/category/', {form:values})
+      .then((res) => {
+        console.log("Succes",res)
+        console.log("Start image upload")
+        
+      })
+      .catch(error => console.log("Error axios: ",error))
     },
   });
 
@@ -89,22 +114,6 @@ const CategoryForm = () => {
               onChange={(files) => {
                 //todo (Upload form on send, not just onchange, do forEach magic to upload multiple images)
                 console.log('Files:', files)
-                if (files[0]){
-                  const uploadTask = firebase.storage().ref().child(`/category/images/${files[0].name}`).put(files[0]);
-                  uploadTask.on(
-                  
-                    "state_changed",
-                    snapshot => {},
-                    error => {console.log(error)},
-                    () => {
-                      storage
-                        .ref("category/images")
-                        .child(files[0].name)
-                        .getDownloadURL()
-                        .then(url => {console.log("Download url: ",url )})
-                    }
-                  )
-                }
               }}
             />
             <Button color="primary" variant="contained" fullWidth type="submit" className={classes.submit}>
