@@ -1,12 +1,12 @@
 import React from 'react';
 import {useFormik} from 'formik';
 import * as yup from 'yup';
+import axios from 'axios';
 import {Button, TextField, CssBaseline, Container, makeStyles, Typography} from '@material-ui/core';
 import {DropzoneArea} from 'material-ui-dropzone';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import { storage } from "../firebase"
 import firebase from "../firebase"
-
 
 const validationSchema = yup.object({
   name: yup
@@ -28,7 +28,10 @@ const CategoryForm = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-     //Do something with values and image uploads. 
+      console.log(values);
+      axios.post('http://localhost/3000/category/', {form:values})
+      .then((res) => console.log("Respuesta: ",res))
+      .catch(error => console.log("Error: ",error))
     },
   });
 
