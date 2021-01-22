@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { useDropzone } from 'react-dropzone';
+import { storage } from "../firebase";
+import firebase from "../firebase";
+import axios from 'axios';
+import {DropzoneArea} from 'material-ui-dropzone';
 import { Container, TextField, Typography, Button, CssBaseline, Switch, FormControlLabel } from '@material-ui/core';
 
 import { useStylesProductForm } from './styles';
@@ -42,44 +45,32 @@ const ProductForm = () => {
         validationSchema: validationSchema,
         onSubmit: values => {
             console.log("values: ", values);
+            images.forEach(image => {
+                const uploadImage = firebase.storage().ref().child(`/category/images/${image.name}`).put(image);
+                uploadImage.on (
+                    "state_changed",
+                    snapshot => {},
+                    error => {console.log(error)},
+                    async () => {
+                        await storage
+                            .ref('category/images')
+                            .child(image.name)
+                            .getDownloadURL()
+                            .then(url => {
+                                formik.values.image.push(url);
+                                console.log("URL: ", url);
+                                console.log("Formik.image: ", formik.values.image);
+                            });
+                        
+                    }
+                )
+            })
+            console.log("images in values: ", values.image);
+            console.log("values: ", values);
+            axios.post('http://localhost:3000/products', {form: {...values, image: JSON.stringify(values.image)}})
+            .then(res => console.log("Enviado! Respuesta: ", res));
         }
     });
-
-    const { getRootProps, getInputProps } = useDropzone({
-        accept: 'image/*',
-        maxFiles: 3,
-        onDrop: acceptedImages => {
-            setImages(
-                acceptedImages.map(image => Object.assign(image, {
-                    preview: URL.createObjectURL(image)
-                }))
-            );
-        }
-    })
-    const previews = images.map(image => (
-        <div key={image.name} >
-            <div>
-                <img className={style.previewImage} src={image.preview} alt={image.name} />
-            </div>
-        </div>
-    ))
-
-    // if (files[0]){
-    //     const uploadTask = firebase.storage().ref().child(`/category/images/${files[0].name}`).put(files[0]);
-    //     uploadTask.on(
-        
-    //       "state_changed",
-    //       snapshot => {},
-    //       error => {console.log(error)},
-    //       () => {
-    //         storage
-    //           .ref("category/images")
-    //           .child(files[0].name)
-    //           .getDownloadURL()
-    //           .then(url => {console.log("Download url: ",url )})
-    //       }
-    //     )
-    //   }
 
     return (
         <div className={style.productForm}>
@@ -151,11 +142,24 @@ const ProductForm = () => {
                         label="Featured"
                         className={style.formSwitch}
                     />
-                    <div className={style.imageUpload} {...getRootProps()} >
-                        <input {...getInputProps()} />
-                        <p>Drop your product images here</p>
-                    </div>
-                    <div className={style.previewImageDiv} >{ previews }</div>
+                    <DropzoneArea
+                        acceptedFiles={['image/*']}
+                        filesLimit={3}
+                        dropzoneText={"Drag and drop an image here or click"}
+                        onChange={images => {
+                            //todo (Upload form on send, not just onchange, do forEach magic to upload multiple images)
+                            console.log('Images:', images)
+                            setImages(
+                                images.map(image => Object.assign(image))
+                            );
+                            }
+                        }
+                        onDelete={deletedImage => {
+                            setImages(
+                                images.filter(image => image.name !== deletedImage.name)
+                            );
+                        }}
+                    />
                 </Container>
                 <Button color="primary" variant="contained" fullWidth type="submit" >
                         Submit
