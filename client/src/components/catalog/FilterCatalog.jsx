@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import {Button, ButtonGroup, Card, CardHeader, CardContent, makeStyles, CssBaseline} from '@material-ui/core';
+import {Button, ButtonGroup, Card, CardHeader, CardContent, makeStyles} from '@material-ui/core';
 
 const FilterCatalog = (props) => {
     const [categories, setCategories] = useState(false);
@@ -45,12 +45,12 @@ const FilterCatalog = (props) => {
     useEffect(() => {
         if(currentCategory){ 
            //ToDo update catalog state. props.setCurrent(currentCategory)
+           props.updateFilter(currentCategory)
         }
     }, [currentCategory])
     return (
 
     <Card>
-        <CssBaseline />
         <CardHeader
                   title="Categorias"
                   titleTypographyProps={{ align: 'center' }}

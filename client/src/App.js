@@ -1,8 +1,8 @@
 import React from 'react';
-import FilterCatalog from './components/catalog/FilterCatalog'
 import CategoryForm from './components/category/CategoryForm'
 import './App.css';
 import Product from './components/product/Product';
+import Catalog from './components/catalog/Catalog'
 
 const obj = {
   description: "lalallla", 
@@ -32,7 +32,7 @@ function App() {
                categories={obj.categories}
                quantityInCart={obj.quantityInCart}
                />
-      <FilterCatalog />          
+        <Catalog />
     </div>
   );
 }
