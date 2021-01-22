@@ -1,24 +1,23 @@
-const { DataTypes } = require('sequelize');
+const { STRING, INTEGER} = require('sequelize');
 
 
 module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define('category', {
     parent_id: {
-        type: DataTypes.INTEGER
+        type: INTEGER
       },
     name: {
-      type: DataTypes.STRING,
+      type: STRING,
       allowNull: false,
       unique: true
     },
     description: {
-        type: DataTypes.STRING,
+        type: STRING,
         allowNull: false,
       },
     image: {
-        type: DataTypes.STRING,
-        allowNull: false,
+        type: STRING
       },      
   });
 };
