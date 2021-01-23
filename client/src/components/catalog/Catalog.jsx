@@ -13,11 +13,11 @@ const Catalog = (props) => {
         setFilter(catId)
     }
 
-    useEffect(() => {
-        if(filter){
-            console.log("Yeaaaaa now rendring from parent: ", filter)
-        }
-    }, [filter])
+    // useEffect(() => {
+    //     if(filter){
+    //         console.log("Yeaaaaa now rendring from parent: ", filter)
+    //     }
+    // }, [filter])
 
     const renderProducts = () => testList.map((item, inx) => {
         if (item.categories.includes(filter)){

@@ -1,5 +1,5 @@
 import React from 'react'
-// import Product from '../components/product/Product'
+import Product from '../components/product/Product'
 import ProductCard from '../components/product/ProductCard'
 import CreateProductForm from '../components/product/Admin/CreateProductForm';
 import { Route } from 'react-router-dom';
@@ -7,9 +7,6 @@ import AdminDashboard from '../components/product/Admin/AdminDashboard';
 import AdminProductList from '../components/product/Admin/AdminProductList';
 import UpdateProductForm from '../components/product/Admin/UpdateProductForm';
 import { CssBaseline } from '@material-ui/core';
-// import Provider from 'react'
-// import ReactDOM from 'react-dom'
-import Product from '../components/product/Product';
 import image from '../resources/default-image.png'
 import SearchbBar from '../components/category/search-bar'
 import CategoryForm from '../components/category/CategoryForm'
