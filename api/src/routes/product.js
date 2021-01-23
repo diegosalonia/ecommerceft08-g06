@@ -59,6 +59,14 @@ server.post('/:productId/category/:categoryId', async (req, res) =>{
 	})
 })
 
+server.get('/:id', async (req, res) => {
+	const product = await Product.findByPk(req.params.id)
+	// .then(product => {
+	// 	res.send(product);
+	// })
+	res.send(product);
+});
+
 server.delete('/:productId/category/:categoryId', async (req, res) =>{
 	const category =  await Category.findByPk(req.params.categoryId)
 	const product = await Product.findByPk(req.params.productId)
