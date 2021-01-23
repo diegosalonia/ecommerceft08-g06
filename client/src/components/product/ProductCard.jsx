@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardActionArea, CardActions, CardMedia, CssBaseline, IconButton, Typography, } from '@material-ui/core';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+//import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import InfoIcon from '@material-ui/icons/Info';
 import { useStylesProductCard } from './styles';
 import { Link } from 'react-router-dom'

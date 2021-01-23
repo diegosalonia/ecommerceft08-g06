@@ -30,6 +30,9 @@ export const useStylesProductForm = makeStyles(theme => ({
     previewImage: {
         maxWidth: '200px',
         maxHeight: '130px',
+    },
+    vista: {
+        marginTop: '10px',        
     }
 }));
 export const useStylesProductCard = makeStyles(theme => ({
