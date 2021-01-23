@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import FilterCatalog from './FilterCatalog';
 import {Container, Grid} from '@material-ui/core';
 import ProductCard from '../product/ProductCard'
+import testList from './testList'; //Simulate products array.
+
 
 const Catalog = (props) => {
 
@@ -17,6 +19,16 @@ const Catalog = (props) => {
         }
     }, [filter])
 
+    const renderProducts = () => testList.map((item, inx) => {
+        if (item.categories.includes(filter)){
+            return (
+                <Grid item xs={12} sm={6} md={4} lg={3} >
+                    <ProductCard productProps={item} key={inx} />
+                </Grid>   
+            ) 
+        } 
+    });
+
     return (
         <Container>
             <Grid container spacing={3} justify="center">
@@ -24,37 +36,7 @@ const Catalog = (props) => {
                     <FilterCatalog updateFilter={updateFilter}/>
                 </Grid>
                 <Grid container item xs={12} sm={9} spacing={3} justify="center" alignItems="center">
-                    <Grid item xs={12} sm={6} md={4} lg={3} >
-                        <ProductCard productId={1} name="Vamp guano" discount={0} image="https://tabugrowshop.com.ar/wp-content/uploads/2018/06/VAMP-Guano-de-murcielago-Flora-1-10047.jpg" price={680}/>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4} lg={3} >
-                        <ProductCard productId={1} name="Vamp guano" discount={0} image="https://tabugrowshop.com.ar/wp-content/uploads/2018/06/VAMP-Guano-de-murcielago-Flora-1-10047.jpg" price={680}/>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4} lg={3} >
-                        <ProductCard productId={1} name="Vamp guano" discount={0} image="https://tabugrowshop.com.ar/wp-content/uploads/2018/06/VAMP-Guano-de-murcielago-Flora-1-10047.jpg" price={680}/>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4} lg={3} >
-                        <ProductCard productId={1} name="Vamp guano" discount={0} image="https://tabugrowshop.com.ar/wp-content/uploads/2018/06/VAMP-Guano-de-murcielago-Flora-1-10047.jpg" price={680}/>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4} lg={3} >
-                        <ProductCard productId={1} name="Vamp guano" discount={0} image="https://tabugrowshop.com.ar/wp-content/uploads/2018/06/VAMP-Guano-de-murcielago-Flora-1-10047.jpg" price={680}/>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4} lg={3} >
-                        <ProductCard productId={1} name="Vamp guano" discount={0} image="https://tabugrowshop.com.ar/wp-content/uploads/2018/06/VAMP-Guano-de-murcielago-Flora-1-10047.jpg" price={680}/>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4} lg={3} >
-                        <ProductCard productId={1} name="Vamp guano" discount={0} image="https://tabugrowshop.com.ar/wp-content/uploads/2018/06/VAMP-Guano-de-murcielago-Flora-1-10047.jpg" price={680}/>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4} lg={3} >
-                        <ProductCard productId={1} name="Vamp guano" discount={0} image="https://tabugrowshop.com.ar/wp-content/uploads/2018/06/VAMP-Guano-de-murcielago-Flora-1-10047.jpg" price={680}/>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4} lg={3} >
-                        <ProductCard productId={1} name="Vamp guano" discount={0} image="https://tabugrowshop.com.ar/wp-content/uploads/2018/06/VAMP-Guano-de-murcielago-Flora-1-10047.jpg" price={680}/>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4} lg={3} >
-                        <ProductCard productId={1} name="Vamp guano" discount={0} image="https://tabugrowshop.com.ar/wp-content/uploads/2018/06/VAMP-Guano-de-murcielago-Flora-1-10047.jpg" price={680}/>
-                    </Grid>
-                    
+                    {renderProducts()}              
                 </Grid>
             </Grid>
         </Container>
