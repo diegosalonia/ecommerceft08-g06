@@ -32,6 +32,7 @@ const validationSchema = yup.object({
 const CreateProductForm = () => {
     const [ images, setImages ] = useState([]);
     const style = useStylesProductForm();
+
     const formik = useFormik({
         initialValues: {
           name: '',
@@ -46,7 +47,7 @@ const CreateProductForm = () => {
         onSubmit: async values => {
             const promises = images.map(image => {
                 return new Promise((resolve, reject) => {
-                    const uploadImage = firebase.storage().ref().child(`/category/images/products/${formik.values.name}/${image.name}`).put(image);
+                    const uploadImage = firebase.storage().ref().child(`/category/images/products/${image.name}`).put(image);
                     uploadImage.on (
                         "state_changed",
                         snapshot => {},
@@ -69,7 +70,6 @@ const CreateProductForm = () => {
                 console.log("VALUES: ", formik.values);
                 axios.post('http://localhost:3000/products', {form: {...values, image: JSON.stringify(values.image)}})
                 .then(res => {
-                    console.log("Enviado! Respuesta: ", res.data)
                     formik.values.name = '';
                     formik.values.price = '';
                     formik.values.description = '';
@@ -155,15 +155,12 @@ const CreateProductForm = () => {
                     />
                     <DropzoneArea
                         acceptedFiles={['image/*']}
-                        filesLimit={3}
+                        filesLimit={1}
                         dropzoneText={"Drag and drop an image here or click"}
                         clearOnUnmount={true}
                         onChange={images => {
-                            //todo (Upload form on send, not just onchange, do forEach magic to upload multiple images)
                             console.log('Images:', images)
-                            setImages(
-                                images.map(image => Object.assign(image))
-                            );
+                            setImages(images.map(image => Object.assign(image)));
                             }
                         }
                         onDelete={deletedImage => {

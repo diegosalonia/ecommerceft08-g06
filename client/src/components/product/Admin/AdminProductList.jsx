@@ -17,21 +17,19 @@ const columns = [
 ]
 
 function AdminProductList() {
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+    // const [page, setPage] = useState(0);
+    // const [rowsPerPage, setRowsPerPage] = useState(10);
     const [ rows, setRows ] = useState([]);
   
-    const handleChangePage = (event, newPage) => {
-      setPage(newPage);
-    };
-  
-    const handleChangeRowsPerPage = (event) => {
-      setRowsPerPage(+event.target.value);
-      setPage(0);
-    };
 
-    
-    console.log(rows);
+    // const handleChangePage = (event, newPage) => {
+    //   setPage(newPage);
+    // };
+  
+    // const handleChangeRowsPerPage = (event) => {
+    //   setRowsPerPage(+event.target.value);
+    //   setPage(0);
+    // };
 
     const handleDelete = id => {
         setRows(rows.filter(row => row.id !== id));
@@ -41,7 +39,9 @@ function AdminProductList() {
     };
 
     useEffect(() => {
-        getProducts.then(res => {setRows(res.data)});
+        getProducts.then(res => {
+            setRows(res.data.map(row => {return {...row, image: row.image[0]}}));
+        });
     }, []);
 
     return (
@@ -65,13 +65,17 @@ function AdminProductList() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {rows?.map((row) => {
+                                { rows?.map((row) => {
                                     return (
-                                        <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                                            {columns.map((column) => {
+                                        <TableRow hover role="checkbox" tabIndex={-1} key={`${row.code} ${row.id}`}>
+                                            <TableCell key={`${columns[0].id} ${row.id}`} align={columns[0].align}>
+                                                {columns[0].format && typeof value === 'number' ? columns[0].format(row[columns[0].id]) : row[columns[0].id]}
+                                            </TableCell>
+                                            {columns.slice(1).map((column) => {
                                                 const value = row[column.id];
+                                                console.log(`VALUE ${column} ${value}`);
                                                 return (
-                                                    <TableCell key={column.id} align={column.align}>
+                                                    <TableCell key={`${column.id} ${row.id}`} align={column.align}>
                                                         {column.format && typeof value === 'number' ? column.format(value) : value}
                                                     </TableCell>
                                                 );
@@ -88,7 +92,7 @@ function AdminProductList() {
                             </TableBody>
                         </Table>
                     </TableContainer>
-                    <TablePagination
+                    {/* <TablePagination
                         rowsPerPageOptions={[10, 25, 100]}
                         component="div"
                         count={rows.length}
@@ -96,7 +100,7 @@ function AdminProductList() {
                         page={page}
                         onChangePage={handleChangePage}
                         onChangeRowsPerPage={handleChangeRowsPerPage}
-                    />
+                    /> */}
                 </Grid>
             </Container>
         </Container>

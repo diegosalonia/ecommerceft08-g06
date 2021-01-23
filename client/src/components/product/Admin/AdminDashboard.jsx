@@ -23,7 +23,7 @@ function AdminDashboard() {
                     </Link>
                 </Grid>
                 <Grid item >
-                    <Link to='/admin/add-product' >
+                    <Link to='/admin/products/create-product' >
                         <Card>
                             <CardMedia />
                             <CardContent>
@@ -34,7 +34,7 @@ function AdminDashboard() {
                     </Link>
                 </Grid>
                 <Grid item >
-                    <Link to='/admin/add-category' >
+                    <Link to='/admin/categories/create-category' >
                         <Card>
                             <CardMedia />
                             <CardContent>
