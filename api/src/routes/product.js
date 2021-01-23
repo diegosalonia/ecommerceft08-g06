@@ -76,16 +76,21 @@ server.delete('/:productId/category/:categoryId', async (req, res) =>{
 	})
 })
 
-server.get('/search', async (req, res) =>{
-	const Op = Sequelize.Op;
-	const product = await Product.findOne({where: {product: {[Op.iLike]: '%'+req.query.product}}})
-	await product.getProducts(product)
+server.get('/search', (req, res) =>{
+	Product.findAll({
+		where: {
+			name: {
+				[Sequelize.Op.iLike]: `%${req.query.query}%`
+			}
+		}
+	})
 	.then(product=>{
 		res.json(product);
 	})
 	.catch(err=>{
 		res.send(err);
 	})
+	// await product.getProducts()
 })
 
 
