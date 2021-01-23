@@ -42,7 +42,13 @@ function UpdateProductForm(props) {
     return (
         <Container>
             <Typography>Update Product Form</Typography>
-            
+            <TextField id='name' label='Name' />
+            <TextField id='price' label='Price' />
+            <TextField id='description' label='Description' />
+            <TextField id='stock' label='Stock' />
+            <TextField id='discount' label='Discount' multiline />
+            <TextField id='featured' label='Featured' />
+            <TextField id='image' label='Image' />
         </Container>
     );
 };
