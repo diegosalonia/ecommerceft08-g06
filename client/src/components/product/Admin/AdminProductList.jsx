@@ -77,7 +77,7 @@ function AdminProductList() {
                                                 );
                                             })}
                                             <TableCell>
-                                                <Link to={`/admin/products/${row.id}/edit`} style={{cursor: 'pointer'}} onClick={() => console.log("hice click")} ><IconButton><Edit /></IconButton></Link>
+                                                <Link to={{pathname:`/admin/products/${row.id}/edit`, state: row}} style={{cursor: 'pointer'}} onClick={() => console.log("hice click")} ><IconButton><Edit /></IconButton></Link>
                                             </TableCell>
                                             <TableCell>
                                                 <IconButton color='primary' onClick={() => handleDelete(row.id)} ><DeleteForever /></IconButton>

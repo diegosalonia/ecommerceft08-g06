@@ -46,7 +46,7 @@ const CreateProductForm = () => {
         onSubmit: async values => {
             const promises = images.map(image => {
                 return new Promise((resolve, reject) => {
-                    const uploadImage = firebase.storage().ref().child(`/category/images/${image.name}`).put(image);
+                    const uploadImage = firebase.storage().ref().child(`/category/images/products/${formik.values.name}/${image.name}`).put(image);
                     uploadImage.on (
                         "state_changed",
                         snapshot => {},
