@@ -29,7 +29,8 @@ function Routes(){
             <Route path="/searchBar" component ={SearchbBar}/>
             <Route path="/products/:id" render = {() => <Product description={"descrpcion"} name={"product 2"} price= {20} stock= {30}/>} />
             <Route path="/productcard" render = {() => <ProductCard productId={1} description={"descripcion completa del producto. podrian ser varias lineas y deberia verse bien. espero que así sea."} name={"product 2"} price= {20} stock= {30} image = {image} discount={15}/>} />
-            <Route path="/catalog" component={Catalog} />
+            <Route path="/category" component={CategoryForm} />
+            <Route path="/products" component={Catalog} />
         </React.Fragment>
     )
 }

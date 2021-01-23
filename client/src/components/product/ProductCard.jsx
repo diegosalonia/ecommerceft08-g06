@@ -6,13 +6,13 @@ import { useStylesProductCard } from './styles';
 import { Link } from 'react-router-dom';
 import {ProductPrice} from './ProductPrice';
 
-function ProductCard({ productId, discount, featured, image, 
-                   name, price, stock, description}) {
+function ProductCard(props) {
              
     const style = useStylesProductCard();
+    const {productId, name, stock, description, image, featured, discount, categories, price} = props.productProps;
                  
     return (
-        <Card className={style.root} component="main" maxWidth="xs">
+        <Card className={style.root} component="main" maxWidth="xs" disabled={true}>
             <Link to={`/products/${productId}`} className={style.noLinkStyle} color="inherit" variant="inherit">
             <CardActionArea>
               <CardMedia className={style.media} image={image} />

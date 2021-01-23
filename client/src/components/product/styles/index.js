@@ -38,10 +38,10 @@ export const useStylesProductCard = makeStyles(theme => ({
         textDecoration: 'line-through',
       },
       root: {
-        maxWidth: 350,
+        width: "100%"
       },
       media: {
-        height: 150,
+        minHeight : "10em"
       },
       noLinkStyle: {
         textDecoration: 'none',

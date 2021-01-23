@@ -19,7 +19,7 @@ const FilterCatalog = (props) => {
         if(typeof categories === "object"){
             return categories.map((cat, inx) => {
                 return (
-                    <Button key={inx} onClick={() => setCurrentCategory(cat.id)}>
+                    <Button fullWidth key={inx} onClick={() => setCurrentCategory(cat.id)}>
                         {cat.name}
                     </Button>
                 )
@@ -56,8 +56,8 @@ const FilterCatalog = (props) => {
                   titleTypographyProps={{ align: 'center' }}
                   className={classes.cardHeader}
                 />
-        <CardContent>      
-            <ButtonGroup orientation="vertical" size="small" color="primary">
+        <CardContent justify="center" alignItems="center">      
+            <ButtonGroup fullWidth orientation="vertical"  color="primary">
                 {displayCategories()}
             </ButtonGroup>
         </CardContent>  
