@@ -39,7 +39,7 @@ const FilterCatalog = (props) => {
                 setCategories(categories.data)
             }
         )
-        .catch(error => console.log(error))                
+        .catch(error => console.log(error))             
     }, [])
     //Set Category in Catalog. 
     useEffect(() => {
