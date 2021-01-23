@@ -35,8 +35,8 @@ server.delete('/:id',  async (req, res) => {
 server.post('/', (req, res) =>{
 
     Product.create(req.body.form)
-    .then(category => {
-        res.status(201).send(category)
+    .then(product => {
+        res.status(201).send(product)
     })
     .catch(error =>{
         res.status(400).send(error)
@@ -71,6 +71,11 @@ server.post('/:productId/category/:categoryId', async (req, res) =>{
 		res.send(error)
 	})
 })
+
+server.get('/:id', async (req, res) => {
+	const product = await Product.findByPk(req.params.id)
+	res.send(product);
+});
 
 server.delete('/:productId/category/:categoryId', async (req, res) =>{
 	const category =  await Category.findByPk(req.params.categoryId)

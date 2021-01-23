@@ -1,4 +1,4 @@
-const { STRING, FLOAT, INTEGER, BOOLEAN, DECIMAL, BLOB } = require('sequelize');
+const { STRING, FLOAT, INTEGER, BOOLEAN, DECIMAL, JSON } = require('sequelize');
 // Exportamos una funcion que define el modelo
 // Luego le injectamos la conexion a sequelize.
 module.exports = (sequelize) => {
@@ -17,7 +17,7 @@ module.exports = (sequelize) => {
       defaultValue: false
     },
     image: {
-      type: BLOB,
+      type: JSON,
     },
     name: {
       type: STRING,

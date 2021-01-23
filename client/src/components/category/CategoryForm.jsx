@@ -32,7 +32,7 @@ const CategoryForm = () => {
       name: '',
       description: '',
       parent_id: null,
-      image: null
+      image: []
     },
     validationSchema: validationSchema,
     //SUBMIT CONTROL -----------------------------------------
