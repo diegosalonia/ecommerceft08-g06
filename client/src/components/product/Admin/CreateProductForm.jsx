@@ -44,27 +44,32 @@ const CreateProductForm = () => {
         },
         validationSchema: validationSchema,
         onSubmit: async values => {
-            await images.forEach(image => {
-                const uploadImage = firebase.storage().ref().child(`/category/images/${image.name}`).put(image);
-                uploadImage.on (
-                    "state_changed",
-                    snapshot => {},
-                    error => {console.log(error)},
-                    async () => {
-                        await storage
-                            .ref('category/images')
-                            .child(image.name)
-                            .getDownloadURL()
-                            .then(url => {
-                                formik.values.image.push(url);
-                            });
-                    }
-                )
+            const promises = images.map(image => {
+                return new Promise((resolve, reject) => {
+                    const uploadImage = firebase.storage().ref().child(`/category/images/${image.name}`).put(image);
+                    uploadImage.on (
+                        "state_changed",
+                        snapshot => {},
+                        error => {reject(error)},
+                        async () => {
+                            await storage
+                                .ref('category/images')
+                                .child(image.name)
+                                .getDownloadURL()
+                                .then(url => {
+                                    resolve(formik.values.image.push(url));
+                                });
+                        }
+                    )
+               })
             })
-            setTimeout(() => {
+            Promise.all(promises)
+            .then(res => {
+                console.log("RESPONSE P.ALL: ", res);
+                console.log("VALUES: ", formik.values);
                 axios.post('http://localhost:3000/products', {form: {...values, image: JSON.stringify(values.image)}})
                 .then(res => {
-                    console.log("Enviado! Respuesta: ", res)
+                    console.log("Enviado! Respuesta: ", res.data)
                     formik.values.name = '';
                     formik.values.price = '';
                     formik.values.description = '';
@@ -75,7 +80,7 @@ const CreateProductForm = () => {
                     formik.resetForm({});
                     console.log(formik.values);
                 });
-            }, 500);
+            })
         }
     });
 
@@ -152,6 +157,7 @@ const CreateProductForm = () => {
                         acceptedFiles={['image/*']}
                         filesLimit={3}
                         dropzoneText={"Drag and drop an image here or click"}
+                        clearOnUnmount={true}
                         onChange={images => {
                             //todo (Upload form on send, not just onchange, do forEach magic to upload multiple images)
                             console.log('Images:', images)
