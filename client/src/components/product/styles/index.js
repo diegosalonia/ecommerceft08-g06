@@ -43,8 +43,12 @@ export const useStylesProductCard = makeStyles(theme => ({
       media: {
         height: 150,
       },
-      rigthText: {
-        textAlign: 'center',
+      noLinkStyle: {
         textDecoration: 'none',
+      },
+      info: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
       }
       }))

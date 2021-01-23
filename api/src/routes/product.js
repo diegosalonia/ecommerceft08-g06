@@ -43,6 +43,19 @@ server.post('/', (req, res) =>{
     })
 })
 
+server.put('/:id', async (req, res) =>{
+	const product = await Product.findByPk(req.params.id)
+	Object.assign(product, req.body.form)
+
+	product.save()
+	 .then(response =>{
+		 res.status(201).send(response)
+	 })
+	 .catch(error =>{
+		 res.status(400).send(error)
+	 })
+})
+
 server.post('/:productId/category/:categoryId', async (req, res) =>{
 	const category =  await Category.findByPk(req.params.categoryId)
 	const product = await Product.findByPk(req.params.productId)
