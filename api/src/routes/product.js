@@ -1,5 +1,6 @@
 const server = require('express').Router();
 const { response } = require('express');
+const { Sequelize } = require('sequelize');
 const { Product, Category } = require('../db.js');
 
 server.get('/', (req, res, next) => {
@@ -74,5 +75,18 @@ server.delete('/:productId/category/:categoryId', async (req, res) =>{
 		res.send(error)
 	})
 })
+
+server.get('/search', async (req, res) =>{
+	const Op = Sequelize.Op;
+	const product = await Product.findOne({where: {product: {[Op.iLike]: '%'+req.query.product}}})
+	await product.getProducts(product)
+	.then(product=>{
+		res.json(product);
+	})
+	.catch(err=>{
+		res.send(err);
+	})
+})
+
 
 module.exports = server;
