@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import SearchIcon from '@material-ui/icons/Search';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import { white } from '@material-ui/core/colors';
 
 
 export default function SearchBar(){
@@ -20,11 +21,14 @@ const formik = useFormik({
 const useStyles = makeStyles((theme) => ({
   form: {
     width: '100%',
-    marginTop: theme.spacing(3),
   },
   searchBar: {
-    width: "300px"
+    width: "300px",
+    height: "100%",
   },
+  input:{
+    width:"100%",
+  }
 }));
 
 const classes = useStyles();
@@ -38,10 +42,13 @@ const classes = useStyles();
         id = "input"
         name = "input"
         size = "small"
+        autoComplete = "off"
+        className = {classes.input}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
-              <SearchIcon />
+              <SearchIcon 
+              color="primary"/>
             </InputAdornment>
           ),
         }}
