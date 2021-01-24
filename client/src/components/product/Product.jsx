@@ -1,29 +1,34 @@
 import React from 'react'
+import { Button, Container, Typography } from '@material-ui/core';
+import { useStylesProduct } from './styles';
 
-function Product({ description, discount, featured, 
-                   image, name, price, rating, stock, 
-                   categories, quantityInCart }) {
+function Product(props) {
+    const { description, discount, featured, image, name, price, rating, stock, categories } = props.location.state;
+    const styles = useStylesProduct();
+
     return (
-        <div>
+        <Container className={styles.container} >
             <img src={ image } alt={ name }></img>
-            <h2>{ name }</h2>
-            { categories?.map(category => <span>{category}</span>) }
-            { discount !== 0 ? 
-                             <span> <span className={"lineThrough"}>${ price }</span>
-                                ${ price - (discount * price) }
-                             </span> 
-                             : <span>{ price }</span>
-            }
-            <span>{ rating }</span>
-            <span>{ description }</span>
-            <span>
-                <button>-</button>
-                <span>{ quantityInCart }</span>
-                <button>+</button>
-            </span>
-            <span>{ stock }</span>
-            <button>ADD TO CART</button>
-        </div>
+            <Container>
+                <Typography variant='h2' >{ name }</Typography>
+                { categories?.map(category => <Typography variant='p' >{category}</Typography>) }
+                { discount !== 0 ? 
+                                <Typography> <Typography className={"lineThrough"}>${ price }</Typography>
+                                    ${ price - (discount * price) }
+                                </Typography> 
+                                : <Typography>{ price }</Typography>
+                }
+                <Typography>{ rating }</Typography>
+                <Typography>{ description }</Typography>
+                {/* <Typography>
+                    <Button>-</Button>
+                    <Typography>{ quantityInCart }</Typography>
+                    <Button>+</Button>
+                </Typography> */}
+                <Typography>{ stock }</Typography>
+                <Button>ADD TO CART</Button>
+            </Container>
+        </Container>
     );
 };
 

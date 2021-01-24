@@ -9,11 +9,11 @@ import {ProductPrice} from './ProductPrice';
 function ProductCard(props) {
              
     const style = useStylesProductCard();
-    const {productId, name, stock, description, image, featured, discount, categories, price} = props.productProps;
+    const {id, name, stock, description, image, featured, discount, categories, price} = props.productProps;
                  
     return (
         <Card className={style.root} component="main" disabled={true}>
-            <Link to={`/products/${productId}`} className={style.noLinkStyle} color="inherit" variant="inherit">
+            <Link to={{pathname: `/products/${id}`, state: props.productProps}} className={style.noLinkStyle} color="inherit" variant="inherit">
             <CardActionArea>
               <CardMedia className={style.media} image={image[0]} />
               <CardContent className={style.info}>
@@ -21,7 +21,7 @@ function ProductCard(props) {
                     {name}
                   </Typography>
                   <ProductPrice price={price} discount={discount}/>
-                  <Typography   variant="body2" color="textSecondary" component="p">
+                  <Typography variant="body2" color="textSecondary" component="p">
                     {description}
                   </Typography>
               </CardContent>
@@ -32,7 +32,7 @@ function ProductCard(props) {
                 <ShoppingCartIcon />
               </IconButton>
               <IconButton size="small" color="primary">
-                <Link to={`/products/${productId}`} >
+                <Link to={{pathname: `/products/${id}`, state: props.productProps}} >
                   <InfoIcon />
                 </Link>
               </IconButton>

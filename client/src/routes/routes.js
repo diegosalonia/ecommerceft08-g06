@@ -21,9 +21,9 @@ function Routes(){
             <Route path="/admin/categories/create-category" component={CategoryForm} />
             <Route path='/admin/products/:id/edit' component={UpdateProductForm} />
             <Route path="/searchbar" component ={SearchBar}/>
-            <Route path="/products/:id" render = {() => <Product description={"descrpcion"} name={"product 2"} price= {20} stock= {30}/>} />
+            <Route path="/products/:id" component={Product}/>
             <Route path="/productcard" render = {() => <ProductCard productId={1} description={"descripcion completa del producto. podrian ser varias lineas y deberia verse bien. espero que así sea."} name={"product 2"} price= {20} stock= {30} image = {image} discount={15}/>} />
-            <Route path="/products" component={CatalogContainer} />
+            <Route exact path="/products" component={CatalogContainer} />
         </React.Fragment>
     )
 }

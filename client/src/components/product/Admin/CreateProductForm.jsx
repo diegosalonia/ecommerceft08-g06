@@ -111,11 +111,13 @@ const CreateProductForm = () => {
             .then(res => {
                 axios.post('http://localhost:3000/products', {form: {...values, image: formik.values.image}})
                 .then(res => {
+                    console.log("RESPUESTA: ", res);
                     formik.values.featured = false;
                     formik.values.image = [];
                     conectionRelation(res.data.id); //Create category_product
                     resetForm({values: ''});
             })
+            .catch(err => console.log(err));
         })
     }});
 
