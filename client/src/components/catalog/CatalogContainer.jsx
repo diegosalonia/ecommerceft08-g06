@@ -1,19 +1,26 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Catalog from './Catalog';
-import {getProducts} from '../product/utils';
 import testList from './testList'; //Simulate products array.
-
+import {getProducts, getProductCategories} from '../product/utils';
 
 const CatalogContainer = () => {
+
+    const [productList, setProductList] = useState([]);
     
     useEffect(() => {
-        getProducts.then(products => {console.log(products)})
+        getProducts.then(products => {
+            setProductList(products.data)
+        })
         .catch(err => {console.log("Fail get products, ", err)});
     }, [])
 
+    useEffect(() => {
+        console.log("Product list: ", productList.length)
+    }, [productList])
+
     
     return(
-        <Catalog testlist={testList}/>
+        <Catalog testlist={productList}/>
     )
 }
 

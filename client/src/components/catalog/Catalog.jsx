@@ -12,20 +12,14 @@ const Catalog = (props) => {
         setFilter(catId)
     }
 
-    // useEffect(() => {
-    //     if(filter){
-    //         console.log("Yeaaaaa now rendring from parent: ", filter)
-    //     }
-    // }, [filter])
-
     const renderProducts = () => props.testlist.map((item, inx) => {
-        if (item.categories.includes(filter)){
+        if (item.categories && item.categories.includes(filter)){
             return (
                 <Grid item xs={12} sm={6} md={4} lg={3} >
                     <ProductCard productProps={item} key={inx} />
                 </Grid>   
             ) 
-        } 
+        }
     });
 
     return (

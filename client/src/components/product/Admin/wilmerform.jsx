@@ -1,13 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { storage } from "../../firebase";
-import firebase from "../../firebase";
+import { storage } from "../firebase";
+import firebase from "../firebase";
 import axios from 'axios';
-import { DropzoneArea } from 'material-ui-dropzone';
-import { Container, TextField, Typography, Button, CssBaseline, Switch, FormControlLabel, ListItemIcon, List, ListItem,
-Checkbox , ListItemText  } from '@material-ui/core';
-import { useStylesProductForm } from '../styles';
+import {DropzoneArea} from 'material-ui-dropzone';
+import { Container, TextField, Typography, Button,
+     CssBaseline, Switch, FormControlLabel, List, ListItem,
+     ListItemIcon, Checkbox , ListItemText } from '@material-ui/core';
+
+import { useStylesProductForm } from './styles';
+
+// axios.get('http://localhost:3000/category/all').then( res =>{
+//     console.log(res.data)
+// })
 
 const validationSchema = yup.object({
     name: yup
@@ -23,18 +29,18 @@ const validationSchema = yup.object({
         .required('Product stock is required')
         .positive('Stock must be positive'),
     discount: yup
-        .number('Enter product discount'),  
+        .number('Enter product discount')
+        .required('asdlaskd'),
     featured: yup
         .boolean('Mark if product is featured'),
   });
 
-const CreateProductForm = () => {
+const ProductForm = () => {
     const [ images, setImages ] = useState([]);
-    const style = useStylesProductForm();
     const [ categories, setCategories] = useState();
-    const [checked, setChecked] = useState([]);
-    const [listaCate, setCate] = useState([]);
 
+    const [checked, setChecked] = React.useState([]);
+    const [listaCate, setCate] = useState([])
 
     useEffect(() => {
         console.log("loading..")
@@ -43,7 +49,7 @@ const CreateProductForm = () => {
         })        
         .catch(error => console.log(error))  
     },[])
-
+    
     const handleToggle = (value) => () => {
         const currentIndex = checked.indexOf(value);
         const newChecked = [...checked];
@@ -62,6 +68,7 @@ const CreateProductForm = () => {
           
           return setCate(arr)
     }
+    
 
     const conectionRelation = (idProduct) => {
         listaCate.forEach(dato=>{
@@ -75,6 +82,8 @@ const CreateProductForm = () => {
         })
     }
 
+    const style = useStylesProductForm();
+
     const formik = useFormik({
         initialValues: {
           name: '',
@@ -85,47 +94,22 @@ const CreateProductForm = () => {
           featured: false,
           image: [],
         },
-        validationSchema: validationSchema,
-        onSubmit: async (values) => {
-            const promises = images.map(image => {
-                return new Promise((resolve, reject) => {
-                    const uploadImage = firebase.storage().ref().child(`/products/images/${values.name}/${image.name}`).put(image);
-                    uploadImage.on (
-                        "state_changed",
-                        snapshot => {},
-                        error => {reject(error)},
-                        async () => {
-                            await storage
-                                .ref(`products/images/${values.name}/`)
-                                .child(image.name)
-                                .getDownloadURL()
-                                .then(url => {
-                                    resolve(formik.values.image.push(url));
-                                });
-                        }
-                    )
-               })
-            })
-            Promise.all(promises)
-            .then(res => {
-                console.log("RESPONSE P.ALL: ", res);
-                console.log("VALUES: ", formik.values);
+        validationSchema: validationSchema,        
+        onSubmit:(values)=>{
+                console.log('funcion de valor')
                 axios.post('http://localhost:3000/products', {form: {...values, image: JSON.stringify(values.image)}})
                 .then(res => {
-                    /* formik.values.name = '';
-                    formik.values.price = '';
-                    formik.values.description = '';
-                    formik.values.stock = '';
-                    formik.values.discount = '';
-                    formik.values.featured = false;
-                    formik.values.image = [];
-                    formik.resetForm({});
-                    console.log(formik.values); */
-                    conectionRelation(res.data.id); //Create category_product
-
-            })
-        })
-    }});
+                    console.log("Enviado! Respuesta: ", res)
+                    formik.resetForm({}); 
+                    console.log(res.data.id)
+                    console.log(listaCate)
+                    conectionRelation(res.data.id)
+                })
+                .catch(err=>{
+                    console.log(err)
+                })
+            }                               
+    });
 
     return (
         <div className={style.productForm}>
@@ -184,7 +168,8 @@ const CreateProductForm = () => {
                         error={formik.touched.discount && Boolean(formik.errors.discount)}
                         helperText={formik.touched.discount && formik.errors.discount}
                     />
-                     <List className={style.vista}>
+
+                    <List className={style.vista}>
                         <Typography variant="h5">Categories</Typography>                      
                     { 
                         categories?.map((value)=>{
@@ -209,6 +194,7 @@ const CreateProductForm = () => {
                         })
                     }
                     </List>
+
                     <FormControlLabel
                         control={<Switch
                                     checked={formik.featured}
@@ -223,12 +209,14 @@ const CreateProductForm = () => {
                     />
                     <DropzoneArea
                         acceptedFiles={['image/*']}
-                        filesLimit={1}
+                        filesLimit={3}
                         dropzoneText={"Drag and drop an image here or click"}
-                        clearOnUnmount={true}
                         onChange={images => {
+                            //todo (Upload form on send, not just onchange, do forEach magic to upload multiple images)
                             console.log('Images:', images)
-                            setImages(images.map(image => Object.assign(image)));
+                            setImages(
+                                images.map(image => Object.assign(image))
+                            );
                             }
                         }
                         onDelete={deletedImage => {
@@ -246,4 +234,4 @@ const CreateProductForm = () => {
     );
 };
 
-export default CreateProductForm;
+export default ProductForm
