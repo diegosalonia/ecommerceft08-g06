@@ -48,7 +48,7 @@ const CategoryForm = () => {
             }
         )
     });
-    axios.post('http://localhost/3000/category/', {form: {...values, image: JSON.stringify(values.image)}})
+    axios.post('http://localhost:3000/category/', {form: {...values, image: JSON.stringify(values.image)}})
       .then((res) => console.log("Respuesta: ",res))
       .catch(error => console.log("Error: ",error))
     },
