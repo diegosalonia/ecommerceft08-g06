@@ -4,10 +4,12 @@ import { getProducts } from '../utils';
 import { DeleteForever, Edit } from '@material-ui/icons';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { useStylesProductList } from './styles/AdminProductList';
 
 const columns = [
     {id: 'image', label: 'Image', minWidth: 100},
     {id: 'id', label: 'ID', minWidth: 30 },
+    {id: 'categories', label: 'Categories', minWidth: 30 },
     {id: 'name', label: 'Name', minWidth: 60 },
     {id: 'price', label: 'Price', mindWidth: 30 },
     {id: 'stock', label: 'Stock', minWidth: 30 },
@@ -20,7 +22,7 @@ function AdminProductList() {
     // const [page, setPage] = useState(0);
     // const [rowsPerPage, setRowsPerPage] = useState(10);
     const [ rows, setRows ] = useState([]);
-  
+    const styles = useStylesProductList();
 
     // const handleChangePage = (event, newPage) => {
     //   setPage(newPage);
@@ -40,6 +42,7 @@ function AdminProductList() {
 
     useEffect(() => {
         getProducts.then(res => {
+            console.log("products: ", res.data);
             setRows(res.data.map(row => {return {...row, image: row.image[0]}}));
         });
     }, []);
@@ -69,13 +72,20 @@ function AdminProductList() {
                                     return (
                                         <TableRow hover role="checkbox" tabIndex={-1} key={`${row.code} ${row.id}`}>
                                             <TableCell key={`${columns[0].id} ${row.id}`} align={columns[0].align}>
-                                                {columns[0].format && typeof value === 'number' ? columns[0].format(row[columns[0].id]) : row[columns[0].id]}
+                                                <img src={row.image} alt={row.name} className={styles.rowImage} />
                                             </TableCell>
                                             {columns.slice(1).map((column) => {
+                                                if (column.id === 'categories') {
+                                                    return (
+                                                        <TableCell key={`${column.id} ${row.id}`} align={column.align}>
+                                                            {row.categories.map(el => `${el.name}\n`)}
+                                                        </TableCell>
+                                                    )
+                                                }
                                                 const value = row[column.id];
                                                 return (
                                                     <TableCell key={`${column.id} ${row.id}`} align={column.align}>
-                                                        {column.format && typeof value === 'number' ? column.format(value) : value}
+                                                        {column.format && typeof value === 'number' ? column.format(value) : column.id === 'featured' ? value.toString() : value}
                                                     </TableCell>
                                                 );
                                             })}
