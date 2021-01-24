@@ -9,13 +9,17 @@ const CatalogContainer = () => {
     
     useEffect(() => {
         getProducts.then(products => {
-            setProductList(products.data)
+                const productListWithId = products.data.map(product => {
+                    const onlyCatIds = product.categories.map(category => category.id);
+                    return {...product, categories: onlyCatIds}
+                });
+                setProductList(productListWithId)
         })
         .catch(err => {console.log("Fail get products, ", err)});
     }, [])
 
     useEffect(() => {
-        console.log("Product list: ", productList.length)
+       console.log("EL 25 PAPA: ", productList)
     }, [productList])
 
     

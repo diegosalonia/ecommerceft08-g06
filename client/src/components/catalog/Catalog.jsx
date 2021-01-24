@@ -11,7 +11,9 @@ const Catalog = (props) => {
     const updateFilter = (catId) => {
         setFilter(catId)
     }
-
+/**categories: Array(2)
+0: {id: 1, parent_id: null, name: "Fertilizante", description: "", image: null, …}
+1: {id: 2, parent_id: null, name: "Floracion", description: "", image: null, …} */
     const renderProducts = () => props.testlist.map((item, inx) => {
         if (item.categories && item.categories.includes(filter)){
             return (
