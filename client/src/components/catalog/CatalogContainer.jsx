@@ -19,7 +19,7 @@ const CatalogContainer = () => {
     }, [])
 
     useEffect(() => {
-       console.log("EL 25 PAPA: ", productList)
+        console.log("Product list: ", productList)
     }, [productList])
 
     

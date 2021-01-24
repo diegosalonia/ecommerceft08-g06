@@ -12,10 +12,10 @@ function ProductCard(props) {
     const {productId, name, stock, description, image, featured, discount, categories, price} = props.productProps;
                  
     return (
-        <Card className={style.root} component="main" maxWidth="xs" disabled={true}>
+        <Card className={style.root} component="main" disabled={true}>
             <Link to={`/products/${productId}`} className={style.noLinkStyle} color="inherit" variant="inherit">
             <CardActionArea>
-              <CardMedia className={style.media} image={image} />
+              <CardMedia className={style.media} image={image[0]} />
               <CardContent className={style.info}>
                   <Typography gutterBottom variant="h5" component="h2" className={style.rigthText}>
                     {name}

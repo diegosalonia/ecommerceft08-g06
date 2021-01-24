@@ -73,7 +73,6 @@ function AdminProductList() {
                                             </TableCell>
                                             {columns.slice(1).map((column) => {
                                                 const value = row[column.id];
-                                                console.log(`VALUE ${column} ${value}`);
                                                 return (
                                                     <TableCell key={`${column.id} ${row.id}`} align={column.align}>
                                                         {column.format && typeof value === 'number' ? column.format(value) : value}

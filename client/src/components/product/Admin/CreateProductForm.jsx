@@ -29,12 +29,13 @@ const validationSchema = yup.object({
   });
 
 const CreateProductForm = () => {
-    const [ images, setImages ] = useState([]);
     const style = useStylesProductForm();
+    const [ images, setImages ] = useState([]);
     const [ categories, setCategories] = useState();
     const [checked, setChecked] = useState([]);
-    const [listaCate, setCate] = useState([]);
-
+    const [categoryList, setCategoryList] = useState([]);
+    
+    
 
     useEffect(() => {
         console.log("loading..")
@@ -60,12 +61,12 @@ const CreateProductForm = () => {
           setChecked(newChecked);
           console.log(arr)
           
-          return setCate(arr)
+          return setCategoryList(arr)
     }
 
-    const conectionRelation = (idProduct) => {
-        listaCate.forEach(dato=>{
-            axios.post(`http://localhost:3000/products/${idProduct}/category/${dato}`)
+    const conectionRelation = (productId) => {
+        categoryList.forEach(category=>{
+            axios.post(`http://localhost:3000/products/${productId}/category/${category}`)
             .then(res=>{
             console.log(res)
             })
@@ -86,7 +87,7 @@ const CreateProductForm = () => {
           image: [],
         },
         validationSchema: validationSchema,
-        onSubmit: async (values) => {
+        onSubmit: async (values, { resetForm }) => {
             const promises = images.map(image => {
                 return new Promise((resolve, reject) => {
                     const uploadImage = firebase.storage().ref().child(`/products/images/${values.name}/${image.name}`).put(image);
@@ -108,21 +109,12 @@ const CreateProductForm = () => {
             })
             Promise.all(promises)
             .then(res => {
-                console.log("RESPONSE P.ALL: ", res);
-                console.log("VALUES: ", formik.values);
-                axios.post('http://localhost:3000/products', {form: {...values, image: JSON.stringify(values.image)}})
+                axios.post('http://localhost:3000/products', {form: {...values, image: formik.values.image}})
                 .then(res => {
-                    /* formik.values.name = '';
-                    formik.values.price = '';
-                    formik.values.description = '';
-                    formik.values.stock = '';
-                    formik.values.discount = '';
                     formik.values.featured = false;
                     formik.values.image = [];
-                    formik.resetForm({});
-                    console.log(formik.values); */
                     conectionRelation(res.data.id); //Create category_product
-
+                    resetForm({values: ''});
             })
         })
     }});
