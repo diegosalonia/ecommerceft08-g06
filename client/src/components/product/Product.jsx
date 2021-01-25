@@ -7,6 +7,8 @@ function Product(props) {
     const { description, discount, image, name, price, rating, stock, categories } = props.location.state;
     const styles = useStylesProduct();
 
+    
+
     return (
         <Container>
             <Container className={styles.container} >
@@ -27,7 +29,7 @@ function Product(props) {
                     {/* <Typography>
                         <Button>-</Button>
                         <Typography>{ quantityInCart }</Typography>
-                        <Button>+</Button>
+                        <Button >+</Button>
                     </Typography> */}
                     <Typography className={styles.stock} >In Stock: { stock }</Typography>
                     <Button className={styles.addToCart} ><ShoppingCartIcon /><Typography className={styles.textCart} >ADD TO CART</Typography></Button>
