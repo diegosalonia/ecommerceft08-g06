@@ -1,4 +1,4 @@
-const { INTEGER, ENUM } = require("sequelize/types")
+const { INTEGER, ENUM } = require("sequelize")
 
 module.exports = (sequelize) => {
     sequelize.define('order', {
