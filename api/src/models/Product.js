@@ -17,7 +17,7 @@ module.exports = (sequelize) => {
       defaultValue: false
     },
     image: {
-      type: ARRAY(STRING),
+      type: STRING,
     },
     name: {
       type: STRING,

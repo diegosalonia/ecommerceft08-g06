@@ -84,7 +84,7 @@ const CreateProductForm = () => {
           stock: '',
           discount: '',
           featured: false,
-          image: [],
+          image: null,
         },
         validationSchema: validationSchema,
         onSubmit: async (values, { resetForm }) => {
@@ -97,11 +97,12 @@ const CreateProductForm = () => {
                         error => {reject(error)},
                         async () => {
                             await storage
-                                .ref(`products/images/${values.name}/`)
+                                .ref(`/products/images/${values.name}/`)
                                 .child(image.name)
                                 .getDownloadURL()
                                 .then(url => {
-                                    resolve(formik.values.image.push(url));
+                                    console.log(url);
+                                    resolve(values.image = url);
                                 });
                         }
                     )
@@ -109,11 +110,12 @@ const CreateProductForm = () => {
             })
             Promise.all(promises)
             .then(res => {
-                axios.post('http://localhost:3000/products', {form: {...values, image: formik.values.image}})
+                console.log("VALUES: ", values);
+                axios.post('http://localhost:3000/products', {form: {...values, image: values.image}})
                 .then(res => {
                     console.log("RESPUESTA: ", res);
                     formik.values.featured = false;
-                    formik.values.image = [];
+                    formik.values.image = null;
                     conectionRelation(res.data.id); //Create category_product
                     resetForm({values: ''});
                     alert('Product created');

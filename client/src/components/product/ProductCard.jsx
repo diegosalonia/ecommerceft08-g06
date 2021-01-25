@@ -15,7 +15,7 @@ function ProductCard(props) {
         <Card className={style.root} component="main" disabled={true}>
             <Link to={{pathname: `/products/${id}`, state: props.productProps}} className={style.noLinkStyle} color="inherit" variant="inherit">
             <CardActionArea>
-              <CardMedia className={style.media} image={image[0]} />
+              <CardMedia className={style.media} image={image} />
               <CardContent className={style.info}>
                   <Typography gutterBottom variant="h5" component="h2" className={style.rigthText}>
                     {name}

@@ -75,7 +75,7 @@ function UpdateProductForm(props) {
                             .child(images[0].name)
                             .getDownloadURL()
                             .then(url => {
-                                axios.put(`http://localhost:3000/products/${id}`, {form: {...values, image: [url]}})
+                                axios.put(`http://localhost:3000/products/${id}`, {form: {...values, image: url}})
                                     .then(res => console.log("res axios.put: ", res))
                                     .catch(err => console.log("err axios.put: ", err));
                             });

@@ -3,10 +3,9 @@ import FilterCatalog from './FilterCatalog';
 import {Container, Grid} from '@material-ui/core';
 import ProductCard from '../product/ProductCard';
 
-
 const Catalog = (props) => {
 
-    const [filter, setFilter] = useState(false)
+    const [filter, setFilter] = useState(false);
 
     const updateFilter = (catId) => {
         setFilter(catId)
@@ -17,7 +16,7 @@ const Catalog = (props) => {
             return (
                 <Grid item xs={12} sm={6} md={4} lg={3} key={item.id} >
                     <ProductCard productProps={item} key={index} />
-                </Grid>   
+                </Grid>
             ) 
         }
     });

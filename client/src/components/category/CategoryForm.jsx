@@ -43,8 +43,9 @@ const CategoryForm = () => {
         console.log("Succes",res);
         formValues.id = res.data.id;
         sendImages(images, formValues);
+        alert('Category created');
       })
-      .catch(error => console.log("Error on request: ",error))
+      .catch(error => console.log("Error on request: ",error));
     },
   });
 //STYLES-------------------------
