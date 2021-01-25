@@ -1,4 +1,4 @@
-const { STRING, INTEGER, ENUM, BOOLEAN } = require('sequelize');
+const { STRING, INTEGER, ENUM, BOOLEAN, BIGINT } = require('sequelize');
 
 module.exports = (sequlize) => {
     sequlize.define('user',{
@@ -23,7 +23,7 @@ module.exports = (sequlize) => {
             allowNull: false   
         },
         phone_number:{
-            type: INTEGER,
+            type: BIGINT,
             allowNull:false
         },
         user_role:{
