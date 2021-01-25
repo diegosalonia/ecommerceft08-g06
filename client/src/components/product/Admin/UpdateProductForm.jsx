@@ -62,9 +62,9 @@ function UpdateProductForm(props) {
             image: image,
         },
         validationSchema: validationSchema,
-        onSubmit: values => {
+        onSubmit: (values, { resetForm }) => {
             if (!imageToShow) {
-                const uploadImage = firebase.storage().ref().child(`/category/images/${images[0].name}`).put(images[0]);
+                const uploadImage = firebase.storage().ref().child(`/products/images/${name}/${images[0].name}`).put(images[0]);
                 uploadImage.on (
                     "state_changed",
                     snapshot => {},
@@ -75,7 +75,7 @@ function UpdateProductForm(props) {
                             .child(images[0].name)
                             .getDownloadURL()
                             .then(url => {
-                                axios.put(`http://localhost:3000/products/${id}`, {form: {...values, image: url}})
+                                axios.put(`http://localhost:3000/products/${id}`, {form: {...values, image: [url]}})
                                     .then(res => console.log("res axios.put: ", res))
                                     .catch(err => console.log("err axios.put: ", err));
                             });
@@ -86,14 +86,9 @@ function UpdateProductForm(props) {
                     .then(res => console.log(res))
                     .catch(err => console.log(err));
             }
-            formik.values.name = '';
-            formik.values.price = '';
-            formik.values.description = '';
-            formik.values.stock = '';
-            formik.values.discount = '';
             formik.values.featured = false;
             formik.values.image = [];
-            formik.resetForm({});
+            resetForm({values: ''});
         }
     })
 

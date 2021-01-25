@@ -1,8 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import FilterCatalog from './FilterCatalog';
 import {Container, Grid} from '@material-ui/core';
-import ProductCard from '../product/ProductCard'
-import testList from './testList'; //Simulate products array.
+import ProductCard from '../product/ProductCard';
 
 
 const Catalog = (props) => {
@@ -12,21 +11,18 @@ const Catalog = (props) => {
     const updateFilter = (catId) => {
         setFilter(catId)
     }
-
-    useEffect(() => {
-        if(filter){
-            console.log("Yeaaaaa now rendring from parent: ", filter)
-        }
-    }, [filter])
-
-    const renderProducts = () => testList.map((item, inx) => {
-        if (item.categories.includes(filter)){
+/**categories: Array(2)
+0: {id: 1, parent_id: null, name: "Fertilizante", description: "", image: null, …}
+1: {id: 2, parent_id: null, name: "Floracion", description: "", image: null, …} */
+    const renderProducts = () => props.testlist.map((item, inx) => {
+        if (item.categories && item.categories.includes(filter)){
+            console.log("ENTRE ACÁ");
             return (
-                <Grid item xs={12} sm={6} md={4} lg={3} >
+                <Grid item xs={12} sm={6} md={4} lg={3} key={item.id} >
                     <ProductCard productProps={item} key={inx} />
                 </Grid>   
             ) 
-        } 
+        }
     });
 
     return (
