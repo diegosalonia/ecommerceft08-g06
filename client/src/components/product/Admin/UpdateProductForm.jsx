@@ -5,7 +5,7 @@ import { DropzoneArea } from 'material-ui-dropzone';
 import { makeStyles, Container, IconButton, TextField, Typography, Button, Switch, FormControlLabel } from '@material-ui/core';
 import { DeleteForever } from '@material-ui/icons';
 import axios from 'axios';
-import firebase, { storage } from '../../firebase';
+import firebase, { storage } from '../../../firebase';
 
 const validationSchema = yup.object({
     name: yup

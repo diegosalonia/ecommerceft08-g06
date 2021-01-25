@@ -12,7 +12,6 @@ export default function Footer(){
 
         footer:{
             backgroundColor: theme.palette.primary.main,
-            position: "absolute",
             zIndex: "3",
             bottom: "0",
             width: "100%",
@@ -20,6 +19,7 @@ export default function Footer(){
             paddingBottom: theme.spacing(1),
             display: "flex",
             alignItems: "center",
+            marginTop: '20px'
         },
         title:{
             color: "#fff",

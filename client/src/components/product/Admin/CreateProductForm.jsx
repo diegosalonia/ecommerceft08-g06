@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { storage } from "../../firebase";
-import firebase from "../../firebase";
+import { storage } from "../../../firebase";
+import firebase from "../../../firebase";
 import axios from 'axios';
 import { DropzoneArea } from 'material-ui-dropzone';
 import { Container, TextField, Typography, Button, CssBaseline, Switch, FormControlLabel, ListItemIcon, List, ListItem,

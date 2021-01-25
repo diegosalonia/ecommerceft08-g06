@@ -1,4 +1,4 @@
-import { Container, Grid, Typography, IconButton, TableContainer, Table, TableRow, TableCell, TableHead, TableBody, TablePagination } from '@material-ui/core';
+import { Container, Grid, Typography, IconButton, TableContainer, Table, TableRow, TableCell, TableHead, TableBody } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
 import { getProducts } from '../utils';
 import { DeleteForever, Edit } from '@material-ui/icons';
@@ -90,7 +90,11 @@ function AdminProductList() {
                                                 );
                                             })}
                                             <TableCell>
-                                                <Link to={{pathname:`/admin/products/${row.id}/edit`, state: row}} style={{cursor: 'pointer'}} onClick={() => console.log("hice click")} ><IconButton><Edit /></IconButton></Link>
+                                                <Link to={{pathname:`/admin/products/${row.id}/edit`, state: row}} style={{cursor: 'pointer'}} onClick={() => console.log("hice click")} >
+                                                    <IconButton>
+                                                        <Edit />
+                                                    </IconButton>
+                                                </Link>
                                             </TableCell>
                                             <TableCell>
                                                 <IconButton color='primary' onClick={() => handleDelete(row.id)} ><DeleteForever /></IconButton>

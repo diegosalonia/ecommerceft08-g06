@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Catalog from './Catalog';
-import testList from './testList'; //Simulate products array.
-import {getProducts, getProductCategories} from '../product/utils';
+import { getProducts } from '../product/utils';
 
 const CatalogContainer = () => {
 

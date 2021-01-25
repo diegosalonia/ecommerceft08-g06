@@ -5,8 +5,8 @@ import axios from 'axios';
 import {Button, TextField, CssBaseline, Container, makeStyles, Typography} from '@material-ui/core';
 import {DropzoneArea} from 'material-ui-dropzone';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
-import { storage } from "../firebase"
-import firebase from "../firebase"
+import { storage } from "../../firebase"
+import firebase from "../../firebase"
 //ToDo: Clean console logs.
 const validationSchema = yup.object({
   name: yup

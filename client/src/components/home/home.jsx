@@ -15,6 +15,6 @@ export default function Home(){
       }));
       const classes = useStyles();
     return (
-        <div className={classes.meme}><img src={image} style = {{display:"block", margin:"auto"}}/></div>
+        <div className={classes.meme}><img src={image} style = {{display:"block", margin:"auto"}} alt='falto el alt' /></div>
     )
 }

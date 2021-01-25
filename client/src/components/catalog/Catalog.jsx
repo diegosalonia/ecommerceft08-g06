@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState } from 'react';
 import FilterCatalog from './FilterCatalog';
 import {Container, Grid} from '@material-ui/core';
 import ProductCard from '../product/ProductCard';
@@ -16,7 +16,6 @@ const Catalog = (props) => {
 1: {id: 2, parent_id: null, name: "Floracion", description: "", image: null, …} */
     const renderProducts = () => props.testlist.map((item, inx) => {
         if (item.categories && item.categories.includes(filter)){
-            console.log("ENTRE ACÁ");
             return (
                 <Grid item xs={12} sm={6} md={4} lg={3} key={item.id} >
                     <ProductCard productProps={item} key={inx} />

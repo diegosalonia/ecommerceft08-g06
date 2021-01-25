@@ -1,32 +1,41 @@
 import React from 'react'
 import { Button, Container, Typography } from '@material-ui/core';
 import { useStylesProduct } from './styles';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
 function Product(props) {
-    const { description, discount, featured, image, name, price, rating, stock, categories } = props.location.state;
+    const { description, discount, image, name, price, rating, stock, categories } = props.location.state;
     const styles = useStylesProduct();
 
     return (
-        <Container className={styles.container} >
-            <img src={ image } alt={ name }></img>
-            <Container>
-                <Typography variant='h2' >{ name }</Typography>
-                { categories?.map(category => <Typography variant='p' >{category}</Typography>) }
-                { discount !== 0 ? 
-                                <Typography> <Typography className={"lineThrough"}>${ price }</Typography>
-                                    ${ price - (discount * price) }
-                                </Typography> 
-                                : <Typography>{ price }</Typography>
-                }
-                <Typography>{ rating }</Typography>
-                <Typography>{ description }</Typography>
-                {/* <Typography>
-                    <Button>-</Button>
-                    <Typography>{ quantityInCart }</Typography>
-                    <Button>+</Button>
-                </Typography> */}
-                <Typography>{ stock }</Typography>
-                <Button>ADD TO CART</Button>
+        <Container>
+            <Container className={styles.container} >
+                <img src={ image } alt={ name } className={styles.image} ></img>
+                <Container className={styles.detailContainer} >
+                    <Typography variant='h6' align='center' >{ name }</Typography>
+                    <Container className={styles.categories} >
+                        { categories?.slice(0, 4).map(category => <Typography key={category} >{category}</Typography>) }
+                    </Container>
+                    { discount !== 0 ? 
+                                    <Container className={styles.price} >
+                                        <Typography className={styles.lineThrough}>${ price }</Typography>
+                                        <Typography variant='h5' >{ `\xa0\xa0\xa0 $${price - ((discount / 100) * price)}` }</Typography>
+                                    </Container> 
+                                    :<Typography>${ price }</Typography>
+                    }
+                    <Typography>{ rating }</Typography>
+                    {/* <Typography>
+                        <Button>-</Button>
+                        <Typography>{ quantityInCart }</Typography>
+                        <Button>+</Button>
+                    </Typography> */}
+                    <Typography className={styles.stock} >In Stock: { stock }</Typography>
+                    <Button className={styles.addToCart} ><ShoppingCartIcon />{`\xa0\xa0\xa0ADD TO CART`}</Button>
+                </Container>
+            </Container>
+            <Container className={styles.description} >
+                <Typography variant='h4' >Descripción</Typography>
+                <Typography variant='body' >{ description }</Typography>
             </Container>
         </Container>
     );

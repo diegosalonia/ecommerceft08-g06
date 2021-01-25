@@ -9,7 +9,7 @@ import {ProductPrice} from './ProductPrice';
 function ProductCard(props) {
              
     const style = useStylesProductCard();
-    const {id, name, stock, description, image, featured, discount, categories, price} = props.productProps;
+    const {id, name, description, image, discount, price} = props.productProps;
                  
     return (
         <Card className={style.root} component="main" disabled={true}>

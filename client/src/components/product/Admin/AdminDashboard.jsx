@@ -1,45 +1,56 @@
 import React from 'react';
 import { Container, Typography, Card, CardContent, CardMedia, Grid } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import { useStylesDashboard } from './styles/AdminDashboard';
+import productListImage from '../../../resources/product-list.jpg';
+import addProduct from '../../../resources/addProduct.jpg';
+import addCategory from '../../../resources/addCategory.jpg';
 
 function AdminDashboard() {
-
+    const styles = useStylesDashboard();
 
     return (
-        <Container>
-            <Typography>Admin Dashboard</Typography>
-            <Grid container >
-                <Grid item >
-                    <Link to='/admin/products' >
-                        <Card>
+        <Container className={styles.container} >
+            <Typography variant='h4' align='center' >Admin Dashboard</Typography>
+            <Grid container spacing={8} className={styles.gridContainer} >
+                <Grid item lg={4} className={styles.card} >
+                    <Link to='/admin/products' className={styles.link} >
+                        <Card className={styles.cardShadow} >
                             <CardMedia
-                                image="../../../resources/product-list.jpg"
+                                className={styles.images}
+                                image={productListImage}
                             />
                             <CardContent>
-                                <Typography align='center' >Product List</Typography>
+                                <Typography variant='h5' align='center' >Product List</Typography>
                                 <Typography align='center' >Get acces to product list. Edit and delete your products!</Typography>
                             </CardContent>
                         </Card>
                     </Link>
                 </Grid>
-                <Grid item >
-                    <Link to='/admin/products/create-product' >
-                        <Card>
-                            <CardMedia />
+                <Grid item lg={4} className={styles.card} >
+                    <Link to='/admin/products/create-product' className={styles.link} >
+                        <Card className={styles.cardShadow} >
+                            <CardMedia
+                                className={styles.images}
+                                image={addProduct}
+                            />
                             <CardContent>
-                                <Typography align='center' >Add product</Typography>
-                                <Typography align='center' >Here you can add your new products</Typography>
+                                <Typography variant='h5' align='center' >Add product</Typography>
+                                <Typography align='center' >Here you can add your new products. Name, price, stock and more!</Typography>
                             </CardContent>
                         </Card>
                     </Link>
                 </Grid>
-                <Grid item >
-                    <Link to='/admin/categories/create-category' >
-                        <Card>
-                            <CardMedia />
+                <Grid item lg={4} className={styles.card} >
+                    <Link to='/admin/categories/create-category' className={styles.link} >
+                        <Card className={styles.cardShadow} >
+                            <CardMedia
+                                className={styles.images}
+                                image={addCategory}
+                            />
                             <CardContent>
-                                <Typography align='center' >Add category</Typography>
-                                <Typography align='center' >Here you can add your new categories</Typography>
+                                <Typography variant='h5' align='center' >Add category</Typography>
+                                <Typography align='center' >Here you can add your new categories. Name, description, image!</Typography>
                             </CardContent>
                         </Card>
                     </Link>
