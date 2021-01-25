@@ -1,9 +1,12 @@
 const server = require('express').Router();
 const { response } = require('express');
+const { Sequelize } = require('sequelize');
 const { Product, Category } = require('../db.js');
 
 server.get('/', (req, res, next) => {
-	Product.findAll()
+	Product.findAll({
+		include: [{model: Category}]
+	})
 		.then(products => {
 			res.send(products);
 		})
@@ -25,7 +28,7 @@ server.delete('/:id',  async (req, res) => {
 	const product = await Product.findByPk(req.params.id)
 	await product.destroy()
 	.then(() => {
-		res.status(201).send("has been removed successfully")
+		res.status(200).send("has been removed successfully")
 	})
 	.catch(error => {
 		res.send(error)
@@ -43,13 +46,29 @@ server.post('/', (req, res) =>{
     })
 })
 
+server.get('/search', (req, res) =>{
+	Product.findAll({
+		where: {
+			name: {
+				[Sequelize.Op.iLike]: `%${req.query.query}%`
+			}
+		}
+	})
+	.then(product=>{
+		res.json(product);
+	})
+	.catch(err=>{
+		res.send(err);
+	})
+})
+
 server.put('/:id', async (req, res) =>{
 	const product = await Product.findByPk(req.params.id)
 	Object.assign(product, req.body.form)
 
 	product.save()
 	 .then(response =>{
-		 res.status(201).send(response)
+		 res.status(200).send(response)
 	 })
 	 .catch(error =>{
 		 res.status(400).send(error)
@@ -92,5 +111,17 @@ server.delete('/:productId/category/:categoryId', async (req, res) =>{
 		res.send(error)
 	})
 })
+
+// server.get('/search', (req, res) => {
+// 	Product.findAll({
+// 		where: {name : {[Sequelize.Op.iLike]: `%${req.query.query}%`}}
+// 	})
+// 	.then(response => {
+// 		res.send(response);
+// 	})
+// 	.catch(err => console.log(err));
+// })
+
+
 
 module.exports = server;

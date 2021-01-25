@@ -56,7 +56,7 @@ const FilterCatalog = (props) => {
                   titleTypographyProps={{ align: 'center' }}
                   className={classes.cardHeader}
                 />
-        <CardContent justify="center" alignItems="center">      
+        <CardContent >      
             <ButtonGroup fullWidth orientation="vertical"  color="primary">
                 {displayCategories()}
             </ButtonGroup>

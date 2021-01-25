@@ -5,8 +5,8 @@ import axios from 'axios';
 import {Button, TextField, CssBaseline, Container, makeStyles, Typography} from '@material-ui/core';
 import {DropzoneArea} from 'material-ui-dropzone';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
-import { storage } from "../firebase"
-import firebase from "../firebase"
+import { storage } from "../../firebase"
+import firebase from "../../firebase"
 //ToDo: Clean console logs.
 const validationSchema = yup.object({
   name: yup
@@ -32,7 +32,7 @@ const CategoryForm = () => {
       name: '',
       description: '',
       parent_id: null,
-      image: []
+      image: null
     },
     validationSchema: validationSchema,
     //SUBMIT CONTROL -----------------------------------------
@@ -50,7 +50,7 @@ const CategoryForm = () => {
 //STYLES-------------------------
   const useStyles = makeStyles((theme) => ({
     paper: {
-      marginTop: theme.spacing(8),
+      // marginTop: theme.spacing(8),
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',

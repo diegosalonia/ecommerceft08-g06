@@ -8,21 +8,21 @@ export const ProductPrice = ({ price, discount }) => {
 
     const definePrice = (price, discount) => {
         return discount !== 0 ?
-                             <Container>
-                                 <Typography>
-                                     <span className={style.lineThrough}>
-                                         $ { price } 
-                                    </span>
-                                    $ {  price - ((discount / 100) * price) }
+                                <Container>
+                                    <Typography>
+                                        <span className={style.lineThrough}>
+                                            { `$${price}` }
+                                        </span>
+                                        {  `\xa0\xa0\xa0 $${price - ((discount / 100) * price)}` }
+                                    </Typography>
+                                </Container> 
+                              : <Typography>
+                                  ${ price }
                                 </Typography>
-                             </Container> 
-                             : <Typography>
-                                 ${ price }
-                               </Typography>
     }     
     return (
             <Typography gutterBottom variant="h5" component="h2" >
                 {definePrice(price, discount)}
-          </Typography>
+            </Typography>
     );
 };

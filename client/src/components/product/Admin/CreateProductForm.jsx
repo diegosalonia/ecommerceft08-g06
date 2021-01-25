@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { storage } from "../../firebase";
-import firebase from "../../firebase";
+import { storage } from "../../../firebase";
+import firebase from "../../../firebase";
 import axios from 'axios';
 import { DropzoneArea } from 'material-ui-dropzone';
-import { Container, TextField, Typography, Button, CssBaseline, Switch, FormControlLabel } from '@material-ui/core';
-
+import { Container, TextField, Typography, Button, CssBaseline, Switch, FormControlLabel, ListItemIcon, List, ListItem,
+Checkbox , ListItemText  } from '@material-ui/core';
 import { useStylesProductForm } from '../styles';
 
 const validationSchema = yup.object({
@@ -23,15 +23,58 @@ const validationSchema = yup.object({
         .required('Product stock is required')
         .positive('Stock must be positive'),
     discount: yup
-        .number('Enter product discount')
-        .required('asdlaskd'),
+        .number('Enter product discount'),  
     featured: yup
         .boolean('Mark if product is featured'),
   });
 
 const CreateProductForm = () => {
-    const [ images, setImages ] = useState([]);
     const style = useStylesProductForm();
+    const [ images, setImages ] = useState([]);
+    const [ categories, setCategories] = useState();
+    const [checked, setChecked] = useState([]);
+    const [categoryList, setCategoryList] = useState([]);
+    
+    
+
+    useEffect(() => {
+        console.log("loading..")
+        axios.get('http://localhost:3000/category/all').then( res =>{
+            return setCategories(res.data)
+        })        
+        .catch(error => console.log(error))  
+    },[])
+
+    const handleToggle = (value) => () => {
+        const currentIndex = checked.indexOf(value);
+        const newChecked = [...checked];
+        let arr = [];
+
+        if (currentIndex === -1) {
+            newChecked.push(value);
+            newChecked.forEach(e=> arr.push(e.id) )            
+          }else {
+            newChecked.splice(currentIndex, 1);
+            arr = []
+            newChecked.forEach(e=> arr.push(e.id) )
+          } 
+          setChecked(newChecked);
+          console.log(arr)
+          
+          return setCategoryList(arr)
+    }
+
+    const conectionRelation = (productId) => {
+        categoryList.forEach(category=>{
+            axios.post(`http://localhost:3000/products/${productId}/category/${category}`)
+            .then(res=>{
+            console.log(res)
+            })
+            .catch(err=>{
+             console.log(err)
+            })
+        })
+    }
 
     const formik = useFormik({
         initialValues: {
@@ -44,17 +87,17 @@ const CreateProductForm = () => {
           image: [],
         },
         validationSchema: validationSchema,
-        onSubmit: async values => {
+        onSubmit: async (values, { resetForm }) => {
             const promises = images.map(image => {
                 return new Promise((resolve, reject) => {
-                    const uploadImage = firebase.storage().ref().child(`/category/images/products/${image.name}`).put(image);
+                    const uploadImage = firebase.storage().ref().child(`/products/images/${values.name}/${image.name}`).put(image);
                     uploadImage.on (
                         "state_changed",
                         snapshot => {},
                         error => {reject(error)},
                         async () => {
                             await storage
-                                .ref('category/images')
+                                .ref(`products/images/${values.name}/`)
                                 .child(image.name)
                                 .getDownloadURL()
                                 .then(url => {
@@ -66,23 +109,18 @@ const CreateProductForm = () => {
             })
             Promise.all(promises)
             .then(res => {
-                console.log("RESPONSE P.ALL: ", res);
-                console.log("VALUES: ", formik.values);
-                axios.post('http://localhost:3000/products', {form: {...values, image: JSON.stringify(values.image)}})
+                axios.post('http://localhost:3000/products', {form: {...values, image: formik.values.image}})
                 .then(res => {
-                    formik.values.name = '';
-                    formik.values.price = '';
-                    formik.values.description = '';
-                    formik.values.stock = '';
-                    formik.values.discount = '';
+                    console.log("RESPUESTA: ", res);
                     formik.values.featured = false;
                     formik.values.image = [];
-                    formik.resetForm({});
-                    console.log(formik.values);
-                });
+                    conectionRelation(res.data.id); //Create category_product
+                    resetForm({values: ''});
+                    alert('Product created');
             })
-        }
-    });
+            .catch(err => console.log(err));
+        })
+    }});
 
     return (
         <div className={style.productForm}>
@@ -141,6 +179,31 @@ const CreateProductForm = () => {
                         error={formik.touched.discount && Boolean(formik.errors.discount)}
                         helperText={formik.touched.discount && formik.errors.discount}
                     />
+                     <List className={style.vista}>
+                        <Typography variant="h5">Categories</Typography>                      
+                    { 
+                        categories?.map((value)=>{
+
+                            const labelId = `checkbox-list-label-${value.id}`;
+                            return(
+                                <ListItem key={value.id} role={undefined} dense button onChange={handleToggle(value)}>
+                                    <ListItemIcon>
+                                        <Checkbox 
+                                            color="primary"
+                                            edge="start"
+                                            size="small"
+                                            checked={checked.indexOf(value) !== -1}                                            
+                                            tabIndex={-1}
+                                            disableRipple
+                                            inputProps={{'aria-labelledby': labelId}}
+                                        />
+                                    </ListItemIcon>
+                                    <ListItemText id={value.id} value={value.id} primary={`category ${value.name} - ${value.id} `} /> 
+                                </ListItem>
+                            );
+                        })
+                    }
+                    </List>
                     <FormControlLabel
                         control={<Switch
                                     checked={formik.featured}
