@@ -43,7 +43,7 @@ function AdminProductList() {
     useEffect(() => {
         getProducts.then(res => {
             console.log("products: ", res.data);
-            setRows(res.data.map(row => {return {...row, image: row.image[0]}}));
+            setRows(res.data.map(row => {return {...row}}));
         });
     }, []);
 
