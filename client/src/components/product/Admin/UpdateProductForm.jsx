@@ -71,7 +71,7 @@ function UpdateProductForm(props) {
                     error => {console.log(error)},
                     async () => {
                         await storage
-                            .ref('category/images')
+                            .ref(`/products/images/${name}/`)
                             .child(images[0].name)
                             .getDownloadURL()
                             .then(url => {
@@ -89,6 +89,7 @@ function UpdateProductForm(props) {
             formik.values.featured = false;
             formik.values.image = [];
             resetForm({values: ''});
+            alert('Product updated');
         }
     })
 

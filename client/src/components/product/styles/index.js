@@ -91,4 +91,7 @@ export const useStylesProduct = makeStyles(theme => ({
   description: {
     margin: '5% 0'
   },
+  textCart: {
+    paddingLeft: '8px',
+  }
 }))

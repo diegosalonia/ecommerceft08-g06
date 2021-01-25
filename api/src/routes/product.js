@@ -1,5 +1,6 @@
 const server = require('express').Router();
 const { response } = require('express');
+const { Sequelize } = require('sequelize');
 const { Product, Category } = require('../db.js');
 
 server.get('/', (req, res, next) => {
@@ -11,16 +12,6 @@ server.get('/', (req, res, next) => {
 		})
 		.catch(next);
 });
-
-/* server.get('/', (req, res, next) => {
-	Product.findAll({
-		include: [{model: Category, attributes: ["id"]}]
-	})
-		.then(products => {
-			res.send(products);
-		})
-		.catch(next);
-}); */
 
 server.get('/category/:name', async (req,res,next)=>{
 	const category = await Category.findOne({where: {name: req.params.name}})
@@ -37,7 +28,7 @@ server.delete('/:id',  async (req, res) => {
 	const product = await Product.findByPk(req.params.id)
 	await product.destroy()
 	.then(() => {
-		res.status(201).send("has been removed successfully")
+		res.status(200).send("has been removed successfully")
 	})
 	.catch(error => {
 		res.send(error)
@@ -103,6 +94,16 @@ server.delete('/:productId/category/:categoryId', async (req, res) =>{
 	.catch(error =>{
 		res.send(error)
 	})
+})
+
+server.get('/search', (req, res) => {
+	Product.findAll({
+		where: {name : {[Sequelize.Op.iLike]: req.query.query}}
+	})
+	.then(response => {
+		res.send(response);
+	})
+	.catch(err => console.log(err));
 })
 
 module.exports = server;

@@ -46,11 +46,11 @@ const classes = useStyles();
                 </InputAdornment>
               ),
             }}
-            placeholder = "search..."
+            placeholder = "Search..."
             variant = "outlined"
             value = {formik.values.input}
             onChange = {formik.handleChange}
-          /> 
+          />
         </form>
       </div>
     )}

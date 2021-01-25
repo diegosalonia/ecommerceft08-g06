@@ -30,11 +30,11 @@ function Product(props) {
                         <Button>+</Button>
                     </Typography> */}
                     <Typography className={styles.stock} >In Stock: { stock }</Typography>
-                    <Button className={styles.addToCart} ><ShoppingCartIcon />{`\xa0\xa0\xa0ADD TO CART`}</Button>
+                    <Button className={styles.addToCart} ><ShoppingCartIcon /><Typography className={styles.textCart} >ADD TO CART</Typography></Button>
                 </Container>
             </Container>
             <Container className={styles.description} >
-                <Typography variant='h4' >Descripción</Typography>
+                <Typography variant='h4' >Description</Typography>
                 <Typography variant='body' >{ description }</Typography>
             </Container>
         </Container>

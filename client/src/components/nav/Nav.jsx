@@ -25,7 +25,7 @@ export default function NavBar(){
             marginTop:"20px"
         },
         navBar:{
-            with: "100%",
+            width: "100%",
             display: "flex",
             alignItems: "center",
             backgroundColor: theme.palette.primary.main
@@ -71,7 +71,7 @@ return(
                     style={{color: "#fff"}}/>
                 </IconButton>
                 <IconButton href='http://localhost:3001/admin' >
-                    <AccountCircleIcon 
+                    <AccountCircleIcon
                     fontSize="large"
                     style={{color: "#fff"}}/>
                 </IconButton>

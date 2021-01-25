@@ -11,14 +11,12 @@ const Catalog = (props) => {
     const updateFilter = (catId) => {
         setFilter(catId)
     }
-/**categories: Array(2)
-0: {id: 1, parent_id: null, name: "Fertilizante", description: "", image: null, …}
-1: {id: 2, parent_id: null, name: "Floracion", description: "", image: null, …} */
-    const renderProducts = () => props.testlist.map((item, inx) => {
+/* ToDo Tiene que renderizar todos los productos, y luego filtrar por categoría */
+    const renderProducts = () => props.testlist.map((item, index) => {
         if (item.categories && item.categories.includes(filter)){
             return (
                 <Grid item xs={12} sm={6} md={4} lg={3} key={item.id} >
-                    <ProductCard productProps={item} key={inx} />
+                    <ProductCard productProps={item} key={index} />
                 </Grid>   
             ) 
         }

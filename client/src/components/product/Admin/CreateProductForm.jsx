@@ -116,6 +116,7 @@ const CreateProductForm = () => {
                     formik.values.image = [];
                     conectionRelation(res.data.id); //Create category_product
                     resetForm({values: ''});
+                    alert('Product created');
             })
             .catch(err => console.log(err));
         })
