@@ -6,10 +6,6 @@ module.exports = (sequelize) => {
         quantity: {
             type: INTEGER,
             allowNull: false
-        },
-        price: {
-            type: FLOAT,
-            allowNull: false
         }
     });
 };
