@@ -14,6 +14,7 @@ import Catalog from '../components/catalog/Catalog'
 import NavBar from '../components/nav/Nav';
 import Home from '../components/home/home';
 import CatalogContainer from '../components/catalog/CatalogContainer'
+import Footer from '../components/footer/Footer';
 function Routes(){
     return(
         <React.Fragment>
@@ -21,6 +22,7 @@ function Routes(){
             {/* <Route path="/" component={CreateProductForm} /> */}
             {/* <Route path="/productcard" render = {() => <ProductCard productId={1} description={"descripcion completa del producto. podrian ser varias lineas y deberia verse bien. espero que así sea."} name={"product 2"} price= {20} stock= {30} image = {image} discount={15}/>} /> */}
             <Route path='/' component={NavBar}/>
+            <Route path='/' component={Footer}/>
             <Route exact path='/' component={Home}/>
             <Route exact path='/admin' component={AdminDashboard} />
             <Route exact path='/admin/products' component={AdminProductList} />
