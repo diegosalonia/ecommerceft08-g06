@@ -112,16 +112,5 @@ server.delete('/:productId/category/:categoryId', async (req, res) =>{
 	})
 })
 
-// server.get('/search', (req, res) => {
-// 	Product.findAll({
-// 		where: {name : {[Sequelize.Op.iLike]: `%${req.query.query}%`}}
-// 	})
-// 	.then(response => {
-// 		res.send(response);
-// 	})
-// 	.catch(err => console.log(err));
-// })
-
-
 
 module.exports = server;
