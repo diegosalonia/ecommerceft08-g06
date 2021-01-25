@@ -7,7 +7,7 @@ module.exports = (sequelize) => {
             allowNull: false
         },
         status: {
-            type: ENUM('approved', 'cancelled', 'pending', 'cart', 'created'),
+            type: ENUM('aprobado', 'cancelado', 'pendiente', 'carrito', 'creado'),
             allowNull: false
         }
     });
