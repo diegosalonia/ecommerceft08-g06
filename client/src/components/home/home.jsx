@@ -9,10 +9,9 @@ export default function Home(){
         meme:{
             alignItems: "center",
             justifyContent: "center",
-            marginTop:"20px"
+            marginTop:"20px",
         },
-
-        
+       
       }));
       const classes = useStyles();
     return (

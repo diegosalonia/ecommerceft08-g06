@@ -11,9 +11,9 @@ export default function NavBar(){
         list:{
             display: "flex",
             alignItems: "center",
-            with: "100%",
+            width: "100%",
             height: "70px",
-            marginRight:"38%"
+            marginRight: theme.spacing(30)
         },
         container:{
             display: "flex",
@@ -28,7 +28,7 @@ export default function NavBar(){
             with: "100%",
             display: "flex",
             alignItems: "center",
-            backgroundColor: "#4F4DD6"
+            backgroundColor: theme.palette.primary.main
         },
         item:{
             marginLeft:"30px",
@@ -54,13 +54,13 @@ export default function NavBar(){
       }));
       const classes = useStyles();
 return(
-    <div>
+    <div style={{marginBottom:"20px"}}>
     <nav className={classes.navBar}>
-        <Typography variant="h5"><a href="#"  className={classes.title}>The SpecialGarden</a></Typography>
+        <Typography variant="h5"><a href="http://localhost:3001/"  className={classes.title}>The SpecialGarden</a></Typography>
         <div className={classes.container}>
             <ul className={classes.list}>
-                <li className={classes.item}><a href="#" className={classes.item1}>Home</a></li>
-                <li className={classes.item}><a href="#" className={classes.item1}>Store</a></li>
+                <li className={classes.item}><a href="http://localhost:3001/" className={classes.item1}>Home</a></li>
+                <li className={classes.item}><a href="http://localhost:3001/products" className={classes.item1}>Store</a></li>
                 <li className={classes.item}><a href="#" className={classes.item1}>Contact</a></li>
             </ul>
             <div className={classes.searchBar}><SearchBar/></div>
