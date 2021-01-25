@@ -1,6 +1,6 @@
 const { STRING, INTEGER, ENUM, BOOLEAN, BIGINT } = require('sequelize');
 
-module.exports = (sequlize) => {
+module.exports = (sequelize) => {
     sequlize.define('user',{
         email:{
             type: STRING,
