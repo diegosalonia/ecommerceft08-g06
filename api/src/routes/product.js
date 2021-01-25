@@ -3,12 +3,24 @@ const { response } = require('express');
 const { Product, Category } = require('../db.js');
 
 server.get('/', (req, res, next) => {
-	Product.findAll()
+	Product.findAll({
+		include: [{model: Category}]
+	})
 		.then(products => {
 			res.send(products);
 		})
 		.catch(next);
 });
+
+/* server.get('/', (req, res, next) => {
+	Product.findAll({
+		include: [{model: Category, attributes: ["id"]}]
+	})
+		.then(products => {
+			res.send(products);
+		})
+		.catch(next);
+}); */
 
 server.get('/category/:name', async (req,res,next)=>{
 	const category = await Category.findOne({where: {name: req.params.name}})

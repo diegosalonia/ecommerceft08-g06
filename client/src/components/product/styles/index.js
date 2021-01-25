@@ -51,4 +51,12 @@ export const useStylesProductCard = makeStyles(theme => ({
         flexDirection: 'column',
         alignItems: 'center',
       }
-      }))
+      }));
+
+export const useStylesProduct = makeStyles(theme => ({
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'row',
+  }
+}))
