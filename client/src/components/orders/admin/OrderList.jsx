@@ -1,5 +1,6 @@
 import React from 'react'
-import { DataGrid } from '@material-ui/data-grid';
+import { DataGrid } from '@material-ui/data-grid'
+import {Link} from '@material-ui/core'
 
 const rows = [
     {
@@ -26,8 +27,7 @@ const rows = [
 ]
 
 const columns = [
-    { field: 'id', headerName: 'Pedido', width: 100, type: 'number' },
-    { field: 'user_id', headerName: 'Cliente', flex: 0.75 },
+    { field: 'id', headerName: 'Pedido', flex: 0.5, renderCell: (params) => <Link href={`orders/:${params.row.id}`}>#{params.row.id} {params.row.user_id}</Link>  },
     { field: 'status', headerName: 'Estado', flex: 0.75 },
     {
       field: 'createdAt',
@@ -35,7 +35,7 @@ const columns = [
       type: 'dateTime',
       flex: 1,
     },
-    { field: 'total', headerName: 'Total', flex: 0.4}
+    { field: 'total', headerName: 'Total', flex: 0.75}
   ];
 
 const OrderList = () => {
