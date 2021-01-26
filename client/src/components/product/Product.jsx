@@ -1,20 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { getProduct } from '../../redux/productReducer/actions';
 
 import { Button, Container, Typography } from '@material-ui/core';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { useStylesProduct } from './styles';
 
-
 function Product(props) {
     const dispatch = useDispatch();
-    const { description, discount, image, name, price, rating, stock, categories } = props.location.state;
+    const { match: { params: { id }}} = props;
+    const [product, setProduct] = useState();
     const styles = useStylesProduct();
-
-    useEffect(() => {
-        dispatch();
+    
+    useEffect(async () => {
+        await dispatch(getProduct(id));
     }, []);
-
+    const { description, discount, image, name, price, rating, stock, categories } = useSelector(state => state.productReducer.product);
+    console.log("USESELECTOR: ", name);
+    
     return (
         <Container>
             <Container className={styles.container} >

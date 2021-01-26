@@ -15,6 +15,7 @@ import CatalogContainer from '../components/catalog/CatalogContainer';
 import Footer from '../components/footer/Footer';
 
 function Routes(){
+
     return(
         <React.Fragment>
             <CssBaseline />
