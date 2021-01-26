@@ -13,6 +13,7 @@ import NavBar from '../components/nav/Nav';
 import Home from '../components/home/home';
 import CatalogContainer from '../components/catalog/CatalogContainer';
 import Footer from '../components/footer/Footer';
+import OrderList from '../components/orders/admin/OrderList';
 
 function Routes(){
     return(
@@ -22,6 +23,7 @@ function Routes(){
             <Route exact path='/' component={Home}/>
             <Route exact path='/admin' component={AdminDashboard} />
             <Route exact path='/admin/products' component={AdminProductList} />
+            <Route exact path='/admin/orders' component={OrderList} />
             <Route exact path='/admin/products/create-product' component={CreateProductForm} />
             <Route path="/admin/categories/create-category" component={CategoryForm} />
             <Route path='/admin/products/:id/edit' component={UpdateProductForm} />
