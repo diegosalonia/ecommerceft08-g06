@@ -16,11 +16,17 @@ export const useStylesUserForm = makeStyles(theme => ({
         marginTop: theme.spacing(3),
       },
       submit: {
-        margin: theme.spacing(2, 0, 1),
-        textTransform: 'none'
+        marginTop: theme.spacing(2),
+        textTransform: 'none',
+        marginRight:theme.spacing(9)
       },
-      close:{
+      close: {
         background: theme.palette.secondary.main,
         marginLeft: theme.spacing(55)
+      },
+      admin: {
+        marginTop: theme.spacing(2),
+        textTransform: 'none',
+        float: "left"
       }
 }))

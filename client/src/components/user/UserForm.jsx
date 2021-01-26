@@ -170,12 +170,17 @@ export default function UserForm({handleClose}){
                   </Link>
                 </Grid>
               </Grid>
-              <Button color="primary" variant="contained" fullWidth type="submit"  className={classes.submit}>
+            <Grid>
+            <Button color="primary" variant="contained" fullwidth type="submit"  className={classes.submit}>
             Sing Up
             </Button>
-            <Button color="primary" variant="contained" fullWidth type="submit" className={classes.submit} href="http://localhost:3001/admin">
+            <Button  color="primary" variant="contained" fullwidth type="submit" className={classes.admin} href="http://localhost:3001/admin">
             Admin
             </Button>
+            </Grid>
+            <Grid >
+            
+            </Grid>       
             </form>
           </div>
           <Box mt={5}>
