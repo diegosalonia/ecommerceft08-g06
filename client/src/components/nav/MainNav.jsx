@@ -6,10 +6,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import StorefrontIcon from '@material-ui/icons/Storefront';
 import MenuIcon from '@material-ui/icons/Menu';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import {Link as RouterLink} from 'react-router-dom';
 import {useHistory} from 'react-router-dom'
 import { Grid } from "@material-ui/core";
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import SearchBar from './SearchBar';
+
 //import LoginModal from './LoginModal'
 
 const useStyles = makeStyles((theme) => ({
@@ -144,6 +145,7 @@ const Header = () => {
                             </Link>
                         ))}
                 </Toolbar>
+                <SearchBar />
                 <RightButtons />    
             </Toolbar>
         )

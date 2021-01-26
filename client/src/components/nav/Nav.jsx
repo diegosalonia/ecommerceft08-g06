@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { IconButton, Typography, Link } from '@material-ui/core';
-import SearchBar from '../category/search-bar';
+import SearchBar from './SearchBar';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 

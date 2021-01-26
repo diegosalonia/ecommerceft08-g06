@@ -7,7 +7,7 @@ import CreateProductForm from '../components/product/Admin/CreateProductForm';
 import AdminDashboard from '../components/product/Admin/AdminDashboard';
 import AdminProductList from '../components/product/Admin/AdminProductList';
 import UpdateProductForm from '../components/product/Admin/UpdateProductForm';
-import SearchBar from '../components/category/search-bar';
+import SearchBar from '../components/nav/SearchBar';
 import CategoryForm from '../components/category/CategoryForm';
 import MainNav from '../components/nav/MainNav';
 import Home from '../components/home/home';
@@ -25,7 +25,6 @@ function Routes(){
             <Route exact path='/admin/products/create-product' component={CreateProductForm} />
             <Route path="/admin/categories/create-category" component={CategoryForm} />
             <Route path='/admin/products/:id/edit' component={UpdateProductForm} />
-            <Route path="/searchbar" component ={SearchBar}/>
             <Route path="/products/:id" component={Product}/>
             <Route exact path="/products" component={CatalogContainer} />
             <Route path='/' component={Footer}/>
