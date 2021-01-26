@@ -1,12 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import Backdrop from '@material-ui/core/Backdrop';
 import { IconButton, Typography, Link } from '@material-ui/core';
 import SearchBar from '../category/search-bar';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import UserForm from '../user/UserForm'
 
 
 export default function NavBar(){
+    const [open, setOpen] = useState(false);
+    const handleClose = () => {
+      setOpen(false);
+    };
+
+    const handleToggle = () => {
+      setOpen(!open);
+    };
+
     const useStyles = makeStyles((theme) => ({
         list:{
             display: "flex",
@@ -51,7 +62,11 @@ export default function NavBar(){
         icon:{
             marginLeft:"10px",
             cursor: 'pointer',
-        }
+        },
+        backdrop: {
+            zIndex: theme.zIndex.drawer + 1,
+            color: '#fff',
+          },
       }));
       const classes = useStyles();
 return(
@@ -70,10 +85,14 @@ return(
                     fontSize="large"
                     style={{color: "#fff"}}/>
                 </IconButton>
-                <IconButton href='http://localhost:3001/admin' >
+                <IconButton >
                     <AccountCircleIcon
                     fontSize="large"
-                    style={{color: "#fff"}}/>
+                    style={{color: "#fff"}}
+                    onClick={handleToggle}/>
+                    <Backdrop className={classes.backdrop} open={open}>
+                        <UserForm handleClose={handleClose}/>
+                    </Backdrop>
                 </IconButton>
             </div>
         </nav>
