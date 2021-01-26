@@ -13,13 +13,11 @@ import NavBar from '../components/nav/Nav';
 import Home from '../components/home/home';
 import CatalogContainer from '../components/catalog/CatalogContainer';
 import Footer from '../components/footer/Footer';
-import UserForm from '../components/user/UserForm'
 function Routes(){
     return(
         <React.Fragment>
             <CssBaseline />
             <Route path='/' component={NavBar}/>
-            <Route exact path = "/userForm" component ={UserForm}/>
             <Route exact path='/' component={Home}/>
             <Route exact path='/admin' component={AdminDashboard} />
             <Route exact path='/admin/products' component={AdminProductList} />
