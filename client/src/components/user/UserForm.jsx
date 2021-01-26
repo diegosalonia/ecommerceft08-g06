@@ -1,28 +1,62 @@
 import React from 'react'
-import { useStylesUserForm } from './styles';
+import { makeStyles } from '@material-ui/core';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios'
-import { Button, CssBaseline, TextField, FormControlLabel, Checkbox, Link, Grid, Box, Typography, Container, Switch} from '@material-ui/core/';
+import CloseIcon from '@material-ui/icons/Close';
+import { IconButton, Button, CssBaseline, TextField, FormControlLabel, Checkbox, Link, Grid, Box, Typography, Container, Switch} from '@material-ui/core/';
 
 
 export default function UserForm({handleClose}){
+  const useStylesUserForm = makeStyles(theme => ({
+    paper: {
+        marginTop: theme.spacing(4),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        backgroundColor: "#fff",
+        padding: theme.spacing(4),
+        color: "#000",
+        borderRadius: "5px"
+      },
+      form: {
+        width: '100%', // Fix IE 11 issue.
+        marginTop: theme.spacing(3),
+      },
+      submit: {
+        marginTop: theme.spacing(2),
+        textTransform: 'none',
+        marginRight:theme.spacing(9)
+      },
+      close: {
+        background: theme.palette.secondary.main,
+        marginLeft: theme.spacing(55)
+      },
+      admin: {
+        marginTop: theme.spacing(2),
+        textTransform: 'none',
+        float: "left"
+      },
+      close: {
+        textTransform: "none"
+      }
+}))
 
     const classes = useStylesUserForm()
 
     const validationSchema = yup.object({
         first_name: yup
-          .string('Enter your firs name')
+          .string('Enter your first name')
           .required('first name is required'),
         last_name: yup
-          .string('Enter category last name')
+          .string('Enter your last name')
           .required('last name is required'),
         email: yup
-        .string('Enter your email adress')
+        .string('Enter your email addres')
         .required('email is required'),
         password: yup
           .string('Enter your password')
-          .required('invalid paswword')
+          .required('password cannot be blank')
 
       });
 
@@ -33,8 +67,8 @@ export default function UserForm({handleClose}){
             email: "",
             password: "",
             phoneNumber: null,
-            shippingAdress: "",
-            billingAdress: "",
+            shippingaddres: "",
+            billingaddres: "",
             email_notification: false
         },
         validationSchema: validationSchema,
@@ -42,7 +76,6 @@ export default function UserForm({handleClose}){
         onSubmit:  (values) => {
           axios.post('http://localhost:3000/users/', {form:values})
           .then((res) => {
-            console.log("Succes",res);
             alert('User created');
           })
           .catch(error => console.log("Error on request: ",error));
@@ -53,7 +86,9 @@ export default function UserForm({handleClose}){
         <Container  maxWidth="sm">
           <CssBaseline />
           <div className={classes.paper}>
-            <Button className = {classes.close} onClick={handleClose} size="small">X</Button>
+            <Button className = {classes.close} onClick={handleClose} size="small">
+              <CloseIcon/> close
+            </Button>
               <Typography component="h1" variant="h5">
               Sign up
               </Typography>
@@ -94,7 +129,7 @@ export default function UserForm({handleClose}){
                    variant="outlined"
                    id="email"
                    name="email"
-                   label="email adress"
+                   label="email addres"
                    value={formik.values.email}
                    onChange={formik.handleChange}
                    error={formik.touched.email && Boolean(formik.errors.email)}
@@ -131,10 +166,10 @@ export default function UserForm({handleClose}){
                 <TextField
                    fullWidth
                    variant="outlined"
-                   id="shippingAdress"
-                   name="shippingAdress"
-                   label="shipping adress(optional)"
-                   value={formik.values.shippingAdress}
+                   id="shippingaddres"
+                   name="shippingaddres"
+                   label="shipping addres(optional)"
+                   value={formik.values.shippingaddres}
                    onChange={formik.handleChange}
                  />
                 </Grid>
@@ -142,10 +177,10 @@ export default function UserForm({handleClose}){
                 <TextField
                    fullWidth
                    variant="outlined"
-                   id="billingAdress"
-                   name="billingAdress"
-                   label="billing adress(optional)"
-                   value={formik.values.billingAdress}
+                   id="billingaddres"
+                   name="billingaddres"
+                   label="billing addres(optional)"
+                   value={formik.values.billingaddres}
                    onChange={formik.handleChange}
                  />
                 </Grid>
