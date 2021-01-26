@@ -19,6 +19,8 @@ server.post('/', async (req, res) => {
     const user = await User.findByPk(req.body.order.userId);
     const newOrder = await Order.create(order)
 
+    if (!user) res.status(404).send("User not found");
+
     user.addOrder(newOrder)
     .then(order => res.send(order))
     .catch(err => console.log(err));
