@@ -9,7 +9,7 @@ import AdminProductList from '../components/product/Admin/AdminProductList';
 import UpdateProductForm from '../components/product/Admin/UpdateProductForm';
 import SearchBar from '../components/category/search-bar';
 import CategoryForm from '../components/category/CategoryForm';
-import NavBar from '../components/nav/Nav';
+import MainNav from '../components/nav/MainNav';
 import Home from '../components/home/home';
 import CatalogContainer from '../components/catalog/CatalogContainer';
 import Footer from '../components/footer/Footer';
@@ -18,7 +18,7 @@ function Routes(){
     return(
         <React.Fragment>
             <CssBaseline />
-            <Route path='/' component={NavBar}/>
+            <Route path='/' component={MainNav}/>
             <Route exact path='/' component={Home}/>
             <Route exact path='/admin' component={AdminDashboard} />
             <Route exact path='/admin/products' component={AdminProductList} />
