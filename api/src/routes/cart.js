@@ -24,34 +24,34 @@ server.post('/users/:idUser/cart/:productId', async (req,res,next)=>{
 
 })
 
-server.delete('/users/:idUser/cart/:productId', async (req,res)=>{
+// server.delete('/users/:idUser/cart/:productId', async (req,res)=>{
 
-    const user =  await User.findByPk(req.params.idUser)
-    const product = await Product.findByPk(req.params.productId)
-    const order = await Order.create({status: 'cancelado', user_id: user.id})
-    .then(user=>{
-        res.json(user)
-    })
+//     const user =  await User.findByPk(req.params.idUser)
+//     const product = await Product.findByPk(req.params.productId)
+//     const order = await Order.create({status: 'cancelado', user_id: user.id})
+//     .then(user=>{
+//         res.json(user)
+//     })
 
-    if(!user){res.status(404).send("this user doesn't exist")}
+//     if(!user){res.status(404).send("this user doesn't exist")}
 
-    product.removeOrder(order)
-    .then(product =>{
-        res.json(product)
-    })
-    .cath(err=>{
-        res.send(err)
-    })  
+//     product.removeOrder(order)
+//     .then(product =>{
+//         res.json(product)
+//     })
+//     .cath(err=>{
+//         res.send(err)
+//     })  
 
 
-})
+// })
 
-server.put('/users/:idUser/cart/:productId', async (req,res)=>{
+// server.put('/users/:idUser/cart/:productId', async (req,res)=>{
 
-    const user =  await User.findByPk(req.params.idUser)
-    const product = await Product.findByPk(req.params.productId)
-    const order = await Order.create({status: 'pendiente', user_id: user.id})
+//     const user =  await User.findByPk(req.params.idUser)
+//     const product = await Product.findByPk(req.params.productId)
+//     const order = await Order.create({status: 'pendiente', user_id: user.id})
 
-    //Object.assign(categoryUpdate, );
+//     //Object.assign(categoryUpdate, );
     
-})
+// })
