@@ -1,81 +1,31 @@
 const server = require('express').Router();
-const { response } = require('express');
-const { Sequelize } = require('sequelize');
-const { User, Order, Product } = require('../db.js');
+const { User, Order, Product} = require('../db.js');
 
+server.post('/:idUser/cart', async (req, res)=>{
+    const product = await Product.findByPk(req.body.product.id);
+    const quantity = req.body.product.quantity;
+    const price = product.price;
+    const user = await User.findByPk(req.params.idUser);
+    let order = await Order.findOne({ where:{ userId: user.id, status: 'cart'} });
 
-server.post('/users/:idUser/cart/:productId', async (req,res,next)=>{
-    const user =  await User.findByPk(req.params.idUser)
-    const product = await Product.findByPk(req.params.productId)
-    const order = await Order.create({status: 'carrito', user_id: user.id})
-    .then(user=>{
-        res.json(user)
+    if (!order) {
+        order = await Order.create()
+        user.addOrder(order);
+    };
+
+    if(!user){ res.status(400).send("this user doens't exist") };
+
+    await product.addOrder(order, { through: { orderId: order.id, quantity, price } })
+    .then(response =>{
+        res.send(response);
     })
+    .catch(err =>{
+        console.log(err)
+        res.send({
+            mgs:"todo mal",
+            error: err
+        });
+    });
+});
 
-    if(!user){res.status(404).send("this user doesn't exist")}
-
-    product.addOrder(order)
-    .then(product =>{
-        res.json(product)
-    })
-    .cath(err=>{
-        res.send(err)
-    })    
-
-})
-
-// server.post('/users/:idUser/cart/:productId', async (req,res,next)=>{
-//     const quantity = req.body.quantity
-//     const user =  await User.findByPk(req.params.idUser)
-//     const product = await Product.findByPk(req.params.productId)
-//     const order = await Order.create({status: 'carrito', user_id: user.id})
-//     .then(user=>{
-//         res.json(user)
-//     });
-//     product.addOrder(order)
-//     const orderLine = await Order_line.findOne({
-//         where: {
-//             orderId: order.id,
-//             productId: product.id
-//         }
-//     });
-//     orderLine.quantity = quantity;
-    
-//     orderLine.save();
-
-//     if(!user){res.status(404).send("this user doesn't exist")}
-
-    
-// })
-
-// server.delete('/users/:idUser/cart/:productId', async (req,res)=>{
-
-//     const user =  await User.findByPk(req.params.idUser)
-//     const product = await Product.findByPk(req.params.productId)
-//     const order = await Order.create({status: 'cancelado', user_id: user.id})
-//     .then(user=>{
-//         res.json(user)
-//     })
-
-//     if(!user){res.status(404).send("this user doesn't exist")}
-
-//     product.removeOrder(order)
-//     .then(product =>{
-//         res.json(product)
-//     })
-//     .cath(err=>{
-//         res.send(err)
-//     })  
-
-
-// })
-
-// server.put('/users/:idUser/cart/:productId', async (req,res)=>{
-
-//     const user =  await User.findByPk(req.params.idUser)
-//     const product = await Product.findByPk(req.params.productId)
-//     const order = await Order.create({status: 'pendiente', user_id: user.id})
-
-//     //Object.assign(categoryUpdate, );
-    
-// })
+module.exports = server;
