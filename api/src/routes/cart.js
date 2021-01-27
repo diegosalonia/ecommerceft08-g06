@@ -36,6 +36,18 @@ server.delete('/:idUser/cart', async (req,res)=>{
     }).catch(err=>{res.send(err)})
 })
 
+server.get('/:idUser/cart', async (req,res)=>{
+    const order = await Order.findOne({where:{ id: req.body.form.id}})
+
+    await order.getProducts()
+    .then(orders =>{
+        res.send(orders)
+    })
+    .catch(err=>{
+        res.send(err)
+    })
+})
+
 
 
 module.exports = server;
