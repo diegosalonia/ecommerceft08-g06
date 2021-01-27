@@ -1,56 +1,68 @@
-import React from 'react'
-import { makeStyles } from '@material-ui/core/styles';
-import { Button, Typography } from '@material-ui/core';
-import FacebookIcon from '@material-ui/icons/Facebook';
-import TwitterIcon from '@material-ui/icons/Twitter';
-import InstagramIcon from '@material-ui/icons/Instagram';
-import WhatsAppIcon from '@material-ui/icons/WhatsApp';
+import React from 'react';
+import Link from '@material-ui/core/Link';
+import { makeStyles } from "@material-ui/core/styles";
+import { Container, Grid, Typography } from "@material-ui/core";
 
+const useStyles = makeStyles((theme) => ({
+  footer: {
+    backgroundColor: theme.palette.primary.dark,
+    width: "100%",
+    overflow: "hidden",
+    padding: "2em ",
+    display: "flex",
+    alignItems: "bottom",
+  },
+  link: {
+    fontSize: "1.25em",
+    color: "#fff",
+    "&:hover": {
+      color: theme.palette.info.main,
+    },
+  },
+  copylight: {
+    color: "#fff",
+    fontSize: "1em",
+    padding: "1em"
+  },
+}));
 
-export default function Footer(){
-    const useStyles = makeStyles((theme) => ({
-
-        footer:{
-            backgroundColor: theme.palette.primary.main,
-            zIndex: "3",
-            bottom: "0",
-            width: "100%",
-            paddingTop: theme.spacing(1),
-            paddingBottom: theme.spacing(1),
-            display: "flex",
-            alignItems: "center",
-            marginTop: '20px'
-        },
-        title:{
-            color: "#fff",
-            marginLeft:"20px",
-            textDecoration:"none"
-        },
-        container:{
-            padding: theme.spacing(1),
-            height: "100%",
-            width: "33%",
-            color: "#fff"
-        }      
-      }));
-      const classes = useStyles();
-
-    return(
-        <footer className={classes.footer}>        
-            <div className={classes.container}>
-                <Typography variant="h5">
-                    <a href="http://localhost:3001/"  className={classes.title}>
-                    The SpecialGarden
-                    </a>
+const Footer = () => {
+  const classes = useStyles();
+  const path = [
+    { name: "Inicio", link: "/" },
+    { name: "Contacto", link: "/contact" },
+  ];
+  return (
+    <footer className={classes.footer}>
+      <Container maxWidth="lg">
+        <Grid container spacing={3} justify="center">
+          {path.map(({ name, link }) => (
+            <Grid item key={link}>
+              <Link href={link}>
+                <Typography
+                  className={classes.link}
+                >
+                  {name}
                 </Typography>
-            </div>
-            <div className={classes.container}>Copyright ©<p>hola esto deberia ser informacion del sitio web pero me da mucha pereza pensar en algo para escribir</p></div>
-            <div className={classes.container}>
-                <Button><FacebookIcon fontSize="large" style={{color: "#fff"}}/></Button>
-                <Button><InstagramIcon fontSize="large" style={{color: "#fff"}}/></Button>
-                <Button><TwitterIcon fontSize="large" style={{color: "#fff"}}/></Button>
-                <Button><WhatsAppIcon fontSize="large" style={{color: "#fff"}}/></Button>
-            </div>
-        </footer>
-    )
-}
+              </Link>
+            </Grid>
+          ))}
+        </Grid>
+        <Grid
+          item
+          container
+          justify="center"
+          style={{
+            textDecoration: "none",
+          }}
+        >
+          <Typography className={classes.copylight}>
+            &copy; Copyright Un Jardin Especial {new Date().getFullYear()}
+          </Typography>
+        </Grid>
+      </Container>
+    </footer>
+  );
+};
+
+export default Footer;
