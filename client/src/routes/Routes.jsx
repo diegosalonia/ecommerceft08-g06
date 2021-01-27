@@ -19,7 +19,7 @@ const Routes = () => {
                 <Route path='/' component={MainNav}/>
             </Grid>
             <Grid item xs={12}>
-                <Container style={{minHeight: "70vh"}}>
+                <Container style={{minHeight: "73vh"}}>
                     <Route exact path='/' component={Home}/>
                     <Route exact path='/admin' component={AdminDashboard} />
                     <Route exact path='/admin/products' component={AdminProductList} />

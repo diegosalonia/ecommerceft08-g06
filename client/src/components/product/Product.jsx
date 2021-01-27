@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+/* import { useDispatch, useSelector } from 'react-redux'; */
 
 import { Button, Container, Typography } from '@material-ui/core';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
@@ -7,14 +7,14 @@ import { useStylesProduct } from './styles';
 
 
 function Product(props) {
-    const dispatch = useDispatch();
+   /*  const dispatch = useDispatch(); */
     const { description, discount, image, name, price, rating, stock, categories } = props.location.state;
     const styles = useStylesProduct();
 
-    useEffect(() => {
+    /* useEffect(() => {
         dispatch();
     }, []);
-
+ */
     return (
         <Container>
             <Container className={styles.container} >
