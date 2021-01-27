@@ -3,15 +3,21 @@ const { Sequelize } = require('sequelize');
 const { Order, User } = require('../db.js');
 
 server.get('/search', (req, res) => {
-    const status = req.query.status;
+    if (req.query) {
+        const status = req.query.status;
     
-    Order.findAll({
-        where: {
-            status: status
-        }
-    })
-    .then(orders => res.send(orders))
-    .catch(err => console.log(err));
+        Order.findAll({
+            where: {
+                status: status
+            }
+        })
+        .then(orders => res.send(orders))
+        .catch(err => console.log(err));
+    } else {
+        Order.findAll()
+        .then(orders => res.send(orders))
+        .catch(err => console.log(err));
+    }
 });
 
 server.post('/', async (req, res) => {
