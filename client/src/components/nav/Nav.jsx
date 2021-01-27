@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Backdrop from '@material-ui/core/Backdrop';
 import { IconButton, Typography, Link } from '@material-ui/core';
-import SearchBar from '../category/search-bar';
+import SearchBar from './SearchBar';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import UserForm from '../user/UserForm'

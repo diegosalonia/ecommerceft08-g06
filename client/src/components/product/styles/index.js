@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core';
+import zIndex from '@material-ui/core/styles/zIndex';
 
 
 export const useStylesProductForm = makeStyles(theme => ({
@@ -32,6 +33,7 @@ export const useStylesProductForm = makeStyles(theme => ({
         maxHeight: '130px',
     }
 }));
+
 export const useStylesProductCard = makeStyles(theme => ({
       lineThrough: {
         textDecoration: 'line-through',
@@ -39,8 +41,23 @@ export const useStylesProductCard = makeStyles(theme => ({
         color: 'gray'
       },
       root: {
-        width: "100%"
+        width: "100%",
+        Height:'400px',
+        position: "relative"
       },
+      hasStock: {
+        display: 'none'
+      },
+      outOfStock: {
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        color: theme.palette.primary.main,
+        backgroundColor: theme.palette.secondary.main,
+        opacity: 0.4,
+        display: 'block',
+        zIndex: 10000,
+     },
       media: {
         minHeight : "10em"
       },

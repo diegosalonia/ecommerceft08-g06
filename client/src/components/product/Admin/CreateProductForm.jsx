@@ -21,7 +21,7 @@ const validationSchema = yup.object({
     stock: yup
         .number('Enter stock quantity')
         .required('Product stock is required')
-        .positive('Stock must be positive'),
+        .moreThan(-1),
     discount: yup
         .number('Enter product discount'),  
     featured: yup
