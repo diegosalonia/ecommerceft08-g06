@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import { TextField, InputAdornment, makeStyles } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 
-export default function SearchBar(){
+const SearchBar = () => {
   const formik = useFormik({
     initialValues:{
       input: ""
@@ -20,6 +20,7 @@ export default function SearchBar(){
     searchBar: {
       width: "300px",
       height: "100%",
+      backgroundColor: theme.palette.primary.light
     },
     input:{
       width:"100%",
@@ -46,7 +47,7 @@ const classes = useStyles();
                 </InputAdornment>
               ),
             }}
-            placeholder = "Search..."
+            placeholder = "¿Que estas buscando?"
             variant = "outlined"
             value = {formik.values.input}
             onChange = {formik.handleChange}
@@ -54,3 +55,5 @@ const classes = useStyles();
         </form>
       </div>
     )}
+
+export default SearchBar;
