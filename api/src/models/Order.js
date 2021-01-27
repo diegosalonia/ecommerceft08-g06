@@ -4,6 +4,7 @@ module.exports = (sequelize) => {
     sequelize.define('order', {
         status: {
             type: ENUM('approved', 'cancelled', 'pending', 'cart', 'created'),
+            defaultValue: 'cart',
             allowNull: false
         }
     });
