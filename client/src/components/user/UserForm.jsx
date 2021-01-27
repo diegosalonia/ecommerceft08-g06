@@ -3,11 +3,10 @@ import { makeStyles } from '@material-ui/core';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios'
-import CloseIcon from '@material-ui/icons/Close';
-import { IconButton, Button, CssBaseline, TextField, FormControlLabel, Checkbox, Link, Grid, Box, Typography, Container, Switch} from '@material-ui/core/';
+import { Button, CssBaseline, TextField, FormControlLabel, Link, Grid, Box, Typography, Container, Switch} from '@material-ui/core/';
 
 
-export default function UserForm({handleClose}){
+export default function UserForm(){
   const useStylesUserForm = makeStyles(theme => ({
     paper: {
         marginTop: theme.spacing(4),
@@ -25,20 +24,7 @@ export default function UserForm({handleClose}){
       },
       submit: {
         marginTop: theme.spacing(2),
-        textTransform: 'none',
-        marginRight:theme.spacing(9)
-      },
-      close: {
-        background: theme.palette.secondary.main,
-        marginLeft: theme.spacing(55)
-      },
-      admin: {
-        marginTop: theme.spacing(2),
-        textTransform: 'none',
-        float: "left"
-      },
-      close: {
-        textTransform: "none"
+        textTransform: 'none'
       }
 }))
 
@@ -86,9 +72,6 @@ export default function UserForm({handleClose}){
         <Container  maxWidth="sm">
           <CssBaseline />
           <div className={classes.paper}>
-            <Button className = {classes.close} onClick={handleClose} size="small">
-              <CloseIcon/> close
-            </Button>
               <Typography component="h1" variant="h5">
               Sign up
               </Typography>
@@ -205,14 +188,15 @@ export default function UserForm({handleClose}){
                   </Link>
                 </Grid>
               </Grid>
-            <Grid>
-            <Button color="primary" variant="contained" fullwidth type="submit"  className={classes.submit}>
-            Sing Up
-            </Button>
-            <Button  color="primary" variant="contained" fullwidth type="submit" className={classes.admin} href="http://localhost:3001/admin">
-            Admin
-            </Button>
-            </Grid>
+              <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
+            Sign Up
+          </Button>
             <Grid >
             
             </Grid>       
