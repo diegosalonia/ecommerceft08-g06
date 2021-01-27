@@ -6,7 +6,7 @@ server.post('/:idUser/cart', async (req, res)=>{
     const quantity = req.body.product.quantity;
     const price = product.price;
     const user = await User.findByPk(req.params.idUser);
-    let order = await Order.findOne({ where:{ userId: user.id, status: 'cart'} });
+    let order = await Order.findOne({ where:{ userId: user.id, status: 'carrito'} });
 
     if (!order) {
         order = await Order.create()
@@ -27,5 +27,15 @@ server.post('/:idUser/cart', async (req, res)=>{
         });
     });
 });
+
+server.delete('/:idUser/cart', async (req,res)=>{
+    const order = await Order.findOne({where:{ id: req.body.form.id}})
+
+    await order.destroy().then(resp =>{
+        res.send()
+    }).catch(err=>{res.send(err)})
+})
+
+
 
 module.exports = server;
