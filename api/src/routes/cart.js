@@ -6,7 +6,7 @@ server.post('/:idUser/cart', async (req, res)=>{
     const quantity = req.body.product.quantity;
     const price = product.price;
     const user = await User.findByPk(req.params.idUser);
-    let order = await Order.findOne({ where:{ userId: user.id, status: 'carrito'} });
+    let order = await Order.findOne({ where:{ userId: user.id, status: 'cart'} });
 
     if (!order) {
         order = await Order.create()

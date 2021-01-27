@@ -3,8 +3,8 @@ const { INTEGER, ENUM } = require("sequelize")
 module.exports = (sequelize) => {
     sequelize.define('order', {
         status: {
-            type: ENUM('aprobado', 'cancelado', 'pendiente', 'carrito', 'creado'),
-            defaultValue: 'carrito',
+            type: ENUM('approved', 'canceled', 'pending', 'cart', 'created'),
+            defaultValue: 'cart',
             allowNull: false
         }
     });
