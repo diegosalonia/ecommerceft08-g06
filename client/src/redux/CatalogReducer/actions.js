@@ -12,11 +12,12 @@ export const getPageProducts = (page, pageSize, products) => {
     }
 }
 
-export const getPaginatedProducts = (page, pageSize) => (dispatch) => {
+export const getPaginatedProducts = (page, pageSize, setProductList) => (dispatch) => {
     axios.get(`http://localhost:3000/products/catalog/?page=${page}&pageSize=${pageSize}`)
     .then(products => {
         console.log("Products reducer data: ", products);
         dispatch(getPageProducts(page,pageSize, products));
+        //setProductList(products.data);
     })
     .catch(error => console.log("Error axios getPaginatedProducts: ", error))  
 }
