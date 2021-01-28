@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Catalog from './Catalog';
 import { getProducts } from '../product/utils';
 
-const CatalogContainer = () => {
+const CatalogContainer = ({products, setSearch}) => {
 
     const [productList, setProductList] = useState([]);
     
@@ -23,7 +23,7 @@ const CatalogContainer = () => {
 
     
     return(
-        <Catalog testlist={productList}/>
+        <Catalog testlist={productList} products={products} setSearch={setSearch}/>
     )
 }
 
