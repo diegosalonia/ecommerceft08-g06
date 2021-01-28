@@ -91,15 +91,23 @@ server.post('/:productId/category/:categoryId', async (req, res) =>{
 	})
 });
 
-//Query like this: http://localhost:3000/products/catalog/?page=1&limit=2
-server.get('/catalog/', async (req,res) => {
-	const { page, limit } = req.query;
-	const offset = page * limit;
+//Query like this: http://localhost:3000/products/catalog/?page=1&pageSize=1
+server.get('/catalog/', (req,res) => {
+	const { page, pageSize } = req.query;
+	var offSet;
+	if (page === 1){
+		offSet = 0;
+	}
+	else{
+		offSet = (page - 1) * pageSize;
+	}
+	const limit = pageSize;
 	Product.findAll({
-		offset,
-		limit
+		limit: pageSize,
+		offset: offSet,
+		include: [{model: Category}]
 	})
-	.then(products => {console.log(products);res.send(products)})
+	.then(products => res.send(products))
 	.catch(err => res.status(400).send(err))
 });
 	 

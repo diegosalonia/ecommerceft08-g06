@@ -8,6 +8,7 @@ const CatalogContainer = () => {
     
     useEffect(() => {
         getProducts.then(products => {
+                console.log("The products", products);
                 const productListWithId = products.data.map(product => {
                     const onlyCatIds = product.categories.map(category => category.id);
                     return {...product, categories: onlyCatIds}

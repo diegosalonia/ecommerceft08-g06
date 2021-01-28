@@ -10,7 +10,7 @@ import MainNav from '../components/nav/MainNav';
 import Home from '../components/home/home';
 import CatalogContainer from '../components/catalog/CatalogContainer';
 import Footer from '../components/footer/Footer';
-import {Container, Grid} from '@material-ui/core'
+import {Container} from '@material-ui/core'
 
 const Routes = () => {
     return(
