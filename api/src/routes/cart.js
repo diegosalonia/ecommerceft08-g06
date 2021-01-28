@@ -28,4 +28,26 @@ server.post('/:idUser/cart', async (req, res)=>{
     });
 });
 
+server.delete('/:idUser/cart', async (req,res)=>{
+    const order = await Order.findOne({where:{ id: req.body.form.id}})
+
+    await order.destroy().then(resp =>{
+        res.send()
+    }).catch(err=>{res.send(err)})
+})
+
+server.get('/:idUser/cart', async (req,res)=>{
+    const order = await Order.findOne({where:{ id: req.body.form.id}})
+
+    await order.getProducts()
+    .then(orders =>{
+        res.send(orders)
+    })
+    .catch(err=>{
+        res.send(err)
+    })
+})
+
+
+
 module.exports = server;
