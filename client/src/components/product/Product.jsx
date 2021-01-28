@@ -1,27 +1,42 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProduct } from '../../redux/productReducer/actions';
+import { getProduct, showLoader, hideLoader } from '../../redux/productReducer/actions';
 import image from '../../resources/growing-tree-svg-animation-recut.gif';
+import axios from 'axios';
 
-import { Button, Container, Typography } from '@material-ui/core';
+import { Button, Container, Typography, CircularProgress } from '@material-ui/core';
+import { Rating } from '@material-ui/lab';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { useStylesProduct } from './styles';
 
 function Product(props) {
     const dispatch = useDispatch();
     const { match: { params: { id }}} = props;
-    const [product, setProduct] = useState(useSelector(state => state.productReducer.product));
+    const isLoading = useSelector(state => state.productReducer.isLoading);
+    const product = useSelector(state => state.productReducer.product);
     const styles = useStylesProduct();
     
 
     useEffect(() => {
+        dispatch(showLoader());
         dispatch(getProduct(id));
     }, []);
 
     useEffect(() => {
-        console.log("asdasd: ", product);
+        dispatch(hideLoader());
     }, [product]);
-    // console.log("USESELECTOR: ", name);
+
+    const handleAddToCart = () => {
+
+    }
+
+    const handleIncreaseQuantity = () => {
+
+    }
+    
+    const handleDecreaseQuantity = () => {
+
+    }
 
     const productLoaded = () => {
         return (
@@ -40,14 +55,21 @@ function Product(props) {
                                         </Container> 
                                         :<Typography>${ product.price }</Typography>
                         }
-                        <Typography>{ product.rating }</Typography>
+                        <Container className={styles.rating} >
+                            <Rating
+                                name="product-rating"
+                                defaultValue={3}
+                                disabled
+                            />
+                            <Typography className={styles.ratingReviews} >(0) Reviews</Typography>
+                        </Container>
                         {/* <Typography>
                             <Button>-</Button>
                             <Typography>{ quantityInCart }</Typography>
                             <Button >+</Button>
                         </Typography> */}
                         <Typography className={styles.stock} >In Stock: { product.stock }</Typography>
-                        <Button className={styles.addToCart} ><ShoppingCartIcon /><Typography className={styles.textCart} >ADD TO CART</Typography></Button>
+                        <Button className={styles.addToCart} onClick={() => handleAddToCart()} ><ShoppingCartIcon /><Typography className={styles.textCart} >ADD TO CART</Typography></Button>
                     </Container>
                 </Container>
                 <Container className={styles.description} >
@@ -55,13 +77,13 @@ function Product(props) {
                     <Typography variant='body' >{ product.description }</Typography>
                 </Container>
             </Container>
-        )
-    }
+        );
+    };
     
-    return product ? productLoaded : <img src={ image } alt="loading..." ></img>
+    return isLoading ? <CircularProgress disableShrink className={styles.isLoading} /> : productLoaded();
 };
 
-export default Product
+export default Product;
 
 /* TODO:
     - Rating Stars

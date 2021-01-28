@@ -110,5 +110,19 @@ export const useStylesProduct = makeStyles(theme => ({
   },
   textCart: {
     paddingLeft: '8px',
+  },
+  isLoading: {
+    display: 'flex',
+    justifySelf: 'center',
+    alignItems: 'center',
+    margin: '20% auto',
+  },
+  rating: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  ratingReviews: {
+    marginLeft: '7%',
+    color: 'gray'
   }
 }))

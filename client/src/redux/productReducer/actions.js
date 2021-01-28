@@ -1,5 +1,11 @@
 import axios from 'axios';
-import { GET_PRODUCT, GET_PRODUCT_ERROR } from '../constants';
+import { GET_PRODUCT, GET_PRODUCT_ERROR, SHOW_LOADER, HIDE_LOADER } from '../constants';
+
+export const showLoader = () => dispatch => {
+    dispatch({
+        type: SHOW_LOADER
+    });
+};
 
 export const getProduct = id => (dispatch) => {
     return axios.get(`http://localhost:3000/products/${id}`)
@@ -10,5 +16,11 @@ export const getProduct = id => (dispatch) => {
             product: product.data
         });
     })
-    .catch(err => console.log(err))
+    .catch(err => console.log(err));
+};
+
+export const hideLoader = () => dispatch => {
+    dispatch({
+        type: HIDE_LOADER
+    });
 };
