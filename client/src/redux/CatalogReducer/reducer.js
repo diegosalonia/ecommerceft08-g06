@@ -5,10 +5,10 @@ const initialState = {
     pageSize: 1
 }
 
-export default function catalogReducer(state = initialState, action) {
+export default function catalogReducer(state = initialState, action)  {
     switch (action.type){
         case GET_PAGE_PRODUCTS:
-            return {page: action.payload.page, pageSize: action.payload.pageSize}
+            return {page: action.payload.page, pageSize: action.payload.pageSize, products: action.payload.products.data}
         default: 
             return state;
     }
