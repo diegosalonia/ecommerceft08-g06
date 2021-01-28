@@ -29,7 +29,7 @@ const Routes = () => {
                     <Route path='/admin/products/:id/edit' component={UpdateProductForm} />
                     <Route path="/products/:id" component={Product}/>
                     <Route exact path="/products" component={CatalogContainer} />
-                    <Route exact path='/order'component={Order}/>
+                    <Route exact path='/users/:userId/orders/:orderId'component={Order}/>
                 </Container>
             </Grid>
             <Grid item xs={12}>

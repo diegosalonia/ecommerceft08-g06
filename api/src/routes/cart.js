@@ -36,8 +36,8 @@ server.delete('/:idUser/cart', async (req,res)=>{
     }).catch(err=>{res.send(err)})
 })
 
-server.get('/:idUser/cart', async (req,res)=>{
-    const order = await Order.findOne({where:{ id: req.body.form.id}})
+server.get('/:idUser/cart/:orderId', async (req,res)=>{
+    const order = await Order.findOne({where:{ id: req.params.orderId}})
 
     await order.getProducts()
     .then(orders =>{
