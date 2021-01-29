@@ -11,6 +11,7 @@ import Home from '../components/home/home';
 import CatalogContainer from '../components/catalog/CatalogContainer';
 import Footer from '../components/footer/Footer';
 import {Container, Grid} from '@material-ui/core'
+import Order from '../components/order/Order';
 import UserForm from '../components/user/UserForm';
 
 const Routes = () => {
@@ -29,7 +30,8 @@ const Routes = () => {
                     <Route path='/admin/products/:id/edit' component={UpdateProductForm} />
                     <Route path="/products/:id" component={Product}/>
                     <Route exact path="/products" component={CatalogContainer} />
-                    <Route exact path='/userform'component={UserForm}/> {/* esta ruta es provicional*/} 
+                    <Route exact path='/users/:userId/orders/:orderId'component={Order}/>
+                    <Route exact path='/userform'component={UserForm}/> 
                 </Container>
             </Grid>
             <Grid item xs={12}>
