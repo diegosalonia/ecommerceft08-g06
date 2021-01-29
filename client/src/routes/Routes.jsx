@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Router } from 'react-router-dom';
 import Product from '../components/product/Product';
 import CreateProductForm from '../components/product/Admin/CreateProductForm';
 import AdminDashboard from '../components/product/Admin/AdminDashboard';
@@ -12,6 +12,7 @@ import CatalogContainer from '../components/catalog/CatalogContainer';
 import Footer from '../components/footer/Footer';
 import {Container, Grid} from '@material-ui/core'
 import Order from '../components/order/Order';
+import UserForm from '../components/user/UserForm';
 
 const Routes = () => {
     return(
@@ -30,6 +31,7 @@ const Routes = () => {
                     <Route path="/products/:id" component={Product}/>
                     <Route exact path="/products" component={CatalogContainer} />
                     <Route exact path='/users/:userId/orders/:orderId'component={Order}/>
+                    <Route exact path='/userform'component={UserForm}/> 
                 </Container>
             </Grid>
             <Grid item xs={12}>
