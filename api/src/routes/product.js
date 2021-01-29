@@ -119,17 +119,6 @@ server.get('/product-detail/:id', async (req, res) => {
 	.catch(err => console.log(err));
 });
 
-server.get('/:id', async (req, res) => {
-	Product.findOne({
-		where: {
-			id: req.params.id
-		},
-		include: [{model: Category}]
-	})
-	.then(product => res.send(product))
-	.catch(err => console.log(err));
-});
-
 //Query like this: http://localhost:3000/products/catalog/?page=1&pageSize=1
 server.get('/catalog/', (req,res) => {
 	const { page, pageSize } = req.query;

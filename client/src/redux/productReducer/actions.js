@@ -24,7 +24,7 @@ export const hideLoader = () => dispatch => {
     });
 };
 
-export const addToCart = (userId, id, quantity = 1) => dispatch => {
+export const addToCart = (userId = 1, id, quantity = 1) => dispatch => {
     return axios.post(`http://localhost:3000/users/${userId}/cart`, { product: {id, quantity}})
     .then(response => {
         dispatch({

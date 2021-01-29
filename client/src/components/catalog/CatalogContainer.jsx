@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useRef} from 'react';
 import Catalog from './Catalog';
-import { getProducts } from '../product/utils';
+import { getProductsCatalog } from '../product/utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPaginatedProducts } from '../../redux/CatalogReducer/actions'
 
