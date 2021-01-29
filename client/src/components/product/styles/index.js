@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core';
+import zIndex from '@material-ui/core/styles/zIndex';
 
 
 export const useStylesProductForm = makeStyles(theme => ({
@@ -32,6 +33,7 @@ export const useStylesProductForm = makeStyles(theme => ({
         maxHeight: '130px',
     }
 }));
+
 export const useStylesProductCard = makeStyles(theme => ({
       lineThrough: {
         textDecoration: 'line-through',
@@ -39,8 +41,23 @@ export const useStylesProductCard = makeStyles(theme => ({
         color: 'gray'
       },
       root: {
-        width: "100%"
+        width: "100%",
+        Height:'400px',
+        position: "relative"
       },
+      hasStock: {
+        display: 'none'
+      },
+      outOfStock: {
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        color: theme.palette.primary.main,
+        backgroundColor: theme.palette.secondary.main,
+        opacity: 0.4,
+        display: 'block',
+        zIndex: 10000,
+     },
       media: {
         minHeight : "10em"
       },
@@ -66,19 +83,28 @@ export const useStylesProduct = makeStyles(theme => ({
   categories: {
     fontSize: '1rem',
     display: 'flex',
-    justifyContent: 'space-evenly',
     padding: '4% 0 0 0'
+  },
+  category: {
+    fontSize: '.9rem',
+    padding: '1% 4%',
+    borderRadius: '11%',
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.secondary.main,
+    boxShadow: '1px 5px 10px rgb(0 0 0 / 50%)'
   },
   detailContainer: {
     display: 'flex',
     flexDirection: 'column',
     lineHeight: '6%',
-    justifyContent: 'space-between'
   },
   price: {
     display: 'flex',
     flexDirection: 'column',
     padding: '10% 0 0 0'
+  },
+  actualPrice: {
+    fontSize: 'xx-large',
   },
   lineThrough: {
     textDecoration: 'line-through',
@@ -93,5 +119,21 @@ export const useStylesProduct = makeStyles(theme => ({
   },
   textCart: {
     paddingLeft: '8px',
+  },
+  isLoading: {
+    display: 'flex',
+    justifySelf: 'center',
+    alignItems: 'center',
+    margin: '20% auto',
+  },
+  rating: {
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '4% 0 0 0',
+
+  },
+  ratingReviews: {
+    marginLeft: '4%',
+    color: 'gray'
   }
 }))
