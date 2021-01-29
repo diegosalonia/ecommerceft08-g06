@@ -22,7 +22,6 @@ const PaginationControlled = (props) => {
 
   return (
     <div className={classes.root}>
-      <Typography>Page: {page}</Typography>
       <Pagination count={10} page={page} onChange={handleChange} />
     </div>
   );
