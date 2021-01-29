@@ -10,6 +10,8 @@ import {useHistory} from 'react-router-dom'
 import { Grid } from "@material-ui/core";
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import SearchBar from './SearchBar';
+import EcoIcon from '@material-ui/icons/Eco';
+import LocalFloristIcon from '@material-ui/icons/LocalFlorist';
 
 //import LoginModal from './LoginModal'
 
@@ -67,6 +69,12 @@ const useStyles = makeStyles((theme) => ({
             
             }
     },
+    leafIcon:{
+        marginTop: theme.spacing(0.5)
+    },
+    toolbarTitle:{
+        marginLeft:theme.spacing(1)
+    }
     
     
    
@@ -130,8 +138,8 @@ const Header = ({ setSearch }) => {
                     <Link className={classes.LinkHome} color="inherit" href="/" onClick={(e) => goHome(e)}>
                         <Grid container>
                             <Grid item>
-                                <StorefrontIcon fontSize="default"/>
                             </Grid>
+                                <EcoIcon fontSize="default" className={classes.leafIcon}/>
                             <Grid item>
                                 <Typography variant="h5" className={classes.toolbarTitle}>Un Jardin Especial</Typography>
                             </Grid>
