@@ -16,28 +16,20 @@ import UserForm from '../components/user/UserForm';
 
 const Routes = () => {
     return(
-        <Grid container direction="column" justify="space-between" alignContent="stretch" spacing={3}>
-            <Grid item xs={12}>
+        <>
                 <Route path='/' component={MainNav}/>
-            </Grid>
-            <Grid item xs={12}>
-                <Container style={{minHeight: "73vh"}}>
-                    <Route exact path='/' component={Home}/>
-                    <Route exact path='/admin' component={AdminDashboard} />
-                    <Route exact path='/admin/products' component={AdminProductList} />
-                    <Route exact path='/admin/products/create-product' component={CreateProductForm} />
-                    <Route path="/admin/categories/create-category" component={CategoryForm} />
-                    <Route path='/admin/products/:id/edit' component={UpdateProductForm} />
-                    <Route path="/products/:id" component={Product}/>
-                    <Route exact path="/products" component={CatalogContainer} />
-                    <Route exact path='/users/:userId/orders/:orderId'component={Order}/>
-                    <Route exact path='/userform'component={UserForm}/> 
-                </Container>
-            </Grid>
-            <Grid item xs={12}>
+                    <Container style={{minHeight: "80vh", padding: "2em"}}>
+                        <Route exact path='/' component={Home}/>
+                        <Route exact path='/admin' component={AdminDashboard} />
+                        <Route exact path='/admin/products' component={AdminProductList} />
+                        <Route exact path='/admin/products/create-product' component={CreateProductForm} />
+                        <Route path="/admin/categories/create-category" component={CategoryForm} />
+                        <Route path='/admin/products/:id/edit' component={UpdateProductForm} />
+                        <Route path="/products/:id" component={Product}/>
+                        <Route exact path="/products" component={CatalogContainer} />
+                    </Container>
                 <Route path='/' component={Footer}/>
-            </Grid>
-        </Grid>
+        </>        
     );
 };
 

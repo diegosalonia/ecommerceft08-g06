@@ -33,7 +33,7 @@ server.delete('/:id',  async (req, res) => {
 	.catch(error => {
 		res.send(error)
 	})
-})
+});
 
 server.post('/', (req, res) =>{
 
@@ -44,7 +44,7 @@ server.post('/', (req, res) =>{
     .catch(error =>{
         res.status(400).send(error)
     })
-})
+});
 
 server.get('/search', (req, res) =>{
 	Product.findAll({
@@ -60,7 +60,7 @@ server.get('/search', (req, res) =>{
 	.catch(err=>{
 		res.send(err);
 	})
-})
+});
 
 server.put('/:id', async (req, res) =>{
 	const product = await Product.findByPk(req.params.id)
@@ -73,7 +73,7 @@ server.put('/:id', async (req, res) =>{
 	 .catch(error =>{
 		 res.status(400).send(error)
 	 })
-})
+});
 
 server.post('/:productId/category/:categoryId', async (req, res) =>{
 	const category =  await Category.findByPk(req.params.categoryId)
@@ -89,12 +89,28 @@ server.post('/:productId/category/:categoryId', async (req, res) =>{
 	.catch(error =>{
 		res.send(error)
 	})
-})
-
-server.get('/:id', async (req, res) => {
-	const product = await Product.findByPk(req.params.id)
-	res.send(product);
 });
+
+//Query like this: http://localhost:3000/products/catalog/?page=1&pageSize=1
+server.get('/catalog/', (req,res) => {
+	const { page, pageSize } = req.query;
+	var offSet;
+	if (page === 1){
+		offSet = 0;
+	}
+	else{
+		offSet = (page - 1) * pageSize;
+	}
+	const limit = pageSize;
+	Product.findAll({
+		limit: pageSize,
+		offset: offSet,
+		include: [{model: Category}]
+	})
+	.then(products => res.send(products))
+	.catch(err => res.status(400).send(err))
+});
+	 
 
 server.delete('/:productId/category/:categoryId', async (req, res) =>{
 	const category =  await Category.findByPk(req.params.categoryId)
@@ -110,7 +126,17 @@ server.delete('/:productId/category/:categoryId', async (req, res) =>{
 	.catch(error =>{
 		res.send(error)
 	})
-})
+});
 
+server.get('/:id', (req, res) => {
+	Product.findByPk(req.params.id)
+	.then(product => {
+		res.send(product);
+	})
+	.catch(err => {
+		console.log("Error getting product");
+		res.status(400).send(err);
+	})	
+});
 
 module.exports = server;
