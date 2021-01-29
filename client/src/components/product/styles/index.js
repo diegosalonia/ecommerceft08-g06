@@ -83,19 +83,28 @@ export const useStylesProduct = makeStyles(theme => ({
   categories: {
     fontSize: '1rem',
     display: 'flex',
-    justifyContent: 'space-evenly',
     padding: '4% 0 0 0'
+  },
+  category: {
+    fontSize: '.9rem',
+    padding: '1% 4%',
+    borderRadius: '11%',
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.secondary.main,
+    boxShadow: '1px 5px 10px rgb(0 0 0 / 50%)'
   },
   detailContainer: {
     display: 'flex',
     flexDirection: 'column',
     lineHeight: '6%',
-    justifyContent: 'space-between'
   },
   price: {
     display: 'flex',
     flexDirection: 'column',
     padding: '10% 0 0 0'
+  },
+  actualPrice: {
+    fontSize: 'xx-large',
   },
   lineThrough: {
     textDecoration: 'line-through',
@@ -119,10 +128,12 @@ export const useStylesProduct = makeStyles(theme => ({
   },
   rating: {
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
+    padding: '4% 0 0 0',
+
   },
   ratingReviews: {
-    marginLeft: '7%',
+    marginLeft: '4%',
     color: 'gray'
   }
 }))

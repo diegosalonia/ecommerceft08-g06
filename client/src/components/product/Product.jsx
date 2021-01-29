@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProduct, showLoader, hideLoader } from '../../redux/productReducer/actions';
 import image from '../../resources/growing-tree-svg-animation-recut.gif';
 import axios from 'axios';
 
-import { Button, Container, Typography, CircularProgress } from '@material-ui/core';
+import { Button, Container, Typography, CircularProgress, Box } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { useStylesProduct } from './styles';
@@ -15,6 +15,7 @@ function Product(props) {
     const isLoading = useSelector(state => state.productReducer.isLoading);
     const product = useSelector(state => state.productReducer.product);
     const styles = useStylesProduct();
+    const [ quantity, setQuantity ] = useState(null);
     
 
     useEffect(() => {
@@ -24,19 +25,22 @@ function Product(props) {
 
     useEffect(() => {
         dispatch(hideLoader());
+        console.log("PRODUCT: ",product);
+        console.log("QUANTITY: ", quantity);
+        // setQuantity(product.orders[0].order_line.quantity);
     }, [product]);
 
     const handleAddToCart = () => {
 
     }
 
-    const handleIncreaseQuantity = () => {
+    // const handleIncreaseQuantity = () => {
 
-    }
+    // }
     
-    const handleDecreaseQuantity = () => {
+    // const handleDecreaseQuantity = () => {
 
-    }
+    // }
 
     const productLoaded = () => {
         return (
@@ -46,12 +50,12 @@ function Product(props) {
                     <Container className={styles.detailContainer} >
                         <Typography variant='h6' align='center' >{ product.name }</Typography>
                         <Container className={styles.categories} >
-                            { product.categories?.slice(0, 4).map(category => <Typography key={category} >{category}</Typography>) }
+                            { product.categories?.slice(0, 3).map(category => <Typography key={category.id} className={styles.category} >{category.name}</Typography>) }
                         </Container>
                         { product.discount !== 0 ? 
                                         <Container className={styles.price} >
                                             <Typography className={styles.lineThrough}>${ product.price }</Typography>
-                                            <Typography variant='h5' >{ `\xa0\xa0\xa0 $${ product.price - ((product.discount / 100) * product.price)}` }</Typography>
+                                            <Typography className={styles.actualPrice} >{ `$${ product.price - ((product.discount / 100) * product.price)}` }</Typography>
                                         </Container> 
                                         :<Typography>${ product.price }</Typography>
                         }
@@ -68,7 +72,7 @@ function Product(props) {
                             <Typography>{ quantityInCart }</Typography>
                             <Button >+</Button>
                         </Typography> */}
-                        <Typography className={styles.stock} >In Stock: { product.stock }</Typography>
+                        <Typography className={styles.stock} >Stock: { product.stock }</Typography>
                         <Button className={styles.addToCart} onClick={() => handleAddToCart()} ><ShoppingCartIcon /><Typography className={styles.textCart} >ADD TO CART</Typography></Button>
                     </Container>
                 </Container>

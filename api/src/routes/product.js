@@ -1,7 +1,7 @@
 const server = require('express').Router();
 const { response } = require('express');
 const { Sequelize } = require('sequelize');
-const { Product, Category } = require('../db.js');
+const { Product, Category, Order } = require('../db.js');
 
 server.get('/', (req, res, next) => {
 	Product.findAll({
@@ -92,8 +92,17 @@ server.post('/:productId/category/:categoryId', async (req, res) =>{
 })
 
 server.get('/:id', async (req, res) => {
-	const product = await Product.findByPk(req.params.id)
-	res.send(product);
+	Product.findOne({
+		where: {
+			id: req.params.id
+		},
+		include: [
+			{model: Category},
+			{model: Order}
+		]
+	})
+	.then(product => res.send(product))
+	.catch(err => console.log(err));
 });
 
 server.delete('/:productId/category/:categoryId', async (req, res) =>{
