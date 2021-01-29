@@ -1,5 +1,5 @@
 const server = require('express').Router();
-const { User } = require('../db.js');
+const { Order, User } = require('../db.js');
 const { Sequelize } = require('sequelize');
 
 server.get('/', (req, res, next) => {
@@ -9,6 +9,20 @@ server.get('/', (req, res, next) => {
     })
     .catch(next)
 });
+
+server.get('/:id/orders', (req, res) => {
+    Order.findAll({
+        where: {
+			userId: req.params.id
+			}
+    })
+    .then(orders => {
+		res.json(orders);
+	})
+	.catch(err=>{
+		res.send(err);
+	})
+})
 
 server.post('/', (req, res) => {
     User.create(req.body.form)

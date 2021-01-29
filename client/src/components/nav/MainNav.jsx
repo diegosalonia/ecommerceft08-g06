@@ -117,7 +117,11 @@ const Header = () => {
                 </div>
                 <div className={classes.toolbarOptions}>
                     <AccountCircleIcon/>
-                    <Link className={classes.LinkHome} color="inherit" key="logIn" href='#'>Profile</Link>
+                    <Link className={classes.LinkHome} color="inherit" key="logIn" href='/admin'>Admin</Link>
+                </div>
+                <div className={classes.toolbarOptions}>
+                    <AccountCircleIcon/>
+                    <Link className={classes.LinkHome} color="inherit" key="logIn" href='#'>Usuario</Link>
                 </div>
             </div>
         )

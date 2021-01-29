@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import FilterCatalog from './FilterCatalog';
 import {Container, Grid} from '@material-ui/core';
 import ProductCard from '../product/ProductCard';
-
+import Pagination from  './Pagination'
 const Catalog = (props) => {
 
     const [filter, setFilter] = useState(false);
@@ -28,8 +28,9 @@ const Catalog = (props) => {
                     <FilterCatalog updateFilter={updateFilter}/>
                 </Grid>
                 <Grid container item xs={12} sm={9} spacing={3} justify="center" alignItems="center">
-                    {renderProducts()}              
+                    {renderProducts()}             
                 </Grid>
+                <Pagination setpage={props.setpage}/>
             </Grid>
         </Container>
     )
