@@ -37,7 +37,7 @@ server.delete('/:idUser/cart', async (req,res)=>{
 })
 
 server.get('/:idUser/cart/:orderId', async (req,res)=>{
-    const order = await Order.findOne({where:{ id: req.params.orderId}})
+    const order = await Order.findOne({where:{ id: req.params.orderId, userId: req.params.idUser}})
 
     await order.getProducts()
     .then(orders =>{
