@@ -36,9 +36,10 @@ const CatalogContainer = () => {
     const dispatch = useDispatch();
     const productList = useSelector(state => state.catalogReducer.products);
     const firstRender = useRef(true);
-    const pageSize = 1; //Products by page limit. 
+    const pageSize = 2; //Products by page limit. 
     
     useEffect(() => {
+        console.log("PAGE: ", page)
         dispatch(getPaginatedProducts(page, pageSize));
     }, [page])
 

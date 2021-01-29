@@ -17,7 +17,7 @@ const PaginationControlled = (props) => {
 
   const handleChange = (event, value) => {
     setPage(value);
-    props.setpage(3);
+    props.setpage(value);
   };
 
   return (
