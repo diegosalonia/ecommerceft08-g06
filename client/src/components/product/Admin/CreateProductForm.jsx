@@ -38,12 +38,10 @@ const CreateProductForm = () => {
     
 
     useEffect(() => {
-        console.log("loading..")
-        axios.get('http://localhost:3000/category/all').then( res =>{
-            return setCategories(res.data)
-        })        
-        .catch(error => console.log(error))  
-    },[])
+        axios.get('http://localhost:3000/category/all')
+        .then(res => setCategories(res.data))
+        .catch(error => console.log(error));
+    },[]);
 
     const handleToggle = (value) => () => {
         const currentIndex = checked.indexOf(value);
@@ -53,28 +51,23 @@ const CreateProductForm = () => {
         if (currentIndex === -1) {
             newChecked.push(value);
             newChecked.forEach(e=> arr.push(e.id) )            
-          }else {
+          } else {
             newChecked.splice(currentIndex, 1);
             arr = []
             newChecked.forEach(e=> arr.push(e.id) )
           } 
           setChecked(newChecked);
-          console.log(arr)
           
           return setCategoryList(arr)
-    }
+    };
 
     const conectionRelation = (productId) => {
         categoryList.forEach(category=>{
             axios.post(`http://localhost:3000/products/${productId}/category/${category}`)
-            .then(res=>{
-            console.log(res)
-            })
-            .catch(err=>{
-             console.log(err)
-            })
-        })
-    }
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
+        });
+    };
 
     const formik = useFormik({
         initialValues: {
@@ -82,7 +75,7 @@ const CreateProductForm = () => {
           price: '',
           description: '',
           stock: '',
-          discount: '',
+          discount: 0,
           featured: false,
           image: null,
         },

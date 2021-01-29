@@ -5,12 +5,13 @@ module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define('product', {
     description: {
-      type: STRING,
+      type: STRING(10000),
       allowNull: false
     },
     discount: {
       type: INTEGER,
-      defaultValue: 0
+      defaultValue: 0,
+      allowNull: true,
     },
     featured: {
       type: BOOLEAN,
