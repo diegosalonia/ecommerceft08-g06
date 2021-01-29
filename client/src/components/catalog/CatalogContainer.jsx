@@ -4,16 +4,6 @@ import { getProducts } from '../product/utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPaginatedProducts } from '../../redux/CatalogReducer/actions'
 
-/**
- * Logica de renderizado: 
- * 1) onMount: Traigo los productos de la primera pagina
- * 2) useEffect [useSelector(params)] cuando cambia me debe setear productList aplicando el filtrado por categoria. 
- * 3) Si no hay categoria seleccionada, se muestran todas. 
- * 
- */
-
-
-/* var page = 1;  //ToDo change this for state pagination. */
 const defaultRender = {
     categories: [1,2,3],
     createdAt: "2021-01-27T23:22:06.742Z",
