@@ -13,8 +13,7 @@ import { getPaginatedProducts } from '../../redux/CatalogReducer/actions'
  */
 
 
-var page = 1;  //ToDo change this for state pagination.
-var pageSize = 1;
+/* var page = 1;  //ToDo change this for state pagination. */
 const defaultRender = {
     categories: [1,2,3],
     createdAt: "2021-01-27T23:22:06.742Z",
@@ -31,17 +30,17 @@ const defaultRender = {
 }
 
 const CatalogContainer = () => {
-
-    //const [productList, setProductList] = useState([]);
+   
     const [productsRender, setProductsRender] = useState([defaultRender]);
+    const [page, setPage] = useState(1);
     const dispatch = useDispatch();
     const productList = useSelector(state => state.catalogReducer.products);
     const firstRender = useRef(true);
-
+    const pageSize = 1; //Products by page limit. 
     
     useEffect(() => {
         dispatch(getPaginatedProducts(page, pageSize));
-    }, [])
+    }, [page])
 
     useEffect(() => {
         console.log("Product list: ", productList)
@@ -59,7 +58,7 @@ const CatalogContainer = () => {
     }, [productList])
 
     return(
-        <Catalog testlist={productsRender}/>
+        <Catalog testlist={productsRender} setpage={setPage}/>
     )
 
 }
