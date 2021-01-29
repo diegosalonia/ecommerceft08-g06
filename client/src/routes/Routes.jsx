@@ -37,11 +37,11 @@ const Routes = () => {
                     <Route path='/admin/products/:id/edit' component={UpdateProductForm} />
                     <Route path="/products/:id" component={Product}/>
                     <Route exact path="/products" render={()=><CatalogContainer products={search.products} setSearch={setSearch}/>} />
-                    {search.searching?<Redirect to={{
+                    {search.searching&&<Redirect to={{
                         pathname: '/products',
                         search: `${search.keyword}`
-                    }}/>:console.log("busque algo")}
-                    {search.change?<Redirect to='/products'/>:console.log("deje de molestar")}
+                    }}/>}
+                    {search.change&&<Redirect to='/products'/>}
                 </Container>
             </Grid>
             <Grid item xs={12}>
