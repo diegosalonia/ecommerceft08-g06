@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_PRODUCT, GET_PRODUCT_ERROR, SHOW_LOADER, HIDE_LOADER } from '../constants';
+import { GET_PRODUCT, GET_PRODUCT_ERROR, SHOW_LOADER, HIDE_LOADER, ADD_PRODUCT_TO_CART } from '../constants';
 
 export const showLoader = () => dispatch => {
     dispatch({
@@ -8,9 +8,8 @@ export const showLoader = () => dispatch => {
 };
 
 export const getProduct = id => (dispatch) => {
-    return axios.get(`http://localhost:3000/products/${id}`)
+    return axios.get(`http://localhost:3000/products/product-detail/${id}`)
     .then(product => {
-        console.log("PRODUCTO ACTION: ", product.data);
         dispatch({
             type: GET_PRODUCT,
             product: product.data
@@ -23,4 +22,15 @@ export const hideLoader = () => dispatch => {
     dispatch({
         type: HIDE_LOADER
     });
+};
+
+export const addToCart = (userId, id, quantity = 1) => dispatch => {
+    return axios.post(`http://localhost:3000/users/${userId}/cart`, { product: {id, quantity}})
+    .then(response => {
+        dispatch({
+            type: ADD_PRODUCT_TO_CART,
+            id
+        });
+    })
+    .catch(err => console.log(err));
 };

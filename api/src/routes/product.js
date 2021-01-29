@@ -91,7 +91,7 @@ server.post('/:productId/category/:categoryId', async (req, res) =>{
 	})
 })
 
-server.get('/:id', async (req, res) => {
+server.get('/product-detail/:id', async (req, res) => {
 	Product.findOne({
 		where: {
 			id: req.params.id
@@ -100,6 +100,31 @@ server.get('/:id', async (req, res) => {
 			{model: Category},
 			{model: Order}
 		]
+	})
+	.then(product => {
+		const newProductForm = {
+			name: product.dataValues.name,
+			price: product.dataValues.price,
+			description: product.dataValues.description,
+			discount: product.dataValues.discount,
+			image: product.dataValues.image,
+			stock: product.dataValues.stock,
+			featured: product.dataValues.featured,
+			categories: product.dataValues.categories.map(category => category.dataValues.name),
+			quantity: product.dataValues.orders[0]?.order_line.dataValues.quantity,
+			userId: product.dataValues.orders[0]?.userId
+		}
+		res.send(newProductForm);
+	})
+	.catch(err => console.log(err));
+});
+
+server.get('/:id', async (req, res) => {
+	Product.findOne({
+		where: {
+			id: req.params.id
+		},
+		include: [{model: Category}]
 	})
 	.then(product => res.send(product))
 	.catch(err => console.log(err));

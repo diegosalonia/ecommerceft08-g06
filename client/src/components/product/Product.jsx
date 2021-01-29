@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProduct, showLoader, hideLoader } from '../../redux/productReducer/actions';
-import image from '../../resources/growing-tree-svg-animation-recut.gif';
-import axios from 'axios';
+import { getProduct, showLoader, hideLoader, addToCart } from '../../redux/productReducer/actions';
 
-import { Button, Container, Typography, CircularProgress, Box } from '@material-ui/core';
+import { Button, Container, Typography, CircularProgress } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { useStylesProduct } from './styles';
@@ -15,8 +13,8 @@ function Product(props) {
     const isLoading = useSelector(state => state.productReducer.isLoading);
     const product = useSelector(state => state.productReducer.product);
     const styles = useStylesProduct();
-    const [ quantity, setQuantity ] = useState(null);
-    
+    const [ quantity, setQuantity ] = useState(1);
+    const isInCart = useSelector(state => state.productReducer.isInCart);
 
     useEffect(() => {
         dispatch(showLoader());
@@ -25,22 +23,24 @@ function Product(props) {
 
     useEffect(() => {
         dispatch(hideLoader());
-        console.log("PRODUCT: ",product);
-        console.log("QUANTITY: ", quantity);
-        // setQuantity(product.orders[0].order_line.quantity);
+        product.quantity && setQuantity(product.quantity);
     }, [product]);
 
-    const handleAddToCart = () => {
-
-    }
-
-    // const handleIncreaseQuantity = () => {
-
-    // }
+    useEffect(() => {
+        isInCart && alert("Product in cart, thanks!");
+    }, [isInCart])
     
-    // const handleDecreaseQuantity = () => {
+    const handleAddToCart = () => {
+        dispatch(addToCart(product.userId, id, quantity));
+    };
 
-    // }
+    const handleIncreaseQuantity = () => {
+        quantity < product.stock && setQuantity(quantity + 1);
+    };
+    
+    const handleDecreaseQuantity = () => {
+        quantity > 1 && setQuantity(quantity - 1);
+    };
 
     const productLoaded = () => {
         return (
@@ -50,7 +50,7 @@ function Product(props) {
                     <Container className={styles.detailContainer} >
                         <Typography variant='h6' align='center' >{ product.name }</Typography>
                         <Container className={styles.categories} >
-                            { product.categories?.slice(0, 3).map(category => <Typography key={category.id} className={styles.category} >{category.name}</Typography>) }
+                            { product.categories?.slice(0, 3).map(category => <Typography key={category} className={styles.category} >{ category }</Typography>) }
                         </Container>
                         { product.discount !== 0 ? 
                                         <Container className={styles.price} >
@@ -67,12 +67,12 @@ function Product(props) {
                             />
                             <Typography className={styles.ratingReviews} >(0) Reviews</Typography>
                         </Container>
-                        {/* <Typography>
-                            <Button>-</Button>
-                            <Typography>{ quantityInCart }</Typography>
-                            <Button >+</Button>
-                        </Typography> */}
                         <Typography className={styles.stock} >Stock: { product.stock }</Typography>
+                        <Container>
+                            <Button disabled={quantity === 1 ? true : false} onClick={handleDecreaseQuantity} >-</Button>
+                            <Typography>{ quantity }</Typography>
+                            <Button disabled={quantity === product.stock ? true : false} onClick={handleIncreaseQuantity} >+</Button>
+                        </Container>
                         <Button className={styles.addToCart} onClick={() => handleAddToCart()} ><ShoppingCartIcon /><Typography className={styles.textCart} >ADD TO CART</Typography></Button>
                     </Container>
                 </Container>
@@ -90,6 +90,5 @@ function Product(props) {
 export default Product;
 
 /* TODO:
-    - Rating Stars
     - Default image
 */
