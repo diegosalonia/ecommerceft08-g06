@@ -1,7 +1,7 @@
 const server = require('express').Router();
 const { response } = require('express');
 const { Sequelize } = require('sequelize');
-const { Product, Category } = require('../db.js');
+const { Product, Category, Order } = require('../db.js');
 
 server.get('/', (req, res, next) => {
 	Product.findAll({
@@ -91,6 +91,45 @@ server.post('/:productId/category/:categoryId', async (req, res) =>{
 	})
 });
 
+server.get('/product-detail/:id', async (req, res) => {
+	Product.findOne({
+		where: {
+			id: req.params.id
+		},
+		include: [
+			{model: Category},
+			{model: Order}
+		]
+	})
+	.then(product => {
+		const newProductForm = {
+			name: product.dataValues.name,
+			price: product.dataValues.price,
+			description: product.dataValues.description,
+			discount: product.dataValues.discount,
+			image: product.dataValues.image,
+			stock: product.dataValues.stock,
+			featured: product.dataValues.featured,
+			categories: product.dataValues.categories.map(category => category.dataValues.name),
+			quantity: product.dataValues.orders[0]?.order_line.dataValues.quantity,
+			userId: product.dataValues.orders[0]?.userId
+		}
+		res.send(newProductForm);
+	})
+	.catch(err => console.log(err));
+});
+
+server.get('/:id', async (req, res) => {
+	Product.findOne({
+		where: {
+			id: req.params.id
+		},
+		include: [{model: Category}]
+	})
+	.then(product => res.send(product))
+	.catch(err => console.log(err));
+});
+
 //Query like this: http://localhost:3000/products/catalog/?page=1&pageSize=1
 server.get('/catalog/', (req,res) => {
 	const { page, pageSize } = req.query;
@@ -108,7 +147,7 @@ server.get('/catalog/', (req,res) => {
 		include: [{model: Category}]
 	})
 	.then(products => res.send(products))
-	.catch(err => res.status(400).send(err))
+	.catch(err => res.status(400).send(err));
 });
 	 
 
