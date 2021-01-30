@@ -10,7 +10,8 @@ import MainNav from '../components/nav/MainNav';
 import Home from '../components/home/home';
 import CatalogContainer from '../components/catalog/CatalogContainer';
 import Footer from '../components/footer/Footer';
-import {Container, Grid} from '@material-ui/core'
+import {Container, Grid} from '@material-ui/core';
+import cartItem from '../components/cart/cartItem';
 
 const Routes = () => {
     return(
@@ -28,6 +29,7 @@ const Routes = () => {
                     <Route path='/admin/products/:id/edit' component={UpdateProductForm} />
                     <Route path="/products/:id" component={Product}/>
                     <Route exact path="/products" component={CatalogContainer} />
+                    <Route exact path= "/cart" component={cartItem}/>
                 </Container>
             </Grid>
             <Grid item xs={12}>
