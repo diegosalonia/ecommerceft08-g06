@@ -171,7 +171,6 @@ const CreateProductForm = () => {
                     />
                     <DropzoneArea
                         acceptedFiles={['image/*']}
-                        filesLimit={1}
                         dropzoneText={"Drag and drop an image here or click"}
                         clearOnUnmount={true}
                         onChange={images => {
