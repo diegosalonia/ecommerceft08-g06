@@ -28,6 +28,33 @@ server.post('/:idUser/cart', async (req, res)=>{
     });
 });
 
+server.put('/:idUser/cart/:idOrder',async (req, res)=>{
+    const { quantity, id } = req.body.product;
+    const { idUser, idOrder } = req.params;
+
+    Order.findOne({ 
+        where:{ id: idOrder},
+        include: [
+            {
+                model: Product,
+                where: {
+                    id: id
+                }
+            }
+        ]
+    })
+    // .then(order => {
+        //     console.log("QUANTITY PRODUCT: ", order.dataValues.products[0].dataValues.order_line.dataValues.quantity);
+        //     res.send(order);
+        // })
+        // .catch(err => console.log(err));
+        
+    order.dataValues.products[0].dataValues.order_line.dataValues.quantity = quantity;
+
+    await order.save()
+    await order.reload()
+})
+
 server.delete('/:idUser/cart', async (req,res)=>{
     const order = await Order.findOne({where:{ id: req.body.form.id}})
 
@@ -36,18 +63,18 @@ server.delete('/:idUser/cart', async (req,res)=>{
     }).catch(err=>{res.send(err)})
 })
 
-server.get('/:idUser/cart', async (req,res)=>{
-    const order = await Order.findOne({where:{ id: req.body.form.id}})
+server.get('/:idUser/cart/:orderId', async (req,res)=>{
+    const order = await Order.findOne({where:{ id: req.params.orderId}})
 
     await order.getProducts()
     .then(orders =>{
-        res.send(orders)
+        console.log("GET ORDER: ", orders[0].dataValues.order_line.da);
+        res.send(orders);
     })
     .catch(err=>{
-        res.send(err)
-    })
+        res.send(err);
+    });
 })
-
 
 
 module.exports = server;
