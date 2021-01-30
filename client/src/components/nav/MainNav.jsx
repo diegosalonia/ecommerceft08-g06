@@ -10,6 +10,7 @@ import {useHistory} from 'react-router-dom'
 import { Grid } from "@material-ui/core";
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import SearchBar from './SearchBar';
+import EcoIcon from '@material-ui/icons/Eco';
 
 //import LoginModal from './LoginModal'
 
@@ -67,7 +68,15 @@ const useStyles = makeStyles((theme) => ({
             
             }
     },
-    
+    leafIcon:{
+        marginTop: theme.spacing(0.5)
+    },
+    toolbarTitle:{
+        marginLeft: theme.spacing(1)
+    },
+    icons:{
+        color: "#fff"
+    }
     
    
   }));
@@ -75,9 +84,9 @@ const useStyles = makeStyles((theme) => ({
 
 
 const sections = [
-    { title: 'Inicio', url: '/' },
-    { title: 'Productos', url: '/products' },
-    { title: 'Contacto', url: '/contact' },
+    { title: 'Home', url: '/' },
+    { title: 'Products', url: '/products' },
+    { title: 'Contact', url: '/contact' },
   ];
   
 
@@ -112,11 +121,11 @@ const Header = () => {
                     {/* <LoginModal/> */} 
                 </div>
                 <div className={classes.toolbarOptions}>
-                    <ShoppingCartIcon/>
+                    <ShoppingCartIcon className={classes.icons}/>
                     <Link className={classes.LinkHome} color="inherit" key="logIn" href='/cart'>Cart</Link>
                 </div>
                 <div className={classes.toolbarOptions}>
-                    <AccountCircleIcon/>
+                      <AccountCircleIcon className={classes.icons}/>
                     <Link className={classes.LinkHome} color="inherit" key="logIn" href='#'>Profile</Link>
                 </div>
             </div>
@@ -130,10 +139,10 @@ const Header = () => {
                     <Link className={classes.LinkHome} color="inherit" href="/" onClick={(e) => goHome(e)}>
                         <Grid container>
                             <Grid item>
-                                <StorefrontIcon fontSize="default"/>
+                                <EcoIcon fontSize="default" className={classes.leafIcon}/>
                             </Grid>
                             <Grid item>
-                                <Typography variant="h5" className={classes.toolbarTitle}>Un Jardin Especial</Typography>
+                                <Typography variant="h5" className={classes.toolbarTitle}>The EspecialGarden</Typography>
                             </Grid>
                         </Grid> 
                     </Link>
