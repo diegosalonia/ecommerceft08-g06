@@ -11,11 +11,17 @@ const CatalogContainer = () => {
     const firstRender = useRef(true);
     //Pagination
     const [page, setPage] = useState(2);
-    const pageSize = 1; //Products by page limit. 
+    const pageSize = 1; //Products by page limit.
+    //Filters
+    const [filterBox, setFilterBox] = useState({categories: [], price: {priceFrom: 0, priceTo: 100000}});  
     
     useEffect(() => {
         dispatch(getPaginatedProducts(page, pageSize));
     }, [page])
+
+    useEffect(() => {
+        console.log("filterBox: ", filterBox)
+    }, [filterBox])
 
     useEffect(() => {
         console.log("Product list: ", productList)
@@ -29,7 +35,7 @@ const CatalogContainer = () => {
     }, [productList])
 
     return(
-        <Catalog products={productsRender} setpage={setPage}/>
+        <Catalog products={productsRender} setpage={setPage} filterBox={filterBox} setFilterBox={setFilterBox}  />
     )
 
 }

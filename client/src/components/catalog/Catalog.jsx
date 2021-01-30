@@ -23,7 +23,7 @@ const Catalog = (props) => {
         <Container>
             <Grid container spacing={3} justify="center">
                 <Grid item xs={12} sm={3}>
-                    <FilterCatalog /* updateFilter={updateFilter} *//>
+                    <FilterCatalog filterBox={props.filterBox} setFilterBox={props.setFilterBox}/>
                 </Grid>
                 <Grid container item xs={12} sm={9} spacing={3} justify="center" alignItems="center">
                     {renderProducts()}    
