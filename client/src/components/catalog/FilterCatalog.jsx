@@ -44,8 +44,8 @@ const FilterCatalog = (props) => {
     //Set Category in Catalog. 
     useEffect(() => {
         if(currentCategory){ 
-           //ToDo update catalog state. props.setCurrent(currentCategory)
            props.updateFilter(currentCategory)
+           console.log("CC: ", currentCategory);
         }
     }, [currentCategory])
     return (
