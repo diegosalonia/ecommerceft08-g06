@@ -15,11 +15,28 @@ const FilterCatalog = (props) => {
 
     const classes = useStyles();
 
+    //Category box
+    const enabledCategories = (id) => {
+        if (currentCategory && Array.isArray(currentCategory)){
+            if (currentCategory.includes(id)){
+                console.log("Ya la tengo: ", currentCategory)
+                let removedId = currentCategory.filter(cat => cat !== id)
+                setCurrentCategory(removedId);
+            }
+            else{
+                setCurrentCategory([...currentCategory, id])
+            }
+        }
+        else{
+            setCurrentCategory([id]);
+        }
+    }
+
     const displayCategories = () => {
         if(typeof categories === "object"){
             return categories.map((cat, inx) => {
                 return (
-                    <Button fullWidth key={inx} onClick={() => setCurrentCategory(cat.id)}>
+                    <Button fullWidth key={inx} onClick={() => enabledCategories(cat.id)}>
                         {cat.name}
                     </Button>
                 )
@@ -44,7 +61,7 @@ const FilterCatalog = (props) => {
     //Set Category in Catalog. 
     useEffect(() => {
         if(currentCategory){ 
-           props.updateFilter(currentCategory)
+          /*  props.updateFilter(currentCategory) */
            console.log("CC: ", currentCategory);
         }
     }, [currentCategory])

@@ -11,7 +11,7 @@ const CatalogContainer = () => {
     const firstRender = useRef(true);
     //Pagination
     const [page, setPage] = useState(2);
-    const pageSize = 3; //Products by page limit. 
+    const pageSize = 1; //Products by page limit. 
     
     useEffect(() => {
         dispatch(getPaginatedProducts(page, pageSize));
