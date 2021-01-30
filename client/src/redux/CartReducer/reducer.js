@@ -6,7 +6,7 @@ const initialState = {
 
 const cartReducer = (state = initialState, action) => {
   switch (action.type) {
-    case cartTypes.REMOVE_PRODUCT_TO_CART:
+    case cartTypes.GET_CART:
       return {
         ...state,
         productList: action.payload.productId,
@@ -24,8 +24,11 @@ const cartReducer = (state = initialState, action) => {
         productList: action.payload.orderId,
       };
 
-    default:
-      return state;
+    default:         // este seria el de remove por uno
+      return {
+        ...state,
+        productList: action.payload.orderId,
+      };
   }
 };
 
