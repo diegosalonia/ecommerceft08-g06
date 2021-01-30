@@ -1,19 +1,8 @@
 import axios from "axios"
 import firebase, { storage } from '../../firebase';
-import Swal from 'sweetalert2';
-
 import { CREATE_PRODUCT, GET_CATEGORIES } from '../constants';
 
-const showAlert = () => {
-    return Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'Product created succesfully!',
-        showConfirmButton: false,
-        timer: 1500,
-        didClose: window.location.reload(false),
-    });
-};
+
 
 const conectionRelation = (productId, categoryList) => {
     categoryList.forEach(category => {
@@ -43,11 +32,11 @@ const addImages = (images, productName, id, form) => {
             );
        });
     });
-
+    // window.location.reload(false)
     Promise.all(promises)
     .then(res => {
         axios.put(`http://localhost:3000/products/${id}`, { form })
-        .then(res => showAlert())
+        .then(res => console.log(res))
         .catch(err => console.log(err));
     });
 };

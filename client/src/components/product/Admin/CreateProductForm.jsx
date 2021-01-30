@@ -7,6 +7,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { addProduct, getCategories } from '../../../redux/createProductReducer/actions';
 import { useStylesProductForm } from '../styles';
+import Swal from 'sweetalert2';
 
 const validationSchema = yup.object({
     name: yup
@@ -39,6 +40,16 @@ const CreateProductForm = () => {
     const [ images, setImages ] = useState([]);
     const [ loading, setLoading ] = useState(false);
     const [ alert, setAlert ] = useState(false);
+
+    const showAlert = () => {
+        return Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Product created succesfully!',
+            showConfirmButton: false,
+            timer: 1700,
+        });
+    };
 
     useEffect(() => {
         dispatch(getCategories());
@@ -76,6 +87,7 @@ const CreateProductForm = () => {
         onSubmit: values => {
             setLoading(true);
             dispatch(addProduct(values, images, categoryList));
+            showAlert();
         }
     });
 
