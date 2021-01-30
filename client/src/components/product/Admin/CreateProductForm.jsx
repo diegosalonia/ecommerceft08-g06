@@ -33,11 +33,12 @@ const CreateProductForm = () => {
     const style = useStylesProductForm();
     const dispatch = useDispatch();
     const categories = useSelector(state => state.createProductReducer.categories);
-    const isLoading = useSelector(state => state.createProductReducer.isLoading);
+    const newProduct = useSelector(state => state.createProductReducer.newProduct);
     const [ checked, setChecked ] = useState([]);
     const [ categoryList, setCategoryList ] = useState([]);
     const [ images, setImages ] = useState([]);
-    
+    const [ loading, setLoading ] = useState(false);
+    const [ alert, setAlert ] = useState(false);
 
     useEffect(() => {
         dispatch(getCategories());
@@ -73,9 +74,15 @@ const CreateProductForm = () => {
         },
         validationSchema: validationSchema,
         onSubmit: values => {
+            setLoading(true);
             dispatch(addProduct(values, images, categoryList));
         }
     });
+
+    useEffect(() => {
+        setLoading(false);
+        setAlert(true);
+    }, [newProduct]);
 
     const form = () => {
         return (
@@ -197,7 +204,7 @@ const CreateProductForm = () => {
         );
     }
 
-    return isLoading ? <CircularProgress disableShrink className={style.isLoading} /> : form();
+    return !loading ? form() : <CircularProgress disableShrink className={style.isLoading} />;
 };
 
 export default CreateProductForm;
