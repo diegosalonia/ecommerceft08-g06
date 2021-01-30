@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 import Pagination from '@material-ui/lab/Pagination';
-import {useSelector} from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -12,10 +12,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const PaginationControlled = (props) => {
-
-  const totalProducts = useSelector(state => state.catalogReducer.totalProducts);
-  const pageSize = useSelector(state => state.catalogReducer.pageSize);
-  var totalPages = Math.ceil(totalProducts / pageSize);
   const classes = useStyles();
   const [page, setPage] = React.useState(1);
 
@@ -26,7 +22,7 @@ const PaginationControlled = (props) => {
 
   return (
     <div className={classes.root}>
-      <Pagination count={totalPages} page={page} onChange={handleChange} />
+      <Pagination count={10} page={page} onChange={handleChange} />
     </div>
   );
 }
