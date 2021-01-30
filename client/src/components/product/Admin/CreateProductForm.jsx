@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useFormik } from 'formik';
-import * as yup from 'yup';
-import { storage } from "../../../firebase";
-import firebase from "../../../firebase";
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 import { DropzoneArea } from 'material-ui-dropzone';
 import { Container, TextField, Typography, Button, CssBaseline, Switch, FormControlLabel, ListItemIcon, List, ListItem,
 Checkbox , ListItemText  } from '@material-ui/core';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import { addProduct, getCategories } from '../../../redux/createProductReducer/actions';
 import { useStylesProductForm } from '../styles';
 
 const validationSchema = yup.object({
@@ -30,43 +29,33 @@ const validationSchema = yup.object({
 
 const CreateProductForm = () => {
     const style = useStylesProductForm();
+    const dispatch = useDispatch();
+    const categories = useSelector(state => state.createProductReducer.categories);
+    const [ checked, setChecked ] = useState([]);
+    const [ categoryList, setCategoryList ] = useState([]);
     const [ images, setImages ] = useState([]);
-    const [ categories, setCategories] = useState();
-    const [checked, setChecked] = useState([]);
-    const [categoryList, setCategoryList] = useState([]);
-    
     
 
     useEffect(() => {
-        axios.get('http://localhost:3000/category/all')
-        .then(res => setCategories(res.data))
-        .catch(error => console.log(error));
+        dispatch(getCategories());
     },[]);
 
-    const handleToggle = (value) => () => {
+    const handleToggle = value => () => {
         const currentIndex = checked.indexOf(value);
         const newChecked = [...checked];
         let arr = [];
 
-        if (currentIndex === -1) {
+        if (currentIndex === - 1) {
             newChecked.push(value);
-            newChecked.forEach(e=> arr.push(e.id) )            
-          } else {
+            newChecked.forEach(el => arr.push(el.id));
+        } else {
             newChecked.splice(currentIndex, 1);
-            arr = []
-            newChecked.forEach(e=> arr.push(e.id) )
-          } 
-          setChecked(newChecked);
+            arr = [];
+            newChecked.forEach(el => arr.push(el.id));
+        }
+        setChecked(newChecked);
           
-          return setCategoryList(arr)
-    };
-
-    const conectionRelation = (productId) => {
-        categoryList.forEach(category=>{
-            axios.post(`http://localhost:3000/products/${productId}/category/${category}`)
-            .then(res => console.log(res))
-            .catch(err => console.log(err));
-        });
+        return setCategoryList(arr);
     };
 
     const formik = useFormik({
@@ -77,45 +66,13 @@ const CreateProductForm = () => {
           stock: '',
           discount: 0,
           featured: false,
-          image: null,
+          image: []
         },
         validationSchema: validationSchema,
-        onSubmit: async (values, { resetForm }) => {
-            const promises = images.map(image => {
-                return new Promise((resolve, reject) => {
-                    const uploadImage = firebase.storage().ref().child(`/products/images/${values.name}/${image.name}`).put(image);
-                    uploadImage.on (
-                        "state_changed",
-                        snapshot => {},
-                        error => {reject(error)},
-                        async () => {
-                            await storage
-                                .ref(`/products/images/${values.name}/`)
-                                .child(image.name)
-                                .getDownloadURL()
-                                .then(url => {
-                                    console.log(url);
-                                    resolve(values.image = url);
-                                });
-                        }
-                    )
-               })
-            })
-            Promise.all(promises)
-            .then(res => {
-                console.log("VALUES: ", values);
-                axios.post('http://localhost:3000/products', {form: {...values, image: values.image}})
-                .then(res => {
-                    console.log("RESPUESTA: ", res);
-                    formik.values.featured = false;
-                    formik.values.image = null;
-                    conectionRelation(res.data.id); //Create category_product
-                    resetForm({values: ''});
-                    alert('Product created');
-            })
-            .catch(err => console.log(err));
-        })
-    }});
+        onSubmit: values => {
+            dispatch(addProduct(values, images, categoryList));
+        }
+    });
 
     return (
         <div className={style.productForm}>
@@ -146,6 +103,7 @@ const CreateProductForm = () => {
                     />
                     <TextField
                         fullWidth
+                        multiline
                         id="description" 
                         name="description"
                         label="Description"

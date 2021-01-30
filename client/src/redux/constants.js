@@ -8,6 +8,11 @@ export const HIDE_LOADER = 'HIDE_LOADER';
 export const ADD_PRODUCT_TO_CART = 'ADD_PRODUCT_TO_CART';
 /* end productReducer */
 
+/* start createProductReducer */
+export const CREATE_PRODUCT = 'CREATE_PRODUCT';
+export const GET_CATEGORIES = 'GET_CATEGORIES';
+/* end createProductReducer */
+
 /* Catalog - Pagination */
 export const GET_PAGE_PRODUCTS = "getPageProducts";
 /* Catalog end - Pagination*/
