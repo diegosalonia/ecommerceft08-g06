@@ -1,6 +1,4 @@
 import { makeStyles } from '@material-ui/core';
-import zIndex from '@material-ui/core/styles/zIndex';
-
 
 export const useStylesProductForm = makeStyles(theme => ({
     productForm: {
@@ -31,6 +29,15 @@ export const useStylesProductForm = makeStyles(theme => ({
     previewImage: {
         maxWidth: '200px',
         maxHeight: '130px',
+    },
+    submitButton: {
+      marginTop: '6%',
+    },
+    isLoading: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      margin: '20% auto',
     }
 }));
 
