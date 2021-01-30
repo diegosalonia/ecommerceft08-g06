@@ -92,11 +92,9 @@ server.post('/:productId/category/:categoryId', async (req, res) =>{
 });
 
 //Mother of querys: priceFrom, priceTo, categories, rating. 
-server.get('/catalog/filter/', (req, res) => {
+server.get('/catalog/', (req, res) => {
 	let categories = req.query.categories && JSON.parse(req.query.categories);
-	let priceFrom = req.query.priceFrom;
-	let priceTo = req.query.priceTo;
-	let rating = req.query.rating;
+	let {priceFrom, priceTo, rating, page, pageSize} = req.query;
 	var options = {where: {}, include: []};
 	if (categories){
 		options.include = {model: Category, where: {id: categories}}; 
@@ -106,38 +104,22 @@ server.get('/catalog/filter/', (req, res) => {
 	}
 	if (rating) {
 	}
-	Product.findAll(options)
-	.then(products => res.send(products))
-	.catch(err => console.log(err));
-})
-
-//Only count
-server.get('/catalog/count/', (req,res) => {
-	Product.count()
-	.then(c => res.send({count: c}))
-	.catch(err => res.status(400).send(err))
-});
-
-//Query like this: http://localhost:3000/products/catalog/?page=1&pageSize=1
-server.get('/catalog/', (req,res) => {
-	const { page, pageSize } = req.query;
-	var offSet;
-	var totalProducts = 0;
-	(page === 1) ? offset=0 : offSet = (page - 1) * pageSize;
-	Product.count()
-	.then(c => {
-		totalProducts = c;
-		Product.findAll({
-			limit: pageSize,
-			offset: offSet,
-			include: [{model: Category}]
-		})
-		.then(products => res.send({totalProducts: c, products}))
-		.catch(err => res.status(400).send(err))
+	if (page && pageSize){
+		var offSet;
+		var totalProducts = 0;
+		(page === 1) ? offSet=0 : offSet = (page - 1) * pageSize;
+		options.limit = pageSize;
+		options.offset = offSet;
+	}
+	Product.count(options)
+	.then(count =>{
+		totalProducts = count; 
+		Product.findAll(options)
+		.then(products => res.send({products, totalProducts}))
+		.catch(err => console.log(err));
 	})
-	.catch(err => res.status(400).send(err))
-});
-	 
+	.catch(err => res.status(400).send(err));
+})
 
 server.delete('/:productId/category/:categoryId', async (req, res) =>{
 	const category =  await Category.findByPk(req.params.categoryId)
