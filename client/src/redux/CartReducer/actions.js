@@ -5,9 +5,9 @@ export function getCart (userId,orderId){ // muestra todos
     return function(dispatch){
         return axios.get(`http://localhost:3000/users/${userId}/cart/${orderId}`)
         .then(resp => {
-            dispatch({
+            dispatch({                
                 type: cartTypes.GET_CART,
-                payload: resp.data
+                products: resp.data
             })
         })
         .catch( error => {

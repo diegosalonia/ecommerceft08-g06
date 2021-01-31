@@ -9,25 +9,25 @@ const cartReducer = (state = initialState, action) => {
     case cartTypes.GET_CART:
       return {
         ...state,
-        productList: action.payload
+        producList: action.products
       };
 
     case cartTypes.CHANGE_QUANTITY_CART_PRODUCT:
       return {
         ...state,
-        productList: action.payload,
+        producList: action.products,
       };
 
     case cartTypes.REMOVE_ALL_PRODUCT_TO_CART:
       return {
         ...state,
-        productList: action.payload,
+        producList: action.products,
       };
 
     default:         // este seria el de remove por uno
       return {
         ...state,
-        productList: action.payload,
+        producList: action.products,
       };
   }
 };

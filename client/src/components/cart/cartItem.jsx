@@ -19,12 +19,11 @@ import { makeStyles } from "@material-ui/core/styles";
 
 
 export default function CartItem (props){
-  
-  const {idUser, orderId} = props.match.params;
+  const {idUser, orderId} = props;
   const order = useSelector(state => state.cartReducer.producList)
   const dispatch = useDispatch();
 
-  const rows = [...order];
+  //const rows = [...order]
   console.log("OJALA QUE HAYA ALGO AQUI", order)
 
   const useStyles = makeStyles((theme) => ({
@@ -90,7 +89,9 @@ export default function CartItem (props){
   }
 
   useEffect(()=>{
-    dispatch(getCart(idUser,orderId))
+    if(idUser && orderId){
+    //dispatch(getCart(idUser,orderId))
+    }
   },[])
 
   return (
