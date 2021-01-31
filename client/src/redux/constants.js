@@ -1,7 +1,7 @@
 /* Actions constants */
 
 /* start productReducer */
-export const GET_PRODUCT = 'GET_PRODUCT';
+export const GET_PRODUCT = 'GET_PRODUCT'; // used in updateProductReducer too
 export const GET_PRODUCT_ERROR = 'GET_PRODUCT_ERROR';
 export const SHOW_LOADER = 'SHOW_LOADER';
 export const HIDE_LOADER = 'HIDE_LOADER';
@@ -18,6 +18,10 @@ export const GET_PRODUCTS = 'GET_PRODUCTS';
 export const DELETE_PRODUCT = 'DELETE_PRODUCT';
 /* end productListReducer */
 
+/* start updateProductReducer */
+// GET_PRODUCT
+
+/* end updateProductReducer */
 
 /* Catalog - Pagination */
 export const GET_PAGE_PRODUCTS = "getPageProducts";

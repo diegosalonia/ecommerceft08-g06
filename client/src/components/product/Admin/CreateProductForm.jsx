@@ -55,6 +55,11 @@ const CreateProductForm = () => {
         dispatch(getCategories());
     },[]);
 
+    useEffect(() => {
+        setLoading(false);
+        setAlert(true);
+    }, [newProduct]);
+
     const handleToggle = value => () => {
         const currentIndex = checked.indexOf(value);
         const newChecked = [...checked];
@@ -90,11 +95,6 @@ const CreateProductForm = () => {
             showAlert();
         }
     });
-
-    useEffect(() => {
-        setLoading(false);
-        setAlert(true);
-    }, [newProduct]);
 
     const form = () => {
         return (
@@ -155,30 +155,27 @@ const CreateProductForm = () => {
                             error={formik.touched.discount && Boolean(formik.errors.discount)}
                             helperText={formik.touched.discount && formik.errors.discount}
                         />
-                         <List className={style.vista}>
+                        <List className={style.vista}>
                             <Typography variant="h5">Categories</Typography>                      
-                        { 
-                            categories?.map((value)=>{
-    
-                                const labelId = `checkbox-list-label-${value.id}`;
-                                return(
-                                    <ListItem key={value.id} role={undefined} dense button onChange={handleToggle(value)}>
-                                        <ListItemIcon>
-                                            <Checkbox 
-                                                color="primary"
-                                                edge="start"
-                                                size="small"
-                                                checked={checked.indexOf(value) !== -1}                                            
-                                                tabIndex={-1}
-                                                disableRipple
-                                                inputProps={{'aria-labelledby': labelId}}
-                                            />
-                                        </ListItemIcon>
-                                        <ListItemText id={value.id} value={value.id} primary={`category ${value.name} - ${value.id} `} /> 
-                                    </ListItem>
-                                );
-                            })
-                        }
+                            {categories?.map(value => {    
+                                    const labelId = `checkbox-list-label-${value.id}`;
+                                    return (
+                                        <ListItem key={value.id} role={undefined} dense button onChange={handleToggle(value)}>
+                                            <ListItemIcon>
+                                                <Checkbox 
+                                                    color="primary"
+                                                    edge="start"
+                                                    size="small"
+                                                    checked={checked.indexOf(value) !== -1}                                            
+                                                    tabIndex={-1}
+                                                    disableRipple
+                                                    inputProps={{'aria-labelledby': labelId}}
+                                                />
+                                            </ListItemIcon>
+                                            <ListItemText id={value.id} value={value.id} primary={`category ${value.name} - ${value.id} `} />
+                                        </ListItem>
+                                    );
+                            })}
                         </List>
                         <FormControlLabel
                             control={<Switch
