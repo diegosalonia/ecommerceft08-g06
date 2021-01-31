@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   AppBar,
@@ -13,33 +13,19 @@ import {
   TableRow,
   TextField
 } from "@material-ui/core";
+import { getCart } from "../../redux/cartReducer/actions";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { makeStyles } from "@material-ui/core/styles";
-//import { useStyles } from '../styles';
-//import { removeProductToCart, incrementCartItem, decrementCartItem } from '../redux/CartReducer/actions.js';
-//import { Product } from '../product/product.jsx';
 
-const CartItem = () => {
-  const [itemQuantity, setItemQuantity] = useState();
-  // const product = useSelector(state => state.cartReducer.productList);
-  // const dispatch = useDispatch();
-  // const removeItem = () => {
-  //     dispatch(removeProductToCart(id));
-  // };
 
-  // const incOrDecItem = (e, type) => {
-  //     const value = itemQuantity;
+export default function CartItem (props){
+  
+  const {idUser, orderId} = props.match.params;
+  const order = useSelector(state => state.cartReducer.producList)
+  const dispatch = useDispatch();
 
-  //     if(type === incrementCartItem && value <= Product.props.stock) {
-  //         setItemQuantity(itemQuantity + 1);
-  //         distpach(incrementCartItem(id));
-  //     }
-
-  //     if(type === decrementCartItem && value > 1) {
-  //         setItemQuantity(itemQuantity - 1);
-  //         // distpach(decrementCartItem(id));
-  //     }
-  // };
+  const rows = [...order];
+  console.log("OJALA QUE HAYA ALGO AQUI", order)
 
   const useStyles = makeStyles((theme) => ({
     container: {
@@ -64,6 +50,7 @@ const CartItem = () => {
     },
 
   }));
+
   const productos = [
     {
       id: 1,
@@ -91,6 +78,7 @@ const CartItem = () => {
     {id: 'quantity', label: 'Quantity', minWidth: 30 },
     {id: 'price', label: 'Price', mindWidth: 30 },
   ]
+
   const classes = useStyles();
 
   const total = (array) => {
@@ -100,6 +88,10 @@ const CartItem = () => {
     })
     return result
   }
+
+  useEffect(()=>{
+    dispatch(getCart(idUser,orderId))
+  },[])
 
   return (
     <Container fullwidth className={classes.container}>
@@ -153,5 +145,3 @@ const CartItem = () => {
     </Container>
   );
 };
-
-export default CartItem;
