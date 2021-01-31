@@ -122,11 +122,11 @@ const Header = () => {
                 </div>
                 <div className={classes.toolbarOptions}>
                     <ShoppingCartIcon className={classes.icons}/>
-                    <Link className={classes.LinkHome} color="inherit" key="logIn" href='/cart'>Cart</Link>
+                    <Link className={classes.LinkHome} color="inherit" key="logIn" href='/cart'>Carrito</Link>
                 </div>
                 <div className={classes.toolbarOptions}>
                       <AccountCircleIcon className={classes.icons}/>
-                    <Link className={classes.LinkHome} color="inherit" key="logIn" href='#'>Profile</Link>
+                    <Link className={classes.LinkHome} color="inherit" key="logIn" href='#'>Admin</Link>
                 </div>
             </div>
         )
@@ -142,7 +142,7 @@ const Header = () => {
                                 <EcoIcon fontSize="default" className={classes.leafIcon}/>
                             </Grid>
                             <Grid item>
-                                <Typography variant="h5" className={classes.toolbarTitle}>The EspecialGarden</Typography>
+                                <Typography variant="h5" className={classes.toolbarTitle}>Un Jardin Especial</Typography>
                             </Grid>
                         </Grid> 
                     </Link>
