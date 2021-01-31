@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Grid, Typography, IconButton, TablePagination, TableContainer, Table, TableRow, TableCell, TableHead, TableBody } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProducts } from '../../../redux/productListReducer/actions';
+import { getProducts, deleteProduct } from '../../../redux/productListReducer/actions';
 import { DeleteForever, Edit } from '@material-ui/icons';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useStylesProductList } from './styles/AdminProductList';
+import Swal from 'sweetalert2';
 
 const columns = [
     {id: 'image', label: 'Image', minWidth: 100, maxWidth: 100},
@@ -23,8 +23,8 @@ function AdminProductList() {
     const styles = useStylesProductList();
     const [ rows, setRows ] = useState([]);
     const products = useSelector(state => state.productListReducer.products);
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [ page, setPage ] = useState(0);
+    const [ rowsPerPage, setRowsPerPage ] = useState(10);
 
     const handleChangePage = (e, newPage) => {
         setPage(newPage);
@@ -36,10 +36,41 @@ function AdminProductList() {
     };
 
     const handleDelete = id => {
-        setRows(rows.filter(row => row.id !== id));
-        axios.delete(`http://localhost:3000/products/${id}`)
-        .then(res => console.log('RESPUESTA DELETE: ', res.data))
-        .catch(err => console.log('ERROR DELETE: ', err));
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+              confirmButton: styles.confirmButton,
+              cancelButton: styles.cancelButton
+            },
+            buttonsStyling: false
+        });
+    
+        swalWithBootstrapButtons.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'YES, DELETE IT!',
+            cancelButtonText: 'NO, CANCEL!',
+            reverseButtons: true
+        })
+        .then((result) => {
+            if (result.isConfirmed) {
+                swalWithBootstrapButtons.fire(
+                'Deleted!',
+                'Your file has been deleted.',
+                'success'
+                );
+                dispatch(deleteProduct(id));
+                setRows(rows.filter(row => row.id !== id));
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                swalWithBootstrapButtons.fire(
+                'Cancelled',
+                `Your product won't be deleted`,
+                'error'
+                );
+            };
+        })
+        .catch(err => console.log(err));
     };
 
     useEffect(() => {
@@ -100,7 +131,7 @@ function AdminProductList() {
                                                 );
                                             })}
                                             <TableCell  >
-                                                <Link to={{pathname:`/admin/products/${row.id}/edit`, state: row}} style={{cursor: 'pointer'}} onClick={() => console.log("hice click")} >
+                                                <Link to={{pathname:`/admin/products/${row.id}/edit`, state: row}} style={{cursor: 'pointer'}} >
                                                     <IconButton>
                                                         <Edit />
                                                     </IconButton>

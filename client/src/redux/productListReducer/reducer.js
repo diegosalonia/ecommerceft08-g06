@@ -1,7 +1,8 @@
-import { GET_PRODUCTS } from '../constants';
+import { GET_PRODUCTS, DELETE_PRODUCT } from '../constants';
 
 const initialState = {
-    products: []
+    products: [],
+    isDeleted: false
 };
 
 const productListReducer = (state = initialState, action) => {
@@ -10,6 +11,11 @@ const productListReducer = (state = initialState, action) => {
             return {
                 ...state,
                 products: action.products
+            };
+        case DELETE_PRODUCT:
+            return {
+                ...state,
+                isDeleted: true
             };
         default:
             return state;

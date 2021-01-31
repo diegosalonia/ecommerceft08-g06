@@ -15,6 +15,7 @@ export const GET_CATEGORIES = 'GET_CATEGORIES';
 
 /* start productListReducer */
 export const GET_PRODUCTS = 'GET_PRODUCTS';
+export const DELETE_PRODUCT = 'DELETE_PRODUCT';
 /* end productListReducer */
 
 
