@@ -13,7 +13,7 @@ import {
   TableRow,
   TextField
 } from "@material-ui/core";
-import { getCart } from "../../redux/cartReducer/actions";
+import { getCart } from "../../redux/CartReducer/actions";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -90,7 +90,7 @@ export default function CartItem (props){
 
   useEffect(()=>{
     if(idUser && orderId){
-    //dispatch(getCart(idUser,orderId))
+      dispatch(getCart(idUser,orderId))
     }
   },[])
 

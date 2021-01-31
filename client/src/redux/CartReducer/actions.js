@@ -1,22 +1,24 @@
  import cartTypes from '../constants.js';
  import axios from 'axios'; 
 
-export function getCart (userId,orderId){ // muestra todos
-    return function(dispatch){
+export const getCart = (userId,orderId) => (dispatch) => { // muestra todos
+
+        console.log("ES HOY , ES HOY: ",cartTypes.GET_CART)
         return axios.get(`http://localhost:3000/users/${userId}/cart/${orderId}`)
         .then(resp => {
+            console.log("xxxxxxxxxxxx: ")
             dispatch({                
                 type: cartTypes.GET_CART,
                 products: resp.data
             })
         })
         .catch( error => {
+            console.log("TA RE ROTO ESTO: ", error)
             console.log(error)
-          })
-    }
+         })
 };
 
-export function changeQuantityCartProduct (product, userId, orderId){
+/* export function changeQuantityCartProduct (product, userId, orderId){
     return function(dispatch){
         return axios.put(`http://localhost:3000/users/${userId}/cart/${orderId}`, {product})
         .then( response =>
@@ -30,7 +32,7 @@ export function changeQuantityCartProduct (product, userId, orderId){
           })
         
     }
-};
+}; */
 
 // export function removeAllProductToCart (userId) { // elimina todos
 //     return function(dispatch){
