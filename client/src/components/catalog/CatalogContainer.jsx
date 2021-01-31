@@ -5,14 +5,14 @@ import { getPaginatedProducts, updatePage} from '../../redux/CatalogReducer/acti
 
 const CatalogContainer = () => {
     const dispatch = useDispatch();
-    //ToDo update PAGE in Pagination (not only in store), selectedButtons, NoCategory empty products, price filter.
+    //ToDo update handle Empty products with page reset.
     //Products
     const [productsRender, setProductsRender] = useState();
     const productList = useSelector(state => state.catalogReducer.products);
     const firstRender = useRef(true);
     //Pagination
     const page = useSelector(state => state.catalogReducer.page);
-    const pageSize = 1; //Products by page limit.
+    const pageSize = 2; //Products by page limit.
     //Filters
     const storeFilterBox = useSelector(state => state.catalogReducer.filterBox);
     const [filterBox, setFilterBox] = useState({categories: [], price: {priceFrom: 0, priceTo: 100000}});  
@@ -29,13 +29,18 @@ const CatalogContainer = () => {
     }, [page])
  */
     useEffect(() => {
-        console.log("Product list: ", productList)
         if(firstRender.current){
             firstRender.current = false;
         }
         else{
             setProductsRender(productList);
+            console.log("Product list: ", productList)
+            console.log(productList.products.length)
+            if (productList.products.length === 0){
+                dispatch(updatePage(1))
+            }
         }
+        
         
     }, [productList])
 

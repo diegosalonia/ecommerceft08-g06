@@ -16,18 +16,25 @@ export const getPageProducts = (page, pageSize, totalProducts, products, filterB
 
 export const getPaginatedProducts = (page, pageSize, filterBox) => (dispatch) => {
     console.log("Linea 18: ", filterBox)
-    if (Array.isArray(filterBox.categories)){
-        var cats = filterBox.categories
-    }
-    else {
-        var cats = [1,2,3,4,5]
-    }
-    axios.get(`http://localhost:3000/products/catalog/?page=${page}&pageSize=${pageSize}&categories=[${[...cats]}]`)
-    .then(products => {
+    if (Array.isArray(filterBox.categories) && filterBox.categories.length >= 1){
+        const cats = filterBox.categories
+        axios.get(`http://localhost:3000/products/catalog/?page=${page}&pageSize=${pageSize}&categories=[${[...cats]}]`)
+        .then(products => {
         var totalProducts = products.data.totalProducts;
         dispatch(getPageProducts(page, pageSize, totalProducts, products, filterBox));
     })
     .catch(error => console.log("Error axios getPaginatedProducts: ", error))  
+    }
+    else {
+        var cats = filterBox.categories
+        axios.get(`http://localhost:3000/products/catalog/?page=${page}&pageSize=${pageSize}`)
+        .then(products => {
+        var totalProducts = products.data.totalProducts;
+        dispatch(getPageProducts(page, pageSize, totalProducts, products, filterBox));
+    })
+    .catch(error => console.log("Error axios getPaginatedProducts: ", error))  
+    }
+    
 }
 
 export const updateFilter = (categories) => {
