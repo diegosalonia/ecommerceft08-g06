@@ -63,10 +63,7 @@ const FilterCatalog = (props) => {
     //Set Category in Catalog. 
     useEffect(() => {
         if(currentCategory){ 
-          /*  console.log("CC: ", currentCategory);
-           console.log("props: ",props); */
            dispatch(updateFilter({categories: currentCategory}));
-           //props.setFilterBox({...props.filterBox, categories: currentCategory})
         }
     }, [currentCategory])
     return (

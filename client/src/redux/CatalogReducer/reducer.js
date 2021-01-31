@@ -1,4 +1,4 @@
-import {GET_PAGE_PRODUCTS, UPDATE_FILTERS} from '../constants';
+import {GET_PAGE_PRODUCTS, UPDATE_FILTERS, UPDATE_PAGE} from '../constants';
 
 const initialState = {
     page: 1,
@@ -21,6 +21,11 @@ export default function catalogReducer(state = initialState, action)  {
                 ...state,
                 filterBox: action.payload.categories
             }
+        case UPDATE_PAGE:
+            return{
+                ...state,
+                page: action.payload.page
+            }    
         default: 
             return state;
     }

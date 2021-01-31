@@ -28,7 +28,7 @@ const Catalog = (props) => {
                 <Grid container item xs={12} sm={9} spacing={3} justify="center" alignItems="center">
                     {renderProducts()}    
                 </Grid>
-                <Pagination setpage={props.setpage}/>
+                <Pagination />
             </Grid>
         </Container>
     )

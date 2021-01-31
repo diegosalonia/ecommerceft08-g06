@@ -1,4 +1,4 @@
-import {GET_PAGE_PRODUCTS, UPDATE_FILTERS} from '../constants';
+import {GET_PAGE_PRODUCTS, UPDATE_FILTERS, UPDATE_PAGE} from '../constants';
 import axios from 'axios';
 
 export const getPageProducts = (page, pageSize, totalProducts, products, filterBox) => {
@@ -35,6 +35,15 @@ export const updateFilter = (categories) => {
         type: UPDATE_FILTERS,
         payload: {
             categories
+        }
+    }
+}
+
+export const updatePage = (page) => {
+    return {
+        type: UPDATE_PAGE,
+        payload: {
+            page
         }
     }
 }

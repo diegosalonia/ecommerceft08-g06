@@ -1,34 +1,33 @@
 import React, {useEffect, useState, useRef} from 'react';
 import Catalog from './Catalog';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPaginatedProducts} from '../../redux/CatalogReducer/actions'
+import { getPaginatedProducts, updatePage} from '../../redux/CatalogReducer/actions'
 
 const CatalogContainer = () => {
-    //ToDo update PAGE in Pagination (not only in store), selectedButtons, NoCategory empty products, price filter.
-    const [productsRender, setProductsRender] = useState();
     const dispatch = useDispatch();
+    //ToDo update PAGE in Pagination (not only in store), selectedButtons, NoCategory empty products, price filter.
+    //Products
+    const [productsRender, setProductsRender] = useState();
     const productList = useSelector(state => state.catalogReducer.products);
-    const storeFilterBox = useSelector(state => state.catalogReducer.filterBox)
     const firstRender = useRef(true);
     //Pagination
-    const [page, setPage] = useState(1);
-    const pageSize = 2; //Products by page limit.
+    const page = useSelector(state => state.catalogReducer.page);
+    const pageSize = 1; //Products by page limit.
     //Filters
+    const storeFilterBox = useSelector(state => state.catalogReducer.filterBox);
     const [filterBox, setFilterBox] = useState({categories: [], price: {priceFrom: 0, priceTo: 100000}});  
 
     useEffect(() => {
         console.log("STORE FILTER BOX: ",storeFilterBox)
-
-            dispatch(getPaginatedProducts(page, pageSize, storeFilterBox));    
-    
-        setPage(1); 
-    }, [storeFilterBox])//UP TO STORE, CURRENT: LOCAL
+        dispatch(getPaginatedProducts(page, pageSize, storeFilterBox));    
+        dispatch(updatePage(page));
+    }, [storeFilterBox, page])//UP TO STORE, CURRENT: LOCAL
 
     
-    useEffect(() => {
+  /*   useEffect(() => {
         dispatch(getPaginatedProducts(page, pageSize, storeFilterBox));
     }, [page])
-
+ */
     useEffect(() => {
         console.log("Product list: ", productList)
         if(firstRender.current){
@@ -41,7 +40,7 @@ const CatalogContainer = () => {
     }, [productList])
 
     return(
-        <Catalog products={productsRender} setpage={setPage} filterBox={filterBox} setFilterBox={setFilterBox}  />
+        <Catalog products={productsRender} /* setpage={setPage} */ filterBox={filterBox} setFilterBox={setFilterBox}  />
     )
 
 }
