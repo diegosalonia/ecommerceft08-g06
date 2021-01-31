@@ -25,10 +25,7 @@ const cartReducer = (state = initialState, action) => {
       };
 
     default:         // este seria el de remove por uno
-      return {
-        ...state,
-        producList: action.products,
-      };
+      return state
   }
 };
 

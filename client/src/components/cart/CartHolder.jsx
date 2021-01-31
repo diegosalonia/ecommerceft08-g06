@@ -1,6 +1,6 @@
 import React from 'react'
 import CartItem from './CartItem'
-const testValues = {idUser: 1, orderId: 2}
+const testValues = {idUser: 1, orderId: 1}
 
 const CartHolder = ()=>{
 

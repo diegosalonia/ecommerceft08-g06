@@ -19,21 +19,12 @@ import { makeStyles } from "@material-ui/core/styles";
 
 
 export default function CartItem (props){
-
   const {idUser, orderId} = props;
-  const dispatch = useDispatch();
-  
-  // const [OrderL, setOrder] = useState([])
   const order = useSelector(state => state.cartReducer.producList)
-  const rowset = [...order]
-  
+  const dispatch = useDispatch();
 
-  console.log("OJALA QUE HAYA ALGO AQUIz", order)
-  // if(Array.isArray(order)){
-  //   const rowset = [...order]
-  //   console.log("OJALA QUE HAYA ALGO AQUIz", rowset)
-  // }
-  
+  //const rows = [...order]
+  console.log("OJALA QUE HAYA ALGO AQUI", order)
 
   const useStyles = makeStyles((theme) => ({
     container: {
@@ -56,13 +47,29 @@ export default function CartItem (props){
         width: 40,
         textAlign: "center",
     },
-    images:{
-        width: 70,
-        textAlign: "center",
-    }
 
   }));
 
+  const productos = [
+    {
+      id: 1,
+      name: "GROW MIX MULTIPRO 80 L TERRAFERTIL",
+      quantity: 40,
+      price: 40000,
+    },
+    {
+      id: 2,
+      name: "GROW MIX MULTIPRO 80 L TERRAFERTIL",
+      quantity: 40,
+      price: 40000,
+    },
+    {
+      id: 3,
+      name: "GROW MIX MULTIPRO 80 L",
+      quantity: 40,
+      price: 40000,
+    },
+  ];
 
   const columns = [
     {id: 'image', label: 'Image', minWidth: 100},
@@ -76,7 +83,7 @@ export default function CartItem (props){
   const total = (array) => {
     let result = 0;
     array.forEach(element =>{
-        result += element.price * element.order_line.quantity
+        result += element.price * element.quantity
     })
     return result
   }
@@ -86,8 +93,6 @@ export default function CartItem (props){
       dispatch(getCart(idUser,orderId))
     }
   },[])
-  
- 
 
   return (
     <Container fullwidth className={classes.container}>
@@ -107,18 +112,16 @@ export default function CartItem (props){
                 </TableRow>
             </TableHead>
             <TableBody>
-              {rowset?.map((product) => (
-                <TableRow key={product.id}>
-                  <TableCell  className= {classes.heightfile}>
-                      <img src={product.image} className={classes.images}/>
-                    </TableCell>
+              {productos?.map((product) => (
+                <TableRow key={product.id} >
+                    <TableCell  className= {classes.heightfile}></TableCell>
                     <TableCell className= {classes.heightfile}>{product.name}</TableCell>
                     <TableCell align="center" className= {classes.heightfile}>
                         <TextField
                         type= 'number'
                         inputProps={{min: 0, style: { textAlign: 'center' }}}
                         className= {classes.quantity}
-                        defaultValue={product.order_line.quantity}/>                           
+                        defaultValue={product.quantity}/>                           
                     </TableCell>
                     <TableCell align="right" className= {classes.heightfile}>{product.price}</TableCell>
                 </TableRow>
@@ -126,7 +129,7 @@ export default function CartItem (props){
                 <TableRow>
                     <TableCell rowSpan={3}/>
                     <TableCell colSpan={2} align="center">Subtotal</TableCell>
-                    <TableCell align="right">{total(rowset)}</TableCell>
+                    <TableCell align="right">{total(productos)}</TableCell>
                 </TableRow>
                  <TableRow>
                     <TableCell colSpan={2} align="center">Envio</TableCell>
@@ -134,7 +137,7 @@ export default function CartItem (props){
                  </TableRow>
                 <TableRow>
                     <TableCell colSpan={2} align="center">Total</TableCell>
-                    <TableCell align="right">{total(rowset)}</TableCell> 
+                    <TableCell align="right">{total(productos)}</TableCell> 
                  </TableRow>
             </TableBody>
           </TableContainer>
