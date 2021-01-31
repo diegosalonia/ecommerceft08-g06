@@ -1,11 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import {Button, ButtonGroup, Card, CardHeader, CardContent, makeStyles} from '@material-ui/core';
+import { useDispatch } from 'react-redux';
+import {updateFilter} from '../../redux/CatalogReducer/actions'
 
 const FilterCatalog = (props) => {
     const [categories, setCategories] = useState(false);
     const [currentCategory, setCurrentCategory] = useState(false);
-
+    const dispatch = useDispatch();
     const useStyles = makeStyles((theme) => ({
         cardHeader: {
             backgroundColor: theme.palette.primary.main,
@@ -63,7 +65,8 @@ const FilterCatalog = (props) => {
         if(currentCategory){ 
           /*  console.log("CC: ", currentCategory);
            console.log("props: ",props); */
-           props.setFilterBox({...props.filterBox, categories: currentCategory})
+           dispatch(updateFilter({categories: currentCategory}));
+           //props.setFilterBox({...props.filterBox, categories: currentCategory})
         }
     }, [currentCategory])
     return (
