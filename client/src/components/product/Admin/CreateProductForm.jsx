@@ -47,7 +47,7 @@ const CreateProductForm = () => {
             icon: 'success',
             title: 'Product created succesfully!',
             showConfirmButton: false,
-            timer: 1700,
+            timer: 2000,
         });
     };
 

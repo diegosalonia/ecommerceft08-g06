@@ -32,11 +32,13 @@ const addImages = (images, productName, id, form) => {
             );
        });
     });
-    // window.location.reload(false)
+    // 
     Promise.all(promises)
     .then(res => {
         axios.put(`http://localhost:3000/products/${id}`, { form })
-        .then(res => console.log(res))
+        .then(res => {
+            window.location.reload(false);
+        })
         .catch(err => console.log(err));
     });
 };

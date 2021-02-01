@@ -60,7 +60,7 @@ const UpdateProductForm = (props) => {
         } else {
             newChecked.splice(currentIndex, 1);
             arr = [];
-            newChecked.forEach(el => arr.push(el.id));
+            newChecked.forEach(el => !arr.includes(el) && arr.push(el.id));
         }
         setChecked(newChecked);
         console.log("CATEGORYLIST: ", categoryList);
