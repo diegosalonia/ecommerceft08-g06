@@ -13,6 +13,7 @@ import Footer from '../components/footer/Footer';
 import {Container, Grid} from '@material-ui/core'
 import Order from '../components/order/Order';
 import UserForm from '../components/user/UserForm';
+import OrderList from '../components/orders/admin/OrderList';
 
 const Routes = () => {
     return(
@@ -21,6 +22,7 @@ const Routes = () => {
                     <Container style={{minHeight: "80vh", padding: "2em"}}>
                         <Route exact path='/' component={Home}/>
                         <Route exact path='/admin' component={AdminDashboard} />
+                        <Route exact path='admin/orders' component={OrderList} />
                         <Route exact path='/admin/products' component={AdminProductList} />
                         <Route exact path='/admin/products/create-product' component={CreateProductForm} />
                         <Route path="/admin/categories/create-category" component={CategoryForm} />
