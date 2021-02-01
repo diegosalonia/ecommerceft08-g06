@@ -13,6 +13,12 @@ const Catalog = (props) => {
                 </Grid>)    
             });
     }
+    else{
+        console.log("NO PRODUCTS: ", props.products);
+    }
+
+   
+
     return (
         <Container>
             <Grid container spacing={3} justify="center">
@@ -27,4 +33,5 @@ const Catalog = (props) => {
         </Container>
     )
 }
+
 export default Catalog;
