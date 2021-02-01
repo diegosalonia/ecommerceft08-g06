@@ -7,7 +7,7 @@ import { Button, CssBaseline, TextField, FormControlLabel, Link, Grid, Box, Typo
 import { Redirect } from 'react-router-dom';
 
 
-export default function UserForm(){
+export default function UserForm(props){
   const useStylesUserForm = makeStyles(theme => ({
     paper: {
         marginTop: theme.spacing(4),
@@ -64,7 +64,7 @@ export default function UserForm(){
           axios.post('http://localhost:3000/users/', {form:values})
           .then((res) => {
             alert('User created');
-            return <Redirect to='/' />
+            props.history.push('/');
           })
           .catch(error => console.log("Error on request: ",error));
         }
