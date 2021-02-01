@@ -21,28 +21,6 @@ import { Redirect } from "react-router-dom"
 
 
 export default function CartItem (props){
-
-  const {idUser, orderId} = props;
-  const dispatch = useDispatch();
-  const [ deletes, setDeletes ] = useState(false)
-  
-  
-  const order = useSelector(state => state.cartReducer.producList)
-  const rowset = [...order]
-  console.log(rowset)
-  const quantitys = 0
-  const [cantidad, setCatidad] = useState()
-
-  function handleChange(e){
-    setCatidad(e.target.value)
-    dispatch(changeQuantityCartProduct({id:1, quantity:e.target.value},idUser,orderId))
-  }
-  
-  function handleDelete(idProduct, idUser, idOrder){
-    dispatch(removeProductToCart({id: idProduct},idUser,idOrder))
-    setDeletes(true)
-  }
-
   const useStyles = makeStyles((theme) => ({
     container: {
       display: "flex",
@@ -70,16 +48,23 @@ export default function CartItem (props){
     }
 
   }));
-
-
-  const columns = [
-    {id: 'image', label: 'Image', minWidth: 100},
-    {id: 'name', label: 'Name', minWidth: 60 },
-    {id: 'quantity', label: 'Quantity', minWidth: 30 },
-    {id: 'price', label: 'Price', mindWidth: 30 },
-  ]
-
   const classes = useStyles();
+  const {idUser, orderId} = props;
+  const dispatch = useDispatch();
+  const order = useSelector(state => state.cartReducer.producList)
+  const [ productList, setProductList ] = useState([]);
+  const quantitys = 0
+  const [cantidad, setCatidad] = useState()
+
+  function handleChange(e){
+    setCatidad(e.target.value)
+    dispatch(changeQuantityCartProduct({id:1, quantity:e.target.value},idUser,orderId))
+  }
+  
+  function handleDelete(idProduct, idUser, idOrder){
+    setProductList(productList.filter(product => product.id !== idProduct));
+    dispatch(removeProductToCart({id: idProduct},idUser,idOrder))
+  }
 
   const total = (array) => {
     let result = 0;
@@ -94,6 +79,18 @@ export default function CartItem (props){
       dispatch(getCart(idUser,orderId))
     }
   },[])
+
+  useEffect(() => {
+    console.log("PRODUCT LIST: ", order);
+    setProductList(order);
+  }, [order]);
+
+  const columns = [
+    {id: 'image', label: 'Image', minWidth: 100},
+    {id: 'name', label: 'Name', minWidth: 60 },
+    {id: 'quantity', label: 'Quantity', minWidth: 30 },
+    {id: 'price', label: 'Price', mindWidth: 30 },
+  ]
 
   return (
     <Container fullwidth className={classes.container}>
@@ -113,7 +110,7 @@ export default function CartItem (props){
                 </TableRow>
             </TableHead>
             <TableBody>
-              {rowset?.map((product) => (
+              {productList?.map((product) => (
                 <TableRow key={product.id}>
                   <TableCell  className= {classes.heightfile}>
                       <img src={product.image} className={classes.images}/>
@@ -125,10 +122,10 @@ export default function CartItem (props){
                         type= 'number'
                         inputProps={{min: 0, style: { textAlign: 'center' }}}
                         className= {classes.quantity}
-                        defaultValue={product.order_line.quantity}                        
+                        defaultValue={product.order_line.quantity}
+                        value={cantidad}
                         name="cantidad"
                         onChange={handleChange}
-                        //onClick={()=>dispatch(changeQuantityCartProduct({id:product.id, quantity:60},idUser,orderId))}
                         />                           
                     </TableCell>
 
@@ -140,17 +137,17 @@ export default function CartItem (props){
                         color="primary"
                         name="deleteOne"
                         onClick={() => handleDelete(product.id, idUser, orderId)}
-                        //onClick={()=>dispatch(removeProductToCart({id:product.id},idUser,orderId))}
                         >
                         X
                       </Button>
                     </TableCell>
                 </TableRow>
+                // <CartItem product={product} />
               ))}
                 <TableRow>
                     <TableCell rowSpan={3}/>
                     <TableCell colSpan={2} align="center">Subtotal</TableCell>
-                    <TableCell align="right">{total(rowset)}</TableCell>
+                    <TableCell align="right">{total(productList)}</TableCell>
                 </TableRow>
                  <TableRow>
                     <TableCell colSpan={2} align="center">Envio</TableCell>
@@ -158,7 +155,7 @@ export default function CartItem (props){
                  </TableRow>
                 <TableRow>
                     <TableCell colSpan={2} align="center">Total</TableCell>
-                    <TableCell align="right">{total(rowset)}</TableCell> 
+                    <TableCell align="right">{total(productList)}</TableCell> 
                  </TableRow>
             </TableBody>
           </TableContainer>
