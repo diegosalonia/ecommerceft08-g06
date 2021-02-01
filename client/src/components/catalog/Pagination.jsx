@@ -1,8 +1,7 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 import Pagination from '@material-ui/lab/Pagination';
-import {useSelector, useDispatch} from 'react-redux';
-import {updatePage} from '../../redux/CatalogReducer/actions'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -13,33 +12,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const PaginationControlled = (props) => {
-
-  const dispatch = useDispatch();
-  const totalProducts = useSelector(state => state.catalogReducer.totalProducts);
-  const pageSize = useSelector(state => state.catalogReducer.pageSize);
-  const page = useSelector(state => state.catalogReducer.page);
-/*   const filterBox = useSelector(state => state.catalogReducer.filterBox)
- */  var totalPages = Math.ceil(totalProducts / pageSize);
   const classes = useStyles();
-
- /*  useEffect(() => {
-    console.log("Totalpages: ", totalPages, "Page: ", page)
-    if (totalPages < page){
-      console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-      dispatch(updatePage(1));
-    }
-  }, [page, filterBox]) */
+  const [page, setPage] = React.useState(1);
 
   const handleChange = (event, value) => {
-    event.preventDefault();
-    dispatch(updatePage(value))
+    setPage(value);
+    props.setpage(value);
   };
-
-
 
   return (
     <div className={classes.root}>
-      <Pagination count={totalPages} page={page} onChange={handleChange} /> 
+      <Pagination count={10} page={page} onChange={handleChange} />
     </div>
   );
 }
