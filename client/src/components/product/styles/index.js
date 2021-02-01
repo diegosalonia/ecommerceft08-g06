@@ -75,6 +75,9 @@ export const useStylesProductCard = makeStyles(theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+      },
+      rightText: {
+        
       }
       }));
 
