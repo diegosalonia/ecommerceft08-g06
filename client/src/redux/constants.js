@@ -12,5 +12,10 @@ export const ADD_PRODUCT_TO_CART = 'ADD_PRODUCT_TO_CART';
 export const GET_PAGE_PRODUCTS = "getPageProducts";
 /* Catalog end - Pagination*/
 
-// order constansts
-export const GET_ORDER = "GET_ORDER"
+/* order constansts */
+export const GET_ORDER = "GET_ORDER";
+
+/* searchBar constants */
+
+export const GET_PRODUCTS_BY_KEYWORD = "GET_PRODUCTS_BY_KEYWORD"
+
