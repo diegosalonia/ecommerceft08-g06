@@ -138,14 +138,29 @@ server.delete('/:productId/category/:categoryId', async (req, res) =>{
 });
 
 server.get('/:id', (req, res) => {
-	Product.findByPk(req.params.id)
-	.then(product => {
-		res.send(product);
+	const { params: { id }} = req;
+	Product.findOne({
+		where: {
+			id: id
+		},
+		include: [
+			{ model: Category }
+		]
 	})
-	.catch(err => {
-		console.log("Error getting product");
-		res.status(400).send(err);
-	})	
+	.then(product => {
+		const newProduct = {
+			name: product.dataValues.name,
+			price: product.dataValues.price,
+			description: product.dataValues.description,
+			discount: product.dataValues.discount,
+			image: product.dataValues.image,
+			stock: product.dataValues.stock,
+			featured: product.dataValues.featured,
+			categories: product.dataValues.categories
+		};
+		res.send(newProduct);
+	})
+	.catch(err => console.log(err));
 });
 
 module.exports = server;
