@@ -25,6 +25,8 @@ export const DELETE_PRODUCT = 'DELETE_PRODUCT';
 
 /* Catalog - Pagination */
 export const GET_PAGE_PRODUCTS = "getPageProducts";
+export const UPDATE_FILTERS = "updateFilters";
+export const UPDATE_PAGE = "updatePage";
 /* Catalog end - Pagination*/
 
 // order constansts
