@@ -23,7 +23,8 @@ module.exports = (sequelize) => {
             allowNull: false   
         },
         phone_number:{
-            type: BIGINT
+            type: BIGINT,
+            allowNull:false
         },
         user_role:{
             type: ENUM("admin", "user"),
