@@ -39,7 +39,7 @@ const CatalogContainer = () => {
             firstRender.current = false;
         }
         else{
-            var productListWithId = productList.map(product => {
+            var productListWithId = productList?.map(product => {
                 const onlyCatIds = product.categories.map(category => category.id);
                 return {...product, categories: onlyCatIds}
             });
