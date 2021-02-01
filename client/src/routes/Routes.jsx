@@ -11,6 +11,7 @@ import MainNav from '../components/nav/MainNav';
 import Home from '../components/home/home';
 import CatalogContainer from '../components/catalog/CatalogContainer';
 import Footer from '../components/footer/Footer';
+import CartHolder from '../components/cart/CartHolder';
 import CatalogContainerSearch from '../components/catalog/CatalogContainerSearch';
 import Order from '../components/orders/order/Order';
 import OrderList from '../components/orders/admin/OrderList';
@@ -35,6 +36,7 @@ const Routes = () => {
                     <Route path='/user/sign-in' component={UserForm} />
                     <Route path="/products/:id" component={Product}/>
                     <Route exact path="/products" component={CatalogContainer} />
+                    <Route exact path= "/cart" component={CartHolder}/>
                 </Container>
             <Route path='/' component={Footer}/>
         </>        

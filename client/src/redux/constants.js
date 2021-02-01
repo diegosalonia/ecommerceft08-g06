@@ -35,5 +35,15 @@ export const UPDATE_PAGE = "updatePage";
 /* order constansts */
 export const GET_ORDER = "GET_ORDER";
 
+/* actions cart*/
+const cartTypes = {
+    GET_CART: 'GET_CART',    
+    CHANGE_QUANTITY_CART_PRODUCT: 'CHANGE_QUANTITY_CART_PRODUCT',
+    REMOVE_PRODUCT_TO_CART: 'REMOVE_PRODUCT_TO_CART',
+    REMOVE_ALL_PRODUCT_TO_CART: 'REMOVE_ALL_PRODUCT_TO_CART'
+}
+
+export default cartTypes;
+
 /* searchBar constants */
 export const GET_PRODUCTS_BY_KEYWORD = "GET_PRODUCTS_BY_KEYWORD"

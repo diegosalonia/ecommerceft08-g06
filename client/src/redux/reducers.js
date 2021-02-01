@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import productReducer from './productReducer/reducer';
+import cartReducer from './CartReducer/reducer';
 import catalogReducer from './CatalogReducer/reducer';
 import orderReducer from './orderReducer/reducer';
 import searchBarReducer from './searchBarReducer/reducer'
@@ -8,10 +9,10 @@ import productListReducer from './productListReducer/reducer';
 import updateProductReducer from './updateProductForm/reducer';
 import orderListReducer from './orderListReducer/reducer';
 
-
 const rootReducer = combineReducers(
     {
         productReducer,
+        cartReducer,
         catalogReducer,
         searchBarReducer,
         orderReducer,
