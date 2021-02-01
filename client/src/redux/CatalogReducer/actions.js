@@ -15,6 +15,7 @@ export const getPageProducts = (page, pageSize, totalProducts, products, filterB
 }
 
 export const getPaginatedProducts = (page, pageSize, filterBox) => (dispatch) => {
+    console.log("Linea 18: ", filterBox)
     if (Array.isArray(filterBox.categories) && filterBox.categories.length >= 1){
         const cats = filterBox.categories
         axios.get(`http://localhost:3000/products/catalog/?page=${page}&pageSize=${pageSize}&categories=[${[...cats]}]`)
@@ -25,6 +26,7 @@ export const getPaginatedProducts = (page, pageSize, filterBox) => (dispatch) =>
     .catch(error => console.log("Error axios getPaginatedProducts: ", error))  
     }
     else {
+        var cats = filterBox.categories
         axios.get(`http://localhost:3000/products/catalog/?page=${page}&pageSize=${pageSize}`)
         .then(products => {
         var totalProducts = products.data.totalProducts;
