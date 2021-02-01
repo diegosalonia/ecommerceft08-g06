@@ -14,7 +14,6 @@ const rootReducer = combineReducers(
         productReducer,
         catalogReducer,
         searchBarReducer,
-        orderReducer
         orderReducer,
         createProductReducer,
         productListReducer,
