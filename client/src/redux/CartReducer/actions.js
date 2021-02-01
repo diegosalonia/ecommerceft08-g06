@@ -18,13 +18,17 @@ export function getCart (userId,orderId){ // muestra todos
 };
 
 export function changeQuantityCartProduct (product, userId, orderId){
+    console.log(product,userId,orderId)
     return function(dispatch){
+        console.log('ENTRO AQUI')
         return axios.put(`http://localhost:3000/users/${userId}/cart/${orderId}`, {product})
-        .then( response =>
+        .then( response => {
+            console.log("ACTUALIZADO=",response)
             dispatch({
                 type: cartTypes.CHANGE_QUANTITY_CART_PRODUCT,
-                product
+                products: response.data
             })
+            }
         )
         .catch( error => {
             console.log(error)
@@ -33,27 +37,33 @@ export function changeQuantityCartProduct (product, userId, orderId){
     }
 };
 
-// export function removeAllProductToCart (userId) { // elimina todos
-//     return function(dispatch){
-//         return axios.delete(`http://localhost:3000/users/${userId}/cart`, {form})
-//         .then( resp =>
-//             dispatch({
-//                 type: cartTypes.REMOVE_ALL_PRODUCT_TO_CART,
-//                 payload: resp.data
-//             })
-//         )
-//     }
-// };
 
-// export function removeProductToCart  (userId) {  // elimina solo uno 
-//     return function(dispatch){
-//         return axios.delete(`http://localhost:3000/users/${userId}/cart/${orderId}`, {product})
-//         .then(resp => resp.json())
-//         .then((json)=>
-//             dispatch({
-//                 type: cartTypes.removeProductToCart,
-//                 payload: json
-//             })
-//         )
-//     }
-// } 
+export function removeProductToCart (product,userId,orderId) {  // elimina solo uno 
+    console.log('aqui estamos',product,userId,orderId)
+    return function(dispatch){
+        console.log(product)
+        return axios.delete(`http://localhost:3000/users/${userId}/cart/${orderId}/${product.id}`)
+        .then(resp => {
+            console.log('SE BORRO',resp)
+            
+        })        
+        // .catch( error => {
+        //     console.log(error)
+        // })
+    }
+} 
+
+export function removeAllProductToCart (userId,form) { // elimina todos
+    return function(dispatch){
+        return axios.delete(`http://localhost:3000/users/${userId}/cart`, {form})
+        .then( resp =>
+            dispatch({
+                type: cartTypes.REMOVE_ALL_PRODUCT_TO_CART,
+                products: resp.data
+            })
+        )        
+        .catch( error => {
+            console.log(error)
+          })
+    }
+};

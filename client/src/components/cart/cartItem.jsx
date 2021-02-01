@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useFormik } from 'formik';
 import { useDispatch, useSelector } from "react-redux";
 import {
   AppBar,
@@ -13,27 +14,34 @@ import {
   TableRow,
   TextField
 } from "@material-ui/core";
-import { getCart } from "../../redux/CartReducer/actions";
+import { getCart , changeQuantityCartProduct , removeProductToCart , removeAllProductToCart } from "../../redux/CartReducer/actions";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { makeStyles } from "@material-ui/core/styles";
+import { Redirect } from "react-router-dom" 
 
 
 export default function CartItem (props){
 
   const {idUser, orderId} = props;
   const dispatch = useDispatch();
+  const [ deletes, setDeletes ] = useState(false)
   
-  // const [OrderL, setOrder] = useState([])
+  
   const order = useSelector(state => state.cartReducer.producList)
   const rowset = [...order]
-  
+  console.log(rowset)
+  const quantitys = 0
+  const [cantidad, setCatidad] = useState()
 
-  console.log("OJALA QUE HAYA ALGO AQUIz", order)
-  // if(Array.isArray(order)){
-  //   const rowset = [...order]
-  //   console.log("OJALA QUE HAYA ALGO AQUIz", rowset)
-  // }
+  function handleChange(e){
+    setCatidad(e.target.value)
+    dispatch(changeQuantityCartProduct({id:1, quantity:e.target.value},idUser,orderId))
+  }
   
+  function handleDelete(idProduct, idUser, idOrder){
+    dispatch(removeProductToCart({id: idProduct},idUser,idOrder))
+    setDeletes(true)
+  }
 
   const useStyles = makeStyles((theme) => ({
     container: {
@@ -86,8 +94,6 @@ export default function CartItem (props){
       dispatch(getCart(idUser,orderId))
     }
   },[])
-  
- 
 
   return (
     <Container fullwidth className={classes.container}>
@@ -113,14 +119,32 @@ export default function CartItem (props){
                       <img src={product.image} className={classes.images}/>
                     </TableCell>
                     <TableCell className= {classes.heightfile}>{product.name}</TableCell>
+
                     <TableCell align="center" className= {classes.heightfile}>
                         <TextField
                         type= 'number'
                         inputProps={{min: 0, style: { textAlign: 'center' }}}
                         className= {classes.quantity}
-                        defaultValue={product.order_line.quantity}/>                           
+                        defaultValue={product.order_line.quantity}                        
+                        name="cantidad"
+                        onChange={handleChange}
+                        //onClick={()=>dispatch(changeQuantityCartProduct({id:product.id, quantity:60},idUser,orderId))}
+                        />                           
                     </TableCell>
+
                     <TableCell align="right" className= {classes.heightfile}>{product.price}</TableCell>
+
+                    <TableCell align="center" className= {classes.heightfile}>
+                      <Button 
+                        variant="contained" 
+                        color="primary"
+                        name="deleteOne"
+                        onClick={() => handleDelete(product.id, idUser, orderId)}
+                        //onClick={()=>dispatch(removeProductToCart({id:product.id},idUser,orderId))}
+                        >
+                        X
+                      </Button>
+                    </TableCell>
                 </TableRow>
               ))}
                 <TableRow>

@@ -40,7 +40,7 @@ server.put('/:idUser/cart/:idOrder',async (req, res)=>{ // actualiza el valor
 
     await product.addOrder(order, { through: { orderId: order.id, quantity, price } })
     .then(response =>{
-        res.send(response);
+        res.json(response);
     })
     .catch(err =>{
         console.log(err)
@@ -59,10 +59,9 @@ server.delete('/:idUser/cart', async (req,res)=>{ // borra todo los valores
     }).catch(err=>{res.send(err)})
 })
 
-server.delete('/:idUser/cart/:idOrder', async (req,res)=>{ //borra un solo valor
+server.delete('/:idUser/cart/:idOrder/:idProduct', async (req,res)=>{ //borra un solo valor
     let order = await Order.findByPk(req.params.idOrder)
-
-    let product = await order.getProducts({where:{id:req.body.product.id}})
+    let product = await order.getProducts({where:{id:req.params.idProduct}})
     
     await order.removeProduct(product)
     .then(resp=>{

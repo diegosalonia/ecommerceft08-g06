@@ -23,6 +23,11 @@ const cartReducer = (state = initialState, action) => {
         ...state,
         producList: action.products,
       };
+    case cartTypes.REMOVE_PRODUCT_TO_CART:
+      return {
+        ...state,
+        producList: action.products,
+      }
 
     default:         // este seria el de remove por uno
       return state
