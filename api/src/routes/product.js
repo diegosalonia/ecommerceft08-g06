@@ -1,7 +1,7 @@
 const server = require('express').Router();
 const { response } = require('express');
 const { Sequelize } = require('sequelize');
-const { Product, Category } = require('../db.js');
+const { Product, Category, Order } = require('../db.js');
 
 server.get('/', (req, res, next) => {
 	Product.findAll({
@@ -98,29 +98,34 @@ server.get('/catalog/', (req, res) => {
 	var options = {where: {}, include: []};
 	if (categories){
 		options.include = {model: Category, where: {id: categories}}; 
-	}
-	if (priceFrom & priceTo){
-		options.where.price =  {[Sequelize.Op.between]: [priceFrom, priceTo]}; 
-	}
-	if (rating) {
-	}
-	if (page && pageSize){
-		var offSet;
-		var totalProducts = 0;
-		(page === 1) ? offSet=0 : offSet = (page - 1) * pageSize;
-		options.limit = pageSize;
-		options.offset = offSet;
-	}
-	Product.count(options)
-	.then(count =>{
-		totalProducts = count; 
-		Product.findAll(options)
-		.then(products => res.send({products, totalProducts}))
-		.catch(err => console.log(err));
+server.get('/product-detail/:id', async (req, res) => {
+	Product.findOne({
+		where: {
+			id: req.params.id
+		},
+		include: [
+			{model: Category},
+			{model: Order}
+		]
 	})
-	.catch(err => res.status(400).send(err));
-})
-
+	.then(product => {
+		const newProductForm = {
+			name: product.dataValues.name,
+			price: product.dataValues.price,
+			description: product.dataValues.description,
+			discount: product.dataValues.discount,
+			image: product.dataValues.image,
+			stock: product.dataValues.stock,
+			featured: product.dataValues.featured,
+			categories: product.dataValues.categories.map(category => category.dataValues.name),
+			quantity: product.dataValues.orders[0]?.order_line.dataValues.quantity,
+			userId: product.dataValues.orders[0]?.userId
+		}
+		res.send(newProductForm);
+	})
+	.catch(err => console.log(err));
+});
+      
 server.delete('/:productId/category/:categoryId', async (req, res) =>{
 	const category =  await Category.findByPk(req.params.categoryId)
 	const product = await Product.findByPk(req.params.productId)
