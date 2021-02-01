@@ -23,6 +23,10 @@ export const DELETE_PRODUCT = 'DELETE_PRODUCT';
 
 /* end updateProductReducer */
 
+/* start orderListReducer */
+export const GET_ORDERS = 'GET_ORDERS';
+/* end orderListReducer */
+
 /* Catalog - Pagination */
 export const GET_PAGE_PRODUCTS = "getPageProducts";
 export const UPDATE_FILTERS = "updateFilters";
@@ -32,9 +36,4 @@ export const UPDATE_PAGE = "updatePage";
 export const GET_ORDER = "GET_ORDER";
 
 /* searchBar constants */
-
 export const GET_PRODUCTS_BY_KEYWORD = "GET_PRODUCTS_BY_KEYWORD"
-
-
-/* Catalog end - Pagination*/
-

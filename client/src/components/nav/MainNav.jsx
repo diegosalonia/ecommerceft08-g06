@@ -10,7 +10,7 @@ import {useHistory} from 'react-router-dom'
 import { Grid } from "@material-ui/core";
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import SearchBar from './SearchBar';
-
+import LoginModal from '../login/LoginModal';
 //import LoginModal from './LoginModal'
 
 const useStyles = makeStyles((theme) => ({
@@ -109,7 +109,7 @@ const Header = ({ setSearch }) => {
         return (
             <div className={classes.toolbarOptionsDiv}>
                 <div className={classes.toolbarOptions}>
-                    {/* <LoginModal/> */} 
+                    <LoginModal/> 
                 </div>
                 <div className={classes.toolbarOptions}>
                     <ShoppingCartIcon/>
@@ -121,7 +121,7 @@ const Header = ({ setSearch }) => {
                 </div>
                 <div className={classes.toolbarOptions}>
                     <AccountCircleIcon/>
-                    <Link className={classes.LinkHome} color="inherit" key="logIn" href='#'>Usuario</Link>
+                    <Link className={classes.LinkHome} color="inherit" key="logIn" href='/user'>Usuario</Link>
                 </div>
             </div>
         )
