@@ -1,54 +1,23 @@
-import {GET_PAGE_PRODUCTS, UPDATE_FILTERS, UPDATE_PAGE} from '../constants';
+import {GET_PAGE_PRODUCTS} from '../constants';
 import axios from 'axios';
 
-export const getPageProducts = (page, pageSize, totalProducts, products, filterBox) => {
+export const getPageProducts = (page, pageSize, products) => {
     return {
         type: GET_PAGE_PRODUCTS,
         payload: {
             page,
             pageSize,
-            totalProducts,
-            products,
-            filterBox
+            products: products
         }
     }
 }
 
-export const getPaginatedProducts = (page, pageSize, filterBox) => (dispatch) => {
-    if (Array.isArray(filterBox.categories) && filterBox.categories.length >= 1){
-        const cats = filterBox.categories
-        axios.get(`http://localhost:3000/products/catalog/?page=${page}&pageSize=${pageSize}&categories=[${[...cats]}]`)
-        .then(products => {
-        var totalProducts = products.data.totalProducts;
-        dispatch(getPageProducts(page, pageSize, totalProducts, products, filterBox));
+export const getPaginatedProducts = (page, pageSize, setProductList) => (dispatch) => {
+    axios.get(`http://localhost:3000/products/catalog/?page=${page}&pageSize=${pageSize}`)
+    .then(products => {
+        console.log("Products reducer data: ", products);
+        dispatch(getPageProducts(page,pageSize, products));
+        //setProductList(products.data);
     })
     .catch(error => console.log("Error axios getPaginatedProducts: ", error))  
-    }
-    else {
-        axios.get(`http://localhost:3000/products/catalog/?page=${page}&pageSize=${pageSize}`)
-        .then(products => {
-        var totalProducts = products.data.totalProducts;
-        dispatch(getPageProducts(page, pageSize, totalProducts, products, filterBox));
-    })
-    .catch(error => console.log("Error axios getPaginatedProducts: ", error))  
-    }
-    
-}
-
-export const updateFilter = (categories) => {
-    return {
-        type: UPDATE_FILTERS,
-        payload: {
-            categories
-        }
-    }
-}
-
-export const updatePage = (page) => {
-    return {
-        type: UPDATE_PAGE,
-        payload: {
-            page
-        }
-    }
 }

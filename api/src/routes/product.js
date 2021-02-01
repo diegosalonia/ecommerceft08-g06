@@ -91,13 +91,6 @@ server.post('/:productId/category/:categoryId', async (req, res) =>{
 	})
 });
 
-//Mother of querys: priceFrom, priceTo, categories, rating. 
-server.get('/catalog/', (req, res) => {
-	let categories = req.query.categories && JSON.parse(req.query.categories);
-	let {priceFrom, priceTo, rating, page, pageSize} = req.query;
-	var options = {where: {}, include: []};
-	if (categories){
-		options.include = {model: Category, where: {id: categories}}; 
 server.get('/product-detail/:id', async (req, res) => {
 	Product.findOne({
 		where: {
@@ -125,7 +118,28 @@ server.get('/product-detail/:id', async (req, res) => {
 	})
 	.catch(err => console.log(err));
 });
-      
+
+//Query like this: http://localhost:3000/products/catalog/?page=1&pageSize=1
+server.get('/catalog/', (req,res) => {
+	const { page, pageSize } = req.query;
+	var offSet;
+	if (page === 1){
+		offSet = 0;
+	}
+	else{
+		offSet = (page - 1) * pageSize;
+	}
+	const limit = pageSize;
+	Product.findAll({
+		limit: pageSize,
+		offset: offSet,
+		include: [{model: Category}]
+	})
+	.then(products => res.send(products))
+	.catch(err => res.status(400).send(err));
+});
+	 
+
 server.delete('/:productId/category/:categoryId', async (req, res) =>{
 	const category =  await Category.findByPk(req.params.categoryId)
 	const product = await Product.findByPk(req.params.productId)
