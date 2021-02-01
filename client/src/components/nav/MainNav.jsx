@@ -10,7 +10,7 @@ import {useHistory} from 'react-router-dom'
 import { Grid } from "@material-ui/core";
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import SearchBar from './SearchBar';
-
+import LoginModal from '../login/LoginModal';
 //import LoginModal from './LoginModal'
 
 const useStyles = makeStyles((theme) => ({
@@ -81,7 +81,7 @@ const sections = [
   ];
   
 
-const Header = () => {
+const Header = ({ setSearch }) => {
     const [state, setState] = useState({
         mobileView: false,
         drawerOpen: false
@@ -109,7 +109,7 @@ const Header = () => {
         return (
             <div className={classes.toolbarOptionsDiv}>
                 <div className={classes.toolbarOptions}>
-                    {/* <LoginModal/> */} 
+                    <LoginModal/> 
                 </div>
                 <div className={classes.toolbarOptions}>
                     <ShoppingCartIcon/>
@@ -117,7 +117,11 @@ const Header = () => {
                 </div>
                 <div className={classes.toolbarOptions}>
                     <AccountCircleIcon/>
-                    <Link className={classes.LinkHome} color="inherit" key="logIn" href='#'>Profile</Link>
+                    <Link className={classes.LinkHome} color="inherit" key="logIn" href='/admin'>Admin</Link>
+                </div>
+                <div className={classes.toolbarOptions}>
+                    <AccountCircleIcon/>
+                    <Link className={classes.LinkHome} color="inherit" key="logIn" href='/user'>Usuario</Link>
                 </div>
             </div>
         )
@@ -145,7 +149,7 @@ const Header = () => {
                             </Link>
                         ))}
                 </Toolbar>
-                <SearchBar />
+                <SearchBar setSearch = {setSearch}/>
                 <RightButtons />    
             </Toolbar>
         )

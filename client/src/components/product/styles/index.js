@@ -1,6 +1,4 @@
 import { makeStyles } from '@material-ui/core';
-import zIndex from '@material-ui/core/styles/zIndex';
-
 
 export const useStylesProductForm = makeStyles(theme => ({
     productForm: {
@@ -31,6 +29,15 @@ export const useStylesProductForm = makeStyles(theme => ({
     previewImage: {
         maxWidth: '200px',
         maxHeight: '130px',
+    },
+    submitButton: {
+      marginTop: '6%',
+    },
+    isLoading: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      margin: '20% auto',
     }
 }));
 
@@ -68,6 +75,9 @@ export const useStylesProductCard = makeStyles(theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+      },
+      rightText: {
+        
       }
       }));
 
@@ -83,19 +93,28 @@ export const useStylesProduct = makeStyles(theme => ({
   categories: {
     fontSize: '1rem',
     display: 'flex',
-    justifyContent: 'space-evenly',
     padding: '4% 0 0 0'
+  },
+  category: {
+    fontSize: '.9rem',
+    padding: '1% 4%',
+    borderRadius: '11%',
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.secondary.main,
+    boxShadow: '1px 5px 10px rgb(0 0 0 / 50%)'
   },
   detailContainer: {
     display: 'flex',
     flexDirection: 'column',
     lineHeight: '6%',
-    justifyContent: 'space-between'
   },
   price: {
     display: 'flex',
     flexDirection: 'column',
     padding: '10% 0 0 0'
+  },
+  actualPrice: {
+    fontSize: 'xx-large',
   },
   lineThrough: {
     textDecoration: 'line-through',
@@ -110,5 +129,21 @@ export const useStylesProduct = makeStyles(theme => ({
   },
   textCart: {
     paddingLeft: '8px',
+  },
+  isLoading: {
+    display: 'flex',
+    justifySelf: 'center',
+    alignItems: 'center',
+    margin: '20% auto',
+  },
+  rating: {
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '4% 0 0 0',
+
+  },
+  ratingReviews: {
+    marginLeft: '4%',
+    color: 'gray'
   }
 }))

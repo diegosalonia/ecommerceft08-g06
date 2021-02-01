@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core';
 
 export const useStylesDashboard = makeStyles(theme => ({
     container: {
-        height: '61vh',
+        minHeight: '61vh',
         paddingLeft: '0',
         maxWidth: '1220px',
     },
@@ -23,5 +23,6 @@ export const useStylesDashboard = makeStyles(theme => ({
     },
     cardShadow: {
         boxShadow: '1px 5px 5px rgba(0, 0, 0, .5)',
+        width: '350px',
     }
 }))
