@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Route, Router, Redirect } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+
+import React from 'react';
+import { Route } from 'react-router-dom';
 import Product from '../components/product/Product';
 import CreateProductForm from '../components/product/Admin/CreateProductForm';
 import AdminDashboard from '../components/product/Admin/AdminDashboard';
@@ -15,6 +15,8 @@ import { Container, Grid } from '@material-ui/core'
 import Order from '../components/order/Order';
 import UserForm from '../components/user/UserForm';
 import CatalogContainerSearch from '../components/catalog/CatalogContainerSearch';
+import {Container} from '@material-ui/core'
+
 
 const Routes = () => {
 
