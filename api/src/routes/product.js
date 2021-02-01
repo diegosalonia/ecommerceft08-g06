@@ -111,8 +111,8 @@ server.get('/product-detail/:id', async (req, res) => {
 			stock: product.dataValues.stock,
 			featured: product.dataValues.featured,
 			categories: product.dataValues.categories.map(category => category.dataValues.name),
-			// quantity: product.dataValues.orders[0]?.order_line.dataValues.quantity,
-			// userId: product.dataValues.orders[0]?.userId
+			quantity: product.dataValues.orders[0]?.order_line.dataValues.quantity,
+			userId: product.dataValues.orders[0]?.userId
 		}
 		res.send(newProductForm);
 	})
