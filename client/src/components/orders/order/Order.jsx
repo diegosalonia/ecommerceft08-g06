@@ -1,19 +1,18 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Grid, Typography, Table, TableBody ,TableCell ,TableContainer, TableHead, TableRow, Paper } from '@material-ui/core';
-import { getOrder } from '../../redux/orderReducer/actions';
+import { getOrder } from '../../../redux/orderReducer/actions';
 import useStyles from './styles/styles'
 
 export default function Order(props){
+  const classes = useStyles()
     const { userId, orderId } = props.match.params
     const products = useSelector(state => state.orderReducer.products)
     const date = useSelector(state => state.orderReducer.products[0]?.order_line.createdAt)
     const dispatch = useDispatch()
 
     const rows = [...products];
-    console.log("products", products)
 
-    const classes = useStyles()
 
     const total = (array) => {
         let result = 0;

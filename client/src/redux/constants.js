@@ -23,6 +23,10 @@ export const DELETE_PRODUCT = 'DELETE_PRODUCT';
 
 /* end updateProductReducer */
 
+/* start orderListReducer */
+export const GET_ORDERS = 'GET_ORDERS';
+/* end orderListReducer */
+
 /* Catalog - Pagination */
 export const GET_PAGE_PRODUCTS = "getPageProducts";
 export const UPDATE_FILTERS = "updateFilters";
