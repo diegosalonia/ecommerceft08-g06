@@ -16,13 +16,25 @@ server.get('/', (req, res, next) => {
 ///Start review routes
 
 server.post('/:id/review', (req, res) => {
-	Review.create(req.body.form)
+	Review.create({...req.body.form, product_id: req.params.id})
 	.then(product => {
 			res.status(201).send(product)
 		})
 	.catch(error => {
 		res.status(400).send(error)
 	})
+})
+
+server.put('/:id/review/:idReview', async (req, res) => {
+	const review = await Review.findByPk(req.params.idReview)
+	Object.assign(review, req.body.form)
+	review.save()
+	 .then(response =>{
+		 res.status(200).send(response)
+	 })
+	 .catch(error =>{
+		 res.status(400).send(error)
+	 })
 })
 
 //End review routes
