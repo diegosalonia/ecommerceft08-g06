@@ -16,9 +16,19 @@ server.get('/', (req, res, next) => {
 ///Start review routes
 
 server.post('/:id/review', (req, res) => {
-	Review.create({...req.body.form, product_id: req.params.id})
+	Review.create({...req.body.form, productId: req.params.id})
 	.then(product => {
 			res.status(201).send(product)
+		})
+	.catch(error => {
+		res.status(400).send(error)
+	})
+})
+
+server.get('/:id/review', (req, res) => {
+	Review.findAll({where: {productId: req.params.id}})
+	.then(products => {
+			res.status(201).send(products)
 		})
 	.catch(error => {
 		res.status(400).send(error)
