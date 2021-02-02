@@ -27,14 +27,18 @@ const ReviewResume = (props) => {
 
 
 
-    return <Grid container direction="column" alignItems="flex-end" justify="space-between">
-        <Typography variant="h2">
-            {testValues.avgRating}
-        </Typography>
-        <Rating name="read-only" value={testValues.avgRating} readOnly precision={0.5}/>
-        <Typography className={classes.ratingDescription} variant="body2">
-            Promedio entre {testValues.totalReviews} opiniones
-        </Typography>
+    return <Grid container direction="row" alignItems="center" justify="flex-start" spacing={1}>
+        <Grid item xs={4} >
+            <Typography variant="h2">
+                {testValues.avgRating}
+            </Typography>
+        </Grid>
+        <Grid item copntainer xs={8} direction="column">
+            <Rating name="read-only" value={testValues.avgRating} readOnly precision={0.1}/>
+            <Typography className={classes.ratingDescription} variant="body2">
+                Promedio entre {testValues.totalReviews} opiniones
+            </Typography>
+        </Grid>
     </Grid>
 }
 
