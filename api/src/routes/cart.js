@@ -72,8 +72,13 @@ server.delete('/:idUser/cart/:idOrder/:idProduct', async (req,res)=>{ //borra un
     })
 })
 
-server.get('/:idUser/cart/:orderId', async (req,res)=>{ // muestra todos lo de carrito
-    const order = await Order.findOne({where:{ id: req.params.orderId, userId: req.params.idUser}})
+server.get('/:idUser/cart', async (req,res)=>{ // muestra todos lo de carrito
+    const order = await Order.findOne({
+                                        where:{
+                                            userId: req.params.idUser,
+                                            status: 'cart', 
+                                        }
+                                    });
 
     await order.getProducts()
     .then(orders =>{
@@ -81,8 +86,8 @@ server.get('/:idUser/cart/:orderId', async (req,res)=>{ // muestra todos lo de c
     })
     .catch(err=>{
         res.send(err)
-    })
-})
+    });
+});
 
 
 module.exports = server;
