@@ -30,4 +30,3 @@ export default function catalogReducer(state = initialState, action)  {
             return state;
     }
 }
-

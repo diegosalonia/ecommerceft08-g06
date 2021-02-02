@@ -210,7 +210,7 @@ const UpdateProductForm = (props) => {
                                                 edge="start"
                                                 size="small"
                                                 defaultChecked
-                                                checked={product.categories.filter(category => category.id === category.id).length === 1}                                            
+                                                // checked={true}
                                                 tabIndex={-1}
                                                 disableRipple
                                                 inputProps={{'aria-labelledby': labelId}}
@@ -226,7 +226,7 @@ const UpdateProductForm = (props) => {
                                                 color="primary"
                                                 edge="start"
                                                 size="small"
-                                                checked={product.categories.filter(category => category.id === category.id).length === 1}                                            
+                                                // checked={false}
                                                 tabIndex={-1}
                                                 disableRipple
                                                 inputProps={{'aria-labelledby': labelId}}

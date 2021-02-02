@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 
-export const useStylesDashboard = makeStyles(theme => ({
+export const useStylesUserDashboard = makeStyles(theme => ({
     container: {
         minHeight: '61vh',
         paddingLeft: '0',
@@ -17,12 +17,13 @@ export const useStylesDashboard = makeStyles(theme => ({
     },
     card: {
         transition: 'transform .5s',
+        cursor: 'pointer',
         '&:hover': {
             transform: 'scale(1.1)',
         }
     },
     cardShadow: {
         boxShadow: '1px 5px 5px rgba(0, 0, 0, .5)',
-        width: '350px',
+        maxWidth: '350px',
     }
-}))
+}));
