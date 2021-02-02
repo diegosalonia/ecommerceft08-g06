@@ -27,6 +27,10 @@ export const DELETE_PRODUCT = 'DELETE_PRODUCT';
 export const GET_ORDERS = 'GET_ORDERS';
 /* end orderListReducer */
 
+/* start cartReducer */
+export const GET_PRODUCTS_IN_CART = 'GET_PRODUCTS_IN_CART';
+/* end cartReducer */
+
 /* Catalog - Pagination */
 export const GET_PAGE_PRODUCTS = "getPageProducts";
 export const UPDATE_FILTERS = "updateFilters";
