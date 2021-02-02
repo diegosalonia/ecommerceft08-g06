@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { DataGrid } from '@material-ui/data-grid'
+import { DataGrid } from '@material-ui/data-grid';
 import {Link, Typography} from '@material-ui/core'
 import { getOrders } from '../../../redux/orderListReducer/actions';
 
