@@ -1,7 +1,7 @@
 const server = require('express').Router();
 const { response } = require('express');
 const { Sequelize } = require('sequelize');
-const { Product, Category, Order } = require('../db.js');
+const { Product, Category, Order, Review } = require('../db.js');
 
 server.get('/', (req, res, next) => {
 	Product.findAll({
@@ -12,6 +12,20 @@ server.get('/', (req, res, next) => {
 		})
 		.catch(next);
 });
+
+///Start review routes
+
+server.post('/:id/review', (req, res) => {
+	Review.create(req.body.form)
+	.then(product => {
+			res.status(201).send(product)
+		})
+	.catch(error => {
+		res.status(400).send(error)
+	})
+})
+
+//End review routes
 
 server.get('/category/:name', async (req,res,next)=>{
 	const category = await Category.findOne({where: {name: req.params.name}})

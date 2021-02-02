@@ -41,8 +41,8 @@ Category.belongsToMany(Product, {through: 'products_categories'});
 Order.belongsToMany(Product, {through: Order_line, foreignKey: 'orderId'});
 Product.belongsToMany(Order, {through: Order_line, foreignKey: 'productId'});
 
-Review.belongsTo(User);
 User.hasMany(Review, {foreignKey: 'user_id'});
+Review.belongsTo(User);
 
 Product.hasMany(Review, {foreignKey: 'product_id'});
 Review.belongsTo(Product);
