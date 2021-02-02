@@ -37,6 +37,21 @@ server.put('/:id/review/:idReview', async (req, res) => {
 	 })
 })
 
+server.delete('/:id/review/:idReview', async (req, res) => {
+	const review = await Review.findByPk(req.params.idReview)
+	if (review){
+		review.destroy()
+		.then(() => {
+			res.status(200).send("has been removed successfully")
+		})
+		.catch(error =>{
+			res.status(400).send(error)
+		})
+	}
+	else return res.status(400).send("error el review no existe")
+	
+})
+
 //End review routes
 
 server.get('/category/:name', async (req,res,next)=>{
