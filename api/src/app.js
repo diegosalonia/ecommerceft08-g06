@@ -1,4 +1,5 @@
 const express = require('express');
+//const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
@@ -27,8 +28,27 @@ server.use((req, res, next) => {
   next();
 });
 
+// server.use(session({
+//   secret: "secretisimo",
+//   resave: false,
+//   saveUninitialized: true,
+//   store: sessionStore 
+// }));
+
+server.use(passport.initialize())
+server.use(passport.session());
+server.use(express.urlencoded({extended: true}));
+
 server.use('/', routes);
 
+passport.serializeUser(function(user, cb) {
+  cb(null, user.id);
+});passport.deserializeUser(function(id, cb) {
+  User.findById(id, function (err, user) {
+      if (err) { return cb(err); }
+      cb(null, user);
+  });
+});
 
 passport.use(new LocalStrategy(    
   {
@@ -36,9 +56,12 @@ passport.use(new LocalStrategy(
     passwordField: 'password'
   },
   function(email, password, done) {
-    User.findOne({ email: email })
+    User.findOne({ 
+      where: {
+        email: email
+        } })
     .then((user) => {
-      if (!user || !user.correctPasword(password)) { 
+      if (!user || !user.correctPassword(password)) { 
         return done(null, false, {msg: 'User or password incorrect'})
       }
         return done(null, user, {msg: 'Login Successfull'});
