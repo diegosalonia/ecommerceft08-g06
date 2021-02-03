@@ -1,5 +1,5 @@
 import React from 'react'
-import {Typography, Grid, makeStyles} from '@material-ui/core';
+import {Typography, Grid, makeStyles, Box} from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
 
 const testValues = {
@@ -12,17 +12,24 @@ const testValues = {
 const ReviewDetail = (props) => {
 
     const useStyles = makeStyles(theme => ({
-            /* ratingDescription: {
-                color: theme.palette.grey[400]
-            } */
+            data: {
+                color: theme.palette.primary.main,    
+            } 
         })
     );
 
 const classes = useStyles();
     return (
         <Grid container direction="column" spacing={1}>
-            <Grid item>
-                <Rating name="read-only" value={testValues.rating} readOnly/>
+            <Grid item container direction="row" justify="flex-start" alignItems="center">
+                <Box mr={2}>
+                    <Rating name="read-only" value={testValues.rating} readOnly/>        
+                </Box>
+                <Typography component="div" className={classes.data}>
+                    <Box fontWeight="fontWeightBold" mt={1} mr={2}>
+                        Por {testValues.username} - {testValues.createdAt}     
+                    </Box>
+                </Typography> 
             </Grid>
             <Grid item>
                 <Typography variant="body1">
