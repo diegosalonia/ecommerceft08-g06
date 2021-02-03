@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Route, Router } from 'react-router-dom';
 import {Container, Grid} from '@material-ui/core'
@@ -11,12 +12,16 @@ import MainNav from '../components/nav/MainNav';
 import Home from '../components/home/home';
 import CatalogContainer from '../components/catalog/CatalogContainer';
 import Footer from '../components/footer/Footer';
+import CatalogContainerSearch from '../components/catalog/CatalogContainerSearch';
+import {Container} from '@material-ui/core'
 import Order from '../components/orders/order/Order';
 import OrderList from '../components/orders/admin/OrderList';
 import UserForm from '../components/user/UserForm';
 import UserDashboard from '../components/user/UserDashboard';
 
 const Routes = () => {
+
+    const products = useSelector(state => state.searchBarReducer.products)
     return(
         <>
             <Route path='/' component={MainNav}/>
@@ -29,6 +34,7 @@ const Routes = () => {
                     <Route path='/admin/products/create-product' component={CreateProductForm} />
                     <Route path="/admin/categories/create-category" component={CategoryForm} />
                     <Route path='/admin/products/:id/edit' component={UpdateProductForm} />
+                    <Route exact path='/search' render={() => <CatalogContainerSearch/>}/>
                     <Route exact path='/user' component={UserDashboard} />
                     <Route path='/user/sign-in' component={UserForm} />
                     <Route path="/products/:id" component={Product}/>

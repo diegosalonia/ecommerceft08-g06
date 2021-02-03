@@ -90,7 +90,7 @@ const sections = [
   ];
   
 
-const Header = () => {
+const Header = ({ setSearch }) => {
     const [state, setState] = useState({
         mobileView: false,
         drawerOpen: false
@@ -158,7 +158,7 @@ const Header = () => {
                             </Link>
                         ))}
                 </Toolbar>
-                <SearchBar />
+                <SearchBar setSearch = {setSearch}/>
                 <RightButtons />    
             </Toolbar>
         )

@@ -1,15 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { TextField, InputAdornment, makeStyles } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
+import { useSelector, useDispatch } from 'react-redux';
+import { getProductsByKeyword } from '../../redux/searchBarReducer/actions'
+import { Redirect } from 'react-router-dom';
+
 
 const SearchBar = () => {
+  const [search, setSearch] = useState({
+    searching: false,
+    keyword: ""
+  })
+  const dispatch = useDispatch()
+
   const formik = useFormik({
     initialValues:{
       input: ""
     },
     onSubmit:(value)=>{
-      console.log(value)
+      dispatch(getProductsByKeyword(value.input))  
+      setSearch({
+       searching: true,
+       keyword: value.input
+      })
     },
   });
 
@@ -53,6 +67,10 @@ const classes = useStyles();
             onChange = {formik.handleChange}
           />
         </form>
+        {search.searching&&<Redirect to={{
+                        pathname: `/search/`,
+                        search: `query=${search.keyword}`
+                    }}/>}
       </div>
     )}
 
