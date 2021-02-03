@@ -4,7 +4,7 @@ const { User, Order, Product} = require('../db.js');
 server.post('/:idUser/cart', async (req, res)=>{
     const product = await Product.findByPk(req.body.product.id);
     const quantity = req.body.product.quantity;
-    const price = product.price;
+    const price = product.price - (product.price * (product.discount / 100));
     const user = await User.findByPk(req.params.idUser);
     let order = await Order.findOne({ where:{ userId: user.id, status: 'cart'} });
 

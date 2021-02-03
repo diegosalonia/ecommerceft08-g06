@@ -1,9 +1,9 @@
 const server = require('express').Router();
 const { Sequelize } = require('sequelize');
-const { Order, User } = require('../db.js');
+const { Order, User, Product } = require('../db.js');
 
-server.get('/search', (req, res) => {
-    if (req.query) {
+server.get('/', (req, res) => {
+    if (req.query.status) {
         const status = req.query.status;
     
         Order.findAll({
@@ -14,8 +14,25 @@ server.get('/search', (req, res) => {
         .then(orders => res.send(orders))
         .catch(err => console.log(err));
     } else {
-        Order.findAll()
-        .then(orders => res.send(orders))
+        Order.findAll({
+            include: [
+                // {model: User},
+                // {model: Product}
+            ]
+        })
+        .then(orders => {
+            // const orderList = orders.map(order => {
+            //     return {
+            //         id: order.dataValues.id,
+            //         status: order.dataValues.status,
+            //         createdAt: order.dataValues.createdAt,
+            //         userId: order.dataValues.userId,
+            //         // total: order.dataValues.products
+            //     }
+            // })
+            // console.log("ORDERS.DATAVALUES.PRODUCTS: ", orders.dataValues.id);
+            res.send(orders)
+        })
         .catch(err => console.log(err));
     }
 });

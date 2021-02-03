@@ -1,11 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import {Button, ButtonGroup, Card, CardHeader, CardContent, makeStyles} from '@material-ui/core';
+import { useDispatch } from 'react-redux';
+import {updateFilter} from '../../redux/CatalogReducer/actions'
 
 const FilterCatalog = (props) => {
     const [categories, setCategories] = useState(false);
     const [currentCategory, setCurrentCategory] = useState(false);
-
+    const dispatch = useDispatch();
     const useStyles = makeStyles((theme) => ({
         cardHeader: {
             backgroundColor: theme.palette.primary.main,
@@ -15,11 +17,28 @@ const FilterCatalog = (props) => {
 
     const classes = useStyles();
 
+    //Category box
+    const enabledCategories = (id) => {
+        if (currentCategory && Array.isArray(currentCategory)){
+            if (currentCategory.includes(id)){
+                console.log("Ya la tengo: ", currentCategory)
+                let removedId = currentCategory.filter(cat => cat !== id)
+                setCurrentCategory(removedId);
+            }
+            else{
+                setCurrentCategory([...currentCategory, id])
+            }
+        }
+        else{
+            setCurrentCategory([id]);
+        }
+    }
+
     const displayCategories = () => {
         if(typeof categories === "object"){
             return categories.map((cat, inx) => {
                 return (
-                    <Button fullWidth key={inx} onClick={() => setCurrentCategory(cat.id)}>
+                    <Button fullWidth key={inx} onClick={() => enabledCategories(cat.id)}>
                         {cat.name}
                     </Button>
                 )
@@ -44,8 +63,7 @@ const FilterCatalog = (props) => {
     //Set Category in Catalog. 
     useEffect(() => {
         if(currentCategory){ 
-           //ToDo update catalog state. props.setCurrent(currentCategory)
-           props.updateFilter(currentCategory)
+           dispatch(updateFilter({categories: currentCategory}));
         }
     }, [currentCategory])
     return (

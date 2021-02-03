@@ -11,7 +11,7 @@ import { Grid } from "@material-ui/core";
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import SearchBar from './SearchBar';
 import EcoIcon from '@material-ui/icons/Eco';
-
+import LoginModal from '../login/LoginModal';
 //import LoginModal from './LoginModal'
 
 const useStyles = makeStyles((theme) => ({
@@ -118,15 +118,19 @@ const Header = () => {
         return (
             <div className={classes.toolbarOptionsDiv}>
                 <div className={classes.toolbarOptions}>
-                    {/* <LoginModal/> */} 
+                    <LoginModal/> 
                 </div>
                 <div className={classes.toolbarOptions}>
                     <ShoppingCartIcon className={classes.icons}/>
                     <Link className={classes.LinkHome} color="inherit" key="logIn" href='/cart'>Carrito</Link>
                 </div>
                 <div className={classes.toolbarOptions}>
-                      <AccountCircleIcon className={classes.icons}/>
-                    <Link className={classes.LinkHome} color="inherit" key="logIn" href='#'>Admin</Link>
+                    <AccountCircleIcon/>
+                    <Link className={classes.LinkHome} color="inherit" key="logIn" href='/admin'>Admin</Link>
+                </div>
+                <div className={classes.toolbarOptions}>
+                    <AccountCircleIcon/>
+                    <Link className={classes.LinkHome} color="inherit" key="logIn" href='/user'>Usuario</Link>
                 </div>
             </div>
         )

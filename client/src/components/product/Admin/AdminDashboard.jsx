@@ -5,6 +5,7 @@ import { useStylesDashboard } from './styles/AdminDashboard';
 import productListImage from '../../../resources/product-list.jpg';
 import addProduct from '../../../resources/addProduct.jpg';
 import addCategory from '../../../resources/addCategory.jpg';
+import orderImage from '../../../resources/orderList.jpg';
 
 function AdminDashboard() {
     const styles = useStylesDashboard();
@@ -12,7 +13,8 @@ function AdminDashboard() {
     return (
         <Container className={styles.container} >
             <Typography variant='h4' align='center' >Admin Dashboard</Typography>
-            <Grid container spacing={8} className={styles.gridContainer} >
+            <Grid container spacing={4} className={styles.gridContainer} >
+                <Grid item lg={2} />
                 <Grid item lg={4} className={styles.card} >
                     <Link to='/admin/products' className={styles.link} >
                         <Card className={styles.cardShadow} >
@@ -41,6 +43,10 @@ function AdminDashboard() {
                         </Card>
                     </Link>
                 </Grid>
+                <Grid item lg={2} />
+            </Grid>
+            <Grid container spacing={4} className={styles.gridContainer} >
+                <Grid item lg={2} />
                 <Grid item lg={4} className={styles.card} >
                     <Link to='/admin/categories/create-category' className={styles.link} >
                         <Card className={styles.cardShadow} >
@@ -55,6 +61,21 @@ function AdminDashboard() {
                         </Card>
                     </Link>
                 </Grid>
+                <Grid item lg={4} className={styles.card} >
+                    <Link to='/admin/orders' className={styles.link} >
+                        <Card className={styles.cardShadow} >
+                            <CardMedia
+                                className={styles.images}
+                                image={orderImage}
+                            />
+                            <CardContent>
+                                <Typography variant='h5' align='center' >Order List</Typography>
+                                <Typography align='center' >Get acces to order list. Edit and see user orders!</Typography>
+                            </CardContent>
+                        </Card>
+                    </Link>
+                </Grid>
+                <Grid item lg={2} />
             </Grid>
         </Container>
     );

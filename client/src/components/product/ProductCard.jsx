@@ -27,12 +27,12 @@ function ProductCard(props) {
             <CardActionArea>
               <CardMedia className={style.media} image={image} />
               <CardContent className={style.info}>
-                  <Typography gutterBottom variant="h5" component="h2" className={style.rigthText}>
+                  <Typography gutterBottom className={style.rigthText}>
                     {name}
                   </Typography>
                   <ProductPrice price={price} discount={discount}/>
                   <Typography variant="body2" color="textSecondary" component="p">
-                    {description}
+                    {description.slice(0, 30)}
                   </Typography>
               </CardContent>
             </CardActionArea>

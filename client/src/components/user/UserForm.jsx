@@ -4,9 +4,10 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios'
 import { Button, CssBaseline, TextField, FormControlLabel, Link, Grid, Box, Typography, Container, Switch} from '@material-ui/core/';
+import { Redirect } from 'react-router-dom';
 
 
-export default function UserForm(){
+export default function UserForm(props){
   const useStylesUserForm = makeStyles(theme => ({
     paper: {
         marginTop: theme.spacing(4),
@@ -63,6 +64,7 @@ export default function UserForm(){
           axios.post('http://localhost:3000/users/', {form:values})
           .then((res) => {
             alert('User created');
+            props.history.push('/');
           })
           .catch(error => console.log("Error on request: ",error));
         }
