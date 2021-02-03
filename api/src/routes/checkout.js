@@ -6,7 +6,32 @@ mercadopago.configure({
 });
 
 server.post('/:userId/checkout', (req, res) => {
+    console.log("BODY: ", req.body);
     const { products } = req.body;
-    const itemsToMP = products.map(item => item);
+    const itemsToMP = products.map(item => {
+        return {
+            title: item.name,
+            unit_price: parseFloat(item.price),
+            quantity: item.order_line.quantity
+        };
+    });
 
+    const preference = {
+        items: itemsToMP,
+        back_urls: {
+            success: 'http://localhost:3001/',
+            failure: 'http://localhost:3001/',
+            pending: 'http://localhost:3001/'
+        },
+        auto_return: 'approved'
+    };
+
+    mercadopago.preferences.create(preference)
+    .then(response => {
+        console.log("RESPONSE MERCADOPAGO: ", response);
+        res.redirect(response.body.init_point);
+    })
+    .catch(err => console.log(err));
 });
+
+module.exports = server;

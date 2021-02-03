@@ -49,7 +49,7 @@ export const deleteAllCart = userId => dispatch => {
 };
 
 export const goToCheckout = (userId, products) => dispatch => {
-    return axios.post(`http://localhost:3000/users/${userId}/checkout`, products)
+    return axios.post(`http://localhost:3000/users/${userId}/checkout`, { products })
     .then(res => {
         dispatch({
             type: GO_TO_CHECKOUT,
