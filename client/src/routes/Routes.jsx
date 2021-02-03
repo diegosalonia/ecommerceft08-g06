@@ -33,7 +33,7 @@ const Routes = () => {
                     <Route path='/admin/products/:id/edit' component={UpdateProductForm} />
                     <Route exact path='/search' render={() => <CatalogContainerSearch/>}/>
                     <Route exact path='/user' component={UserDashboard} />
-                    <Route path='/user/sign-in' component={UserForm} />
+                    <Route path='/user/sign-up' component={UserForm} />
                     <Route path="/products/:id" component={Product}/>
                     <Route exact path="/products" component={CatalogContainer} />
                 </Container>
