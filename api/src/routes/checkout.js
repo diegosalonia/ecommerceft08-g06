@@ -2,16 +2,15 @@ const server = require('express').Router();
 const mercadopago = require('mercadopago');
 
 mercadopago.configure({
-    access_token: 'TEST-7543431084673570-011002-510f1b079bd2dbeb6027d3b12f74eabb-694878448'
+    access_token: 'TEST-1294034537296050-020319-656eec508b141c98a397a25ddd2684c7-184851111'
 });
 
 server.post('/:userId/checkout', (req, res) => {
-    console.log("BODY: ", req.body);
     const { products } = req.body;
     const itemsToMP = products.map(item => {
         return {
             title: item.name,
-            unit_price: parseFloat(item.price),
+            unit_price: item.price - (item.price * (item.discount / 100)),
             quantity: item.order_line.quantity
         };
     });
@@ -29,6 +28,7 @@ server.post('/:userId/checkout', (req, res) => {
     mercadopago.preferences.create(preference)
     .then(response => {
         console.log("RESPONSE MERCADOPAGO: ", response);
+        // res.send(response.body);
         res.redirect(response.body.init_point);
     })
     .catch(err => console.log(err));
