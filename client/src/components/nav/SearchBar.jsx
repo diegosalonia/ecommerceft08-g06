@@ -47,7 +47,7 @@ const classes = useStyles();
                 </InputAdornment>
               ),
             }}
-            placeholder = "¿Que estas buscando?"
+            placeholder = "what are you looking for?"
             variant = "outlined"
             value = {formik.values.input}
             onChange = {formik.handleChange}
