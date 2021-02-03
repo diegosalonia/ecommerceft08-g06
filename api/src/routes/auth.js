@@ -1,11 +1,15 @@
-const server = require('express').Router();
+const express = require('express');
+const server = express.Router();
 const { User } = require('../db.js');
 const { Sequelize } = require('sequelize');
+const passport = require('passport');
 
-server.post('.')
 
-app.post('/login', passport.authenticate('jwt', { session: false }),
-    function(req, res) {
-        res.send(req.user.login);
+server.post('/login', passport.authenticate('local'), (req, res) => {
+        res.send(req.user);
     }
 );
+
+
+module.exports = server;
+
