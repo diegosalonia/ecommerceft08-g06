@@ -47,5 +47,16 @@ server.put('/:userId', async (req, res) => {
     })
 });
 
+server.delete('/:userId', async (req, res) => {
+    const user = await User.findByPk(req.params.userId)
+    user.destroy()
+    .then( response => {
+        res.send("user deleted")
+    })
+    .catch(error => {
+        res.send(error)
+    })
+})
+
 
 module.exports = server;
