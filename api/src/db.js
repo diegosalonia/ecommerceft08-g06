@@ -1,5 +1,6 @@
 require('dotenv').config();
 const { Sequelize } = require('sequelize');
+const crypto = require('crypto')
 const fs = require('fs');
 const path = require('path');
 const { userInfo } = require('os');
@@ -42,6 +43,31 @@ Order.belongsToMany(Product, {through: Order_line, foreignKey: 'orderId'});
 Product.belongsToMany(Order, {through: Order_line, foreignKey: 'productId'});
 
 User.hasMany(Order);
+
+//password encryption//
+User.generateSalt = function() {
+  return crypto.randomBytes(16).toString('base64')
+}
+User.encryptPassword = function(plainText, salt) {
+  return crypto
+      .createHash('RSA-SHA256')
+      .update(plainText)
+      .update(salt)
+      .digest('hex')
+}
+
+const setSaltAndPassword = user => {
+  if (user.changed('password')) {
+      user.salt = User.generateSalt()
+      user.password = User.encryptPassword(user.password(), user.salt())
+  }
+}
+User.beforeCreate(setSaltAndPassword)
+User.beforeUpdate(setSaltAndPassword)
+
+User.prototype.correctPassword = function(enteredPassword) {
+  return User.encryptPassword(enteredPassword, this.salt()) === this.password()
+}
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

@@ -12,7 +12,15 @@ module.exports = (sequelize) => {
         },
         password:{
             type: STRING,
-            allowNull: false
+            get() {
+                return () => this.getDataValue('password')
+            }
+        },
+        salt:{
+            type: STRING,
+            get() {
+                return() => this.getDataValue('salt')
+            }
         },
         first_name:{
             type: STRING,
