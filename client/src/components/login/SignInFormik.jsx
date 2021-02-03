@@ -1,16 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import Button from '@material-ui/core/Button';
-import Avatar from '@material-ui/core/Avatar';
+import {Button, Avatar, Link, TextField, Typography} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Link from '@material-ui/core/Link'
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography'
 // import {getToken} from '../../redux/LoginReducer/actions'
 import {useDispatch} from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles';
-
 
 
 const validationSchema = yup.object({
@@ -20,7 +15,6 @@ const validationSchema = yup.object({
     .required('Email is required'),
   password: yup
     .string('Enter your password')
-    .min(8, 'Password should be of minimum 8 characters length')
     .required('Password is required'),
 });
 
@@ -35,12 +29,12 @@ const WithMaterialUI = ({onClose}) => {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       // dispatch(getToken(values.email, values.password));
-      setTimeout(function(){
-        if(window.localStorage.getItem("loggedin")){
-          console.log("Logged in, user id: ", window.localStorage.getItem("userId"))
-          onClose();
-        }
-      }, 500);
+      // setTimeout(function(){
+      //   if(window.localStorage.getItem("loggedin")){
+      //     console.log("Logged in, user id: ", window.localStorage.getItem("userId"))
+      //     onClose();
+      //   }
+      // }, 500);
 
     },
   });

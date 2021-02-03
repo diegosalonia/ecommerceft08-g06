@@ -35,3 +35,8 @@ export const UPDATE_PAGE = "updatePage";
 
 // order constansts
 export const GET_ORDER = "GET_ORDER"
+
+/*start loginReducer*/
+export const LOGIN = "LOGIN";
+export const LOGOUT = "LOGOUT";
+/* end loginReducer*/

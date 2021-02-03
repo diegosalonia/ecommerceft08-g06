@@ -14,9 +14,11 @@ server.post('/login', passport.authenticate('local'), (req, res) => {
 server.post('/logout', (req, res) => {
     console.log("me estoy deslogeando!")
     req.logout();
-    res.redirect('http://127.0.0.1:3001/products/1');
+    res.redirect('http://127.0.0.1:3001/auth/login');
 }
 );
+
+
 
 module.exports = server;
 
