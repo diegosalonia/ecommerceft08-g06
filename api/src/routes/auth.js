@@ -5,19 +5,22 @@ const { Sequelize } = require('sequelize');
 const passport = require('passport');
 
 
-server.post('/login', passport.authenticate('local'), (req, res) => {
+server.post('/login', passport.authenticate('jwt'), (req, res) => {
         console.log("me estoy logeando!")
         res.send(req.user);
     }
 );
 
 server.post('/logout', (req, res) => {
-    console.log("me estoy deslogeando!")
-    req.logout();
-    res.redirect('http://127.0.0.1:3001/auth/login');
+    console.log(req.isAuthenticated())
+	if (req.isAuthenticated()) {
+        console.log("estaba logeado")
+		req.logout();
+		res.sendStatus(200);
+	}
+    else {res.status(400).send('No estabas logeado :/')};
 }
-);
-
+)
 
 
 module.exports = server;

@@ -1,6 +1,16 @@
 const server = require('express').Router();
 const { Order, User } = require('../db.js');
-const { Sequelize } = require('sequelize');
+//const { Sequelize } = require('sequelize');
+const jwt = require('jsonwebtoken');
+
+genToken = user => {
+  return jwt.sign({
+    iss: 'Luri',
+    sub: user.id,
+    iat: new Date().getTime(),
+    exp: new Date().setDate(new Date().getDate() + 1)
+  }, 'joanlouji');
+}
 
 server.get('/', (req, res, next) => {
     User.findAll()
@@ -24,14 +34,19 @@ server.get('/:id/orders', (req, res) => {
 	})
 })
 
-server.post('/', (req, res) => {
-    User.create(req.body.form)
-    .then(response => {
-        res.send(response)
-    })
-    .catch(err =>{
-        res.send(err)
-    })
+server.post('/', async (req, res) => {
+    const { email, password, first_name, last_name, phone_number, user_role } = req.body.form;
+    let foundUser = await User.findOne({ where: {email: email }});
+    console.log(foundUser)
+    if (foundUser) {
+      return res.status(403).json({ error: 'Email is already in use'});
+    }
+ 
+  const newUser = new User({ email, password, first_name, last_name, phone_number, user_role})
+  await newUser.save()
+  // Generate JWT token
+  const token = genToken(newUser)
+  res.status(200).json({token})
 });
 
 server.put('/:userId', async (req, res) => {

@@ -1,10 +1,13 @@
 const express = require('express');
-//const session = require('express-session');
+const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const routes = require('./routes/index.js');
 const passport = require('passport');
+const passportJWT = require("passport-jwt");
+const JWTStrategy   = passportJWT.Strategy;
+const ExtractJWT = passportJWT.ExtractJwt;
 const LocalStrategy = require('passport-local').Strategy;
 
 const {User} = require('./db.js');
@@ -28,48 +31,69 @@ server.use((req, res, next) => {
   next();
 });
 
-// server.use(session({
-//   secret: "secretisimo",
-//   resave: false,
-//   saveUninitialized: true,
-//   store: sessionStore 
-// }));
+
+
+
+          passport.use(new JWTStrategy({
+            jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+            secretOrKey   : 'secretisima clave'
+          },
+           function (jwtPayload, done) {
+             return User.findById(jwtPayload.sub)
+             .then(user => 
+             {
+               return done(null, user);
+             }
+           ).catch(err => 
+           {
+             return done(err);
+           });
+          }
+          ))
+
+passport.serializeUser((user, done) => done(null, user.id));
+
+passport.deserializeUser(function(id, done) {
+    User.findByPk(id).then(user => done(null, user)).catch(err => done(err, null));
+});
+
+server.use(session({
+  secret: 'secret',
+  resave: false,
+  saveUninitialized: true
+}))
 
 server.use(passport.initialize())
 server.use(passport.session());
-server.use(express.urlencoded({extended: true}));
-
 server.use('/', routes);
 
-passport.serializeUser(function(user, cb) {
-  cb(null, user.id);
-});passport.deserializeUser(function(id, cb) {
-  User.findById(id, function (err, user) {
-      if (err) { return cb(err); }
-      cb(null, user);
-  });
+
+server.use((req, res, next) => {
+  console.log("session", req.session);
+  console.log("USER", req.user);
+  next();
 });
 
-passport.use(new LocalStrategy(    
-  {
-    usernameField: 'email',
-    passwordField: 'password'
-  },
-  function(email, password, done) {
-    User.findOne({ 
-      where: {
-        email: email
-        } })
-    .then((user) => {
-      if (!user || !user.correctPassword(password)) { 
-        return done(null, false, {msg: 'User or password incorrect'})
-      }
-        return done(null, user, {msg: 'Login Successfull'});
-    })
-           .catch((err) => {   
-             done(err);
-            });
-          }));
+// passport.use(new LocalStrategy(    
+//   {
+//     usernameField: 'email',
+//     passwordField: 'password'
+//   },
+//   function(email, password, done) {
+//     User.findOne({ 
+//       where: {
+//         email: email
+//         } })
+//     .then((user) => {
+//       if (!user || !user.correctPassword(password)) { 
+//         return done(null, false, {msg: 'User or password incorrect'})
+//       }
+//         return done(null, user, {msg: 'Login Successfull'});
+//     })
+//            .catch((err) => {   
+//              done(err);
+//             });
+//           }));
           
 // Error catching endware.
 server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars

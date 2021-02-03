@@ -1,3 +1,6 @@
-import axios from 'axios';
-import { GET_ORDERS } from '../constants';
+import { LOGIN, LOGOUT } from '../constants';
 
+
+export const login = user => dispatch => dispatch({type: LOGIN, payload: user});
+
+export const logOut = () => dispatch => dispatch({type: LOGOUT});

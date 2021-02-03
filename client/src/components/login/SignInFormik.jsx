@@ -6,6 +6,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 // import {getToken} from '../../redux/LoginReducer/actions'
 import {useDispatch} from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles';
+import { axios } from 'axios'
+import { login } from '../../redux/loginReducer/actions'
+
 
 
 const validationSchema = yup.object({
@@ -27,15 +30,10 @@ const WithMaterialUI = ({onClose}) => {
       password: '',
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      // dispatch(getToken(values.email, values.password));
-      // setTimeout(function(){
-      //   if(window.localStorage.getItem("loggedin")){
-      //     console.log("Logged in, user id: ", window.localStorage.getItem("userId"))
-      //     onClose();
-      //   }
-      // }, 500);
-
+    onSubmit: async (values) => {
+      const user = await axios.post("http://localhost:3001/login", values)
+      dispatch(login(user.data));
+			//setLoggedIn('Iniciaste sesión con éxito!');
     },
   });
 
