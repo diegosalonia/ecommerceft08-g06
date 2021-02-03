@@ -29,6 +29,10 @@ export const GET_ORDERS = 'GET_ORDERS';
 
 /* start cartReducer */
 export const GET_PRODUCTS_IN_CART = 'GET_PRODUCTS_IN_CART';
+export const CHANGE_PRODUCT_QUANTITY = 'CHANGE_PRODUCT_QUANTITY';
+export const DELETE_PRODUCT_FROM_CART = 'DELETE_PRODUCT_FROM_CART';
+export const DELETE_ALL_CART = 'DELETE_ALL_CART';
+export const GO_TO_CHECKOUT = 'GO_TO_CHECKOUT';
 /* end cartReducer */
 
 /* Catalog - Pagination */

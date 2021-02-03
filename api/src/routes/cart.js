@@ -28,19 +28,20 @@ server.post('/:idUser/cart', async (req, res)=>{ // crea y verifica
     });
 });
 
-server.put('/:idUser/cart/:idOrder',async (req, res)=>{ // actualiza el valor
+server.put('/:idUser/cart',async (req, res)=>{ // actualiza el valor
 
     const product = await Product.findByPk(req.body.product.id);
     const quantity = req.body.product.quantity;
     const price = product.price;
     const user = await User.findByPk(req.params.idUser);
-    let order = await Order.findOne({ where:{ id:req.params.idOrder, status: 'cart', userId: req.params.idUser}});
+    let order = await Order.findOne({ where:{ status: 'cart', userId: req.params.idUser}});
 
     if(!user){ res.status(400).send("this user doens't exist") };
 
     await product.addOrder(order, { through: { orderId: order.id, quantity, price } })
     .then(response =>{
-        res.json(response);
+        console.log("RESPONSE PUT: ", quantity);
+        res.json(quantity);
     })
     .catch(err =>{
         console.log(err)
@@ -52,16 +53,16 @@ server.put('/:idUser/cart/:idOrder',async (req, res)=>{ // actualiza el valor
 })
 
 server.delete('/:idUser/cart', async (req,res)=>{ // borra todo los valores
-    const order = await Order.findOne({where:{ id: req.body.form.id, userId: req.params.idUser}})
+    const order = await Order.findOne({where:{ userId: req.params.idUser, status: 'cart'}});
 
-    await order.destroy().then(resp =>{
-        res.send(resp)
-    }).catch(err=>{res.send(err)})
-})
+    await order.destroy()
+    .then(resp => res.send(resp))
+    .catch(err=>{res.send(err)});
+});
 
-server.delete('/:idUser/cart/:idOrder/:idProduct', async (req,res)=>{ //borra un solo valor
-    let order = await Order.findByPk(req.params.idOrder)
-    let product = await order.getProducts({where:{id:req.params.idProduct}})
+server.delete('/:idUser/cart/:idProduct', async (req,res)=>{ //borra un solo valor
+    let order = await Order.findOne({ where: { userId: req.params.idUser, status: 'cart'}});
+    let product = await order.getProducts({where:{id:req.params.idProduct}});
     
     await order.removeProduct(product)
     .then(resp=>{
