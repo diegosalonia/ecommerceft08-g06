@@ -3,7 +3,6 @@ const { Sequelize } = require('sequelize');
 const crypto = require('crypto')
 const fs = require('fs');
 const path = require('path');
-const crypto = require('crypto') 
 const { userInfo } = require('os');
 const {
   DB_USER, DB_PASSWORD, DB_HOST,
