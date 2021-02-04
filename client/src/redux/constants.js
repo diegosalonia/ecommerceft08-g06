@@ -32,8 +32,13 @@ export const GET_PAGE_PRODUCTS = "getPageProducts";
 export const UPDATE_FILTERS = "updateFilters";
 export const UPDATE_PAGE = "updatePage";
 
-/* order constansts */
-export const GET_ORDER = "GET_ORDER";
+// order constansts
+export const GET_ORDER = "GET_ORDER"
+
+/*start loginReducer*/
+export const LOGIN = "LOGIN";
+export const LOGOUT = "LOGOUT";
+/* end loginReducer*/
 
 /* searchBar constants */
 export const GET_PRODUCTS_BY_KEYWORD = "GET_PRODUCTS_BY_KEYWORD"

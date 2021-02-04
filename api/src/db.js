@@ -3,6 +3,7 @@ const { Sequelize } = require('sequelize');
 const crypto = require('crypto')
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto') 
 const { userInfo } = require('os');
 const {
   DB_USER, DB_PASSWORD, DB_HOST,
@@ -44,10 +45,12 @@ Product.belongsToMany(Order, {through: Order_line, foreignKey: 'productId'});
 
 User.hasMany(Order);
 
+
 //password encryption//
 User.generateSalt = function() {
   return crypto.randomBytes(16).toString('base64')
 }
+
 User.encryptPassword = function(plainText, salt) {
   return crypto
       .createHash('RSA-SHA256')
@@ -66,6 +69,7 @@ User.beforeCreate(setSaltAndPassword)
 User.beforeUpdate(setSaltAndPassword)
 
 User.prototype.correctPassword = function(enteredPassword) {
+
   return User.encryptPassword(enteredPassword, this.salt()) === this.password()
 }
 
