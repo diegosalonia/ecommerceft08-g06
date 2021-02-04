@@ -56,6 +56,8 @@ export default function LoginModal (props){
                 open={open}
                 onClose={handleClose}
                 closeAfterTransition
+                disableAutoFocus
+                disableEnforceFocus
                 BackdropComponent={Backdrop}
                 BackdropProps={{timeout: 2000,}}>
                 <Fade in={open}>
