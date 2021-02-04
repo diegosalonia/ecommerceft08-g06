@@ -4,7 +4,7 @@ import Rating from '@material-ui/lab/Rating';
 
 const ReviewDetail = (props) => {
 
-    const {rating, username, createdAt, comment} = props;
+    const {rating, username, createdAt, comment, email} = props;
 
  
     const preDate = new Date(createdAt);    
@@ -26,7 +26,7 @@ const ReviewDetail = (props) => {
                 </Box>
                 <Typography component="div" className={classes.data}>
                     <Box fontWeight="fontWeightBold" mt={1} mr={2}>
-                        Por {username} - {date}     
+                        Por {email} - {date}     
                     </Box>
                 </Typography> 
             </Grid>

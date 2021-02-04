@@ -1,7 +1,7 @@
 const server = require('express').Router();
 const { response } = require('express');
 const { Sequelize } = require('sequelize');
-const { Product, Category, Order, Review } = require('../db.js');
+const { Product, Category, Order, Review, User} = require('../db.js');
 
 server.get('/', (req, res, next) => {
 	Product.findAll({
@@ -26,7 +26,7 @@ server.post('/:id/review', (req, res) => {
 })
 
 server.get('/:id/review', (req, res) => {
-	Review.findAll({where: {productId: req.params.id}})
+	Review.findAll({where: {productId: req.params.id}, include: [{model: User, attributes: ["email"]}]})
 	.then(products => {
 			res.status(201).send(products)
 		})

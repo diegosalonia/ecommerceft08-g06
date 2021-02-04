@@ -6,10 +6,16 @@ import {useParams} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {getDataReviews} from '../../redux/ReviewReducer/actions'
 
-const ReviewContainer = () => {
+const ReviewContainer = (props) => {
     
     const dispatch = useDispatch();
-    const {productId} = useParams();
+    var {productId} = useParams();
+
+    //If productId is received via props: use this, else use params.
+    if (props.productId){
+        productId = props.productId
+    }
+    
     const reviews = useSelector(state => state.reviewReducer);
 
     const useStyles = makeStyles(theme => ({
