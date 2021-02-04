@@ -33,6 +33,11 @@ export const UPDATE_FILTERS = "updateFilters";
 export const UPDATE_PAGE = "updatePage";
 
 // order constansts
+export const GET_ORDER = "GET_ORDER";
+
+/*Review Start */
+export const GET_REVIEWS = "getReviews";
+/*Review end*/ 
 export const GET_ORDER = "GET_ORDER"
 
 /*start loginReducer*/
