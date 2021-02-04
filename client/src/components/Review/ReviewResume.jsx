@@ -33,7 +33,7 @@ const ReviewResume = (props) => {
                 {testValues.avgRating}
             </Typography>
         </Grid>
-        <Grid item copntainer xs={8} direction="column">
+        <Grid item container xs={8} direction="column">
             <Rating name="read-only" value={testValues.avgRating} readOnly precision={0.1}/>
             <Typography className={classes.ratingDescription} variant="body2">
                 Promedio entre {testValues.totalReviews} opiniones

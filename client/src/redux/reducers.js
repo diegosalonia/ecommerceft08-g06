@@ -5,6 +5,7 @@ import createProductReducer from './createProductReducer/reducer';
 import productListReducer from './productListReducer/reducer';
 import updateProductReducer from './updateProductForm/reducer';
 import orderListReducer from './orderListReducer/reducer';
+import reviewReducer from './ReviewReducer/reducer';
 
 const rootReducer = combineReducers(
     {
@@ -13,7 +14,8 @@ const rootReducer = combineReducers(
         createProductReducer,
         productListReducer,
         updateProductReducer,
-        orderListReducer
+        orderListReducer,
+        reviewReducer
     }
 );
 
