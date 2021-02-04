@@ -6,7 +6,7 @@ const morgan = require('morgan');
 const routes = require('./routes/index.js');
 const passport = require('passport');
 const passportJWT = require("passport-jwt");
-const JWTStrategy   = passportJWT.Strategy;
+const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 const LocalStrategy = require('passport-local').Strategy;
 
@@ -32,29 +32,27 @@ server.use((req, res, next) => {
 });
 
 
-
-
           passport.use(new JWTStrategy({
             jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-            secretOrKey   : 'secretisima clave'
+            secretOrKey   : 'secret'
           },
-           function (jwtPayload, done) {
-             return User.findById(jwtPayload.sub)
-             .then(user => 
-             {
-               return done(null, user);
+           function (jwtPayload, next) {
+             console.log('aqui payload: ', jwtPayload)
+             User.findByPk(jwtPayload.user.id)
+             .then(user => {
+               next(null, user);
              }
            ).catch(err => 
            {
-             return done(err);
+             next(err);
            });
           }
           ))
 
-passport.serializeUser((user, done) => done(null, user.id));
+passport.serializeUser((user, next) => next(null, user.id));
 
-passport.deserializeUser(function(id, done) {
-    User.findByPk(id).then(user => done(null, user)).catch(err => done(err, null));
+passport.deserializeUser(function(id, next) {
+    User.findByPk(id).then(user => next(null, user)).catch(err => next(err, null));
 });
 
 server.use(session({
@@ -74,26 +72,26 @@ server.use((req, res, next) => {
   next();
 });
 
-// passport.use(new LocalStrategy(    
-//   {
-//     usernameField: 'email',
-//     passwordField: 'password'
-//   },
-//   function(email, password, done) {
-//     User.findOne({ 
-//       where: {
-//         email: email
-//         } })
-//     .then((user) => {
-//       if (!user || !user.correctPassword(password)) { 
-//         return done(null, false, {msg: 'User or password incorrect'})
-//       }
-//         return done(null, user, {msg: 'Login Successfull'});
-//     })
-//            .catch((err) => {   
-//              done(err);
-//             });
-//           }));
+ passport.use(new LocalStrategy(    
+   {
+     usernameField: 'email',
+     passwordField: 'password'
+   },
+   async(email, password, next) => {
+     await User.findOne({ 
+       where: {
+         email: email
+         } })
+     .then((user) => {
+       if (!user || !user.correctPassword(password)) { 
+         next(null, false, {msg: 'User or password incorrect'})
+       }
+       next(null, user, {msg: 'Login Successfull'});
+     })
+            .catch((err) => {   
+              next(err);
+             });
+           }));
           
 // Error catching endware.
 server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
