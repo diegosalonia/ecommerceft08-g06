@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import ReviewResume from './ReviewResume';
-import ReviewDetail from './ReviewDetail';
+import ReviewList from './ReviewList';
 import {Box, makeStyles, Grid} from '@material-ui/core';
 import {useParams} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,6 +10,7 @@ const ReviewContainer = () => {
     
     const dispatch = useDispatch();
     const {productId} = useParams();
+    const reviews = useSelector(state => state.reviewReducer);
 
     const useStyles = makeStyles(theme => ({
             boxContainer: {
@@ -22,19 +23,19 @@ const ReviewContainer = () => {
 
     useEffect(() => {
         dispatch(getDataReviews(productId));    
-    }, [])
+    }, [productId])
+
+    useEffect(() => {
+        console.log("Reviews: ", reviews)    
+    }, [reviews])
     
     return (
         <Grid container direction="column" spacing={1}>
             <Box className={classes.boxContainer} mb={3}>
-                {productId}
-                <ReviewResume />
+                <ReviewResume reviews={reviews}/>
             </Box>
             <Box mb={3}>
-                <ReviewDetail />
-            </Box>
-            <Box mb={3}>
-                <ReviewDetail />
+                <ReviewList reviews={reviews}/>
             </Box>
         </Grid>
         

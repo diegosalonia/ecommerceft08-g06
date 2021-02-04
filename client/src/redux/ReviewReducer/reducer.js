@@ -1,6 +1,8 @@
-import {GET_DATA_REVIEWS, GET_REVIEWS} from '../constants';
+import {GET_REVIEWS} from '../constants';
 
 const initialState = {
+    totalReviews: 0,
+    avgRating: 0,
     reviews: []
 }
 
@@ -9,7 +11,9 @@ export default function reviewReducer(state = initialState, action){
         case GET_REVIEWS: 
             return {
                 ...state,
-                reviews: action.payload
+                totalReviews: action.payload.totalReviews,
+                avgRating: action.payload.avgRating,
+                reviews: action.payload.reviews
             }
         default:
             return state;

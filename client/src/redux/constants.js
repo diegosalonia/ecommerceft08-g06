@@ -38,5 +38,4 @@ export const GET_ORDER = "GET_ORDER";
 
 /*Review Start */
 export const GET_REVIEWS = "getReviews";
-export const GET_DATA_REVIEWS = "getDataReviews";
 /*Review end*/ 
