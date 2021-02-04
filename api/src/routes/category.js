@@ -1,5 +1,7 @@
 const server = require('express').Router();
 const { Category } = require('../db.js');
+const passport = require('passport')
+
 
 server.post('/', (req, res) =>{
     Category.create(req.body.form)
@@ -10,6 +12,10 @@ server.post('/', (req, res) =>{
         res.status(400).send(error)
     })
 })
+
+server.get('/secret', passport.authenticate('jwt',{session: false}),(req,res,next)=>{
+    res.json("Secret Data")
+  })
 
 server.delete('/:id', (req, res) =>{
     Category.destroy({

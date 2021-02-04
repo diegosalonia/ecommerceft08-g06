@@ -1,16 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import Button from '@material-ui/core/Button';
-import Avatar from '@material-ui/core/Avatar';
+import {Button, Avatar, Link, TextField, Typography} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Link from '@material-ui/core/Link'
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography'
 // import {getToken} from '../../redux/LoginReducer/actions'
 import {useDispatch} from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles';
 import PersonIcon from '@material-ui/icons/Person';
+import { axios } from 'axios'
+import { login } from '../../redux/loginReducer/actions'
 
 
 
@@ -33,7 +31,10 @@ const WithMaterialUI = ({onClose}) => {
       password: '',
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
+      const user = await axios.post("http://localhost:3001/login", values)
+      dispatch(login(user.data));
+			//setLoggedIn('Iniciaste sesión con éxito!');
     },
   });
 

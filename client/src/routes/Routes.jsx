@@ -17,6 +17,7 @@ import Order from '../components/orders/order/Order';
 import OrderList from '../components/orders/admin/OrderList';
 import UserForm from '../components/user/UserForm';
 import UserDashboard from '../components/user/UserDashboard';
+import ReviewContainer from '../components/Review/ReviewContainer';
 
 const Routes = () => {
     return(
@@ -24,6 +25,7 @@ const Routes = () => {
             <Route path='/' component={MainNav}/>
                 <Container style={{minHeight: "80vh", padding: "2em"}}>
                     <Route exact path='/' component={Home}/>
+                    <Route path="/review/:productId" component={ReviewContainer} />   
                     <Route exact path='/admin' component={AdminDashboard} />
                     <Route exact path='/admin/orders' component={OrderList} />
                     <Route exact path='/admin/orders/:userId/:orderId' component={Order} />

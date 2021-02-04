@@ -1,7 +1,7 @@
 const server = require('express').Router();
 const { response } = require('express');
 const { Sequelize } = require('sequelize');
-const { Product, Category, Order } = require('../db.js');
+const { Product, Category, Order, Review, User} = require('../db.js');
 
 server.get('/', (req, res, next) => {
 	Product.findAll({
@@ -12,6 +12,57 @@ server.get('/', (req, res, next) => {
 		})
 		.catch(next);
 });
+
+///Start review routes
+
+server.post('/:id/review', (req, res) => {
+	Review.create({...req.body.form, productId: req.params.id})
+	.then(product => {
+			res.status(201).send(product)
+		})
+	.catch(error => {
+		res.status(400).send(error)
+	})
+})
+
+server.get('/:id/review', (req, res) => {
+	Review.findAll({where: {productId: req.params.id}, include: [{model: User, attributes: ["email"]}]})
+	.then(products => {
+			res.status(201).send(products)
+		})
+	.catch(error => {
+		res.status(400).send(error)
+	})
+})
+
+server.put('/:id/review/:idReview', async (req, res) => {
+	const review = await Review.findByPk(req.params.idReview)
+	Object.assign(review, req.body.form)
+	review.save()
+	 .then(response =>{
+		 res.status(200).send(response)
+	 })
+	 .catch(error =>{
+		 res.status(400).send(error)
+	 })
+})
+
+server.delete('/:id/review/:idReview', async (req, res) => {
+	const review = await Review.findByPk(req.params.idReview)
+	if (review){
+		review.destroy()
+		.then(() => {
+			res.status(200).send("has been removed successfully")
+		})
+		.catch(error =>{
+			res.status(400).send(error)
+		})
+	}
+	else return res.status(400).send("error el review no existe")
+	
+})
+
+//End review routes
 
 server.get('/category/:name', async (req,res,next)=>{
 	const category = await Category.findOne({where: {name: req.params.name}})
@@ -111,8 +162,8 @@ server.get('/product-detail/:id', async (req, res) => {
 			stock: product.dataValues.stock,
 			featured: product.dataValues.featured,
 			categories: product.dataValues.categories.map(category => category.dataValues.name),
-			quantity: product.dataValues.orders[0]?.order_line.dataValues.quantity,
-			userId: product.dataValues.orders[0]?.userId
+			//quantity: product.dataValues.orders[0]?.order_line.dataValues.quantity,
+			//userId: product.dataValues.orders[0]?.userId
 		}
 		res.send(newProductForm);
 	})
