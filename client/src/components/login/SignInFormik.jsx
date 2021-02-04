@@ -6,6 +6,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 // import {getToken} from '../../redux/LoginReducer/actions'
 import {useDispatch} from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles';
+import PersonIcon from '@material-ui/icons/Person';
 import { axios } from 'axios'
 import { login } from '../../redux/loginReducer/actions'
 
@@ -39,14 +40,14 @@ const WithMaterialUI = ({onClose}) => {
 
   const useStyles = makeStyles((theme) => ({
     form: {
-      backgroundColor: theme.palette.background.paper,
+      backgroundColor: "none",
       borderRadius: theme.shape.borderRadius,
       padding: theme.spacing(1),
       marginTop: theme.spacing(2),
     },
     avatar: {
       margin: theme.spacing(1),
-      backgroundColor: theme.palette.secondary.main,
+      backgroundColor: theme.palette.primary.light,
     },
     formcontainer: {
       display: 'flex',
@@ -58,6 +59,9 @@ const WithMaterialUI = ({onClose}) => {
     },
     signUp:{
       padding: theme.spacing(2),
+    },
+    input:{
+      paddingBottom: theme.spacing(2)
     }
   }))
 
@@ -66,14 +70,16 @@ const WithMaterialUI = ({onClose}) => {
   return (
     <div className={classes.formcontainer}>
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
+          <PersonIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
       <form onSubmit={formik.handleSubmit} className={classes.form}>
         <TextField
+          className={classes.input}
           fullWidth
+          variant="outlined"
           id="email"
           name="email"
           label="Email"
@@ -83,7 +89,9 @@ const WithMaterialUI = ({onClose}) => {
           helperText={formik.touched.email && formik.errors.email}
         />
         <TextField
+          className={classes.input}
           fullWidth
+          variant="outlined"
           id="password"
           name="password"
           label="Password"
@@ -98,7 +106,7 @@ const WithMaterialUI = ({onClose}) => {
         </Button>
       </form>
       <div className={classes.signUp}>
-        <Link variant="body2" to="/createcustomer" href="/createcustomer">
+        <Link variant="body2" to="/createcustomer" href="/user/sign-up">
           {"Don't have an account? Sign Up"}
         </Link>
       </div>
