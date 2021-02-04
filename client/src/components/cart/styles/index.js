@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core';
+import cartImage from '../../../resources/cartImage.jpg';
 
 export const useStylesCartItem = makeStyles(theme => ({
     container: {
@@ -59,7 +60,20 @@ export const useStylesCart = makeStyles(theme => ({
         justifyContent: 'center',
         alignItems: 'center',
         margin: '20% auto',
-      }
+    },
+    emptyCartContainer: {
+        display: 'none',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '500px',
+        height: '400px',
+
+    },
+    buttonToCatalog: {
+        color: theme.palette.secondary.main,
+        backgroundColor: theme.palette.primary.main,
+    }
 }));
 
 export const useStylesCartTotal = makeStyles(theme => ({

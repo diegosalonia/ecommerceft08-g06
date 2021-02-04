@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Container, Typography, CircularProgress, Button } from '@material-ui/core';
+import { Container, Typography, CircularProgress, Button, Link } from '@material-ui/core';
 import { getProductsInCart, deleteAllCart } from '../../redux/cartReducer/actions';
 import CartItem from './CartItem';
 import { useStylesCart } from './styles';
@@ -10,15 +10,13 @@ const Cart = () => {
     const styles = useStylesCart();
     const dispatch = useDispatch();
     const products = useSelector(state => state.cartReducer.productsInCart);
-    const [ productsInCart, setProductsInCart ] = useState([]);
     const [ loading, setLoading ] = useState(true);
 
     useEffect(() => {
-        dispatch(getProductsInCart(1));
+        dispatch(getProductsInCart(1)); // userId hard-coded
     }, []);
 
     useEffect(() => {
-        setProductsInCart(products);
         setTimeout(() => setLoading(false), 1000);
     }, [products]);
 
@@ -31,7 +29,7 @@ const Cart = () => {
             <Container>
                 <Container className={styles.container} >
                     <Container className={styles.cartItemsContainer} >
-                        { productsInCart.map(product => <CartItem key={product.id} product={product} />) }
+                        { products.map(product => <CartItem key={product.id} product={product} />) }
                     </Container>
                     <Container>
                         <CartTotal products={products} />
@@ -46,7 +44,20 @@ const Cart = () => {
         );
     }
 
-    return loading ? <CircularProgress disableShrink className={styles.isLoading} /> : cart();
+    const emptyCart = () => {
+        return (
+            <Container className={styles.emptyCartContainer} >
+                <Typography>Your cart is empty</Typography>
+                <Link to='/products' >
+                    <Button className={styles.buttonToCatalog} >
+                        Catalog
+                    </Button>
+                </Link>
+            </Container>
+        );
+    };
+
+    return loading ? <CircularProgress disableShrink className={styles.isLoading} /> : products.length > 0 ? cart() : emptyCart();
 };
 
 export default Cart;

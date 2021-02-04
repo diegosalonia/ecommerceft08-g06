@@ -83,6 +83,7 @@ export const changeOrderStatus = userId => dispatch => {
             order: res.data
         });
         window.location.search = window.location.search.split('?')[0];
+        localStorage.removeItem('cart');
     })
     .catch(err => console.log(err));
 };
