@@ -7,7 +7,7 @@ import { CREATE_PRODUCT, GET_CATEGORIES } from '../constants';
 const conectionRelation = (productId, categoryList) => {
     categoryList.forEach(category => {
         axios.post(`http://localhost:3000/products/${productId}/category/${category}`)
-        .then(res => console.log(res))
+        .then(res => res)
         .catch(err => console.log(err));
     });
 };
@@ -32,7 +32,6 @@ const addImages = (images, productName, id, form) => {
             );
        });
     });
-    // 
     Promise.all(promises)
     .then(res => {
         axios.put(`http://localhost:3000/products/${id}`, { form })
