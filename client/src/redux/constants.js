@@ -38,7 +38,6 @@ export const GET_ORDER = "GET_ORDER";
 /*Review Start */
 export const GET_REVIEWS = "getReviews";
 /*Review end*/ 
-export const GET_ORDER = "GET_ORDER"
 
 /*start loginReducer*/
 export const LOGIN = "LOGIN";
