@@ -33,6 +33,7 @@ export const CHANGE_PRODUCT_QUANTITY = 'CHANGE_PRODUCT_QUANTITY';
 export const DELETE_PRODUCT_FROM_CART = 'DELETE_PRODUCT_FROM_CART';
 export const DELETE_ALL_CART = 'DELETE_ALL_CART';
 export const GO_TO_CHECKOUT = 'GO_TO_CHECKOUT';
+export const CHANGE_ORDER_STATUS = 'CHANGE_ORDER_STATUS';
 /* end cartReducer */
 
 /* Catalog - Pagination */

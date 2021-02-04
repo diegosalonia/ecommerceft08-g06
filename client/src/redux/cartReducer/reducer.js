@@ -1,9 +1,9 @@
 import { GET_PRODUCTS_IN_CART, CHANGE_PRODUCT_QUANTITY, 
          DELETE_PRODUCT_FROM_CART, DELETE_ALL_CART,
-         GO_TO_CHECKOUT } from '../constants';
+         GO_TO_CHECKOUT, CHANGE_ORDER_STATUS } from '../constants';
 
 const initialState = {
-    productsInCart: []
+    productsInCart: JSON.parse(localStorage.getItem('cart') || '[]')
 };
 
 const cartReducer = (state = initialState, action) => {
