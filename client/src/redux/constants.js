@@ -31,7 +31,6 @@ export const GET_ORDERS = 'GET_ORDERS';
 export const GET_PAGE_PRODUCTS = "getPageProducts";
 export const UPDATE_FILTERS = "updateFilters";
 export const UPDATE_PAGE = "updatePage";
-/* Catalog end - Pagination*/
 
 // order constansts
 export const GET_ORDER = "GET_ORDER"
@@ -40,3 +39,6 @@ export const GET_ORDER = "GET_ORDER"
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
 /* end loginReducer*/
+
+/* searchBar constants */
+export const GET_PRODUCTS_BY_KEYWORD = "GET_PRODUCTS_BY_KEYWORD"

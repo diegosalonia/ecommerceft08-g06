@@ -1,5 +1,6 @@
 require('dotenv').config();
 const { Sequelize } = require('sequelize');
+const crypto = require('crypto')
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto') 
@@ -68,7 +69,7 @@ User.beforeCreate(setSaltAndPassword)
 User.beforeUpdate(setSaltAndPassword)
 
 User.prototype.correctPassword = function(enteredPassword) {
-  console.log("enteredpassword", this)
+
   return User.encryptPassword(enteredPassword, this.salt()) === this.password()
 }
 
