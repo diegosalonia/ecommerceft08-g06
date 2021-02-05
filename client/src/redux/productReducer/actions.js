@@ -7,8 +7,8 @@ export const showLoader = () => dispatch => {
     });
 };
 
-export const getProduct = id => (dispatch) => {
-    return axios.get(`http://localhost:3000/products/product-detail/${id}`)
+export const getProduct = (userId, productId) => (dispatch) => {
+    return axios.get(`http://localhost:3000/products/product-detail/${productId}/${userId}`)
     .then(product => {
         dispatch({
             type: GET_PRODUCT,
