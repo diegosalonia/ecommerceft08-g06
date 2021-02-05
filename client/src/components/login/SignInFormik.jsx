@@ -33,7 +33,8 @@ const WithMaterialUI = ({onClose}) => {
       params.append('password', values.password)
 
       const user = await axios.post(url, params, config)
-      dispatch(login(user.data.user));
+      //console.log(user)
+      dispatch(login(user.data));
 			//setLoggedIn('Iniciaste sesión con éxito!');
     },
   });

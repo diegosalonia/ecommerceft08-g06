@@ -5,10 +5,11 @@ export const login = (user) => (dispatch) => {
     console.log(user)
     dispatch({type: LOGIN, payload: user})
 
-    localStorage.setItem('role', user.user_role);
-    localStorage.setItem('id', user.id);
-
-    //window.location.replace("https://www.w3schools.com")
+    localStorage.setItem('token', user.token)
+    localStorage.setItem('role', user.user.user_role);
+    localStorage.setItem('id', user.user.id);
+        
+    window.location.replace("http://localhost:3001/")
 }
 
 export const logOut = () => dispatch => dispatch({type: LOGOUT});
