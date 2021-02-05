@@ -9,16 +9,17 @@ import { useStylesProduct } from './styles';
 
 function Product(props) {
     const dispatch = useDispatch();
+    const styles = useStylesProduct();
     const { match: { params: { id }}} = props;
     const isLoading = useSelector(state => state.productReducer.isLoading);
     const product = useSelector(state => state.productReducer.product);
-    const styles = useStylesProduct();
-    const [ quantity, setQuantity ] = useState(1);
     const isInCart = useSelector(state => state.productReducer.isInCart);
+    const [ quantity, setQuantity ] = useState(1);
+    const [ biggerImage, setBiggerImage ] = useState();
 
     useEffect(() => {
         dispatch(showLoader());
-        dispatch(getProduct(id));
+        dispatch(getProduct(1, id)); // userId hard-coded
     }, []);
 
     useEffect(() => {
@@ -46,9 +47,23 @@ function Product(props) {
         return (
             <Container>
                 <Container className={styles.container} >
-                    <img src={ product.image } alt={ product.name } className={styles.image} ></img>
+                    <Container className={styles.imagesContainer} >
+                        <Container>
+                            {biggerImage}
+                        </Container>
+                        <Container>
+                            { product.image?.map(image => {
+                                console.log("IMAGE: ", image);
+                                return (
+                                    <Container >
+                                        <img key={image} src={ image } alt={ product.name } className={styles.image} />
+                                    </Container>
+                                )
+                            })}
+                        </Container>
+                    </Container>
                     <Container className={styles.detailContainer} >
-                        <Typography variant='h6' align='center' >{ product.name }</Typography>
+                        <Typography color='primary' variant='h4' align='center' >{ product.name }</Typography>
                         <Container className={styles.categories} >
                             { product.categories?.slice(0, 3).map(category => <Typography key={category} className={styles.category} >{ category }</Typography>) }
                         </Container>
@@ -57,8 +72,11 @@ function Product(props) {
                                             <Typography className={styles.lineThrough}>${ product.price }</Typography>
                                             <Typography className={styles.actualPrice} >{ `$${ product.price - ((product.discount / 100) * product.price)}` }</Typography>
                                         </Container> 
-                                        :<Typography>${ product.price }</Typography>
+                                        :<Typography variant='h3' color='primary' >${ product.price }</Typography>
                         }
+                        <Container>
+                            
+                        </Container>
                         <Container className={styles.rating} >
                             <Rating
                                 name="product-rating"

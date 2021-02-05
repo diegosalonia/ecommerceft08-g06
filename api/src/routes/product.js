@@ -142,32 +142,35 @@ server.post('/:productId/category/:categoryId', async (req, res) =>{
 	})
 });
 
-server.get('/product-detail/:id', async (req, res) => {
-	Product.findOne({
+server.get('/product-detail/:productId/:userId', async (req, res) => {
+	const { productId, userId } = req.params;
+	const product = await Product.findOne({
 		where: {
-			id: req.params.id
+			id: productId
 		},
 		include: [
-			{model: Category},
-			{model: Order}
+			{model: Category}
 		]
 	})
-	.then(product => {
-		const newProductForm = {
-			name: product.dataValues.name,
-			price: product.dataValues.price,
-			description: product.dataValues.description,
-			discount: product.dataValues.discount,
-			image: product.dataValues.image,
-			stock: product.dataValues.stock,
-			featured: product.dataValues.featured,
-			categories: product.dataValues.categories.map(category => category.dataValues.name),
-			//quantity: product.dataValues.orders[0]?.order_line.dataValues.quantity,
-			//userId: product.dataValues.orders[0]?.userId
+	const order = await Order.findOne({
+		where : {
+			userId: userId,
+			status: 'cart'
 		}
-		res.send(newProductForm);
-	})
-	.catch(err => console.log(err));
+	});
+	
+	const newProductForm = {
+		name: product.dataValues.name,
+		price: product.dataValues.price,
+		description: product.dataValues.description,
+		discount: product.dataValues.discount,
+		image: product.dataValues.image,
+		stock: product.dataValues.stock,
+		featured: product.dataValues.featured,
+		categories: product.dataValues.categories.map(category => category.dataValues.name),
+		quantity: order ? orders[0]?.order_line.dataValues.quantity : 1,
+	};
+	res.send(newProductForm);
 });
 
 //Query like this: http://localhost:3000/products/catalog/?page=1&pageSize=1
