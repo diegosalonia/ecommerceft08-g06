@@ -145,5 +145,8 @@ export const useStylesProduct = makeStyles(theme => ({
   ratingReviews: {
     marginLeft: '4%',
     color: 'gray'
-  }
+  },
+  imageContainer: {
+    
+  },
 }))
