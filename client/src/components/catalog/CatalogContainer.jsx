@@ -19,7 +19,7 @@ const CatalogContainer = () => {
     useEffect(() => {
         dispatch(getPaginatedProducts(page, pageSize, storeFilterBox));    
         dispatch(updatePage(page));
-    }, [storeFilterBox, page])//UP TO STORE, CURRENT: LOCAL
+    }, [storeFilterBox, page, pageSize, dispatch])//UP TO STORE, CURRENT: LOCAL
 
     useEffect(() => {
         if(firstRender.current){
@@ -31,12 +31,10 @@ const CatalogContainer = () => {
                 dispatch(updatePage(1))
             }
         }
-        
-        
-    }, [productList])
+    }, [productList, dispatch])
 
     return(
-        <Catalog products={productsRender} /* setpage={setPage} */ filterBox={filterBox} setFilterBox={setFilterBox}  />
+        <Catalog products={productsRender} filterBox={filterBox} setFilterBox={setFilterBox}  />
     )
 
 }
