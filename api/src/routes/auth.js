@@ -1,6 +1,6 @@
 const express = require("express");
 const server = express.Router();
-const { User } = require("../db.js");
+const { User, Order } = require("../db.js");
 const passport = require("passport");
 const passportJWT = require("passport-jwt");
 const jwt = require ('jsonwebtoken')
@@ -15,25 +15,22 @@ server.post('/login', (req, res, next) => {
     (req, res, next)
 })
 
-server.post("/logout", (req, res) => {
-  console.log(req.isAuthenticated());
-  if (req.isAuthenticated()) {
-    console.log("estaba logeado");
+server.post("/logout", passport.authenticate('jwt',{session: false}),(req,res,next)=>{
     req.logout();
-    res.sendStatus(200);
-  } else {
-    res.status(400).send("No estabas logeado :/");
-  }
+    res.status(200).json("deslogueado");
 });
 
 server.get("/me", passport.authenticate('jwt',{session: false}),(req,res,next)=>{
-    User.findByPk(req.user)
+    User.findAll({
+        where: {id: req.user}, 
+        include: [{model: Order}]
+    })
     .then(user => {
-		res.json(user);
-	})
-	.catch(err=>{
-		res.send(err);
-	})
+        res.status(201).send(user)
+    })
+.catch(error => {
+    res.status(400).send(error)
+})
 })
 
 module.exports = server;
