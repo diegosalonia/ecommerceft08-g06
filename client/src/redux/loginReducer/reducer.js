@@ -1,7 +1,7 @@
 import { LOGIN, LOGOUT }  from '../constants';
 
 const initialState = {
-	user_rol: 'Guest',
+	user_role: 'Guest',
 	id: 0,
 	first_name: null,
 	email: null
@@ -12,7 +12,7 @@ export default function userReducer(state = initialState, action) {
 		case LOGIN:
 			return {
 				...state,
-				user_rol: action.payload.rol,
+				user_rol: action.payload.user_role,
 				id: action.payload.id,
 				first_name: action.payload.first_name,
 				email: action.payload.email
