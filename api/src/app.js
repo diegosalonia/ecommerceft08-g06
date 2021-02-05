@@ -51,10 +51,10 @@ server.use((req, res, next) => {
 
 passport.serializeUser((user, next) => next(null, user.id));
 
-passport.deserializeUser(function(id, next) {
+passport.deserializeUser((id, next)=>{
     User.findByPk(id).then(user => next(null, user)).catch(err => next(err, null));
 });
-
+server.use(cookieParser('secret'))
 server.use(session({
   secret: 'secret',
   resave: false,

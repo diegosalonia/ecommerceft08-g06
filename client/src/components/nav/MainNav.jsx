@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Toolbar from '@material-ui/core/Toolbar';
 import { Typography, AppBar, IconButton, Drawer, MenuItem, Container } from '@material-ui/core';
 import Link from '@material-ui/core/Link';
-import { makeStyles } from '@material-ui/core/styles';
 import StorefrontIcon from '@material-ui/icons/Storefront';
 import MenuIcon from '@material-ui/icons/Menu';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
@@ -12,75 +11,8 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import SearchBar from './SearchBar';
 import EcoIcon from '@material-ui/icons/Eco';
 import LoginModal from '../login/LoginModal';
+import {useStyles} from './styles'
 //import LoginModal from './LoginModal'
-
-const useStyles = makeStyles((theme) => ({
-    toolbar: {
-      borderBottom: `1px solid ${theme.palette.divider}`,
-      justifyContent: 'space-between',
-      backgroundColor: theme.palette.primary.main
-    },
-    toolbarMobile:{
-        backgroundColor: theme.palette.primary.main
-    },
-    logoContainer:{
-        display: 'flex',
-        alignItems: 'center',
-        flexWrap: 'wrap'
-    },
-    backgroundToolbar: {
-      backgroundColor: theme.palette.primary.main,  
-    },
-    toolbarSecondary: {
-      justifyContent: 'space-between',
-    },
-    toolbarLink: {
-      padding: theme.spacing(1),
-      '&:hover':{
-        color: "inherit",
-        }
-    },
-    toolbarOptionsDiv: {
-        display: 'flex',
-        flexDirection: 'row',
-        backgroundColor: theme.palette.primary.main
-
-    },
-    toolbarOptions: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        padding: theme.spacing(1),
-        backgroundColor: theme.palette.primary.main
-
-    },
-    mobileToolbar: {
-        justifyContent: 'space-between',
-        backgroundColor: theme.palette.primary.main
-
-    },
-    driverChoices:{
-        padding: "20px 30px",
-    },
-    LinkHome:{
-        '&:hover':{
-            color: "inherit",
-            
-            }
-    },
-    leafIcon:{
-        marginTop: theme.spacing(0.5)
-    },
-    toolbarTitle:{
-        marginLeft: theme.spacing(1)
-    },
-    icons:{
-        color: "#fff"
-    }
-    
-   
-  }));
-  
 
 
 const sections = [
@@ -91,6 +23,9 @@ const sections = [
   
 
 const Header = ({ setSearch }) => {
+
+    const userRole = localStorage.getItem('role');
+
     const [state, setState] = useState({
         mobileView: false,
         drawerOpen: false
@@ -108,6 +43,7 @@ const Header = ({ setSearch }) => {
     };
     setResponsiveness();
     window.addEventListener("resize", () => setResponsiveness());
+    
   }, []);
 
   const goHome = (e) => {
@@ -115,11 +51,9 @@ const Header = ({ setSearch }) => {
   }
 
   const RightButtons = () => {
-        return (
+        if( userRole && userRole==='admin'){
+            return(
             <div className={classes.toolbarOptionsDiv}>
-                <div className={classes.toolbarOptions}>
-                    <LoginModal/> 
-                </div>
                 <div className={classes.toolbarOptions}>
                     <ShoppingCartIcon className={classes.icons}/>
                     <Link className={classes.LinkHome} color="inherit" key="logIn" href='/cart'>Carrito</Link>
@@ -128,10 +62,32 @@ const Header = ({ setSearch }) => {
                     <AccountCircleIcon/>
                     <Link className={classes.LinkHome} color="inherit" key="logIn" href='/admin'>Admin</Link>
                 </div>
+            </div>)
+        }
+        if( userRole && userRole==='user'){
+            return(
+            <div className={classes.toolbarOptionsDiv}>
                 <div className={classes.toolbarOptions}>
-                    <AccountCircleIcon/>
-                    <Link className={classes.LinkHome} color="inherit" key="logIn" href='/user'>Usuario</Link>
+                    <ShoppingCartIcon className={classes.icons}/>
+                    <Link className={classes.LinkHome} color="inherit" key="logIn" href='/cart'>Carrito</Link>
                 </div>
+                     <div className={classes.toolbarOptions}>
+                     <AccountCircleIcon/>
+                     <Link className={classes.LinkHome} color="inherit" key="logIn" href='/user'>Usuario</Link>
+                </div>
+            </div>)
+        }
+    }
+    const RightButtonDefault = () => {
+        return (
+            <div className={classes.toolbarOptionsDiv}>
+                <div className={classes.toolbarOptions}>
+                    <LoginModal/> 
+                </div>
+                <div className={classes.toolbarOptions}>
+                    <ShoppingCartIcon className={classes.icons}/>
+                    <Link className={classes.LinkHome} color="inherit" key="logIn" href='/cart'>Carrito</Link>
+                </div>                
             </div>
         )
     }
@@ -159,7 +115,7 @@ const Header = ({ setSearch }) => {
                         ))}
                 </Toolbar>
                 <SearchBar setSearch = {setSearch}/>
-                <RightButtons />    
+                {!userRole?<RightButtonDefault />:<RightButtons />}
             </Toolbar>
         )
     } 
@@ -179,7 +135,7 @@ const Header = ({ setSearch }) => {
                 <div className={classes.logoContainer}>
                     <StorefrontIcon fontSize="default"/>
                 </div>
-                {RightButtons()}
+                {!userRole?RightButtonDefault():RightButtons()}
                 
             </Toolbar>
         )
