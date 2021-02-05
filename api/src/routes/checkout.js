@@ -41,7 +41,7 @@ server.put('/:userId', async (req, res) => {
             status: 'cart'
         }
     });
-    console.log("STATUS: ", req.body.status);
+
     order.status = req.body.status;
     order.save()
     .then(response => res.send(order))
@@ -49,17 +49,3 @@ server.put('/:userId', async (req, res) => {
 });
 
 module.exports = server;
-
-/* 
-?collection_id=1233462977&
-collection_status=approved&
-payment_id=1233462977&
-status=approved&
-external_reference=null&
-payment_type=credit_card&
-merchant_order_id=2288128093&
-preference_id=184851111-77d359cf-f54f-4e58-a75e-71223b217f05&
-site_id=MLA&
-processing_mode=aggregator&
-merchant_account_id=null
-*/
