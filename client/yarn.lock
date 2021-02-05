@@ -9646,6 +9646,11 @@
   "resolved" "https://registry.npmjs.org/react-error-overlay/-/react-error-overlay-6.0.7.tgz"
   "version" "6.0.7"
 
+"react-fade-in@^2.0.1":
+  "integrity" "sha512-oqS/WT4znaXEHmL+yo0IDUDY7uC9K4RP35j1SdRUEBspR09B2iIC0i8oJ28tPOr6Ez/L2aktF9p89j+DbsTVNw=="
+  "resolved" "https://registry.npmjs.org/react-fade-in/-/react-fade-in-2.0.1.tgz"
+  "version" "2.0.1"
+
 "react-fast-compare@^2.0.1":
   "integrity" "sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw=="
   "resolved" "https://registry.npmjs.org/react-fast-compare/-/react-fast-compare-2.0.4.tgz"
@@ -9792,7 +9797,7 @@
     "loose-envify" "^1.4.0"
     "prop-types" "^15.6.2"
 
-"react@^16.13.1", "react@^16.8.0 || ^17.0.0", "react@^16.8.3 || ^17", "react@>= 16.8":
+"react@^16.13.1", "react@^16.8 || 17", "react@^16.8.0 || ^17.0.0", "react@^16.8.3 || ^17", "react@>= 16.8":
   "integrity" "sha512-YMZQQq32xHLX0bz5Mnibv1/LHb3Sqzngu7xstSM+vrkE5Kzr9xE0yMByK5kMoTK30YVJE61WfbxIFFvfeDKT1w=="
   "resolved" "https://registry.npmjs.org/react/-/react-16.13.1.tgz"
   "version" "16.13.1"

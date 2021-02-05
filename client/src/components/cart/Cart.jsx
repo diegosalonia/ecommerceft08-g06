@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Typography, CircularProgress, Button, Link } from '@material-ui/core';
 import { getProductsInCart, deleteAllCart } from '../../redux/cartReducer/actions';
-import CartItem from './CartItem';
 import { useStylesCart } from './styles';
+import FadeIn from 'react-fade-in';
+import CartItem from './CartItem';
 import CartTotal from './CartTotal';
 
 const Cart = () => {
@@ -46,14 +47,16 @@ const Cart = () => {
 
     const emptyCart = () => {
         return (
-            <Container className={styles.emptyCartContainer} >
-                <Typography>Your cart is empty</Typography>
-                <Link to='/products' >
-                    <Button className={styles.buttonToCatalog} >
-                        Catalog
-                    </Button>
-                </Link>
-            </Container>
+            <FadeIn transitionDuration={1000} >
+                <Container className={styles.emptyCartContainer} >
+                    <Typography>Your cart is empty</Typography>
+                    <Link to='/products' >
+                        <Button className={styles.buttonToCatalog} >
+                            Catalog
+                        </Button>
+                    </Link>
+                </Container>
+            </FadeIn>
         );
     };
 

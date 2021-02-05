@@ -62,13 +62,12 @@ export const useStylesCart = makeStyles(theme => ({
         margin: '20% auto',
     },
     emptyCartContainer: {
-        display: 'none',
+        display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
         width: '500px',
         height: '400px',
-
     },
     buttonToCatalog: {
         color: theme.palette.secondary.main,
