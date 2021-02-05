@@ -29,8 +29,8 @@ const useStyles = makeStyles((theme) => ({
 const Footer = () => {
   const classes = useStyles();
   const path = [
-    { name: "Inicio", link: "/" },
-    { name: "Contacto", link: "/contact" },
+    { name: "Home", link: "/" },
+    { name: "Contact", link: "/contact" },
   ];
   return (
     <footer className={classes.footer}>
@@ -57,7 +57,7 @@ const Footer = () => {
           }}
         >
           <Typography className={classes.copylight}>
-            &copy; Copyright Un Jardin Especial {new Date().getFullYear()}
+            &copy; Copyright The SpecialGarden {new Date().getFullYear()}
           </Typography>
         </Grid>
       </Container>

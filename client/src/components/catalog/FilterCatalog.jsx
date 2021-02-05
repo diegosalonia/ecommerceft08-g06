@@ -70,7 +70,7 @@ const FilterCatalog = (props) => {
 
     <Card>
         <CardHeader
-                  title="Categorias"
+                  title="Categories"
                   titleTypographyProps={{ align: 'center' }}
                   className={classes.cardHeader}
                 />

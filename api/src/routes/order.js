@@ -14,25 +14,8 @@ server.get('/', (req, res) => {
         .then(orders => res.send(orders))
         .catch(err => console.log(err));
     } else {
-        Order.findAll({
-            include: [
-                // {model: User},
-                // {model: Product}
-            ]
-        })
-        .then(orders => {
-            // const orderList = orders.map(order => {
-            //     return {
-            //         id: order.dataValues.id,
-            //         status: order.dataValues.status,
-            //         createdAt: order.dataValues.createdAt,
-            //         userId: order.dataValues.userId,
-            //         // total: order.dataValues.products
-            //     }
-            // })
-            // console.log("ORDERS.DATAVALUES.PRODUCTS: ", orders.dataValues.id);
-            res.send(orders)
-        })
+        Order.findAll()
+        .then(orders => res.send(orders))
         .catch(err => console.log(err));
     }
 });

@@ -1,15 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import Button from '@material-ui/core/Button';
-import Avatar from '@material-ui/core/Avatar';
+import {Button, Avatar, Link, TextField, Typography} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Link from '@material-ui/core/Link'
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography'
 // import {getToken} from '../../redux/LoginReducer/actions'
 import {useDispatch} from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles';
+import PersonIcon from '@material-ui/icons/Person';
+import { axios } from 'axios'
+import { login } from '../../redux/loginReducer/actions'
 
 
 
@@ -20,7 +19,6 @@ const validationSchema = yup.object({
     .required('Email is required'),
   password: yup
     .string('Enter your password')
-    .min(8, 'Password should be of minimum 8 characters length')
     .required('Password is required'),
 });
 
@@ -33,28 +31,23 @@ const WithMaterialUI = ({onClose}) => {
       password: '',
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      // dispatch(getToken(values.email, values.password));
-      setTimeout(function(){
-        if(window.localStorage.getItem("loggedin")){
-          console.log("Logged in, user id: ", window.localStorage.getItem("userId"))
-          onClose();
-        }
-      }, 500);
-
+    onSubmit: async (values) => {
+      const user = await axios.post("http://localhost:3001/login", values)
+      dispatch(login(user.data));
+			//setLoggedIn('Iniciaste sesión con éxito!');
     },
   });
 
   const useStyles = makeStyles((theme) => ({
     form: {
-      backgroundColor: theme.palette.background.paper,
+      backgroundColor: "none",
       borderRadius: theme.shape.borderRadius,
       padding: theme.spacing(1),
       marginTop: theme.spacing(2),
     },
     avatar: {
       margin: theme.spacing(1),
-      backgroundColor: theme.palette.secondary.main,
+      backgroundColor: theme.palette.primary.light,
     },
     formcontainer: {
       display: 'flex',
@@ -66,6 +59,9 @@ const WithMaterialUI = ({onClose}) => {
     },
     signUp:{
       padding: theme.spacing(2),
+    },
+    input:{
+      paddingBottom: theme.spacing(2)
     }
   }))
 
@@ -74,14 +70,16 @@ const WithMaterialUI = ({onClose}) => {
   return (
     <div className={classes.formcontainer}>
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
+          <PersonIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
       <form onSubmit={formik.handleSubmit} className={classes.form}>
         <TextField
+          className={classes.input}
           fullWidth
+          variant="outlined"
           id="email"
           name="email"
           label="Email"
@@ -91,7 +89,9 @@ const WithMaterialUI = ({onClose}) => {
           helperText={formik.touched.email && formik.errors.email}
         />
         <TextField
+          className={classes.input}
           fullWidth
+          variant="outlined"
           id="password"
           name="password"
           label="Password"
@@ -106,7 +106,7 @@ const WithMaterialUI = ({onClose}) => {
         </Button>
       </form>
       <div className={classes.signUp}>
-        <Link variant="body2" to="/createcustomer" href="/createcustomer">
+        <Link variant="body2" to="/createcustomer" href="/user/sign-up">
           {"Don't have an account? Sign Up"}
         </Link>
       </div>

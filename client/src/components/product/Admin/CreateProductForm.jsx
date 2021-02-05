@@ -7,7 +7,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { addProduct, getCategories } from '../../../redux/createProductReducer/actions';
 import { useStylesProductForm } from '../styles';
-import Swal from 'sweetalert2';
+import {Swal} from 'sweetalert2';
 
 const validationSchema = yup.object({
     name: yup
