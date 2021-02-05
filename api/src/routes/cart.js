@@ -80,7 +80,7 @@ server.get('/:idUser/cart', async (req,res)=>{ // muestra todos lo de carrito
                                             status: 'cart', 
                                         }
                                     });
-
+    if (!order) return res.send('nothing in cart');
     await order.getProducts()
     .then(orders =>{
         res.send(orders);

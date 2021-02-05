@@ -30,7 +30,7 @@ const Cart = () => {
             <Container>
                 <Container className={styles.container} >
                     <Container className={styles.cartItemsContainer} >
-                        { products.map(product => <CartItem key={product.id} product={product} />) }
+                        { products?.map(product => <CartItem key={product.id} product={product} />) }
                     </Container>
                     <Container>
                         <CartTotal products={products} />
@@ -49,18 +49,16 @@ const Cart = () => {
         return (
             <FadeIn transitionDuration={1000} >
                 <Container className={styles.emptyCartContainer} >
-                    <Typography>Your cart is empty</Typography>
-                    <Link to='/products' >
-                        <Button className={styles.buttonToCatalog} >
+                    <Typography>Your shopping cart is empty</Typography>
+                        <Button className={styles.buttonToCatalog} href='/products' >
                             Catalog
                         </Button>
-                    </Link>
                 </Container>
             </FadeIn>
         );
     };
 
-    return loading ? <CircularProgress disableShrink className={styles.isLoading} /> : products.length > 0 ? cart() : emptyCart();
+    return loading ? <CircularProgress disableShrink className={styles.isLoading} /> : Array.isArray(products) && products.length > 0 ? cart() : emptyCart();
 };
 
 export default Cart;
