@@ -101,7 +101,8 @@ export const useStylesProduct = makeStyles(theme => ({
     borderRadius: '11%',
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.secondary.main,
-    boxShadow: '1px 5px 10px rgb(0 0 0 / 50%)'
+    boxShadow: '1px 5px 10px rgb(0 0 0 / 50%)',
+    margin: '2% 3% 11% 3%',
   },
   detailContainer: {
     display: 'flex',
@@ -146,7 +147,9 @@ export const useStylesProduct = makeStyles(theme => ({
     marginLeft: '4%',
     color: 'gray'
   },
-  imageContainer: {
-    
+  imagesContainer: {
+    width: '200%',
+    border: '1px solid gray',
   },
-}))
+
+}));

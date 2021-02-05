@@ -53,6 +53,7 @@ function Product(props) {
                         </Container>
                         <Container>
                             { product.image?.map(image => {
+                                console.log("IMAGE: ", image);
                                 return (
                                     <Container >
                                         <img key={image} src={ image } alt={ product.name } className={styles.image} />
@@ -62,7 +63,7 @@ function Product(props) {
                         </Container>
                     </Container>
                     <Container className={styles.detailContainer} >
-                        <Typography variant='h6' align='center' >{ product.name }</Typography>
+                        <Typography color='primary' variant='h4' align='center' >{ product.name }</Typography>
                         <Container className={styles.categories} >
                             { product.categories?.slice(0, 3).map(category => <Typography key={category} className={styles.category} >{ category }</Typography>) }
                         </Container>
@@ -71,8 +72,11 @@ function Product(props) {
                                             <Typography className={styles.lineThrough}>${ product.price }</Typography>
                                             <Typography className={styles.actualPrice} >{ `$${ product.price - ((product.discount / 100) * product.price)}` }</Typography>
                                         </Container> 
-                                        :<Typography>${ product.price }</Typography>
+                                        :<Typography variant='h3' color='primary' >${ product.price }</Typography>
                         }
+                        <Container>
+                            
+                        </Container>
                         <Container className={styles.rating} >
                             <Rating
                                 name="product-rating"

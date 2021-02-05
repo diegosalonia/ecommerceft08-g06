@@ -117,7 +117,7 @@ server.get('/product-detail/:productId/:userId', async (req, res) => {
 		stock: product.dataValues.stock,
 		featured: product.dataValues.featured,
 		categories: product.dataValues.categories.map(category => category.dataValues.name),
-		quantity: order ? product.dataValues.orders[0]?.order_line.dataValues.quantity : 1,
+		quantity: order ? orders[0]?.order_line.dataValues.quantity : 1,
 	};
 	res.send(newProductForm);
 });
