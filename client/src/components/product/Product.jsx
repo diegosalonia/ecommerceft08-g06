@@ -54,7 +54,7 @@ function Product(props) {
                         <Container>
                             { product.image?.map(image => {
                                 return (
-                                    <Container onClick={handleBigImage} >
+                                    <Container >
                                         <img key={image} src={ image } alt={ product.name } className={styles.image} />
                                     </Container>
                                 )
