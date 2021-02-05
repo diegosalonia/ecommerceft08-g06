@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProduct, showLoader, hideLoader, addToCart } from '../../redux/productReducer/actions';
+import { getProduct, showLoader, hideLoader, addToCart, getReviews } from '../../redux/productReducer/actions';
 
 import { Button, Container, Typography, CircularProgress } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
@@ -11,20 +11,22 @@ function Product(props) {
     const dispatch = useDispatch();
     const styles = useStylesProduct();
     const { match: { params: { id }}} = props;
-    const isLoading = useSelector(state => state.productReducer.isLoading);
+    const [ isLoading, setIsLoading ] = useState(true);
+    const reviews = useSelector(state => state.productReducer.reviews);
     const product = useSelector(state => state.productReducer.product);
     const isInCart = useSelector(state => state.productReducer.isInCart);
     const [ quantity, setQuantity ] = useState(1);
     const [ biggerImage, setBiggerImage ] = useState();
 
     useEffect(() => {
-        dispatch(showLoader());
+        dispatch(getReviews(id));
         dispatch(getProduct(1, id)); // userId hard-coded
     }, []);
 
     useEffect(() => {
-        dispatch(hideLoader());
         product.quantity && setQuantity(product.quantity);
+        console.log("REVIEWS: ", reviews[0]?.rating);
+        setIsLoading(false);
     }, [product]);
 
     useEffect(() => {

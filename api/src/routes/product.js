@@ -158,7 +158,7 @@ server.get('/product-detail/:productId/:userId', async (req, res) => {
 			status: 'cart'
 		}
 	});
-	
+
 	const newProductForm = {
 		name: product.dataValues.name,
 		price: product.dataValues.price,
