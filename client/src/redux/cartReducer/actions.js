@@ -76,6 +76,14 @@ export const goToCheckout = (userId, products) => dispatch => {
 export const changeOrderStatus = userId => dispatch => {
     const url = window.location.href.slice(window.location.href.indexOf('?'));
     const status = url.slice(url.indexOf('&status') + 1).split('=')[1].split('&')[0];
+    if (status === 'approved') {
+        const products = JSON.parse(localStorage.getItem('cart'));
+        products.forEach(product => {
+            axios.put(`http://localhost:3000/products/${product.id}`, {form: {...product, stock: product.stock - product.order_line.quantity}})
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
+        });
+    }
     return axios.put(`http://localhost:3000/checkout/${userId}`, {status})
     .then(res => {
         dispatch({
