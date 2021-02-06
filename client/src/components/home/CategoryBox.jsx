@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import {useHistory} from 'react-router-dom';
 
 
+
 const CategoryBox = (props) => {
 
     const {name, image, id} = props.category;
@@ -13,14 +14,14 @@ const CategoryBox = (props) => {
             box:{
                 display: "flex",
                 flexDirection: "column",
-                maxWidth: "350px",
-                maxHeight: "350px",
+                maxWidth: "330px",
+                maxHeight: "330px",
                 alignItems: "center",
                 justifyContent: "center",
                 cursor: "pointer"
             },
             media: {
-                width: "250px",
+                maxWidth:"280px",
                 margin: "15px"
             }
         })

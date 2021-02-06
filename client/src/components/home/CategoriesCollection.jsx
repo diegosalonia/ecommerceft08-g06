@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import CategoryBox from './CategoryBox';
+import Masonry, {ResponsiveMasonry} from "react-responsive-masonry"
 
 
 const CategoriesCollection = (props) => {
@@ -31,7 +32,14 @@ const CategoriesCollection = (props) => {
         }
     }
     
-    return <DisplayCategories />
+    return (
+        <ResponsiveMasonry columnsCountBreakPoints={{350: 1, 750: 2, 900: 3}}>
+            <Masonry>
+                {DisplayCategories()}
+            </Masonry>
+        </ResponsiveMasonry>
+    
+    )
 }
 
 export default CategoriesCollection; 
