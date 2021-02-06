@@ -8,8 +8,7 @@ export default function Home(){
     const useStyles = makeStyles((theme) => ({
             catCol:{
                 margin: "auto",
-                maxWidth: "70%",
-                background: "red"    
+                background: theme.palette.grey[200]   
             },
         })
       );

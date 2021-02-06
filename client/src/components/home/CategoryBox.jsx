@@ -1,5 +1,5 @@
 import React from 'react';
-import {Typography, Box} from '@material-ui/core';
+import {Typography, Box,  Card, CardContent, CardActionArea, CardActions, CardMedia,} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import {useHistory} from 'react-router-dom';
 
@@ -7,35 +7,47 @@ import {useHistory} from 'react-router-dom';
 
 const CategoryBox = (props) => {
 
-    const {name, image, id} = props.category;
+    const {name, image, id, description} = props.category;
     const history = useHistory();
 
     const useStyles = makeStyles((theme) => ({
-            box:{
-                display: "flex",
-                flexDirection: "column",
-                maxWidth: "330px",
-                maxHeight: "330px",
-                alignItems: "center",
-                justifyContent: "center",
-                cursor: "pointer"
+            card:{
+                paddingTop: theme.spacing(2),
+                paddingLeft: theme.spacing(2),
+                paddingRight: theme.spacing(2),
+                margin: theme.spacing(2)
             },
             media: {
-                maxWidth:"140px",
-                margin: "15px"
-            }
+               width: "100%",
+               display: "block"
+            },
+            center: {
+                paddingTop: "24px",
+                display: "flex",
+                flexDirection: "column",
+                textAlign: "center",
+                alignItems: "center", 
+                justifyContent: "center"
+            }   
         })
     );
     const classes = useStyles();
 
 
     return (
-        <Box className={classes.box} spacing={2} onClick={() => {history.push(`/products/?catId=${id}`)}}>
-            <img src={image} className={classes.media}/>
-            <Typography>
-                {name}
-            </Typography>
-        </Box>
+        <Card className={classes.card}>
+            <CardActionArea className={classes.imgHolder} onClick={() => {history.push(`/products/?catId=${id}`)}}>
+                <img src={image} className={classes.media}/>
+         
+            <CardContent className={classes.center}>
+                <Typography gutterBottom variant="h6" color="primary" justify="center" className={classes.title}>
+                <Box>
+                    {name}
+                </Box>
+                </Typography>
+            </CardContent>
+            </CardActionArea>
+        </Card>
     )    
     
 }
