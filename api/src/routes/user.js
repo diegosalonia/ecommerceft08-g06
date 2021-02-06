@@ -2,6 +2,8 @@ const server = require('express').Router();
 const { Order, User } = require('../db.js');
 //const { Sequelize } = require('sequelize');
 const jwt = require('jsonwebtoken');
+const passport = require("passport");
+
 
 genToken = user => {
   return jwt.sign({
@@ -61,6 +63,18 @@ server.put('/:userId', async (req, res) => {
         res.send(err)
     })
 });
+
+server.put('/:id/passwordChange', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    const user = await User.findByPk(req.params.id)
+    user.password = req.body.newPassword
+    await user.save()
+    .then(response => {
+        res.send(response)
+    })
+    .catch(error => {
+        res.send(error)
+    })
+})
 
 server.delete('/:userId', async (req, res) => {
     const user = await User.findByPk(req.params.userId)

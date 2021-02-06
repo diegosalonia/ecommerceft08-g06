@@ -10,6 +10,7 @@ import orderListReducer from './orderListReducer/reducer';
 import reviewReducer from './ReviewReducer/reducer';
 import loginReducer from './loginReducer/reducer';
 import cartReducer from './cartReducer/reducer';
+import passwordResetReducer from './passwordResetReducer/reducer'
 
 const rootReducer = combineReducers(
     {
@@ -23,7 +24,8 @@ const rootReducer = combineReducers(
         orderListReducer,
         reviewReducer,
         cartReducer,
-        loginReducer
+        loginReducer,
+        passwordResetReducer
     }
 );
 

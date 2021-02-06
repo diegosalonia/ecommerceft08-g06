@@ -19,6 +19,7 @@ import UserForm from '../components/user/UserForm';
 import UserDashboard from '../components/user/UserDashboard';
 import ReviewContainer from '../components/Review/ReviewContainer';
 import Cart from '../components/cart/Cart';
+import PasswordReset from '../components/passwordReset/PasswordReset';
 
 const Routes = () => {
     return(
@@ -40,6 +41,7 @@ const Routes = () => {
                     <Route path="/products/:id" component={Product}/>
                     <Route exact path="/products" component={CatalogContainer} />
                     <Route path='/cart' component={Cart} />
+                    <Route exact path ='/passwordReset' component={PasswordReset}/>
                 </Container>
             <Route path='/' component={Footer}/>
         </>        

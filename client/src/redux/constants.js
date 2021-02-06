@@ -55,3 +55,7 @@ export const LOGOUT = "LOGOUT";
 
 /* searchBar constants */
 export const GET_PRODUCTS_BY_KEYWORD = "GET_PRODUCTS_BY_KEYWORD"
+
+/*password reset constants*/
+export const SEND_EMAIL = "SEND_EMAIL"
+export const RESET_PASSWORD = "RESET_PASSWORD"
