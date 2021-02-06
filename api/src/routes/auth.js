@@ -9,7 +9,6 @@ const jwt = require ('jsonwebtoken')
 server.post('/login', (req, res, next) => {
     passport.authenticate('local', {session:false}, (err, user) => {
         if(user) {
-            console.log('AQUI EL USUARIO: ', user)
             const token = jwt.sign({user}, "secret");
             return res.status(200).json({ user, token });
         }
@@ -34,15 +33,9 @@ server.post('/login', (req, res, next) => {
 //   })(req, res, next)
 // });
 
-server.post("/logout", (req, res) => {
-  console.log(req.isAuthenticated());
-  if (req.isAuthenticated()) {
-    console.log("estaba logeado");
+server.post("/logout", passport.authenticate('jwt', { session: false }), (req, res, next) => {
     req.logout();
-    res.sendStatus(200);
-  } else {
-    res.status(400).send("No estabas logeado :/");
-  }
+    res.sendStatus(200).send('usted esta deslogueado');  
 });
 
 module.exports = server;

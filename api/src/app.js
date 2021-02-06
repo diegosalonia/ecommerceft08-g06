@@ -55,11 +55,14 @@ passport.deserializeUser(function(id, next) {
     User.findByPk(id).then(user => next(null, user)).catch(err => next(err, null));
 });
 
-server.use(session({
-  secret: 'secret',
-  resave: false,
-  saveUninitialized: true
+
+server.use( session({
+  secret: 'secret',       
+  resave: true,
+  saveUninitialized: true,
+  cookie: {domain: 'localhost:3000'}
 }))
+
 
 server.use(passport.initialize())
 server.use(passport.session());
