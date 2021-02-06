@@ -156,9 +156,20 @@ server.get('/product-detail/:productId/:userId', async (req, res) => {
 		where : {
 			userId: userId,
 			status: 'cart'
-		}
+		},
+		include: [
+			{
+				model: Product
+			}
+		]
 	});
-
+	console.log("ORDER: ", order.dataValues.products[0].dataValues.order_line.dataValues.quantity);
+	let quantity = 1;
+	order && order.dataValues.products.forEach(el => {
+		if (product.dataValues.id === el.dataValues.id) {
+			quantity = el.dataValues.order_line.dataValues.quantity
+		}
+	})
 	const newProductForm = {
 		name: product.dataValues.name,
 		price: product.dataValues.price,
@@ -168,7 +179,7 @@ server.get('/product-detail/:productId/:userId', async (req, res) => {
 		stock: product.dataValues.stock,
 		featured: product.dataValues.featured,
 		categories: product.dataValues.categories.map(category => category.dataValues.name),
-		quantity: order ? orders[0]?.order_line.dataValues.quantity : 1,
+		quantity,
 	};
 	res.send(newProductForm);
 });

@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProduct, showLoader, hideLoader, addToCart, getReviews } from '../../redux/productReducer/actions';
 
-import { Button, Container, Typography, CircularProgress } from '@material-ui/core';
+import { Button, Container, Typography, CircularProgress, Link, TextField } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { useStylesProduct } from './styles';
+import ReviewResume from '../Review/ReviewResume';
+import ImagesGalery from './ImagesGalery';
 
 function Product(props) {
     const dispatch = useDispatch();
@@ -17,6 +19,9 @@ function Product(props) {
     const isInCart = useSelector(state => state.productReducer.isInCart);
     const [ quantity, setQuantity ] = useState(1);
     const [ biggerImage, setBiggerImage ] = useState();
+    const [ totalReviews, setTotalReviews ] = useState(0);
+    const [ averageRatings, setAverageRatings ] = useState(0);
+    const descriptionRef = useRef(null);
 
     useEffect(() => {
         dispatch(getReviews(id));
@@ -25,47 +30,62 @@ function Product(props) {
 
     useEffect(() => {
         product.quantity && setQuantity(product.quantity);
-        console.log("REVIEWS: ", reviews[0]?.rating);
-        setIsLoading(false);
+        product.image && setBiggerImage(product.image[0]);
     }, [product]);
 
     useEffect(() => {
         isInCart && alert("Product in cart, thanks!");
     }, [isInCart])
+
+    useEffect(() => {
+        setTimeout(() => setIsLoading(false), 1000);
+        
+    }, [reviews]);
     
     const handleAddToCart = () => {
         dispatch(addToCart(product.userId, id, quantity));
     };
 
-    const handleIncreaseQuantity = () => {
-        quantity < product.stock && setQuantity(quantity + 1);
-    };
-    
-    const handleDecreaseQuantity = () => {
-        quantity > 1 && setQuantity(quantity - 1);
-    };
+    const handleChangeQuantity = e => {
+        if (quantity >= 1 && quantity <= product.stock && e.target.value >= 1 && e.target.value <= product.stock) {
+            setQuantity(e.target.value);
+        }
+    }
+
+    const goToDescription = () => window.scrollTo({top: descriptionRef.current.offsetTop, behavior: 'smooth'});
 
     const productLoaded = () => {
         return (
             <Container>
                 <Container className={styles.container} >
+                    {/* <Container className={styles.thumbnailContainer} >
+                        { product.image?.map(image => {
+                            console.log("IMAGE: ", image);
+                            return (
+                                <Container key={image} >
+                                    <img src={ image } alt={ product.name } className={styles.image} />
+                                </Container>
+                            )
+                        })}
+                    </Container>
                     <Container className={styles.imagesContainer} >
                         <Container>
-                            {biggerImage}
+                            <img src={biggerImage} alt='biggerImage' />
                         </Container>
-                        <Container>
-                            { product.image?.map(image => {
-                                console.log("IMAGE: ", image);
-                                return (
-                                    <Container >
-                                        <img key={image} src={ image } alt={ product.name } className={styles.image} />
-                                    </Container>
-                                )
-                            })}
-                        </Container>
-                    </Container>
+                    </Container> */}
+                    <ImagesGalery images={product.image} />
                     <Container className={styles.detailContainer} >
                         <Typography color='primary' variant='h4' align='center' >{ product.name }</Typography>
+                        <Container className={styles.ratingContainer} >
+                            <Rating
+                                name='product-rating'
+                                precision={0.1}
+                                size='small'
+                                defaultValue={reviews.length ? reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length : 3}
+                                readOnly
+                            />
+                            <Typography className={styles.reviewTotal} >{`${reviews.length} opiniones`}</Typography>
+                        </Container>
                         <Container className={styles.categories} >
                             { product.categories?.slice(0, 3).map(category => <Typography key={category} className={styles.category} >{ category }</Typography>) }
                         </Container>
@@ -76,29 +96,34 @@ function Product(props) {
                                         </Container> 
                                         :<Typography variant='h3' color='primary' >${ product.price }</Typography>
                         }
-                        <Container>
-                            
+                        <Container className={styles.descriptionContainer} >
+                            { product.description?.length > 30 ? (<Typography>
+                                                                    {`${product.description.slice(0, 60)}...`}<Link className={styles.verMas} onClick={goToDescription} >ver mas</Link>
+                                                                </Typography>)
+                              : <Typography>{product.description}</Typography>
+                            }
                         </Container>
-                        <Container className={styles.rating} >
-                            <Rating
-                                name="product-rating"
-                                defaultValue={3}
-                                disabled
+                        <Container className={styles.quantityContainer} >
+                            <TextField
+                                className={styles.quantity}
+                                type='number'
+                                min={1}
+                                max={product.stock}
+                                defaultValue={quantity}
+                                value={quantity}
+                                onChange={handleChangeQuantity}
                             />
-                            <Typography className={styles.ratingReviews} >(0) Reviews</Typography>
-                        </Container>
-                        <Typography className={styles.stock} >Stock: { product.stock }</Typography>
-                        <Container>
-                            <Button disabled={quantity === 1 ? true : false} onClick={handleDecreaseQuantity} >-</Button>
-                            <Typography>{ quantity }</Typography>
-                            <Button disabled={quantity === product.stock ? true : false} onClick={handleIncreaseQuantity} >+</Button>
+                            <Typography className={styles.stock} >{`(${product.stock} en stock)`}</Typography>
                         </Container>
                         <Button className={styles.addToCart} onClick={() => handleAddToCart()} ><ShoppingCartIcon /><Typography className={styles.textCart} >ADD TO CART</Typography></Button>
                     </Container>
                 </Container>
-                <Container className={styles.description} >
+                <Container ref={descriptionRef} className={styles.description} >
                     <Typography variant='h4' >Description</Typography>
                     <Typography variant='body' >{ product.description }</Typography>
+                </Container>
+                <Container className={styles.reviewContainer} >
+                    <ReviewResume reviews={{totalReviews: reviews.length, avgRating: reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length}} />
                 </Container>
             </Container>
         );

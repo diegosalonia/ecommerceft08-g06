@@ -93,7 +93,7 @@ export const useStylesProduct = makeStyles(theme => ({
   categories: {
     fontSize: '1rem',
     display: 'flex',
-    padding: '4% 0 0 0'
+    padding: '0 0 0 0'
   },
   category: {
     fontSize: '.9rem',
@@ -102,7 +102,7 @@ export const useStylesProduct = makeStyles(theme => ({
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.secondary.main,
     boxShadow: '1px 5px 10px rgb(0 0 0 / 50%)',
-    margin: '2% 3% 11% 3%',
+    margin: '2% 3% 7% 3%',
   },
   detailContainer: {
     display: 'flex',
@@ -123,10 +123,12 @@ export const useStylesProduct = makeStyles(theme => ({
     color: 'gray'
   },
   stock: {
-    margin: '10% 0'
+    margin: '0% 3%',
+    fontSize: '.8rem',
   },
   description: {
-    margin: '5% 0'
+    margin: '5% 0',
+    whiteSpace: 'pre-line',
   },
   textCart: {
     paddingLeft: '8px',
@@ -151,5 +153,50 @@ export const useStylesProduct = makeStyles(theme => ({
     width: '200%',
     border: '1px solid gray',
   },
+  reviewContainer: {
+    paddingLeft: '0',
 
+  },
+  descriptionContainer: {
+    paddingLeft: '0',
+    margin: '6% 0',
+    color: 'gray',
+  },
+  ratingContainer: {
+    padding: '2% 0 1% 0',
+    display: 'flex',
+  },
+  reviewTotal: {
+    fontSize: '.8rem',
+    marginLeft: '3%'
+  },
+  verMas: {
+    cursor: 'pointer',
+  },
+  quantityContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    paddingLeft: '0',
+
+  },
+  quantity: {
+    width: '50px',
+  },
+  addToCart: {
+    marginTop: '10%',
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.secondary.main,
+  },
+}));
+
+export const useStylesImageGalery = makeStyles(theme => ({
+  imageContainer: {
+    display: 'flex',
+  },
+  thumbContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    maxWidth: '50px',
+    
+  },
 }));
