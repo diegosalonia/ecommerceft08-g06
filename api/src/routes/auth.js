@@ -43,15 +43,9 @@ server.post('/login', (req, res, next) => {
 //   })(req, res, next)
 // });
 
-server.post("/logout", (req, res) => {
-  console.log('TIPO DE SESSION',req.isAuthenticated());
-  if (req.isAuthenticated()) {
-    console.log("estaba logeado");
-    req.logout();
-    res.sendStatus(200);
-  } else {
-    res.status(400).send("No estabas logeado :/");
-  }
-});
+server.post("/logout", passport.authenticate('jwt', { session: false }), (req, res, next) => {
+  req.logout();
+  res.sendStatus(200).send('usted esta deslogueado');  
+})
 
 module.exports = server;
