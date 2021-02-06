@@ -21,7 +21,7 @@ const CategoryBox = (props) => {
                 cursor: "pointer"
             },
             media: {
-                maxWidth:"280px",
+                maxWidth:"140px",
                 margin: "15px"
             }
         })
