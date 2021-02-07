@@ -1,9 +1,17 @@
 const server = require('express').Router();
 const { Order, User } = require('../db.js');
-//const { Sequelize } = require('sequelize');
 const jwt = require('jsonwebtoken');
 const passport = require("passport");
+const SENDGRID_API_KEY = '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'
+const sgMail = require('@sendgrid/mail')
 
+sgMail.setApiKey(SENDGRID_API_KEY)
+
+const getRandomArbitrary = (min, max) => {
+    return Math.random() * (max - min) + min;
+}
+
+const verifyCode = Math.round(getRandomArbitrary(100000,999999))
 
 genToken = user => {
   return jwt.sign({
@@ -51,6 +59,27 @@ server.post('/', async (req, res) => {
   res.status(200).json({token})
 });
 
+server.post('/sendMail', (req, res) => {
+    const msg = {
+        to: req.body.email, // Change to your recipient
+        from: 'dager2115@gmail.com', // Change to your verified sender
+        subject: 'this is the verify code',
+        text: 'this is the verify code',
+        html: `<h1>${verifyCode}</h1>`,
+      }
+    sgMail.send(msg)
+    .then(response =>{
+        console.log("si se envio")
+        res.send({verifyCode})
+    })
+    .catch(error =>{
+        console.log(error)
+        res.json({
+            error:error.message,
+        })
+    })
+})
+
 server.put('/:userId', async (req, res) => {
     const user = await User.findByPk(req.params.userId)
     Object.assign(user, req.body.form)
@@ -75,6 +104,18 @@ server.put('/:id/passwordChange', passport.authenticate('jwt', { session: false 
         res.send(error)
     })
 })
+server.put('/update/passwordReset', async (req, res) => {
+    const user = await User.findOne({where:{email:req.body.email}})
+    user.password = req.body.newPassword
+    await user.save()
+    .then(response => {
+        res.send(response)
+    })
+    .catch(error => {
+        res.send(error)
+    })
+})
+
 
 server.delete('/:userId', async (req, res) => {
     const user = await User.findByPk(req.params.userId)

@@ -10,7 +10,10 @@ export default function passwordResetReducer (state = initailValues, action) {
             return {
                 verifyCode: action.verifyCode
             }
-    
+        case RESET_PASSWORD:
+            return{
+                verifyCode:initailValues.verifyCode
+            }
         default:
             return state
     }
