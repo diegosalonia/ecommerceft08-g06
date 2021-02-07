@@ -3,11 +3,12 @@ import { Container, Grid, Typography, IconButton, TablePagination,
      TableContainer, Table, TableRow, TableCell, TableHead, TableBody } from '@material-ui/core';
 import { DeleteForever} from '@material-ui/icons';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
-import {getUsers, deleteUsers} from '../../../redux/userListReducer/actions'
+import {getUsers, deleteUsers, updateUserAdmin, updateUser} from '../../../redux/userListReducer/actions'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { useStylesProductList } from './styles/AdminProductList';
+import { useStylesUserList } from './styles/AdminUserList';
+import PersonIcon from '@material-ui/icons/Person';
 import Swal from 'sweetalert2';
 
 
@@ -25,9 +26,10 @@ const columnUser = [
 
 function AdminUserList() {
     const dispatch = useDispatch();
-    const styles = useStylesProductList();
+    const styles = useStylesUserList();
     const [ rows, setRows ] = useState([]);
     const usuarios = useSelector(state=> state.userListReducer.users);
+
     const [ page, setPage ] = useState(0);
     const [ rowsPerPage, setRowsPerPage ] = useState(10);
 
@@ -43,14 +45,14 @@ function AdminUserList() {
     const handleDelete = id => {
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
-              confirmButton: styles.confirmButton,
-              cancelButton: styles.cancelButton
+              confirmButton: styles.cancelButtonDelete,
+              cancelButton: styles.confirmButtonDelete
             },
             buttonsStyling: false
         });
     
         swalWithBootstrapButtons.fire({
-            title: 'Are you sure?',
+            title: 'Eliminar?',
             text: "You won't be able to revert this!",
             icon: 'warning',
             showCancelButton: true,
@@ -77,6 +79,83 @@ function AdminUserList() {
         })
         .catch(err => console.log(err));
     };
+
+    const handleUpdateAdmin = id => {
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                cancelButton: styles.confirmButton,
+                confirmButton: styles.cancelButton              
+            },
+            buttonsStyling: false
+        });
+    
+        swalWithBootstrapButtons.fire({
+            title: 'Convertir a Administrador',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'YES, CONVERTIR!',
+            cancelButtonText: 'NO, CANCEL!',
+            reverseButtons: true
+        })
+        .then((result) => {
+            if (result.dismiss === Swal.DismissReason.cancel) {
+                swalWithBootstrapButtons.fire(
+                'Cancelled',
+                `Your product won't be update`,
+                'error'
+                );
+            }else if (result.isConfirmed) {
+                swalWithBootstrapButtons.fire(
+                'Convertido en Administrador!',
+                'Your file has been updateado.',
+                'success'
+                );
+                dispatch(updateUserAdmin(id));
+                setRows(rows.filter(row => row.id !== id));
+            } 
+        })
+        .catch(err => console.log(err));
+    };
+
+    const handleUpdateUser = id => {
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                cancelButton: styles.confirmButton,
+                confirmButton: styles.cancelButton              
+            },
+            buttonsStyling: false
+        });
+    
+        swalWithBootstrapButtons.fire({
+            title: 'Convertir a Usuario',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'YES, CONVERTIR!',
+            cancelButtonText: 'NO, CANCEL!',
+            reverseButtons: true
+        })
+        .then((result) => {
+            if (result.dismiss === Swal.DismissReason.cancel) {
+                swalWithBootstrapButtons.fire(
+                'Cancelled',
+                `Your product won't be update`,
+                'error'
+                );
+            }else if (result.isConfirmed) {
+                swalWithBootstrapButtons.fire(
+                'Convertido en Usuario!',
+                'Your file has been updateado.',
+                'success'
+                );
+                dispatch(updateUser(id));
+                setRows(rows.filter(row => row.id !== id));
+            } 
+        })
+        .catch(err => console.log(err));
+    };
+
 
     useEffect(() => {
         dispatch(getUsers());
@@ -122,16 +201,22 @@ function AdminUserList() {
                                                     </TableCell>
                                                 );
                                             })}
-                                                <TableCell  >
-                                                    
-                                                        <IconButton>
-                                                            < SupervisorAccountIcon />
-                                                        </IconButton>
-                                                    
+                                                <TableCell  >                                                    
+                                                    <IconButton color='primary' onClick={() => handleUpdateAdmin(row.id)}>
+                                                        < SupervisorAccountIcon />
+                                                    </IconButton>                                                    
+                                                </TableCell>
+
+                                                <TableCell  >                                                    
+                                                    <IconButton color='primary' onClick={() => handleUpdateUser(row.id)}>
+                                                        < PersonIcon />
+                                                    </IconButton>                                                    
                                                 </TableCell>
                                                 
                                                 <TableCell>
-                                                    <IconButton color='primary' onClick={() => handleDelete(row.id)} ><DeleteForever /></IconButton>
+                                                    <IconButton color='primary' onClick={() => handleDelete(row.id)} >
+                                                        <DeleteForever />
+                                                    </IconButton>
                                                 </TableCell>                                            
                                         </TableRow>
                                     )

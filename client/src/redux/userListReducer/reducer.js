@@ -5,6 +5,17 @@ const initialState = {
     isDeleted: false
 };
 
+function eliminar(array, elemento, newObj) {
+    var resultado = []
+    for (var i = 0; i < array.length; i++) {
+      if (array[i].id !== elemento) {
+        resultado.push(array[i]);
+      }
+    }
+    resultado.push(newObj)
+    return resultado;
+  }
+
 const userListReducer = (state=initialState, action)=>{
     switch(action.type){
         case GET_USER:
@@ -17,6 +28,12 @@ const userListReducer = (state=initialState, action)=>{
             return {
                 ...state,
                 isDeleted: true
+            }
+
+        case UPDATE_USER:
+            return {
+                ...state,
+                users: eliminar(state.users,action.update.id,action.update)
             }
         
         default:
