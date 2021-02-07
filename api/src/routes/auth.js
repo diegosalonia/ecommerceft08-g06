@@ -6,16 +6,22 @@ const passportJWT = require("passport-jwt");
 const jwt = require ('jsonwebtoken')
 
 server.post('/login', (req, res, next) => {
-    passport.authenticate('local', {session:false}, (err, user) => {
+  passport.authenticate('local', {session: false}, (err, user) => {
+         
         if(user) {
+            console.log('AQUI EL USUARIO: ', user)
             const token = jwt.sign({user}, "secret");
-            return res.status(200).json({ user, token });
+            return res.status(200).json({ user, token })
         }
     }) 
     (req, res, next)
 })
 
-server.post("/logout", passport.authenticate('jwt',{session: false}),(req,res,next)=>{
+
+server.post("/logout", (req, res) => {
+  console.log('TIPO DE SESSION',req.isAuthenticated());
+  if (req.isAuthenticated()) {
+    console.log("estaba logeado");
     req.logout();
     res.status(200).json("deslogueado");
 });

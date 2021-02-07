@@ -1,20 +1,24 @@
-import React from 'react'
-import image from '../../resources/meme.jpg' 
+import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-
+import {Box} from '@material-ui/core'
+import CategoriesCollection from './CategoriesCollection';
 
 export default function Home(){
+  
     const useStyles = makeStyles((theme) => ({
-
-        meme:{
-            alignItems: "center",
-            justifyContent: "center",
-            marginTop:"20px",
-        },
-       
-      }));
+            catCol:{
+                margin: "auto",
+                background: theme.palette.grey[200]   
+            },
+        })
+      );
       const classes = useStyles();
+
     return (
-        <div className={classes.meme}><img src={image} style = {{display:"block", margin:"auto"}} alt='falto el alt' /></div>
+        <>
+        <Box className={classes.catCol}>
+            <CategoriesCollection/>
+        </Box>
+        </>
     )
 }

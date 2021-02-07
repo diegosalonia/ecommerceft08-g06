@@ -3,27 +3,25 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import {Button, Avatar, Link, TextField, Typography} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-// import {getToken} from '../../redux/LoginReducer/actions'
+import {useStyles , validationSchema} from './styles'
 import {useDispatch} from 'react-redux'
-import { makeStyles } from '@material-ui/core/styles';
-import { axios } from 'axios'
+import PersonIcon from '@material-ui/icons/Person';
+import axios  from 'axios'
 import { login } from '../../redux/loginReducer/actions'
 
 
-
-const validationSchema = yup.object({
-  email: yup
-    .string('Enter your email')
-    .email('Enter a valid email')
-    .required('Email is required'),
-  password: yup
-    .string('Enter your password')
-    .required('Password is required'),
-});
-
-
 const WithMaterialUI = ({onClose}) => {
+
   const dispatch = useDispatch();
+  const params = new URLSearchParams()
+  const classes = useStyles();
+  const config = {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  }
+  const url = "http://localhost:3000/auth/login";
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -31,49 +29,30 @@ const WithMaterialUI = ({onClose}) => {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      const user = await axios.post("http://localhost:3001/login", values)
+      params.append('email', values.email)
+      params.append('password', values.password)
+
+      const user = await axios.post(url, params, config)
+      //console.log(user)
       dispatch(login(user.data));
 			//setLoggedIn('Iniciaste sesión con éxito!');
     },
   });
-
-  const useStyles = makeStyles((theme) => ({
-    form: {
-      backgroundColor: theme.palette.background.paper,
-      borderRadius: theme.shape.borderRadius,
-      padding: theme.spacing(1),
-      marginTop: theme.spacing(2),
-    },
-    avatar: {
-      margin: theme.spacing(1),
-      backgroundColor: theme.palette.secondary.main,
-    },
-    formcontainer: {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      backgroundColor: theme.palette.grey[200],
-      borderRadius: theme.shape.borderRadius,
-      padding: theme.spacing(1)
-    },
-    signUp:{
-      padding: theme.spacing(2),
-    }
-  }))
-
-  const classes = useStyles();
+  
 
   return (
     <div className={classes.formcontainer}>
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
+          <PersonIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
       <form onSubmit={formik.handleSubmit} className={classes.form}>
         <TextField
+          className={classes.input}
           fullWidth
+          variant="outlined"
           id="email"
           name="email"
           label="Email"
@@ -83,7 +62,9 @@ const WithMaterialUI = ({onClose}) => {
           helperText={formik.touched.email && formik.errors.email}
         />
         <TextField
+          className={classes.input}
           fullWidth
+          variant="outlined"
           id="password"
           name="password"
           label="Password"
@@ -98,7 +79,7 @@ const WithMaterialUI = ({onClose}) => {
         </Button>
       </form>
       <div className={classes.signUp}>
-        <Link variant="body2" to="/createcustomer" href="/createcustomer">
+        <Link variant="body2" to="/createcustomer" href="/user/sign-up">
           {"Don't have an account? Sign Up"}
         </Link>
       </div>
