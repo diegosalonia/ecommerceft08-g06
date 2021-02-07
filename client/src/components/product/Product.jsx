@@ -1,13 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProduct, showLoader, hideLoader, addToCart, 
-         getReviews, editReviewAction, addNewReview } from '../../redux/productReducer/actions';
+import { getProduct, addToCart, getReviews, 
+         editReviewAction, addNewReview } from '../../redux/productReducer/actions';
 
 import { Button, Container, Typography, CircularProgress, Link, TextField } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { useStylesProduct } from './styles';
-import ReviewResume from '../Review/ReviewResume';
 import ImagesGalery from './ImagesGalery';
 import ReviewContainer from '../Review/ReviewContainer';
 
@@ -21,9 +20,6 @@ function Product(props) {
     const isInCart = useSelector(state => state.productReducer.isInCart);
     const [ isLoading, setIsLoading ] = useState(true);
     const [ quantity, setQuantity ] = useState(1);
-    const [ biggerImage, setBiggerImage ] = useState();
-    const [ totalReviews, setTotalReviews ] = useState(0);
-    const [ averageRatings, setAverageRatings ] = useState(0);
     const [ editReview, setEditReview ] = useState(false);
     const [ review, setReview ] = useState({rating: null, comment: ''});
     const [ addReview, setAddReview ] = useState(false);
@@ -34,11 +30,10 @@ function Product(props) {
     useEffect(() => {
         dispatch(getReviews(id));
         dispatch(getProduct(userId, id)); // userId hard-coded
-    }, [dispatch]);
+    }, [dispatch, id, userId]);
 
     useEffect(() => {
         product.quantity && setQuantity(product.quantity);
-        product.image && setBiggerImage(product.image[0]);
         product.noReviewed && setAddReview(true);
         product.toEditReview && setEditReview(true);
     }, [product]);
@@ -55,7 +50,7 @@ function Product(props) {
                 setReview(review);
             };
         });
-    }, [reviews]);
+    }, [reviews, userId]);
     
     const handleChangeQuantity = e => {
         if (quantity >= 1 && quantity <= product.stock && e.target.value >= 1 && e.target.value <= product.stock) {
