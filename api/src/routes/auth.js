@@ -54,4 +54,17 @@ server.post("/logout", (req, res) => {
   }
 });
 
+server.put("/promote/:id", async (req, res) =>{
+  const user = await User.findByPk(req.params.id)
+  user.user_role = "admin"
+  user.save()
+  .then(user=>{
+    res.send(user)
+  })
+  .catch(err=>{
+    res.send(err)
+  })
+
+})
+
 module.exports = server;

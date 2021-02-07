@@ -54,4 +54,9 @@ export const LOGOUT = "LOGOUT";
 /* end loginReducer*/
 
 /* searchBar constants */
-export const GET_PRODUCTS_BY_KEYWORD = "GET_PRODUCTS_BY_KEYWORD"
+export const GET_PRODUCTS_BY_KEYWORD = "GET_PRODUCTS_BY_KEYWORD";
+
+/*start userListReducer */
+export const GET_USER = "GET_USER";
+export const DELETE_USER = "DELETE_USER";
+export const UPDATE_USER = "UPDATE_USER";
