@@ -50,11 +50,9 @@ const FilterCatalog = (props) => {
     }
     //Display categories. 
     useEffect(() => {
-        console.log("loading..")
         axios.get('http://localhost:3000/category/all')
         .then(categories => 
             {
-                console.log("categories: ", categories)
                 setCategories(categories.data)
             }
         )

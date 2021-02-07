@@ -1,7 +1,8 @@
 import React, {useEffect, useState, useRef} from 'react';
 import Catalog from './Catalog';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPaginatedProducts, updatePage} from '../../redux/CatalogReducer/actions'
+import { getPaginatedProducts, updatePage} from '../../redux/CatalogReducer/actions';
+import {useLocation} from 'react-router-dom';
 
 const CatalogContainer = () => {
     const dispatch = useDispatch();
@@ -15,11 +16,25 @@ const CatalogContainer = () => {
     //Filters
     const storeFilterBox = useSelector(state => state.catalogReducer.filterBox);
     const [filterBox, setFilterBox] = useState({categories: [], price: {priceFrom: 0, priceTo: 100000}});  
+    //Url Query
+    const useQuery  = () => new URLSearchParams(useLocation().search);
+    let query = useQuery();
 
     useEffect(() => {
-        dispatch(getPaginatedProducts(page, pageSize, storeFilterBox));    
+        if(firstRender.current){
+            console.log("query: ", query.get("catId"), storeFilterBox)
+            if (query.get("catId")){
+                dispatch(getPaginatedProducts(page, 100, {...storeFilterBox, categories: [query.get("catId")]}));    
+            }
+            else{
+                dispatch(getPaginatedProducts(page, pageSize, storeFilterBox));    
+            }  
+        }
+        else{
+            dispatch(getPaginatedProducts(page, pageSize, storeFilterBox));    
+        }  
         dispatch(updatePage(page));
-    }, [storeFilterBox, page])//UP TO STORE, CURRENT: LOCAL
+    }, [storeFilterBox, page, pageSize, dispatch])
 
     useEffect(() => {
         if(firstRender.current){
@@ -31,12 +46,10 @@ const CatalogContainer = () => {
                 dispatch(updatePage(1))
             }
         }
-        
-        
-    }, [productList])
+    }, [productList, dispatch])
 
     return(
-        <Catalog products={productsRender} /* setpage={setPage} */ filterBox={filterBox} setFilterBox={setFilterBox}  />
+        <Catalog products={productsRender} filterBox={filterBox} setFilterBox={setFilterBox}  />
     )
 
 }
