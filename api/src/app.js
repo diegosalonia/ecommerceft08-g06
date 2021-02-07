@@ -32,35 +32,32 @@ server.use((req, res, next) => {
 });
 
 
-          passport.use(new JWTStrategy({
-            jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-            secretOrKey   : 'secret'
-          },
-           function (jwtPayload, next) {
-             console.log('aqui payload: ', jwtPayload)
-             User.findByPk(jwtPayload.user.id)
-             .then(user => {
-               next(null, user);
-             }
-           ).catch(err => 
-           {
-             next(err);
-           });
-          }
-          ))
+passport.use(new JWTStrategy({
+    jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+    secretOrKey   : 'secret'
+    },
+    function (jwtPayload, next) {
+        User.findByPk(jwtPayload.user.id)
+        .then(user => {
+            next(null, user.id);
+        })
+        .catch(err => {
+            next(err);
+        });
+    }
+))
 
 passport.serializeUser((user, next) => next(null, user.id));
 
-passport.deserializeUser(function(id, next) {
+passport.deserializeUser((id, next)=>{
     User.findByPk(id).then(user => next(null, user)).catch(err => next(err, null));
 });
 
-
-server.use( session({
-  secret: 'secret',       
-  resave: true,
-  saveUninitialized: true,
-  cookie: {domain: 'localhost:3000'}
+server.use(cookieParser('secret'))
+server.use(session({
+  secret: 'secret',
+  resave: false,
+  saveUninitialized: true
 }))
 
 
@@ -84,17 +81,18 @@ server.use((req, res, next) => {
      await User.findOne({ 
        where: {
          email: email
-         } })
+         } 
+     })
      .then((user) => {
        if (!user || !user.correctPassword(password)) { 
          next(null, false, {msg: 'User or password incorrect'})
        }
        next(null, user, {msg: 'Login Successfull'});
      })
-            .catch((err) => {   
-              next(err);
-             });
-           }));
+     .catch((err) => {   
+        next(err);
+     });
+}));
           
 // Error catching endware.
 server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
