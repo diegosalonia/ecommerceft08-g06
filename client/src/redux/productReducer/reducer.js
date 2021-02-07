@@ -1,5 +1,6 @@
 import { GET_PRODUCT, GET_PRODUCT_ERROR, SHOW_LOADER, HIDE_LOADER, 
-         ADD_PRODUCT_TO_CART, GET_ALL_REVIEWS, EDIT_REVIEW } from '../constants';
+         ADD_PRODUCT_TO_CART, GET_ALL_REVIEWS, EDIT_REVIEW,
+         ADD_NEW_REVIEW } from '../constants';
 
 const initialState = {
     product: {},

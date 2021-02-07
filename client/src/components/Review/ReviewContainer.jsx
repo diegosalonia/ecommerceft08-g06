@@ -32,7 +32,7 @@ const ReviewContainer = (props) => {
     }, [productId])
 
     useEffect(() => {
-        console.log("Reviews: ", reviews)    
+        
     }, [reviews])
     
     return (

@@ -18,7 +18,6 @@ export const getDataReviews = (productId) => (dispatch) => {
         const reviews = response.data;
         const totalReviews = reviews.length;
         const avgRating = reviews.reduce((acc, current) => acc + current.rating, 0) / totalReviews;
-        console.log(avgRating)
         dispatch(getReviews(totalReviews, avgRating, reviews))
     })
     .catch(err => console.log(err))

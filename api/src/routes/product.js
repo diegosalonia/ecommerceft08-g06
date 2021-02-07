@@ -165,7 +165,8 @@ server.get('/product-detail/:productId/:userId', async (req, res) => {
 		include: [
 			{model: Category}
 		]
-	})
+	});
+
 	const order = await Order.findOne({
 		where : {
 			userId: userId,
@@ -177,7 +178,40 @@ server.get('/product-detail/:productId/:userId', async (req, res) => {
 			}
 		]
 	});
+
+	const userCompletedOrders = await Order.findAll({
+		where: {
+			userId: userId,
+			status: 'approved'
+		},
+		include: [
+			{
+				model: Product,
+			}
+		]
+	});
+	
+	const user = await User.findOne({
+		where: {
+			id: userId
+		},
+		include: [
+			{
+				model: Review, 
+				attributes: ['productId']
+			},
+		]
+	});
+	let toEditReview = user.dataValues.reviews.filter(review => review.dataValues.productId === product.dataValues.id).length === 1
+	let noReviewed = false;
+	userCompletedOrders.forEach(order => order.dataValues.products.forEach(product => {
+		if (product.dataValues.id == productId) {
+			noReviewed = true;
+		}
+	}));
+	
 	let quantity = 1;
+	
 	order && order.dataValues.products.forEach(el => {
 		if (product.dataValues.id === el.dataValues.id) {
 			quantity = el.dataValues.order_line.dataValues.quantity
@@ -193,6 +227,8 @@ server.get('/product-detail/:productId/:userId', async (req, res) => {
 		featured: product.dataValues.featured,
 		categories: product.dataValues.categories.map(category => category.dataValues.name),
 		quantity,
+		toEditReview,
+		noReviewed: !toEditReview && noReviewed
 	};
 	res.send(newProductForm);
 });

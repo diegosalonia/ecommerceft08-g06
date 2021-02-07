@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProduct, showLoader, hideLoader, addToCart, 
-         getReviews, editReviewAction } from '../../redux/productReducer/actions';
+         getReviews, editReviewAction, addNewReview } from '../../redux/productReducer/actions';
 
 import { Button, Container, Typography, CircularProgress, Link, TextField } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
@@ -26,6 +26,7 @@ function Product(props) {
     const [ averageRatings, setAverageRatings ] = useState(0);
     const [ editReview, setEditReview ] = useState(false);
     const [ review, setReview ] = useState({rating: null, comment: ''});
+    const [ addReview, setAddReview ] = useState(false);
     const descriptionRef = useRef(null);
     const reviewRef = useRef(null);
     const setReviewRef = useRef(null);
@@ -33,11 +34,13 @@ function Product(props) {
     useEffect(() => {
         dispatch(getReviews(id));
         dispatch(getProduct(userId, id)); // userId hard-coded
-    }, []);
+    }, [dispatch]);
 
     useEffect(() => {
         product.quantity && setQuantity(product.quantity);
         product.image && setBiggerImage(product.image[0]);
+        product.noReviewed && setAddReview(true);
+        product.toEditReview && setEditReview(true);
     }, [product]);
 
     useEffect(() => {
@@ -64,7 +67,9 @@ function Product(props) {
 
     const handleReview = e => setReview({...review, [e.target.name]: e.target.value});
 
-    const handleEditReview = () => dispatch(editReviewAction(review, review.id, product.id));
+    const handleAddReview = e => dispatch(addNewReview(review, id, userId));
+
+    const handleEditReview = () => dispatch(editReviewAction(review, review.id, id));
 
     const goToDescription = () => window.scrollTo({top: descriptionRef.current.offsetTop, behavior: 'smooth'});
 
@@ -89,7 +94,7 @@ function Product(props) {
                             />
                             <Link onClick={goToReviews} className={styles.reviewTotal} >{`${reviews.length} opiniones`}</Link>
                             {
-                                editReview && <Button className={styles.goToSetReview} onClick={goToSetReview}>Rate product</Button>
+                                (editReview || addReview) && <Button className={styles.goToSetReview} onClick={goToSetReview}>Rate product</Button>
                             }
                         </Container>
                         <Container className={styles.categories} >
@@ -115,7 +120,6 @@ function Product(props) {
                                 type='number'
                                 min={1}
                                 max={product.stock}
-                                defaultValue={quantity}
                                 value={quantity}
                                 onChange={handleChangeQuantity}
                             />
@@ -125,16 +129,16 @@ function Product(props) {
                     </Container>
                 </Container>
                 <Container ref={descriptionRef} className={styles.description} >
-                    <Typography variant='h4' className={styles.descriptionTitle} >DESCRIPTION</Typography>
+                    <Typography variant="h4" className={styles.descriptionTitle} >DESCRIPTION</Typography>
                     <Typography variant='body' >{ product.description }</Typography>
                 </Container>
                 <Container ref={reviewRef} className={styles.reviews} >
                     <ReviewContainer productId={id} />
-                    <Container ref={setReviewRef} className={styles.addRating} >
-                        <Typography className={styles.addRatingTitle} align='center' variant='h4' color='primary' >ADD REVIEW</Typography>
+                    {(editReview || addReview) && <Container ref={setReviewRef} className={styles.addRating} >
+                        <Typography className={styles.addRatingTitle} align='center' variant='h4' color='primary' >{editReview ? 'EDIT REVIEW' : 'ADD REVIEW'}</Typography>
                         <Rating 
                             name='rating'
-                            defaultValue={review.rating}
+                            precision={0.1}
                             value={review.rating}
                             onChange={handleReview}
                             size='large'
@@ -142,12 +146,11 @@ function Product(props) {
                         <TextField
                             multiline
                             name='comment'
-                            defaultValue={review.comment}
                             value={review.comment}
                             onChange={handleReview}
                         />
-                        <Button className={styles.ratingButton} onClick={handleEditReview} >Edit review</Button>
-                    </Container>
+                        <Button className={styles.ratingButton} onClick={editReview ? handleEditReview : handleAddReview} >{editReview ? 'Edit review' : 'Add review'}</Button>
+                    </Container>}
                 </Container>
             </Container>
         );
