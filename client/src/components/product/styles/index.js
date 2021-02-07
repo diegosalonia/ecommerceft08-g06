@@ -108,6 +108,7 @@ export const useStylesProduct = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     lineHeight: '6%',
+    width: '35rem',
   },
   price: {
     display: 'flex',
@@ -165,10 +166,12 @@ export const useStylesProduct = makeStyles(theme => ({
   ratingContainer: {
     padding: '2% 0 1% 0',
     display: 'flex',
+    alignItems: 'center',
   },
   reviewTotal: {
     fontSize: '.8rem',
-    marginLeft: '3%'
+    marginLeft: '3%',
+    cursor: 'pointer',
   },
   verMas: {
     cursor: 'pointer',
@@ -187,6 +190,31 @@ export const useStylesProduct = makeStyles(theme => ({
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.secondary.main,
   },
+  descriptionTitle: {
+    color: theme.palette.primary.main,
+    marginBottom: '2%',
+  },
+  addRating: {
+    display: 'flex',
+    flexDirection: 'column',
+    marginLeft: '10%',
+  },
+  reviews: {
+    display: 'flex',
+  },
+  ratingButton: {
+    marginTop: '5%',
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.secondary.main,
+  },
+  addRatingTitle: {
+    marginBottom: '11%',
+  },
+  goToSetReview: {
+    backgroundColor: theme.palette.secondary.main,
+    color: theme.palette.primary.main,
+    margin: '0 5%',
+  }
 }));
 
 export const useStylesImageGalery = makeStyles(theme => ({
@@ -196,7 +224,37 @@ export const useStylesImageGalery = makeStyles(theme => ({
   thumbContainer: {
     display: 'flex',
     flexDirection: 'column',
-    maxWidth: '50px',
-    
+    maxWidth: '10rem',
+    height: 'fit-content',
+    border: '1px solid #ddd',
   },
+  img: {
+    width: '4rem',
+  },
+  image: {
+    width: '7rem',
+    cursor: 'pointer',
+    opacity: '.7',
+    '&:active': {
+      border: '2px solid red',
+    }
+  },
+  bigImage: {
+    width: '38rem',
+    display: 'flex',
+    justifyContent: 'center',
+    border: '1px solid gray',
+    marginLeft: '1%',
+    overflow: 'hidden',
+  },
+  principalImage: {
+    maxWidth: '100%',
+    maxHeight: '100%',
+    '&:hover': {
+      transform: 'scale(1.25)',
+    }
+  },
+  largeImage: {
+    zIndex: '1000',
+  }
 }));

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { GET_PRODUCT, GET_PRODUCT_ERROR, SHOW_LOADER, HIDE_LOADER, 
-         ADD_PRODUCT_TO_CART, GET_ALL_REVIEWS } from '../constants';
+         ADD_PRODUCT_TO_CART, GET_ALL_REVIEWS, EDIT_REVIEW } from '../constants';
 
 export const showLoader = () => dispatch => {
     dispatch({
@@ -42,6 +42,17 @@ export const getReviews = id => dispatch => {
         dispatch({
             type: GET_ALL_REVIEWS,
             reviews: res.data
+        });
+    })
+    .catch(err => console.log(err));
+};
+
+export const editReviewAction = (review, reviewId, productId) => dispatch => {
+    return axios.put(`http://localhost:3000/products/${productId}/review/${reviewId}`, {form: review})
+    .then(res => {
+        dispatch({
+            type: EDIT_REVIEW,
+            review: res.data
         });
     })
     .catch(err => console.log(err));

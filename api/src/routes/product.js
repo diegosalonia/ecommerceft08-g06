@@ -15,18 +15,32 @@ server.get('/', (req, res, next) => {
 
 ///Start review routes
 
-server.post('/:id/review', (req, res) => {
-	Review.create({...req.body.form, productId: req.params.id})
-	.then(product => {
-			res.status(201).send(product)
+
+server.post('/:id/review/:userId', async (req, res) => {
+	const { id, userId } = req.params;
+	const olderReview = await Review.findAll({
+		where: {
+			productId: id,
+			userId: userId
+		}
+	});
+	console.log("REVIEW: ", olderReview);
+	if (!olderReview.length) {
+		Review.create({...req.body.form, productId: req.params.id, userId:  req.params.userId})
+		.then(product => {
+				res.status(201).send(product)
+			})
+		.catch(error => {
+			res.status(400).send(error)
 		})
-	.catch(error => {
-		res.status(400).send(error)
-	})
+	} else {
+		res.send("Already had a review for this product!");
+	}
+
 })
 
 server.get('/:id/review', (req, res) => {
-	Review.findAll({where: {productId: req.params.id}, include: [{model: User, attributes: ["email"]}]})
+	Review.findAll({where: {productId: req.params.id}, include: [{model: User, attributes: ["email", 'id']}]})
 	.then(products => {
 			res.status(201).send(products)
 		})
@@ -163,7 +177,6 @@ server.get('/product-detail/:productId/:userId', async (req, res) => {
 			}
 		]
 	});
-	console.log("ORDER: ", order.dataValues.products[0].dataValues.order_line.dataValues.quantity);
 	let quantity = 1;
 	order && order.dataValues.products.forEach(el => {
 		if (product.dataValues.id === el.dataValues.id) {
