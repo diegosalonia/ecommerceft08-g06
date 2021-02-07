@@ -18,13 +18,11 @@ server.post('/login', (req, res, next) => {
 })
 
 
-server.post("/logout", (req, res) => {
-  console.log('TIPO DE SESSION',req.isAuthenticated());
-  if (req.isAuthenticated()) {
-    console.log("estaba logeado");
-    req.logout();
-    res.status(200).json("deslogueado");
-});
+server.post("/logout", passport.authenticate('jwt', { session: false }), (req, res, next) => {
+  req.logout();
+  res.sendStatus(200).send('usted esta deslogueado');  
+})
+
 
 server.get("/me", passport.authenticate('jwt',{session: false}),(req,res,next)=>{
     User.findAll({
