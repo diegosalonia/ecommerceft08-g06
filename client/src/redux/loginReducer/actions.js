@@ -43,4 +43,18 @@ export const addNewAddress = (userId, newAddress) => dispatch => {
     .catch(err => console.log("ERROR AÑADIENDO ADDRESS: ", err));;
 };
 
-export const logOut = () => dispatch => dispatch({type: LOGOUT});
+export const logout = (token) => dispatch =>{
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+      };
+      const url = "http://localhost:3000/auth/logout"
+
+    return axios.post(url,null,config)
+    .then(()=>{
+        dispatch({type: LOGOUT})
+
+        sessionStorage.clear()
+
+        window.location.replace("http://localhost:3001/")
+    })
+}

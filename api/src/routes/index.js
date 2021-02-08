@@ -7,6 +7,9 @@ const userRouter = require('./user.js');
 const orderRouter = require('./order');
 const cartRouter = require('./cart');
 const checkout = require('./checkout');
+const passport = require("passport");
+const passportJWT = require("passport-jwt");
+const jwt = require ('jsonwebtoken')
 
 const router = Router();
 

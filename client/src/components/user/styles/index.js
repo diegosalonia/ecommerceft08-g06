@@ -27,3 +27,58 @@ export const useStylesUserDashboard = makeStyles(theme => ({
         maxWidth: '350px',
     }
 }));
+
+export const useStylesUserProfile = makeStyles(theme => ({
+    large: {
+        margin: theme.spacing(2,1,1,2),
+        width: theme.spacing(10),
+        height: theme.spacing(10),
+        marginRight: theme.spacing(3),
+        color: theme.palette.primary
+      },
+    icon: {
+        width: theme.spacing(8),
+        height: theme.spacing(8),
+        color: theme.palette.primary
+    },
+    nameContainer:{
+        display: "flex",
+        alignItems: "center"
+    },
+    name:{
+        margin: theme.spacing(4,0,0,0),
+    },
+    info:{
+        padding: theme.spacing(2,2,2,2)
+    },
+    container:{
+        display: "flex",
+        alignItems: "center",
+        flexDirection:"row"
+    },
+    card:{
+        margin: theme.spacing(2,0,0,0),
+        minWidth: theme.spacing(60),
+        minHeight: theme.spacing(60),
+    },
+    userInfo:{
+        display: "flex",
+        alignItems: "center",
+    },
+    editar:{
+        margin: theme.spacing(0,1,0,0)
+    },
+    cardEdit:{
+        minHeight: theme.spacing(60),
+        margin: theme.spacing(2,0,0,2),
+        minWidth: theme.spacing(88)
+    },
+    password:{
+        minWidth:theme.spacing(60)
+    },
+    button:{
+        margin: theme.spacing(0,0,0,2),
+        minHeight: theme.spacing(6.9),
+        minWidth: theme.spacing(15)
+    }
+}));

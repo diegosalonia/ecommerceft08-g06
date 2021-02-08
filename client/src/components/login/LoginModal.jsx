@@ -21,10 +21,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        cursor: 'pointer',
-        '&:hover':{
-            textDecoration: "underline"
-        }
+        cursor: 'pointer'
         //padding: theme.spacing(1),
     },
     modal: {
@@ -36,6 +33,11 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.primary.main,
         color: theme.palette.secondary.main
     },
+    LinkHome:{
+    color: "#fff",
+    textTransform: "none",
+    underline: "none"
+    }
   }));
 
 export default function LoginModal ({ inCart }){
