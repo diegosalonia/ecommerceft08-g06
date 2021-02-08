@@ -11,6 +11,7 @@ export const useStylesProductList = makeStyles(theme => ({
         borderRadius: '.25em',
         background: 'initial',
         color: '#fff',
+        marginLeft: '10%',
         padding: '2% 3%',
         cursor: 'pointer'
     },
@@ -19,7 +20,7 @@ export const useStylesProductList = makeStyles(theme => ({
         border: '2px solid #30ec2f',
         borderRadius: '.25em',
         background: 'initial',
-        marginRight: '10%',
+        marginLeft: '10%',
         color: '#fff',
         padding: '2% 3%',
         cursor: 'pointer'
