@@ -1,11 +1,11 @@
-import { LOGIN, LOGOUT }  from '../constants';
+import { LOGIN, LOGOUT, ADD_NEW_ADDRESS }  from '../constants';
 
 const initialState = {
 	user_role: 'Guest',
 	id: 0,
 	first_name: null,
 	email: null,
-	shipping_address: null
+	shipping_address: undefined
 };
 
 export default function userReducer(state = initialState, action) {
@@ -26,6 +26,11 @@ export default function userReducer(state = initialState, action) {
 				id: 0,
 				first_name: null,
 				email: null
+			};
+		case ADD_NEW_ADDRESS:
+			return {
+				...state,
+				shipping_address: action.address
 			};
 		default:
 			return state;

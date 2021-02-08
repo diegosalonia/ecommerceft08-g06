@@ -120,5 +120,32 @@ export const useStylesCartTotal = makeStyles(theme => ({
     },
     bigContainer: {
         padding: '0 0',
-    }
+    },
+    modalContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        maxWidth: 'fit-content',
+        margin: 'auto',
+    },
+    fadeComponent: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
+        backgroundColor: "white",
+        borderRadius: theme.shape.borderRadius,
+        padding: theme.spacing(1),
+        marginTop: theme.spacing(2),
+    },
+    buttonConfirmAddress: {
+        color: theme.palette.secondary.main,
+        backgroundColor: theme.palette.primary.main,
+        marginTop: '2%',
+    },
+    containerModal: {
+        display: 'flex',
+        justifyContent: 'center'
+    },
+
 }));

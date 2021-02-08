@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Container, Typography, Button } from '@material-ui/core';
+import { Container, Typography, Button, Modal, Backdrop, Fade, TextField } from '@material-ui/core';
 import { useStylesCartTotal } from './styles';
 import { goToCheckout } from '../../redux/cartReducer/actions';
+import { addNewAddress } from '../../redux/loginReducer/actions';
 import LoginModal from '../login/LoginModal';
 
 const CartTotal = () => {
@@ -13,6 +14,21 @@ const CartTotal = () => {
     const tax = total * (21 / 100);
     const userId = JSON.parse(localStorage.getItem('id'));
     const shippingAddress = useSelector(state => state.loginReducer.shipping_address);
+    const [open, setOpen] = useState(false);
+    const [ newAddress, setNewAddress ] = useState('');
+    const [ noAddress, setNoAddress ] = useState(false);
+
+    const handleOpen = () => {
+        setOpen(true);
+    }
+
+    const handleClose = () => {
+        setOpen(false);
+    }
+ 
+    useEffect(() => {
+        !shippingAddress && setNoAddress(true);
+    }, [shippingAddress]);
 
     useEffect(() => {
         userId && setTotal(products.reduce(
@@ -23,9 +39,44 @@ const CartTotal = () => {
         ));
     }, [products]);
 
-    const handleCheckout = () => {
-        dispatch(goToCheckout(1, products));
-    };
+    const handleCheckout = () => dispatch(goToCheckout(userId, products));
+
+    const handleNewAddress = () => {
+        dispatch(addNewAddress(userId, newAddress));
+        setNoAddress(false);
+    }
+
+    const handleNewAddressValue = e => setNewAddress(e.target.value);
+
+    const addShippingAddress = () => {
+        return (
+            <Container className={styles.containerModal} >
+                <Button onClick={handleOpen} className={styles.buttonConfirmAddress} >Add Shipping Address</Button>
+                <Modal
+                    className={styles.modalContainer}  
+                    open={open}
+                    onClose={handleClose}
+                    closeAfterTransition
+                    disableAutoFocus
+                    disableEnforceFocus
+                    BackdropComponent={Backdrop}
+                    BackdropProps={{timeout: 2000,}}
+                >
+                    <Fade in={open} className={styles.fadeComponent} >
+                        <Container>
+                            <TextField  
+                                name='address'
+                                label='Address'
+                                value={newAddress}
+                                onChange={handleNewAddressValue}
+                            />
+                            <Button onClick={handleNewAddress} className={styles.buttonConfirmAddress} >Add shipping address</Button>
+                        </Container>
+                    </Fade>
+                </Modal>
+            </Container>
+        )
+    }
 
     return (
         <Container className={styles.bigContainer} >
@@ -49,10 +100,12 @@ const CartTotal = () => {
                 </Container>
             </Container>
             <Container className={styles.checkoutButton} >
-                {userId ? <Button onClick={handleCheckout} >
-                              GO TO CHECKOUT
-                          </Button>
-                        : <LoginModal inCart={true}/>
+                {
+                    userId && noAddress ? addShippingAddress()
+                    : userId ? <Button onClick={handleCheckout} >
+                                    GO TO CHECKOUT
+                               </Button>
+                    : <LoginModal inCart={true} />
                 }
             </Container>
         </Container>

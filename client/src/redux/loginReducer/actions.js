@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT } from '../constants';
+import { LOGIN, LOGOUT, ADD_NEW_ADDRESS } from '../constants';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
@@ -31,5 +31,16 @@ export const login = (user) => (dispatch, getState) => {
     })
     .catch(err => console.log("ERROR EN SIGN IN ENVIANDO PRODUCTOS AL CARRITO: ", err));
 }
+
+export const addNewAddress = (userId, newAddress) => dispatch => {
+    return axios.put(`http://localhost:3000/users/${userId}/shipping-address`, {shippingAddress: newAddress})
+    .then(res => {
+        dispatch({
+            type: ADD_NEW_ADDRESS,
+            address: res.data
+        });
+    })
+    .catch(err => console.log("ERROR AÑADIENDO ADDRESS: ", err));;
+};
 
 export const logOut = () => dispatch => dispatch({type: LOGOUT});
