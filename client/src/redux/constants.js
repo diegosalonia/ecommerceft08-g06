@@ -54,7 +54,6 @@ export const LOGOUT = "LOGOUT";
 /* end loginReducer*/
 
 /* searchBar constants */
-export const GET_PRODUCTS_BY_KEYWORD = "GET_PRODUCTS_BY_KEYWORD"
 
 /*password reset constants*/
 export const SEND_EMAIL = "SEND_EMAIL"
@@ -63,3 +62,8 @@ export const CHANGE_PASSWORD = "CHANGE_PASSWORD"
 
 /* user constants */
 export const GET_USER = "GET_USER"
+export const GET_PRODUCTS_BY_KEYWORD = "GET_PRODUCTS_BY_KEYWORD";
+
+/*start userListReducer */
+export const DELETE_USER = "DELETE_USER";
+export const UPDATE_USER = "UPDATE_USER";

@@ -54,12 +54,14 @@ passport.serializeUser((user, next) => next(null, user.id));
 passport.deserializeUser((id, next)=>{
     User.findByPk(id).then(user => next(null, user)).catch(err => next(err, null));
 });
+
 server.use(cookieParser('secret'))
 server.use(session({
   secret: 'secret',
   resave: false,
   saveUninitialized: true
 }))
+
 
 server.use(passport.initialize())
 server.use(passport.session());

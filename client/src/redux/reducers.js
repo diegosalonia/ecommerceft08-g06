@@ -12,6 +12,7 @@ import loginReducer from './loginReducer/reducer';
 import cartReducer from './cartReducer/reducer';
 import passwordResetReducer from './passwordResetReducer/reducer'
 import userLoggedReducer from './userReducer/reducer'
+import userListReducer from './userListReducer/reducer';
 
 const rootReducer = combineReducers(
     {
@@ -27,7 +28,8 @@ const rootReducer = combineReducers(
         cartReducer,
         loginReducer,
         passwordResetReducer,
-        userLoggedReducer
+        userLoggedReducer,
+        userListReducer
     }
 );
 

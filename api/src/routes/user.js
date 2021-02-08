@@ -22,12 +22,15 @@ genToken = user => {
   }, 'joanlouji');
 }
 
-server.get('/', (req, res, next) => {
+server.get('/', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    if(req.user.user_role === 'admin') {
     User.findAll()
     .then(response =>{
         res.send(response)
     })
     .catch(next)
+    } else
+    {res.status(401).send({message: 'not authorized'})}
 });
 
 server.get('/:id/orders', (req, res) => {

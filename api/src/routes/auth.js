@@ -9,7 +9,6 @@ server.post('/login', (req, res, next) => {
   passport.authenticate('local', {session: false}, (err, user) => {
          
         if(user) {
-            console.log('AQUI EL USUARIO: ', user)
             const token = jwt.sign({user}, "secret");
             return res.status(200).json({ user, token })
         }
@@ -35,6 +34,32 @@ server.get("/me", passport.authenticate('jwt',{session: false}),(req,res,next)=>
 .catch(error => {
     res.status(400).send(error)
 })
+})
+
+server.put("/promote/:id", async (req, res) =>{
+  const user = await User.findByPk(req.params.id)
+  user.user_role = "admin"
+  user.save()
+  .then(user=>{
+    res.send(user)
+  })
+  .catch(err=>{
+    res.send(err)
+  })
+
+})
+
+server.put("/user/promote/:id", async (req, res) =>{
+  const user = await User.findByPk(req.params.id)
+  user.user_role = "user"
+  user.save()
+  .then(user=>{
+    res.send(user)
+  })
+  .catch(err=>{
+    res.send(err)
+  })
+
 })
 
 module.exports = server;

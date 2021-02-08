@@ -12,6 +12,7 @@ export const login = (user) => (dispatch) => {
     return dispatch({type: "LOGIN", payload: user})
 }
 
+
 export const logout = (token) => dispatch =>{
     const config = {
         headers: { Authorization: `Bearer ${token}` }
