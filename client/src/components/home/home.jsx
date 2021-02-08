@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import {Box} from '@material-ui/core'
@@ -7,7 +7,7 @@ import { changeOrderStatus } from '../../redux/cartReducer/actions';
 
 export default function Home(){
     const dispatch = useDispatch();
-    const userId = JSON.parse(localStorage.getItem('id'));
+    const userId = JSON.parse(sessionStorage.getItem('id'));
     if (window.location.href.includes('status')) {
         dispatch(changeOrderStatus(userId)); // userId hardcoded
     }

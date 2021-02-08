@@ -8,9 +8,9 @@ import { addToCart } from '../../redux/productReducer/actions';
 
 function ProductCard(props) {
     const dispatch = useDispatch();
-    const {id, name, description, image, discount, price, stock} = props.productProps;
+    const {id, name, description, image, discount, price} = props.productProps;
     const history = useHistory();
-    const userId = JSON.parse(localStorage.getItem('id'));
+    const userId = JSON.parse(sessionStorage.getItem('id'));
 
     const useStyles = makeStyles((theme) => ({
       root: {

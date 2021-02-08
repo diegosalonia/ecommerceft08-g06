@@ -1,7 +1,7 @@
 
 import React from 'react';
-import { Route, Router } from 'react-router-dom';
-import {Container, Grid} from '@material-ui/core'
+import { Route } from 'react-router-dom';
+import { Container } from '@material-ui/core'
 import Product from '../components/product/Product';
 import CreateProductForm from '../components/product/Admin/CreateProductForm';
 import AdminDashboard from '../components/product/Admin/AdminDashboard';
@@ -32,7 +32,7 @@ const Routes = () => {
                     <Route path="/review/:productId" component={ReviewContainer} />   
                     <Route exact path='/admin' component={AdminDashboard} />
                     <Route exact path='/admin/orders' component={OrderList} />
-                    <Route exact path='/admin/orders/:userId/:orderId' component={Order} />
+                    <Route exact path='/admin/orders/:orderId' component={Order} />
                     <Route exact path='/admin/products' component={AdminProductList} />
                     <Route exact path='/admin/users' component={AdminUserList} />
                     <Route path='/admin/products/create-product' component={CreateProductForm} />

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
@@ -29,11 +29,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MenuListComposition() {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-  const anchorRef = React.useRef(null);
+  const [open, setOpen] = useState(false);
+  const anchorRef = useRef(null);
   const dispatch = useDispatch();
-
-
+  const userRole = sessionStorage.getItem('role');
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -62,8 +61,8 @@ export default function MenuListComposition() {
   }
 
   // return focus to the button when we transitioned from !open -> open
-  const prevOpen = React.useRef(open);
-  React.useEffect(() => {
+  const prevOpen = useRef(open);
+  useEffect(() => {
     if (prevOpen.current === true && open === false) {
       anchorRef.current.focus();
     }
@@ -71,36 +70,40 @@ export default function MenuListComposition() {
     prevOpen.current = open;
   }, [open]);
 
-  return (
-    <div className={classes.root}>
-      <div>
-        <Button
-          ref={anchorRef}
-          aria-controls={open ? 'menu-list-grow' : undefined}
-          aria-haspopup="true"
-          className={classes.td_title}
-          onClick={handleToggle}
-        >
-          Usuario
-        </Button>
-        <Popper open={open} anchorEl={anchorRef.current} placement={'bottom-end'} role={undefined} transition disablePortal>
-          {({ TransitionProps, placement }) => (
-            <Grow
-              {...TransitionProps}
-              style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
-            >
-              <Paper>
-                <ClickAwayListener onClickAway={handleClose}>
-                  <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                    <Link underline='none' className={classes.LinkHome} color="inherit" key="logIn" href='/user'><MenuItem onClick={handleClose}>Usuario</MenuItem></Link>
-                    <MenuItem onClick={handleCloseLogout}>Cerra sesion</MenuItem>
-                  </MenuList>
-                </ClickAwayListener>
-              </Paper>
-            </Grow>
-          )}
-        </Popper>
+  const userList = () => {
+    return (
+      <div className={classes.root}>
+        <div>
+          <Button
+            ref={anchorRef}
+            aria-controls={open ? 'menu-list-grow' : undefined}
+            aria-haspopup="true"
+            className={classes.td_title}
+            onClick={handleToggle}
+          >
+            Usuario
+          </Button>
+          <Popper open={open} anchorEl={anchorRef.current} placement={'bottom-end'} role={undefined} transition disablePortal>
+            {({ TransitionProps, placement }) => (
+              <Grow
+                {...TransitionProps}
+                style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+              >
+                <Paper>
+                  <ClickAwayListener onClickAway={handleClose}>
+                    <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
+                      <Link underline='none' className={classes.LinkHome} color="inherit" key="logIn" href='/user'><MenuItem onClick={handleClose}>Usuario</MenuItem></Link>
+                      <MenuItem onClick={handleCloseLogout}>Cerra sesion</MenuItem>
+                    </MenuList>
+                  </ClickAwayListener>
+                </Paper>
+              </Grow>
+            )}
+          </Popper>
+        </div>
       </div>
-    </div>
-  );
+    )
+  }
+
+  return userRole === 'admin' ? userList() : '404 NOT FOUND';
 }

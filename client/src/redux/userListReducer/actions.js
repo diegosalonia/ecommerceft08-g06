@@ -1,8 +1,8 @@
 import axios from 'axios';
-import {GET_USER, DELETE_USER, UPDATE_USER} from '../constants';
+import { GET_USER, DELETE_USER, UPDATE_USER, config } from '../constants';
 
-export const getUsers = ()=>dispatch =>{
-    return axios.get('http://localhost:3000/users')
+export const getUsers = token => dispatch =>{
+    return axios.get('http://localhost:3000/users', config(token))
     .then(user =>{
         dispatch({
             type: GET_USER,
@@ -12,8 +12,8 @@ export const getUsers = ()=>dispatch =>{
     .catch(err => console.log('ERROR GET: ', err))
 }
 
-export const deleteUsers = (id) => dispatch =>{
-    return axios.delete(`http://localhost:3000/users/${id}`)
+export const deleteUsers = (id, token) => dispatch => {
+    return axios.delete(`http://localhost:3000/users/${id}`, null, config(token))
     .then(user=>{
         dispatch({
             type: DELETE_USER
@@ -22,8 +22,8 @@ export const deleteUsers = (id) => dispatch =>{
     .catch(err => console.log('ERROR DELETE: ', err))
 }
 
-export const updateUserAdmin = (id) => dispatch =>{
-    return axios.put(`http://localhost:3000/auth/promote/${id}`)
+export const updateUserAdmin = (id, token) => dispatch =>{
+    return axios.put(`http://localhost:3000/auth/promote/${id}`, null, config(token))
     .then(user_admin =>{
         dispatch({
             type: UPDATE_USER,
@@ -33,8 +33,8 @@ export const updateUserAdmin = (id) => dispatch =>{
     .catch(err => console.log("ERROR DE UPDATE ",err))
 }
 
-export const updateUser = (id) => dispatch =>{
-    return axios.put(`http://localhost:3000/auth/user/promote/${id}`)
+export const updateUser = (id, token) => dispatch =>{
+    return axios.put(`http://localhost:3000/auth/user/promote/${id}`, null, config(token))
     .then(user_admin =>{
         dispatch({
             type: UPDATE_USER,

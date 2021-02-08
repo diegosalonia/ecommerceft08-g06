@@ -14,7 +14,7 @@ function Product(props) {
     const dispatch = useDispatch();
     const styles = useStylesProduct();
     const { match: { params: { id }}} = props;
-    const userId = JSON.parse(localStorage.getItem('id'));
+    const userId = JSON.parse(sessionStorage.getItem('id'));
     const reviews = useSelector(state => state.productReducer.reviews);
     const product = useSelector(state => state.productReducer.product);
     const isInCart = useSelector(state => state.productReducer.isInCart);

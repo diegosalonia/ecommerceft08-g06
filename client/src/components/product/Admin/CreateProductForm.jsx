@@ -7,7 +7,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { addProduct, getCategories } from '../../../redux/createProductReducer/actions';
 import { useStylesProductForm } from '../styles';
-import {Swal} from 'sweetalert2';
+import Swal from 'sweetalert2';
 
 const validationSchema = yup.object({
     name: yup
@@ -39,7 +39,8 @@ const CreateProductForm = () => {
     const [ categoryList, setCategoryList ] = useState([]);
     const [ images, setImages ] = useState([]);
     const [ loading, setLoading ] = useState(false);
-    const [ alert, setAlert ] = useState(false);
+    const token = sessionStorage.getItem('token');
+    const userRole = sessionStorage.getItem('role');
 
     const showAlert = () => {
         return Swal.fire({
@@ -53,11 +54,10 @@ const CreateProductForm = () => {
 
     useEffect(() => {
         dispatch(getCategories());
-    },[]);
+    },[dispatch]);
 
     useEffect(() => {
         setLoading(false);
-        setAlert(true);
     }, [newProduct]);
 
     const handleToggle = value => () => {
@@ -91,7 +91,7 @@ const CreateProductForm = () => {
         validationSchema: validationSchema,
         onSubmit: values => {
             setLoading(true);
-            dispatch(addProduct(values, images, categoryList));
+            dispatch(addProduct(values, images, categoryList, token));
             showAlert();
         }
     });
@@ -213,7 +213,7 @@ const CreateProductForm = () => {
         );
     }
 
-    return !loading ? form() : <CircularProgress disableShrink className={style.isLoading} />;
+    return userRole !== 'admin' ? '404 NOT FOUND' : loading ? <CircularProgress disableShrink className={style.isLoading} /> : form() ;
 };
 
 export default CreateProductForm;

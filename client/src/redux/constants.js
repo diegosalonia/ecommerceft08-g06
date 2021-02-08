@@ -72,3 +72,12 @@ export const GET_PRODUCTS_BY_KEYWORD = "GET_PRODUCTS_BY_KEYWORD";
 /*start userListReducer */
 export const DELETE_USER = "DELETE_USER";
 export const UPDATE_USER = "UPDATE_USER";
+
+/* Config authentication */
+export const config = token => {
+    return {
+        headers: {
+             Authorization: `Bearer ${token}` 
+        }
+    }
+};

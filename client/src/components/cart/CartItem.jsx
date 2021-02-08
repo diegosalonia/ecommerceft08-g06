@@ -1,22 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { IconButton, Container, Link, TextField, Typography } from '@material-ui/core';
 import { DeleteForever } from '@material-ui/icons';
 import { useStylesCartItem } from './styles';
 import { changeProductQuantity, deleteProductInCart } from '../../redux/cartReducer/actions';
-import { getProduct } from '../../redux/productReducer/actions';
 
 const CartItem = ({ product }) => {
     const dispatch = useDispatch();
     const styles = useStylesCartItem();
     const [ quantity, setQuantity ] = useState();
     const { id, name, price, discount, image, stock } = product;
-    const userId = JSON.parse(localStorage.getItem('id'));
+    const userId = JSON.parse(sessionStorage.getItem('id'));
 
     useEffect(() => {
         userId && setQuantity(product.order_line.quantity);
         !userId && setQuantity(product.quantity);
-    }, []);
+    }, [product.order_line.quantity, product.quantity, userId]);
 
     const handleOnChangeQuantity = e => {
         if (quantity >= 1 && quantity <= stock && e.target.value >= 1 && e.target.value <= stock) {

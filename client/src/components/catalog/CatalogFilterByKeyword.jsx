@@ -1,7 +1,7 @@
 import React from 'react';
 import {Container, Grid} from '@material-ui/core';
 import ProductCard from '../product/ProductCard';
-import Pagination from  './Pagination'
+// import Pagination from './Pagination'
 const CatalogFilterByKeyword = (props) => {
 
     const renderProducts = () => props.testlist.map((item, index) => {

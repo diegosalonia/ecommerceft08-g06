@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_PRODUCT, GET_PRODUCT_ERROR, SHOW_LOADER, HIDE_LOADER, 
+import { GET_PRODUCT, SHOW_LOADER, HIDE_LOADER, 
          ADD_PRODUCT_TO_CART, GET_ALL_REVIEWS, EDIT_REVIEW,
          ADD_NEW_REVIEW } from '../constants';
 import Swal from 'sweetalert2';

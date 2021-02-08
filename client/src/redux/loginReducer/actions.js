@@ -23,9 +23,9 @@ export const login = (user) => (dispatch, getState) => {
     });
     Promise.all(promises)
     .then(res => {
-        localStorage.setItem('token', user.token)
-        localStorage.setItem('role', user.user.user_role);
-        localStorage.setItem('id', user.user.id);
+        sessionStorage.setItem('token', user.token)
+        sessionStorage.setItem('role', user.user.user_role);
+        sessionStorage.setItem('id', user.user.id);
         setTimeout(() => window.location.reload(false), 2000);
         showAlert('Succesfull sign in!', 2000);
     })

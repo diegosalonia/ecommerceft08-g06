@@ -1,5 +1,4 @@
 import React from 'react';
-import {Typography, Grid, makeStyles} from '@material-ui/core';
 import ReviewDetail from './ReviewDetail'
 
 const ReviewList= (props) => {

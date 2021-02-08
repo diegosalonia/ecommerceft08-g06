@@ -4,7 +4,7 @@ import Rating from '@material-ui/lab/Rating';
 
 const ReviewDetail = (props) => {
 
-    const {rating, username, createdAt, comment, email} = props;
+    const {rating, createdAt, comment, email} = props;
 
  
     const preDate = new Date(createdAt);    
