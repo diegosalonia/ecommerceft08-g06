@@ -23,7 +23,7 @@ const ReviewResume = (props) => {
     return <Grid container direction="row" alignItems="center" justify="flex-start" spacing={1}>
         <Grid item xs={4} >
             <Typography variant="h2">
-                {avgRating ? avgRating : '3.0'}
+                {avgRating ? avgRating.toFixed(1) : '3.0'}
             </Typography>
         </Grid>
         <Grid item container xs={8} direction="column">
