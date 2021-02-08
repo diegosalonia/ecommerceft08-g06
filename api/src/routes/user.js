@@ -22,8 +22,9 @@ genToken = user => {
   }, 'joanlouji');
 }
 
-server.get('/', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    if(req.user.user_role === 'admin') {
+server.get('/', passport.authenticate('jwt', { session: false }), async(req, res, next) => {
+    const user = await User.findByPk(req.user)
+    if(user.user_role === 'admin') {
     User.findAll()
     .then(response =>{
         res.send(response)

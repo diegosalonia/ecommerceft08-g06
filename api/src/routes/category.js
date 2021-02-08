@@ -1,10 +1,11 @@
 const server = require('express').Router();
-const { Category } = require('../db.js');
+const { Category, User } = require('../db.js');
 const passport = require('passport')
 
 
-server.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>{
-    if(req.user.user_role === 'admin'){
+server.post('/', passport.authenticate('jwt', { session: false }), async(req, res) =>{
+    const user = await User.findByPk(req.user)
+    if(user.user_role === 'admin') {
     Category.create(req.body.form)
     .then(category => {
         return res.status(200).send(category)
@@ -19,8 +20,9 @@ server.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
 //     res.json("Secret Data")
 //   })
 
-server.delete('/:id', passport.authenticate('jwt', { session: false }), (req, res) =>{
-    if(req.user.user_role === 'admin'){
+server.delete('/:id', passport.authenticate('jwt', { session: false }), async(req, res) =>{
+    const user = await User.findByPk(req.user)
+    if(user.user_role === 'admin') {
     Category.destroy({
         where: {
             id: req.params.id
@@ -36,7 +38,8 @@ server.delete('/:id', passport.authenticate('jwt', { session: false }), (req, re
 })
 
 server.put('/:id', passport.authenticate('jwt', { session: false }), async (req, res) =>{
-    if(req.user.user_role === 'admin') {
+    const user = await User.findByPk(req.user)
+    if(user.user_role === 'admin') {
     const categoryUpdate = await Category.findByPk(req.params.id)
     Object.assign(categoryUpdate, req.body.form);
     await categoryUpdate.save()

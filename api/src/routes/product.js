@@ -91,7 +91,8 @@ server.get('/category/:name', async (req,res,next)=>{
 });
 
 server.delete('/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
-	if(req.user.user_role === 'admin') {
+	const user = await User.findByPk(req.user)
+    if(user.user_role === 'admin') {
 	const product = await Product.findByPk(req.params.id)
 	await product.destroy()
 	.then(() => {
@@ -103,8 +104,9 @@ server.delete('/:id', passport.authenticate('jwt', { session: false }), async (r
     {res.status(401).send({message: 'not authorized'})}
 });
 
-server.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>{
-	if(req.user.user_role === 'admin') {
+server.post('/', passport.authenticate('jwt', { session: false }), async (req, res) =>{
+	const user = await User.findByPk(req.user)
+    if(user.user_role === 'admin') {
     Product.create(req.body.form)
     .then(product => {
         res.status(201).send(product)
@@ -144,7 +146,8 @@ server.put('/:id', async (req, res) =>{
 });
 
 server.post('/:productId/category/:categoryId', passport.authenticate('jwt', { session: false }), async (req, res) =>{
-	if(req.user.user_role === 'admin') {
+	const user = await User.findByPk(req.user)
+    if(user.user_role === 'admin') {
 	const category =  await Category.findByPk(req.params.categoryId)
 	const product = await Product.findByPk(req.params.productId)
 
@@ -276,7 +279,8 @@ server.get('/catalog/', (req, res) => {
 	 
 
 server.delete('/:productId/category/:categoryId', passport.authenticate('jwt', { session: false }), async (req, res) =>{
-	if(req.user.user_role === 'admin') {
+	const user = await User.findByPk(req.user)
+    if(user.user_role === 'admin') {
 	const category =  await Category.findByPk(req.params.categoryId)
 	const product = await Product.findByPk(req.params.productId)
 

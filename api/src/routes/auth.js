@@ -36,7 +36,9 @@ server.get("/me", passport.authenticate('jwt',{session: false}),(req,res,next)=>
 })
 })
 
-server.put("/promote/:id", async (req, res) =>{
+server.put("/promote/:id", passport.authenticate('jwt', { session: false }), async (req, res) =>{
+  const user = await User.findByPk(req.user)
+  if(user.user_role === 'admin') {
   const user = await User.findByPk(req.params.id)
   user.user_role = "admin"
   user.save()
@@ -45,11 +47,13 @@ server.put("/promote/:id", async (req, res) =>{
   })
   .catch(err=>{
     res.send(err)
-  })
+  })}
 
 })
 
-server.put("/user/promote/:id", async (req, res) =>{
+server.put("/user/promote/:id", passport.authenticate('jwt', { session: false }), async (req, res) =>{
+  const user = await User.findByPk(req.user)
+  if(user.user_role === 'admin') {
   const user = await User.findByPk(req.params.id)
   user.user_role = "user"
   user.save()
@@ -58,7 +62,7 @@ server.put("/user/promote/:id", async (req, res) =>{
   })
   .catch(err=>{
     res.send(err)
-  })
+  })}
 
 })
 
