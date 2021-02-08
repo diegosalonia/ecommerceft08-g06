@@ -25,7 +25,6 @@ const sections = [
   
 
 const Header = ({ setSearch }) => {
-
     const userRole = sessionStorage.getItem('role');
 
     const [state, setState] = useState({
@@ -67,7 +66,7 @@ const Header = ({ setSearch }) => {
                 </div>
             </div>)
         }
-        if( userRole && userRole==='user'){
+        if( userRole && userRole === 'user'){
             return(
             <div className={classes.toolbarOptionsDiv}>
                 <div className={classes.toolbarOptions}>
@@ -138,7 +137,7 @@ const Header = ({ setSearch }) => {
                 <div className={classes.logoContainer}>
                     <StorefrontIcon fontSize="default"/>
                 </div>
-                {!userRole?RightButtonDefault():RightButtons()}
+                {!userRole ? RightButtonDefault() : RightButtons()}
                 
             </Toolbar>
         )

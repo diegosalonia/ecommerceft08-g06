@@ -32,7 +32,6 @@ export default function MenuListComposition() {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
   const dispatch = useDispatch();
-  const userRole = sessionStorage.getItem('role');
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -105,5 +104,5 @@ export default function MenuListComposition() {
     )
   }
 
-  return userRole === 'admin' ? userList() : '404 NOT FOUND';
+  return userList();
 }

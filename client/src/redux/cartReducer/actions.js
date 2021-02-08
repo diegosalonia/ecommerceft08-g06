@@ -115,20 +115,34 @@ export const changeOrderStatus = userId => dispatch => {
     const status = url.slice(url.indexOf('&status') + 1).split('=')[1].split('&')[0];
     if (status === 'approved') {
         const products = JSON.parse(localStorage.getItem('cart'));
-        products.forEach(product => {
+        const promises = products.map(product => {
             axios.put(`http://localhost:3000/products/${product.id}`, {form: {...product, stock: product.stock - product.order_line.quantity}})
             .then(res => console.log(res))
             .catch(err => console.log(err));
         });
-    }
-    return axios.put(`http://localhost:3000/checkout/${userId}`, {status})
-    .then(res => {
+        Promise.all(promises)
+        .then(res => {
+            return axios.put(`http://localhost:3000/checkout/${userId}`, {status})
+            .then(response => {
+                dispatch({
+                    type: CHANGE_ORDER_STATUS,
+                    order: response.data
+                });
+                window.location.search = window.location.search.split('?')[0];
+                localStorage.removeItem('cart');
+            })
+        })
+        .catch(err => console.log('SE PUDRIÓ TODO'));
+    } else {
+        return axios.put(`http://localhost:3000/checkout/${userId}`, {status})
+        .then(res => {
         dispatch({
             type: CHANGE_ORDER_STATUS,
             order: res.data
         });
         window.location.search = window.location.search.split('?')[0];
         localStorage.removeItem('cart');
-    })
-    .catch(err => console.log(err));
+        })
+        .catch(err => console.log(err));
+    };
 };

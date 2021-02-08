@@ -35,16 +35,12 @@ server.post('/:userId', (req, res) => {
 
 server.put('/:userId', async (req, res) => {
     const { userId } = req.params
-    console.log("USERID: ", userId);
-    console.log("status: ", req.body.status);
     const order = await Order.findOne({
         where: {
             userId: userId,
             status: 'cart'
         }
     });
-    
-    console.log("ORDER: ", order);
 
     order.status = req.body.status;
     order.save()

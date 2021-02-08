@@ -65,19 +65,18 @@ const FilterCatalog = (props) => {
         }
     }, [currentCategory, dispatch])
     return (
-
-    <Card>
-        <CardHeader
-                  title="Categories"
-                  titleTypographyProps={{ align: 'center' }}
-                  className={classes.cardHeader}
-                />
-        <CardContent >      
-            <ButtonGroup fullWidth orientation="vertical"  color="primary">
-                {displayCategories()}
-            </ButtonGroup>
-        </CardContent>  
-    </Card>      
+        <Card>
+            <CardHeader
+                    title="Categories"
+                    titleTypographyProps={{ align: 'center' }}
+                    className={classes.cardHeader}
+                    />
+            <CardContent >      
+                <ButtonGroup fullWidth orientation="vertical"  color="primary">
+                    {displayCategories()}
+                </ButtonGroup>
+            </CardContent>  
+        </Card>      
     )   
 }
 

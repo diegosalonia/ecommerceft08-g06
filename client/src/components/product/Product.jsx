@@ -43,7 +43,7 @@ function Product(props) {
     useEffect(() => {
         setTimeout(() => setIsLoading(false), 1000);
         reviews.forEach(review => {
-            if (review.user.id === userId) {
+            if (review.user?.id === userId) {
                 setEditReview(true);
                 setReview(review);
             };
@@ -131,7 +131,7 @@ function Product(props) {
                         <Typography className={styles.addRatingTitle} align='center' variant='h4' color='primary' >{editReview ? 'EDIT REVIEW' : 'ADD REVIEW'}</Typography>
                         <Rating 
                             name='rating'
-                            precision={0.1}
+                            precision={1}
                             value={review.rating}
                             onChange={handleReview}
                             size='large'

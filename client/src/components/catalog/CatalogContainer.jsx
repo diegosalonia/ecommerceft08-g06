@@ -34,7 +34,7 @@ const CatalogContainer = () => {
             dispatch(getPaginatedProducts(page, pageSize, storeFilterBox));    
         }  
         dispatch(updatePage(page));
-    }, [storeFilterBox, page, pageSize, dispatch, query]);
+    }, [storeFilterBox, page, pageSize, dispatch]);
 
     useEffect(() => {
         if(firstRender.current){
