@@ -15,7 +15,6 @@ const Cart = () => {
     const userId = JSON.parse(localStorage.getItem('id'));
 
     useEffect(() => {
-        console.log("USERID: ", userId);
         userId && dispatch(getProductsInCart(userId));
     }, [dispatch]);
 
@@ -23,9 +22,7 @@ const Cart = () => {
         setTimeout(() => setLoading(false), 1000);
     }, [products]);
 
-    const handleDeleteCart = () => {
-        dispatch(deleteAllCart(userId));
-    }
+    const handleDeleteCart = () => dispatch(deleteAllCart(userId));
 
     const cart = () => {
         return (

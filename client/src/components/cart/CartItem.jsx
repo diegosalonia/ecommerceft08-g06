@@ -25,9 +25,7 @@ const CartItem = ({ product }) => {
         }
     };
 
-    const handleDelete = () => {
-        dispatch(deleteProductInCart(userId, id));
-    }
+    const handleDelete = () => dispatch(deleteProductInCart(userId, id));
 
     return (
         <Container className={styles.container} >

@@ -14,17 +14,13 @@ const CartTotal = () => {
     const tax = total * (21 / 100);
     const userId = JSON.parse(localStorage.getItem('id'));
     const shippingAddress = useSelector(state => state.loginReducer.shipping_address);
-    const [open, setOpen] = useState(false);
+    const [ open, setOpen ] = useState(false);
     const [ newAddress, setNewAddress ] = useState('');
     const [ noAddress, setNoAddress ] = useState(false);
 
-    const handleOpen = () => {
-        setOpen(true);
-    }
+    const handleOpen = () => setOpen(true);
 
-    const handleClose = () => {
-        setOpen(false);
-    }
+    const handleClose = () => setOpen(false);
  
     useEffect(() => {
         !shippingAddress && setNoAddress(true);

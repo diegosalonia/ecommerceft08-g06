@@ -35,7 +35,7 @@ export const changeProductQuantity = (userId, product) => (dispatch, getState) =
                 id,
                 quantity,
             }
-        })
+        });
         return;
     };
     return axios.put(`http://localhost:3000/users/${userId}/cart`, {product: {id, quantity}})
@@ -101,7 +101,6 @@ export const deleteAllCart = userId => dispatch => {
 export const goToCheckout = (userId, products) => dispatch => {
     return axios.post(`http://localhost:3000/checkout/${userId}`, { products })
     .then(res => {
-        console.log("RESPUESTA ACTIONS: ", res.data);
         dispatch({
             type: GO_TO_CHECKOUT,
             res: res.data
