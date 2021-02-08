@@ -49,6 +49,8 @@ export const useStyles = makeStyles((theme) => ({
         padding: "20px 30px",
     },
     LinkHome:{
+        color: "#fff",
+        textTransform: "none",        
         '&:hover':{
             color: "inherit",
             
@@ -62,6 +64,12 @@ export const useStyles = makeStyles((theme) => ({
     },
     icons:{
         color: "#fff"
+    },
+    root: {
+        display: 'flex',
+      },
+      paper: {
+        marginRight: theme.spacing(2),
     }
     
    
