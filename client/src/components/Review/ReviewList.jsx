@@ -11,10 +11,10 @@ const ReviewList= (props) => {
             })
         }
         else{
-            return <></>
+            return <>No reviews for this product</>
         }
     }
-    console.log("REVIEWS REVIEWLIST PROP", reviews)
+    
     return <DisplayReviews />
 }
 
