@@ -61,8 +61,9 @@ export default function UserForm(props){
         validationSchema: validationSchema,
 
         onSubmit:  (values) => {
-          axios.post('http://localhost:3000/users/', {form:values})
+          axios.post('http://localhost:3000/users/', { form:values })
           .then((res) => {
+            console.log("PROPS: ", props);
             alert('User created');
             props.history.push('/');
           })

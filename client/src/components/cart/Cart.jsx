@@ -12,7 +12,7 @@ const Cart = () => {
     const dispatch = useDispatch();
     const products = useSelector(state => state.cartReducer.productsInCart);
     const [ loading, setLoading ] = useState(true);
-    const userId = JSON.parse(localStorage.getItem('id'));
+    const userId = JSON.parse(sessionStorage.getItem('id'));
 
     useEffect(() => {
         userId && dispatch(getProductsInCart(userId));

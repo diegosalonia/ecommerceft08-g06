@@ -29,6 +29,7 @@ function AdminUserList() {
     const styles = useStylesUserList();
     const [ rows, setRows ] = useState([]);
     const usuarios = useSelector(state=> state.userListReducer.users);
+    const token = sessionStorage.getItem('token')
 
     const [ page, setPage ] = useState(0);
     const [ rowsPerPage, setRowsPerPage ] = useState(10);
@@ -67,7 +68,7 @@ function AdminUserList() {
                 'Your file has been deleted.',
                 'success'
                 );
-                dispatch(deleteUsers(id));
+                dispatch(deleteUsers(id, token));
                 setRows(rows.filter(row => row.id !== id));
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 swalWithBootstrapButtons.fire(
@@ -111,7 +112,7 @@ function AdminUserList() {
                 'Your file has been updateado.',
                 'success'
                 );
-                dispatch(updateUserAdmin(id));
+                dispatch(updateUserAdmin(id, token));
                 setRows(rows.filter(row => row.id !== id));
             } 
         })
@@ -149,7 +150,7 @@ function AdminUserList() {
                 'Your file has been updateado.',
                 'success'
                 );
-                dispatch(updateUser(id));
+                dispatch(updateUser(id, token));
                 setRows(rows.filter(row => row.id !== id));
             } 
         })
@@ -158,7 +159,7 @@ function AdminUserList() {
 
 
     useEffect(() => {
-        dispatch(getUsers());
+        dispatch(getUsers(token));
     }, []);
 
     useEffect(() => {

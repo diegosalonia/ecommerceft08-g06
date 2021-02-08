@@ -1,12 +1,11 @@
 import axios from "axios"
 import firebase, { storage } from '../../firebase';
-import { CREATE_PRODUCT, GET_CATEGORIES } from '../constants';
+import { CREATE_PRODUCT, GET_CATEGORIES, config } from '../constants';
+const token = sessionStorage.getItem('token');
 
-
-
-const conectionRelation = (productId, categoryList) => {
+const conectionRelation = (productId, categoryList, token) => {
     categoryList.forEach(category => {
-        axios.post(`http://localhost:3000/products/${productId}/category/${category}`)
+        axios.post(`http://localhost:3000/products/${productId}/category/${category}`, null, config(token))
         .then(res => res)
         .catch(err => console.log(err));
     });
@@ -42,11 +41,11 @@ const addImages = (images, productName, id, form) => {
     });
 };
 
-export const addProduct = (form, images, categoryList) => dispatch => {
-    return axios.post('http://localhost:3000/products', { form })
+export const addProduct = (form, images, categoryList, token) => dispatch => {
+    return axios.post('http://localhost:3000/products', { form }, config(token))
             .then(res => {
                 const { id } = res.data
-                conectionRelation(id, categoryList);
+                conectionRelation(id, categoryList, token);
                 addImages(images, form.name, id, form);
                 dispatch({
                     type: CREATE_PRODUCT,

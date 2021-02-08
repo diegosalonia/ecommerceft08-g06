@@ -7,7 +7,7 @@ import { changeOrderStatus } from '../../redux/cartReducer/actions';
 
 export default function Home(){
     const dispatch = useDispatch();
-    const userId = JSON.parse(localStorage.getItem('id'));
+    const userId = JSON.parse(sessionStorage.getItem('id'));
     if (window.location.href.includes('status')) {
         dispatch(changeOrderStatus(userId)); // userId hardcoded
     }

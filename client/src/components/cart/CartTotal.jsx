@@ -12,7 +12,7 @@ const CartTotal = () => {
     const styles = useStylesCartTotal();
     const [ total, setTotal ] = useState();
     const tax = total * (21 / 100);
-    const userId = JSON.parse(localStorage.getItem('id'));
+    const userId = JSON.parse(sessionStorage.getItem('id'));
     const shippingAddress = useSelector(state => state.loginReducer.shipping_address);
     const [ open, setOpen ] = useState(false);
     const [ newAddress, setNewAddress ] = useState('');

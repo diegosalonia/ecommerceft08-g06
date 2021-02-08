@@ -5,7 +5,7 @@ import { getProducts, deleteProduct } from '../../../redux/productListReducer/ac
 import { DeleteForever, Edit } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
 import { useStylesProductList } from './styles/AdminProductList';
-import Swal from 'sweetalert2';
+import { Swal } from 'sweetalert2';
 
 const columns = [
     {id: 'image', label: 'Image', minWidth: 100, maxWidth: 100},
@@ -18,7 +18,7 @@ const columns = [
     {id: 'rating', label: 'Rating', minWidth: 30, maxWidth: 30},
 ]
 
-function AdminProductList() {
+const AdminProductList = () => {
     const dispatch = useDispatch();
     const styles = useStylesProductList();
     const [ rows, setRows ] = useState([]);

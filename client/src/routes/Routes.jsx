@@ -38,11 +38,11 @@ const Routes = () => {
                     <Route exact path='/admin/users' render={() => userRole==="admin"?<AdminUserList/>:"not found"} />
                     <Route path='/admin/products/create-product' render={() => userRole==="admin"?<CreateProductForm/>:"not found"} />
                     <Route path="/admin/categories/create-category" render={()=> userRole==="admin"?<CategoryForm/>:"not found"} />
-                    <Route path='/admin/products/:id/edit' render={()=>userRole==="admin"?<UpdateProductForm/>:"not found"} />
+                    <Route path='/admin/products/:id/edit' render={(props)=>userRole==="admin"?<UpdateProductForm {...props}/>:"not found"} />
                     <Route exact path='/search' render={() => <CatalogContainerSearch/>}/>
                     <Route exact path='/user' render={()=>userRole==="user"?<UserDashboard/>:"not found"} />
                     <Route exact path='/user/profile' render={()=>userRole==="user"?<UserProfile/>:" not found"} />
-                    <Route path='/user/sign-up' render={()=>userRole!=="user"&& userRole!=="admin"?<UserForm/>: "ya estas logeado"} />
+                    <Route path='/user/sign-up' component={UserForm} />
                     <Route path="/products/:id" component={Product}/>
                     <Route exact path="/products" component={CatalogContainer} />
                     <Route path='/cart' component={Cart} />

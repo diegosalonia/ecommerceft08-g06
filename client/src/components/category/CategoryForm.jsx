@@ -7,6 +7,7 @@ import {DropzoneArea} from 'material-ui-dropzone';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import { storage } from "../../firebase"
 import firebase from "../../firebase"
+import { config } from '../../redux/constants';
 //ToDo: Clean console logs.
 const validationSchema = yup.object({
   name: yup
@@ -18,7 +19,7 @@ const validationSchema = yup.object({
 });
 
 const CategoryForm = () => {
-
+  const token = sessionStorage.getItem('token');
   const [images, setImages] = useState(false);
 
   useEffect(() => {
@@ -38,7 +39,7 @@ const CategoryForm = () => {
     //SUBMIT CONTROL -----------------------------------------
     onSubmit:  (values) => {
       var formValues = {...values};
-      axios.post('http://localhost:3000/category/', {form:values})
+      axios.post('http://localhost:3000/category/', {form:values}, config(token))
       .then((res) => {
         console.log("Succes",res);
         formValues.id = res.data.id;
@@ -94,7 +95,7 @@ const CategoryForm = () => {
     const valuesToDb = {...formval};
     valuesToDb.image = url;
     console.log("Values to Db: ",valuesToDb);
-      axios.put(`http://localhost:3000/category/${valuesToDb.id}`, {form:valuesToDb})
+      axios.put(`http://localhost:3000/category/${valuesToDb.id}`, {form:valuesToDb}, config(token))
       .then((res) => {
         console.log("Succes, writed in db with img",res);
       })

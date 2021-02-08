@@ -9,6 +9,7 @@ import { DropzoneArea } from 'material-ui-dropzone';
 import { DeleteForever } from '@material-ui/icons';
 import { useStylesUpdateProduct } from './styles/UpdateProductForm';
 import { getProduct, getCategories } from '../../../redux/updateProductForm/actions';
+import props from 'prop-types';
 
 const validationSchema = yup.object({
     name: yup
@@ -50,7 +51,6 @@ const UpdateProductForm = (props) => {
     const handleToggle = value => () => {
         const currentIndex = checked.indexOf(value);
         const newCategory = product.categories.filter(category => category.id === value.id);
-        console.log("NEWCATEGORY: ", newCategory);
         const newChecked = [...checked];
         let arr = [];
 
@@ -63,8 +63,6 @@ const UpdateProductForm = (props) => {
             newChecked.forEach(el => !arr.includes(el) && arr.push(el.id));
         }
         setChecked(newChecked);
-        console.log("CATEGORYLIST: ", categoryList);
-        console.log("CHECKED: ", checked);
         return setCategoryList(arr);
     };
 
@@ -201,8 +199,8 @@ const UpdateProductForm = (props) => {
                         <Typography variant="h5">Categories</Typography>                      
                         {categories?.map(category => {    
                                 const labelId = `checkbox-list-label-${category.id}`;
-                                console.log(`WAS SELECTED? ${category.name} : ${product.categories.filter(el => el.id === category.id).length === 1}`);
-                                return product.categories.filter(el => el.id === category.id).length === 1 ? (
+                                // console.log(`WAS SELECTED? ${category.name} : ${product.categories.filter(el => el.id === category.id).length === 1}`);
+                                return product.categories?.filter(el => el.id === category.id).length === 1 ? (
                                     <ListItem key={category.id} role={undefined} dense button onChange={handleToggle(category)}>
                                         <ListItemIcon>
                                             <Checkbox 
@@ -251,7 +249,7 @@ const UpdateProductForm = (props) => {
                     <Container >
                         <Typography>Images</Typography>
                         <Container className={styles.imagesContainer} >
-                            { product.image.map(image => {
+                            { product.image?.map(image => {
                                 return (
                                     <Container key={image} className={styles.imageContainer} >
                                         <img src={image} alt={product.name} className={styles.img} />

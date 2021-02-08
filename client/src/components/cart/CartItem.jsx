@@ -11,7 +11,7 @@ const CartItem = ({ product }) => {
     const styles = useStylesCartItem();
     const [ quantity, setQuantity ] = useState();
     const { id, name, price, discount, image, stock } = product;
-    const userId = JSON.parse(localStorage.getItem('id'));
+    const userId = JSON.parse(sessionStorage.getItem('id'));
 
     useEffect(() => {
         userId && setQuantity(product.order_line.quantity);

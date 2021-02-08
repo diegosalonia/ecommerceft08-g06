@@ -40,6 +40,7 @@ const CreateProductForm = () => {
     const [ images, setImages ] = useState([]);
     const [ loading, setLoading ] = useState(false);
     const [ alert, setAlert ] = useState(false);
+    const token = sessionStorage.getItem('token');
 
     const showAlert = () => {
         return Swal.fire({
@@ -91,7 +92,7 @@ const CreateProductForm = () => {
         validationSchema: validationSchema,
         onSubmit: values => {
             setLoading(true);
-            dispatch(addProduct(values, images, categoryList));
+            dispatch(addProduct(values, images, categoryList, token));
             showAlert();
         }
     });
