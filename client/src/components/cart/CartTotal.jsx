@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Container, Typography, Button } from '@material-ui/core';
 import { useStylesCartTotal } from './styles';
 import { goToCheckout } from '../../redux/cartReducer/actions';
+import LoginModal from '../login/LoginModal';
 
 const CartTotal = () => {
     const dispatch = useDispatch();
@@ -10,10 +11,15 @@ const CartTotal = () => {
     const styles = useStylesCartTotal();
     const [ total, setTotal ] = useState();
     const tax = total * (21 / 100);
+    const userId = JSON.parse(localStorage.getItem('id'));
+    const shippingAddress = useSelector(state => state.loginReducer.shipping_address);
 
     useEffect(() => {
-        setTotal(products.reduce(
+        userId && setTotal(products.reduce(
             (acc, el) => acc += (el.price - (el.price * (el.discount / 100))) * el.order_line.quantity,0
+        ));
+        !userId && setTotal(products.reduce(
+            (acc, el) => acc += (el.price - (el.price * (el.discount / 100))) * el.quantity,0
         ));
     }, [products]);
 
@@ -22,7 +28,7 @@ const CartTotal = () => {
     };
 
     return (
-        <Container>
+        <Container className={styles.bigContainer} >
             <Container className={styles.container} >
                 <Container className={styles.containerSubtotal} >
                     <Typography>Subtotal</Typography>
@@ -34,18 +40,20 @@ const CartTotal = () => {
                 </Container>
                 <Container className={styles.containerTax} >
                     <Typography>Tax(IVA)</Typography>
-                    <Typography>{`$${tax}`}</Typography>
+                    <Typography>{`$${tax.toFixed(2)}`}</Typography>
                 </Container>
                 <hr />
                 <Container className={styles.containerTotal} >
                     <Typography>Total</Typography>
-                    <Typography>{`$${total + tax}`}</Typography>
+                    <Typography>{`$${(total + tax).toFixed(2)}`}</Typography>
                 </Container>
             </Container>
-            <Container>
-                <Button onClick={handleCheckout} >
-                    GO TO CHECKOUT
-                </Button>
+            <Container className={styles.checkoutButton} >
+                {userId ? <Button onClick={handleCheckout} >
+                              GO TO CHECKOUT
+                          </Button>
+                        : <LoginModal inCart={true}/>
+                }
             </Container>
         </Container>
     );

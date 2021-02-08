@@ -51,7 +51,7 @@ export const useStylesCart = makeStyles(theme => ({
         display: 'flex',
     },
     cartItemsContainer: {
-        maxWidth: '700px',
+        maxWidth: '65%',
         display: 'flex',
         flexDirection: 'column',
     },
@@ -72,7 +72,18 @@ export const useStylesCart = makeStyles(theme => ({
     buttonToCatalog: {
         color: theme.palette.secondary.main,
         backgroundColor: theme.palette.primary.main,
-    }
+    },
+    totalContainer: {
+        padding: '0 0',
+        width: '65%',
+    },
+    deleteAllCart: {
+        width: '55%',
+    },
+    deleteAllCartButton: {
+        color: theme.palette.secondary.main,
+        backgroundColor: theme.palette.primary.main,
+    },
 }));
 
 export const useStylesCartTotal = makeStyles(theme => ({
@@ -102,4 +113,12 @@ export const useStylesCartTotal = makeStyles(theme => ({
         paddingTop: '3%',
         paddingBottom: '3%'
     },
+    checkoutButton: {
+        display: 'flex',
+        justifyContent: 'center',
+        marginTop: '5%',
+    },
+    bigContainer: {
+        padding: '0 0',
+    }
 }));

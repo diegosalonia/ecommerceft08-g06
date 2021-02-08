@@ -156,8 +156,9 @@ server.post('/:productId/category/:categoryId', async (req, res) =>{
 	})
 });
 
-server.get('/product-detail/:productId/:userId', async (req, res) => {
-	const { productId, userId } = req.params;
+server.get('/product-detail/:productId', async (req, res) => {
+	const { productId } = req.params;
+	const { userId } = req.query;
 	const product = await Product.findOne({
 		where: {
 			id: productId
@@ -166,58 +167,63 @@ server.get('/product-detail/:productId/:userId', async (req, res) => {
 			{model: Category}
 		]
 	});
-
-	const order = await Order.findOne({
-		where : {
-			userId: userId,
-			status: 'cart'
-		},
-		include: [
-			{
-				model: Product
-			}
-		]
-	});
-
-	const userCompletedOrders = await Order.findAll({
-		where: {
-			userId: userId,
-			status: 'approved'
-		},
-		include: [
-			{
-				model: Product,
-			}
-		]
-	});
-	
-	const user = await User.findOne({
-		where: {
-			id: userId
-		},
-		include: [
-			{
-				model: Review, 
-				attributes: ['productId']
-			},
-		]
-	});
-	let toEditReview = user.dataValues.reviews.filter(review => review.dataValues.productId === product.dataValues.id).length === 1
+	let toEditReview;
 	let noReviewed = false;
-	userCompletedOrders.forEach(order => order.dataValues.products.forEach(product => {
-		if (product.dataValues.id == productId) {
-			noReviewed = true;
-		}
-	}));
-	
 	let quantity = 1;
+	if (JSON.parse(userId)) {
+		const order = await Order.findOne({
+			where : {
+				userId: userId,
+				status: 'cart'
+			},
+			include: [
+				{
+					model: Product
+				}
+			]
+		});
 	
-	order && order.dataValues.products.forEach(el => {
-		if (product.dataValues.id === el.dataValues.id) {
-			quantity = el.dataValues.order_line.dataValues.quantity
-		}
-	})
+		const userCompletedOrders = await Order.findAll({
+			where: {
+				userId: userId,
+				status: 'approved'
+			},
+			include: [
+				{
+					model: Product,
+				}
+			]
+		});
+		
+		const user = await User.findOne({
+			where: {
+				id: userId
+			},
+			include: [
+				{
+					model: Review, 
+					attributes: ['productId']
+				},
+			]
+		});
+		
+		toEditReview = user.dataValues.reviews.filter(review => review.dataValues.productId === product.dataValues.id).length === 1;
+
+		userCompletedOrders.forEach(order => order.dataValues.products.forEach(product => {
+			if (product.dataValues.id == productId) {
+				noReviewed = true;
+			}
+		}));
+		
+		order && order.dataValues.products.forEach(el => {
+			if (product.dataValues.id === el.dataValues.id) {
+				quantity = el.dataValues.order_line.dataValues.quantity
+			}
+		})
+	}
+
 	const newProductForm = {
+		id: productId,
 		name: product.dataValues.name,
 		price: product.dataValues.price,
 		description: product.dataValues.description,
@@ -228,7 +234,7 @@ server.get('/product-detail/:productId/:userId', async (req, res) => {
 		categories: product.dataValues.categories.map(category => category.dataValues.name),
 		quantity,
 		toEditReview,
-		noReviewed: !toEditReview && noReviewed
+		noReviewed
 	};
 	res.send(newProductForm);
 });

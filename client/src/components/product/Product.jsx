@@ -14,7 +14,7 @@ function Product(props) {
     const dispatch = useDispatch();
     const styles = useStylesProduct();
     const { match: { params: { id }}} = props;
-    const userId = JSON.parse(localStorage.getItem('id') || '1'); // second option hard-coded
+    const userId = JSON.parse(localStorage.getItem('id'));
     const reviews = useSelector(state => state.productReducer.reviews);
     const product = useSelector(state => state.productReducer.product);
     const isInCart = useSelector(state => state.productReducer.isInCart);
@@ -29,7 +29,7 @@ function Product(props) {
 
     useEffect(() => {
         dispatch(getReviews(id));
-        dispatch(getProduct(userId, id)); // userId hard-coded
+        dispatch(getProduct(userId, id));
     }, [dispatch, id, userId]);
 
     useEffect(() => {
@@ -38,9 +38,7 @@ function Product(props) {
         product.toEditReview && setEditReview(true);
     }, [product]);
 
-    useEffect(() => {
-        isInCart && alert("Product in cart, thanks!");
-    }, [isInCart])
+    useEffect(() => {}, [isInCart])
 
     useEffect(() => {
         setTimeout(() => setIsLoading(false), 1000);
@@ -58,7 +56,7 @@ function Product(props) {
         };
     };
     
-    const handleAddToCart = () => dispatch(addToCart(product.userId, id, quantity));
+    const handleAddToCart = () => dispatch(addToCart(userId, Number(id), Number(quantity), product));
 
     const handleReview = e => setReview({...review, [e.target.name]: e.target.value});
 

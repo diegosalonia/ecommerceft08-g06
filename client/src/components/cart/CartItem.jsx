@@ -4,26 +4,29 @@ import { IconButton, Container, Link, TextField, Typography } from '@material-ui
 import { DeleteForever } from '@material-ui/icons';
 import { useStylesCartItem } from './styles';
 import { changeProductQuantity, deleteProductInCart } from '../../redux/cartReducer/actions';
+import { getProduct } from '../../redux/productReducer/actions';
 
 const CartItem = ({ product }) => {
     const dispatch = useDispatch();
     const styles = useStylesCartItem();
     const [ quantity, setQuantity ] = useState();
-    const { id, name, price, discount, image, stock, order_line } = product;
+    const { id, name, price, discount, image, stock } = product;
+    const userId = JSON.parse(localStorage.getItem('id'));
 
     useEffect(() => {
-        setQuantity(order_line.quantity);
+        userId && setQuantity(product.order_line.quantity);
+        !userId && setQuantity(product.quantity);
     }, []);
 
     const handleOnChangeQuantity = e => {
         if (quantity >= 1 && quantity <= stock && e.target.value >= 1 && e.target.value <= stock) {
-            dispatch(changeProductQuantity(1, {id, quantity: e.target.value})); // userId hard-coded
+            dispatch(changeProductQuantity(userId, {id, quantity: e.target.value}));
             setQuantity(e.target.value);
         }
     };
 
     const handleDelete = () => {
-        dispatch(deleteProductInCart(1, id)); // userId hard-coded
+        dispatch(deleteProductInCart(userId, id));
     }
 
     return (
@@ -40,7 +43,6 @@ const CartItem = ({ product }) => {
                     type='number'
                     min={1}
                     max={stock}
-                    defaultValue={quantity}
                     value={quantity}
                     onChange={handleOnChangeQuantity}
                 />

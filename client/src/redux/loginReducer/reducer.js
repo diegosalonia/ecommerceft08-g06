@@ -4,7 +4,8 @@ const initialState = {
 	user_role: 'Guest',
 	id: 0,
 	first_name: null,
-	email: null
+	email: null,
+	shipping_address: null
 };
 
 export default function userReducer(state = initialState, action) {
@@ -15,7 +16,8 @@ export default function userReducer(state = initialState, action) {
 				user_rol: action.payload.user_role,
 				id: action.payload.id,
 				first_name: action.payload.first_name,
-				email: action.payload.email
+				email: action.payload.email,
+				shipping_address: action.payload.shipping_address
 			};
 		case LOGOUT:
 			return {
