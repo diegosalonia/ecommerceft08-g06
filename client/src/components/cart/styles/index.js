@@ -1,5 +1,4 @@
 import { makeStyles } from '@material-ui/core';
-import cartImage from '../../../resources/cartImage.jpg';
 
 export const useStylesCartItem = makeStyles(theme => ({
     container: {

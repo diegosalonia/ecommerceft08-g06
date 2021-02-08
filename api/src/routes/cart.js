@@ -41,7 +41,6 @@ server.put('/:idUser/cart',async (req, res)=>{ // actualiza el valor
 
     await product.addOrder(order, { through: { orderId: order.id, quantity, price } })
     .then(response =>{
-        console.log("RESPONSE PUT: ", quantity);
         res.json(quantity);
     })
     .catch(err =>{

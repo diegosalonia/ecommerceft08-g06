@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useFormik } from 'formik';
-import * as yup from 'yup';
 import {Button, Avatar, Link, TextField, Typography, Grid} from '@material-ui/core';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import {useStyles , validationSchema} from './styles'
 import {useDispatch} from 'react-redux'
 import PersonIcon from '@material-ui/icons/Person';
@@ -33,9 +31,7 @@ const WithMaterialUI = ({onClose}) => {
       params.append('password', values.password)
 
       const user = await axios.post(url, params, config)
-      //console.log(user)
       dispatch(login(user.data));
-			//setLoggedIn('Iniciaste sesión con éxito!');
     },
   });
   

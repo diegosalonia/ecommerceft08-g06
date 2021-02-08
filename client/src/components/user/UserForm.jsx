@@ -4,8 +4,6 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios'
 import { Button, CssBaseline, TextField, FormControlLabel, Link, Grid, Box, Typography, Container, Switch} from '@material-ui/core/';
-import { Redirect } from 'react-router-dom';
-
 
 export default function UserForm(props){
   const useStylesUserForm = makeStyles(theme => ({

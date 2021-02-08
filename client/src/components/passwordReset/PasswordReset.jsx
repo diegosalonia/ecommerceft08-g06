@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Container, CssBaseline, Grid, TextField, Typography } from '@material-ui/core';
+import { Button, Container, TextField, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core';
 import { sendEmail, resetPassword } from '../../redux/passwordResetReducer/actions';
 import { useSelector, useDispatch } from 'react-redux';
@@ -11,7 +11,7 @@ const PasswordReset = () => {
     const [state, setState] = useState("")
     const [email, setEmail] = useState("")
     const [code, setCode] = useState("")
-    const [newPassword, setNewPassword] = useState("")
+    const [newPassword, setNewPassword] = useState("");
 
     const UseStylesResetPassword = makeStyles(theme => ({
         container:{

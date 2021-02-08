@@ -9,41 +9,18 @@ const OrderList = () => {
   const dispatch = useDispatch();
   const orders = useSelector(state => state.orderListReducer.orderList);
   const [ orderList, setOrderList ] = useState([]);
+  const userRole = sessionStorage.getItem('role');
 
   useEffect(() => {
     dispatch(getOrders());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     setOrderList(orders);
   }, [orders]);
 
-  const rows = [
-    {
-        id: 1, //Order id from db.
-        user_id: "1",
-        status: "confirmado",
-        createdAt: "2021-01-25 08:57:15.119-03",
-        total: "$1350,75"
-    },
-    {
-        id: 3,
-        user_id: "diego87",
-        status: "cancelado",
-        createdAt: "2021-01-26 12:27:15.118-03",
-        total: "$380,00"
-    },
-    {
-        id: 5,
-        user_id: "luladasilva",
-        status: "cancelado",
-        createdAt: "2021-01-26 21:27:15.118-03",
-        total: "$380,00"
-    }
-]
-
 const columns = [
-    { field: 'id', headerName: 'Pedido', flex: 0.5, renderCell: (params) => <Link href={`orders/${params.row.user_id}/${params.row.id}`}>#{params.row.id} {params.row.user_id}</Link>  },
+    { field: 'id', headerName: 'Pedido', flex: 0.5, renderCell: (params) => <Link href={`orders/${params.row.id}`}>#{params.row.id} {params.row.userId}</Link>  },
     { field: 'status', headerName: 'Estado', flex: 0.75 },
     {
       field: 'createdAt',
@@ -51,9 +28,9 @@ const columns = [
       type: 'dateTime',
       flex: 1,
     },
-    // { field: 'total', headerName: 'Total', flex: 0.75}
   ];
 
+  const orderListComponent = () => {
     return (
         <div style={{ height: 480, width: '90%', margin: 'auto' }}>
           <Typography>Order List</Typography>
@@ -66,7 +43,10 @@ const columns = [
             rows={orderList}
           />
         </div>
-      );
+    )
+  }
+
+    return userRole === 'admin' ? orderListComponent() : '404 NOT FOUND';
 }
 
 export default OrderList;

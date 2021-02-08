@@ -33,7 +33,7 @@ const CartTotal = () => {
         !userId && setTotal(products.reduce(
             (acc, el) => acc += (el.price - (el.price * (el.discount / 100))) * el.quantity,0
         ));
-    }, [products]);
+    }, [products, userId]);
 
     const handleCheckout = () => dispatch(goToCheckout(userId, products));
 

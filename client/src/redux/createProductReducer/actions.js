@@ -1,7 +1,6 @@
 import axios from "axios"
 import firebase, { storage } from '../../firebase';
 import { CREATE_PRODUCT, GET_CATEGORIES, config } from '../constants';
-const token = sessionStorage.getItem('token');
 
 const conectionRelation = (productId, categoryList, token) => {
     categoryList.forEach(category => {

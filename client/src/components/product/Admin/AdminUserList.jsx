@@ -5,7 +5,6 @@ import { DeleteForever} from '@material-ui/icons';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import {getUsers, deleteUsers, updateUserAdmin, updateUser} from '../../../redux/userListReducer/actions'
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import { useStylesUserList } from './styles/AdminUserList';
 import PersonIcon from '@material-ui/icons/Person';
@@ -29,7 +28,8 @@ function AdminUserList() {
     const styles = useStylesUserList();
     const [ rows, setRows ] = useState([]);
     const usuarios = useSelector(state=> state.userListReducer.users);
-    const token = sessionStorage.getItem('token')
+    const token = sessionStorage.getItem('token');
+    const userRole = sessionStorage.getItem('role');
 
     const [ page, setPage ] = useState(0);
     const [ rowsPerPage, setRowsPerPage ] = useState(10);
@@ -160,86 +160,89 @@ function AdminUserList() {
 
     useEffect(() => {
         dispatch(getUsers(token));
-    }, []);
+    }, [dispatch, token]);
 
     useEffect(() => {
         setRows(usuarios.map(row => { return {...row}}));
     }, [usuarios]);
 
-    return (
-        <Container>
-            <Typography variant='h3' align='center'>User List</Typography>
+    const userList = () => {
+        return (
             <Container>
-                <Grid container>
-                    <TableContainer>
-                        <Table stickyHeader aria-label="sticky table">
-                            <TableHead>
-                                <TableRow>
-                                    {columnUser.map((colum)=>(
-                                        <TableCell
-                                        key={colum.id}
-                                        align={colum.align}
-                                        style={{ minWidth: colum.minWidth, maxWidth: colum.maxWidth }}
-                                        >
-                                        {colum.label}
-                                        </TableCell>
-                                    ))}
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                { rows?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map
-                                (row =>{
-                                    return (
-                                        <TableRow hover role="checkbox" tabIndex={-1} key={`${row.code} ${row.id}`}>
-                                            {columnUser.slice(0).map((colum)=>{
-                                                const value = row[colum.id];
-                                                return (
-                                                    <TableCell key={`${colum.id} ${row.id}`} align={colum.align}>
-                                                        {colum.format                                                         
-                                                         ? `${value.slice(0, 15)}\n${value.slice(15, 30)}\n${value.slice(30, 45)}...`
-                                                         : value
-                                                        }
+                <Typography variant='h3' align='center'>User List</Typography>
+                <Container>
+                    <Grid container>
+                        <TableContainer>
+                            <Table stickyHeader aria-label="sticky table">
+                                <TableHead>
+                                    <TableRow>
+                                        {columnUser.map((colum)=>(
+                                            <TableCell
+                                            key={colum.id}
+                                            align={colum.align}
+                                            style={{ minWidth: colum.minWidth, maxWidth: colum.maxWidth }}
+                                            >
+                                            {colum.label}
+                                            </TableCell>
+                                        ))}
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    { rows?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map
+                                    (row =>{
+                                        return (
+                                            <TableRow hover role="checkbox" tabIndex={-1} key={`${row.code} ${row.id}`}>
+                                                {columnUser.slice(0).map((colum)=>{
+                                                    const value = row[colum.id];
+                                                    return (
+                                                        <TableCell key={`${colum.id} ${row.id}`} align={colum.align}>
+                                                            {colum.format                                                         
+                                                            ? `${value.slice(0, 15)}\n${value.slice(15, 30)}\n${value.slice(30, 45)}...`
+                                                            : value
+                                                            }
+                                                        </TableCell>
+                                                    );
+                                                })}
+                                                    <TableCell  >                                                    
+                                                        <IconButton color='primary' onClick={() => handleUpdateAdmin(row.id)}>
+                                                            < SupervisorAccountIcon />
+                                                        </IconButton>                                                    
                                                     </TableCell>
-                                                );
-                                            })}
-                                                <TableCell  >                                                    
-                                                    <IconButton color='primary' onClick={() => handleUpdateAdmin(row.id)}>
-                                                        < SupervisorAccountIcon />
-                                                    </IconButton>                                                    
-                                                </TableCell>
 
-                                                <TableCell  >                                                    
-                                                    <IconButton color='primary' onClick={() => handleUpdateUser(row.id)}>
-                                                        < PersonIcon />
-                                                    </IconButton>                                                    
-                                                </TableCell>
-                                                
-                                                <TableCell>
-                                                    <IconButton color='primary' onClick={() => handleDelete(row.id)} >
-                                                        <DeleteForever />
-                                                    </IconButton>
-                                                </TableCell>                                            
-                                        </TableRow>
-                                    )
-                                })
-                                }
-                            </TableBody>     
-                        </Table>
-                    </TableContainer>
-                    <TablePagination
-                        rowsPerPageOptions={[10, 25, 100]}
-                        component="div"
-                        count={rows.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        onChangePage={handleChangePage}
-                        onChangeRowsPerPage={handleChangeRowsPerPage}
-                    />
-                </Grid>
+                                                    <TableCell  >                                                    
+                                                        <IconButton color='primary' onClick={() => handleUpdateUser(row.id)}>
+                                                            < PersonIcon />
+                                                        </IconButton>                                                    
+                                                    </TableCell>
+                                                    
+                                                    <TableCell>
+                                                        <IconButton color='primary' onClick={() => handleDelete(row.id)} >
+                                                            <DeleteForever />
+                                                        </IconButton>
+                                                    </TableCell>                                            
+                                            </TableRow>
+                                        )
+                                    })
+                                    }
+                                </TableBody>     
+                            </Table>
+                        </TableContainer>
+                        <TablePagination
+                            rowsPerPageOptions={[10, 25, 100]}
+                            component="div"
+                            count={rows.length}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            onChangePage={handleChangePage}
+                            onChangeRowsPerPage={handleChangeRowsPerPage}
+                        />
+                    </Grid>
+                </Container>
             </Container>
+        )
+    };
 
-        </Container>
-    )
+    return userRole === 'admin' ? userList() : '404 NOT FOUND';
 }
 
 export default AdminUserList

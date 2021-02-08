@@ -14,7 +14,8 @@ const UserProfile = () => {
     const row = useSelector(state => state.userLoggedReducer.user[0])
     const token = sessionStorage.getItem("token")
     const userId = sessionStorage.getItem("id")
-    const classes = useStylesUserProfile()
+    const classes = useStylesUserProfile();
+    const userRole = sessionStorage.getItem('role');
 
     const handleSubmitPassword = (event)=>{
         event.preventDefault()
@@ -58,55 +59,59 @@ const UserProfile = () => {
 
     useEffect(()=>{
         dispatch(getUser(token))
-    },[])
+    },[dispatch, token]);
 
-    return(
-        <Container classNmae={classes.container}>
-            <Grid>
-            <Grid className={classes.nameContainer}>
-            <Avatar className={classes.large}>
-                <PersonIcon  className={classes.icon} fontSize="large"/>
-            </Avatar>
-            <Typography className={classes.name} variant="h4">{row?.first_name + " " + row?.last_name}</Typography>
-            </Grid>
-            <Grid className={classes.container}>
-            <Card className={classes.card}>
-                <CardContent>
-            <Grid>
-                <Grid className={classes.userInfo}>
-                <Typography variant="h5" className={classes.info}>User info:</Typography>
+    const profile = () => {
+        return (
+            <Container classNmae={classes.container}>
+                <Grid>
+                    <Grid className={classes.nameContainer}>
+                        <Avatar className={classes.large}>
+                            <PersonIcon  className={classes.icon} fontSize="large"/>
+                        </Avatar>
+                        <Typography className={classes.name} variant="h4">{row?.first_name + " " + row?.last_name}</Typography>
+                    </Grid>
+                    <Grid className={classes.container}>
+                        <Card className={classes.card}>
+                            <CardContent>
+                                <Grid>
+                                    <Grid className={classes.userInfo}>
+                                        <Typography variant="h5" className={classes.info}>User info:</Typography>
+                                    </Grid>
+                                    <Grid className={classes.userInfo}>
+                                        <Typography variant="h5" className={classes.info}>Email: {row?.email}</Typography>
+                                        <Button className={classes.editar} variant="outlined">editar</Button>
+                                    </Grid>
+                                    <Grid className={classes.userInfo}>
+                                        <Typography variant="h5" className={classes.info}>Phone Number: {row?.phone_number || "sin agregar"}</Typography>
+                                        <Button className={classes.editar} variant="outlined">editar</Button>
+                                    </Grid>
+                                    <Grid className={classes.userInfo}>
+                                        <Typography variant="h5" className={classes.info}>shipping Adress: {row?.shipping_adress || "sin agregar"}</Typography>
+                                        <Button className={classes.editar} variant="outlined">editar</Button>
+                                    </Grid>
+                                    <Grid className={classes.userInfo}>
+                                        <Typography variant="h5" className={classes.info}>Billing Adress: {row?.billing_adress || "sin agregar"}</Typography>
+                                        <Button className={classes.editar} variant="outlined">editar</Button>
+                                    </Grid>
+                                </Grid>
+                                <Typography className={classes.info} variant="h6">
+                                    <Link to="#" onClick={()=>setChangePassword(true)}>quiero cambiar mi contraseña</Link>
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                        <Card className={classes.cardEdit}>
+                            <CardContent>
+                                {changePassword&&ChangePasswordForm()}
+                            </CardContent>
+                        </Card>
+                    </Grid>
                 </Grid>
-                <Grid className={classes.userInfo}>
-                <Typography variant="h5" className={classes.info}>Email: {row?.email}</Typography>
-                <Button className={classes.editar} variant="outlined">editar</Button>
-                </Grid>
-                <Grid className={classes.userInfo}>
-                <Typography variant="h5" className={classes.info}>Phone Number: {row?.phone_number || "sin agregar"}</Typography>
-                <Button className={classes.editar} variant="outlined">editar</Button>
-                </Grid>
-                <Grid className={classes.userInfo}>
-                <Typography variant="h5" className={classes.info}>shipping Adress: {row?.shipping_adress || "sin agregar"}</Typography>
-                <Button className={classes.editar} variant="outlined">editar</Button>
-                </Grid>
-                <Grid className={classes.userInfo}>
-                <Typography variant="h5" className={classes.info}>Billing Adress: {row?.billing_adress || "sin agregar"}</Typography>
-                <Button className={classes.editar} variant="outlined">editar</Button>
-                </Grid>
-            </Grid>
-            <Typography className={classes.info} variant="h6">
-            <Link to="#" onClick={()=>setChangePassword(true)}>quiero cambiar mi contraseña</Link>
-            </Typography>
-            </CardContent>
-            </Card>
-                <Card className={classes.cardEdit}>
-                    <CardContent>
-                        {changePassword&&ChangePasswordForm()}
-                    </CardContent>
-                </Card>
-            </Grid>
-            </Grid>
-        </Container>
-    )
+            </Container>
+        )
+    }
+
+    return userRole === 'user' ? profile() : '404 NOT FOUND';
 }
 
 export default UserProfile;

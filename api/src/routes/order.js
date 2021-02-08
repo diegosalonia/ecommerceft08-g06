@@ -15,7 +15,9 @@ server.get('/', (req, res) => {
         .catch(err => console.log(err));
     } else {
         Order.findAll()
-        .then(orders => res.send(orders))
+        .then(orders => {
+            res.send(orders);
+        })
         .catch(err => console.log(err));
     }
 });
@@ -34,8 +36,20 @@ server.post('/', async (req, res) => {
 
 server.get('/:id', (req, res) => {
     const { params: { id }} = req;
-    Order.findByPk(id)
-    .then(order => res.send(order))
+    Order.findOne({
+        where: {
+            id: id
+        },
+        include: [
+            {
+                model: Product
+            }
+        ]
+    })
+    .then(order => {
+        console.log("ORDER IN BACK: ", order);
+        res.send(order);
+    })
     .catch(err => console.log(err));
 });
 
@@ -46,5 +60,12 @@ server.put('/:id', async (req, res) => {
     .then(order => res.send(order))
     .catch(err => console.log(err));
 });
+
+server.delete('/:id', async (req, res) => {
+    const order = await Order.findByPk(req.params.id);
+    order.destroy()
+    .then(order => res.send(order))
+    .catch(err => res.status(401).send(err));
+})
 
 module.exports = server;

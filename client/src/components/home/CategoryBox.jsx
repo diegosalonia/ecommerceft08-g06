@@ -1,5 +1,5 @@
 import React from 'react';
-import {Typography, Box,  Card, CardContent, CardActionArea, CardActions, CardMedia,} from '@material-ui/core';
+import {Typography, Box,  Card, CardContent, CardActionArea} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import {useHistory} from 'react-router-dom';
 
@@ -7,7 +7,7 @@ import {useHistory} from 'react-router-dom';
 
 const CategoryBox = (props) => {
 
-    const {name, image, id, description} = props.category;
+    const {name, image, id} = props.category;
     const history = useHistory();
 
     const useStyles = makeStyles((theme) => ({
@@ -37,8 +37,7 @@ const CategoryBox = (props) => {
     return (
         <Card className={classes.card}>
             <CardActionArea className={classes.imgHolder} onClick={() => {history.push(`/products/?catId=${id}`)}}>
-                <img src={image} className={classes.media}/>
-         
+                <img src={image} alt={name} className={classes.media}/>
             <CardContent className={classes.center}>
                 <Typography gutterBottom variant="h6" color="primary" justify="center" className={classes.title}>
                 <Box>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Container, Typography, CircularProgress, Button, Link } from '@material-ui/core';
+import { Container, Typography, CircularProgress, Button } from '@material-ui/core';
 import { getProductsInCart, deleteAllCart } from '../../redux/cartReducer/actions';
 import { useStylesCart } from './styles';
 import  FadeIn  from 'react-fade-in';
@@ -16,7 +16,7 @@ const Cart = () => {
 
     useEffect(() => {
         userId && dispatch(getProductsInCart(userId));
-    }, [dispatch]);
+    }, [dispatch, userId]);
 
     useEffect(() => {
        setTimeout(() => setLoading(false), 1000);
