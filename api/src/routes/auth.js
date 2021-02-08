@@ -9,7 +9,6 @@ server.post('/login', (req, res, next) => {
   passport.authenticate('local', {session: false}, (err, user) => {
          
         if(user) {
-            console.log('AQUI EL USUARIO: ', user)
             const token = jwt.sign({user}, "secret");
             return res.status(200).json({ user, token })
         }

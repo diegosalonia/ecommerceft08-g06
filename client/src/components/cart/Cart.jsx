@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Container, Typography, CircularProgress, Button, Link } from '@material-ui/core';
 import { getProductsInCart, deleteAllCart } from '../../redux/cartReducer/actions';
 import { useStylesCart } from './styles';
-import { FadeIn } from 'react-fade-in';
+import  FadeIn  from 'react-fade-in';
 import CartItem from './CartItem';
 import CartTotal from './CartTotal';
 
@@ -18,7 +18,7 @@ const Cart = () => {
     }, []);
 
     useEffect(() => {
-        setTimeout(() => setLoading(false), 1000);
+       setTimeout(() => setLoading(false), 1000);
     }, [products]);
 
     const handleDeleteCart = () => {
