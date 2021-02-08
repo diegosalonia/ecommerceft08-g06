@@ -1,69 +1,95 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProduct, showLoader, hideLoader, addToCart } from '../../redux/productReducer/actions';
+import { getProduct, addToCart, getReviews, 
+         editReviewAction, addNewReview } from '../../redux/productReducer/actions';
 
-import { Button, Container, Typography, CircularProgress } from '@material-ui/core';
+import { Button, Container, Typography, CircularProgress, Link, TextField } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { useStylesProduct } from './styles';
+import ImagesGalery from './ImagesGalery';
+import ReviewContainer from '../Review/ReviewContainer';
 
 function Product(props) {
     const dispatch = useDispatch();
     const styles = useStylesProduct();
     const { match: { params: { id }}} = props;
-    const isLoading = useSelector(state => state.productReducer.isLoading);
+    const userId = JSON.parse(localStorage.getItem('id'));
+    const reviews = useSelector(state => state.productReducer.reviews);
     const product = useSelector(state => state.productReducer.product);
     const isInCart = useSelector(state => state.productReducer.isInCart);
+    const [ isLoading, setIsLoading ] = useState(true);
     const [ quantity, setQuantity ] = useState(1);
-    const [ biggerImage, setBiggerImage ] = useState();
+    const [ editReview, setEditReview ] = useState(false);
+    const [ review, setReview ] = useState({rating: null, comment: ''});
+    const [ addReview, setAddReview ] = useState(false);
+    const descriptionRef = useRef(null);
+    const reviewRef = useRef(null);
+    const setReviewRef = useRef(null);
 
     useEffect(() => {
-        dispatch(showLoader());
-        dispatch(getProduct(1, id)); // userId hard-coded
-    }, []);
+        dispatch(getReviews(id));
+        dispatch(getProduct(userId, id));
+    }, [dispatch, id, userId]);
 
     useEffect(() => {
-        dispatch(hideLoader());
         product.quantity && setQuantity(product.quantity);
+        product.noReviewed && setAddReview(true);
+        product.toEditReview && setEditReview(true);
     }, [product]);
 
-    useEffect(() => {
-        isInCart && alert("Product in cart, thanks!");
-    }, [isInCart])
-    
-    const handleAddToCart = () => {
-        dispatch(addToCart(product.userId, id, quantity));
-    };
+    useEffect(() => {}, [isInCart])
 
-    const handleIncreaseQuantity = () => {
-        quantity < product.stock && setQuantity(quantity + 1);
+    useEffect(() => {
+        setTimeout(() => setIsLoading(false), 1000);
+        reviews.forEach(review => {
+            if (review.user.id === userId) {
+                setEditReview(true);
+                setReview(review);
+            };
+        });
+    }, [reviews, userId]);
+    
+    const handleChangeQuantity = e => {
+        if (quantity >= 1 && quantity <= product.stock && e.target.value >= 1 && e.target.value <= product.stock) {
+            setQuantity(e.target.value);
+        };
     };
     
-    const handleDecreaseQuantity = () => {
-        quantity > 1 && setQuantity(quantity - 1);
-    };
+    const handleAddToCart = () => dispatch(addToCart(userId, Number(id), Number(quantity), product));
+
+    const handleReview = e => setReview({...review, [e.target.name]: e.target.value});
+
+    const handleAddReview = e => dispatch(addNewReview(review, id, userId));
+
+    const handleEditReview = () => dispatch(editReviewAction(review, review.id, id));
+
+    const goToDescription = () => window.scrollTo({top: descriptionRef.current.offsetTop, behavior: 'smooth'});
+
+    const goToReviews = () => window.scrollTo({top: reviewRef.current.offsetTop, behavior: 'smooth'});
+
+    const goToSetReview = () => window.scrollTo({top: setReviewRef.current.offsetTop, behavior: 'smooth'});
 
     const productLoaded = () => {
         return (
             <Container>
                 <Container className={styles.container} >
-                    <Container className={styles.imagesContainer} >
-                        <Container>
-                            {biggerImage}
-                        </Container>
-                        <Container>
-                            { product.image?.map(image => {
-                                console.log("IMAGE: ", image);
-                                return (
-                                    <Container >
-                                        <img key={image} src={ image } alt={ product.name } className={styles.image} />
-                                    </Container>
-                                )
-                            })}
-                        </Container>
-                    </Container>
+                    <ImagesGalery images={product.image} />
                     <Container className={styles.detailContainer} >
                         <Typography color='primary' variant='h4' align='center' >{ product.name }</Typography>
+                        <Container className={styles.ratingContainer} >
+                            <Rating
+                                name='product-rating'
+                                precision={0.1}
+                                size='small'
+                                defaultValue={reviews.length ? reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length : 3}
+                                readOnly
+                            />
+                            <Link onClick={goToReviews} className={styles.reviewTotal} >{`${reviews.length} opiniones`}</Link>
+                            {
+                                (editReview || addReview) && <Button className={styles.goToSetReview} onClick={goToSetReview}>Rate product</Button>
+                            }
+                        </Container>
                         <Container className={styles.categories} >
                             { product.categories?.slice(0, 3).map(category => <Typography key={category} className={styles.category} >{ category }</Typography>) }
                         </Container>
@@ -74,29 +100,50 @@ function Product(props) {
                                         </Container> 
                                         :<Typography variant='h3' color='primary' >${ product.price }</Typography>
                         }
-                        <Container>
-                            
+                        <Container className={styles.descriptionContainer} >
+                            { product.description?.length > 60 ? (<Typography>
+                                                                    {`${product.description.slice(0, 150)}...`}<Link className={styles.verMas} onClick={goToDescription} >More details</Link>
+                                                                </Typography>)
+                              : <Typography>{product.description}</Typography>
+                            }
                         </Container>
-                        <Container className={styles.rating} >
-                            <Rating
-                                name="product-rating"
-                                defaultValue={3}
-                                disabled
+                        <Container className={styles.quantityContainer} >
+                            <TextField
+                                className={styles.quantity}
+                                type='number'
+                                min={1}
+                                max={product.stock}
+                                value={quantity}
+                                onChange={handleChangeQuantity}
                             />
-                            <Typography className={styles.ratingReviews} >(0) Reviews</Typography>
-                        </Container>
-                        <Typography className={styles.stock} >Stock: { product.stock }</Typography>
-                        <Container>
-                            <Button disabled={quantity === 1 ? true : false} onClick={handleDecreaseQuantity} >-</Button>
-                            <Typography>{ quantity }</Typography>
-                            <Button disabled={quantity === product.stock ? true : false} onClick={handleIncreaseQuantity} >+</Button>
+                            <Typography className={styles.stock} >{`(${product.stock} en stock)`}</Typography>
                         </Container>
                         <Button className={styles.addToCart} onClick={() => handleAddToCart()} ><ShoppingCartIcon /><Typography className={styles.textCart} >ADD TO CART</Typography></Button>
                     </Container>
                 </Container>
-                <Container className={styles.description} >
-                    <Typography variant='h4' >Description</Typography>
+                <Container ref={descriptionRef} className={styles.description} >
+                    <Typography variant="h4" className={styles.descriptionTitle} >DESCRIPTION</Typography>
                     <Typography variant='body' >{ product.description }</Typography>
+                </Container>
+                <Container ref={reviewRef} className={styles.reviews} >
+                    <ReviewContainer productId={id} />
+                    {(editReview || addReview) && <Container ref={setReviewRef} className={styles.addRating} >
+                        <Typography className={styles.addRatingTitle} align='center' variant='h4' color='primary' >{editReview ? 'EDIT REVIEW' : 'ADD REVIEW'}</Typography>
+                        <Rating 
+                            name='rating'
+                            precision={0.1}
+                            value={review.rating}
+                            onChange={handleReview}
+                            size='large'
+                        />
+                        <TextField
+                            multiline
+                            name='comment'
+                            value={review.comment}
+                            onChange={handleReview}
+                        />
+                        <Button className={styles.ratingButton} onClick={editReview ? handleEditReview : handleAddReview} >{editReview ? 'Edit review' : 'Add review'}</Button>
+                    </Container>}
                 </Container>
             </Container>
         );

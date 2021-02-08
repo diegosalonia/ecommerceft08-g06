@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles, Container, Typography, Grid, Card, CardMedia, CardContent, Link, } from '@material-ui/core';
+import { Container, Typography, Grid, Card, CardMedia, CardContent, Link, } from '@material-ui/core';
 import { useStylesUserDashboard } from './styles';
 import orderImage from '../../resources/orders.jpg';
 import reviewImage from '../../resources/reviews.jpg';
@@ -41,7 +41,7 @@ const UserDashboard = () => {
                     </Link>
                 </Grid>
                 <Grid item lg={4} className={styles.card} >
-                    <Link to='/user/profile/' className={styles.link} >
+                    <Link to='/user/profile' className={styles.link} >
                         <Card className={styles.cardShadow} >
                             <CardMedia
                                 className={styles.images}
