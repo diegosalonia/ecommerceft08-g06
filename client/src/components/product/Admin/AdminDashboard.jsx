@@ -77,6 +77,24 @@ function AdminDashboard() {
                 </Grid>
                 <Grid item lg={2} />
             </Grid>
+            <Grid container spacing={4} className={styles.gridContainer} >
+                <Grid item lg={2} />
+                <Grid item lg={4} className={styles.card} >
+                    <Link to='/admin/users' className={styles.link} >
+                        <Card className={styles.cardShadow} >
+                            <CardMedia
+                                className={styles.images}
+                                //image={addCategory}
+                            />
+                            <CardContent>
+                                <Typography variant='h5' align='center' >User List</Typography>
+                                <Typography align='center' >Here you can watch thes users. Name, description, etc</Typography>
+                            </CardContent>
+                        </Card>
+                    </Link>
+                </Grid>
+                <Grid item lg={2} />
+            </Grid>
         </Container>
     );
 };

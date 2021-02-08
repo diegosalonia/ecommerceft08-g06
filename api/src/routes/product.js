@@ -2,8 +2,9 @@ const server = require('express').Router();
 const { response } = require('express');
 const { Sequelize } = require('sequelize');
 const { Product, Category, Order, Review, User} = require('../db.js');
+const passport = require('passport')
 
-server.get('/', (req, res, next) => {
+server.get('/',  (req, res, next) => {
 	Product.findAll({
 		include: [{model: Category}]
 	})
@@ -89,7 +90,8 @@ server.get('/category/:name', async (req,res,next)=>{
 	})
 });
 
-server.delete('/:id',  async (req, res) => {
+server.delete('/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
+	if(req.user.user_role === 'admin') {
 	const product = await Product.findByPk(req.params.id)
 	await product.destroy()
 	.then(() => {
@@ -97,18 +99,20 @@ server.delete('/:id',  async (req, res) => {
 	})
 	.catch(error => {
 		res.send(error)
-	})
+	})} else
+    {res.status(401).send({message: 'not authorized'})}
 });
 
-server.post('/', (req, res) =>{
-
+server.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>{
+	if(req.user.user_role === 'admin') {
     Product.create(req.body.form)
     .then(product => {
         res.status(201).send(product)
     })
     .catch(error =>{
         res.status(400).send(error)
-    })
+	})} else
+    {res.status(401).send({message: 'not authorized'})}
 });
 
 server.get('/search', (req, res) =>{
@@ -130,7 +134,6 @@ server.get('/search', (req, res) =>{
 server.put('/:id', async (req, res) =>{
 	const product = await Product.findByPk(req.params.id)
 	Object.assign(product, req.body.form)
-
 	product.save()
 	 .then(response =>{
 		 res.status(200).send(response)
@@ -140,7 +143,8 @@ server.put('/:id', async (req, res) =>{
 	 })
 });
 
-server.post('/:productId/category/:categoryId', async (req, res) =>{
+server.post('/:productId/category/:categoryId', passport.authenticate('jwt', { session: false }), async (req, res) =>{
+	if(req.user.user_role === 'admin') {
 	const category =  await Category.findByPk(req.params.categoryId)
 	const product = await Product.findByPk(req.params.productId)
 
@@ -153,7 +157,8 @@ server.post('/:productId/category/:categoryId', async (req, res) =>{
 	})
 	.catch(error =>{
 		res.send(error)
-	})
+	})} else
+    {res.status(401).send({message: 'not authorized'})}
 });
 
 server.get('/product-detail/:productId/:userId', async (req, res) => {
@@ -264,7 +269,8 @@ server.get('/catalog/', (req, res) => {
 });
 	 
 
-server.delete('/:productId/category/:categoryId', async (req, res) =>{
+server.delete('/:productId/category/:categoryId', passport.authenticate('jwt', { session: false }), async (req, res) =>{
+	if(req.user.user_role === 'admin') {
 	const category =  await Category.findByPk(req.params.categoryId)
 	const product = await Product.findByPk(req.params.productId)
 
@@ -277,7 +283,8 @@ server.delete('/:productId/category/:categoryId', async (req, res) =>{
 	})
 	.catch(error =>{
 		res.send(error)
-	})
+	})} else
+    {res.status(401).send({message: 'not authorized'})}
 });
 
 server.get('/:id', (req, res) => {
