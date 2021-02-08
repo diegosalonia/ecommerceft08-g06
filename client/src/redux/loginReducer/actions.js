@@ -3,7 +3,6 @@ import axios from 'axios';
 
 
 export const login = (user) => (dispatch) => {
-    console.log('aqui user',user)
     
     sessionStorage.setItem('token', user.token)
     sessionStorage.setItem('role', user.user.user_role);
@@ -14,8 +13,6 @@ export const login = (user) => (dispatch) => {
 }
 
 export const logout = (token) => dispatch =>{
-    
-
     const config = {
         headers: { Authorization: `Bearer ${token}` }
       };

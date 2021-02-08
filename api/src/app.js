@@ -10,6 +10,8 @@ const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 const LocalStrategy = require('passport-local').Strategy;
 
+
+
 const {User} = require('./db.js');
 
 const server = express();
