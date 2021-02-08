@@ -1,14 +1,16 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Card, CardContent, CardActionArea, CardActions, CardMedia, Typography, Button, Box } from '@material-ui/core';
 import {useHistory} from 'react-router-dom';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { makeStyles } from '@material-ui/core/styles';
-
+import { addToCart } from '../../redux/productReducer/actions';
 
 function ProductCard(props) {
-
+    const dispatch = useDispatch();
     const {id, name, description, image, discount, price, stock} = props.productProps;
     const history = useHistory();
+    const userId = JSON.parse(localStorage.getItem('id'));
 
     const useStyles = makeStyles((theme) => ({
       root: {
@@ -53,9 +55,9 @@ function ProductCard(props) {
             )
       }
     }
-    if(stock > 0){
 
-    }
+    const handleAddToCart = () => dispatch(addToCart(userId, Number(id), 1, props.productProps));
+
     return (
         <Card className={classes.root}>
         <CardActionArea onClick={() => {history.push(`/products/${id}`)}}>
@@ -78,7 +80,7 @@ function ProductCard(props) {
         <CardActions>
           <Box className={classes.boxRow}>
             <SmartPrice />
-            <Button size="small" color="primary">
+            <Button size="small" color="primary" onClick={handleAddToCart} >
               <ShoppingCartIcon />
             </Button>
           </Box>

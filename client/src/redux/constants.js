@@ -37,6 +37,7 @@ export const DELETE_PRODUCT_FROM_CART = 'DELETE_PRODUCT_FROM_CART';
 export const DELETE_ALL_CART = 'DELETE_ALL_CART';
 export const GO_TO_CHECKOUT = 'GO_TO_CHECKOUT';
 export const CHANGE_ORDER_STATUS = 'CHANGE_ORDER_STATUS';
+export const CHANGE_PRODUCT_QUANTITY_NO_USER = 'CHANGE_PRODUCT_QUANTITY_NO_USER';
 /* end cartReducer */
 
 /* Catalog - Pagination */
@@ -54,6 +55,7 @@ export const GET_REVIEWS = "getReviews";
 /*start loginReducer*/
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
+export const ADD_NEW_ADDRESS = 'ADD_NEW_ADDRESS';
 /* end loginReducer*/
 
 /* searchBar constants */

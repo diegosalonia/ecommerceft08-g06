@@ -62,6 +62,17 @@ server.post('/', async (req, res) => {
   res.status(200).json({token})
 });
 
+server.put('/:userId/shipping-address', async (req, res) => {
+    const { userId } = req.params;
+    const { shippingAddress } = req.body;
+    const user = await User.findByPk(userId);
+    user.shipping_address = shippingAddress;
+
+    user.save()
+    .then(response => res.send(response))
+    .catch(err => res.status(401).send(err));
+});
+
 server.post('/sendMail', (req, res) => {
     const msg = {
         to: req.body.email, // Change to your recipient

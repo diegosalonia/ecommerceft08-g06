@@ -5,7 +5,7 @@ import SignInFormik from './SignInFormik';
 import PersonIcon from '@material-ui/icons/Person';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
-import { Button } from '@material-ui/core';
+import { Button, Container } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -28,15 +28,19 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-      },    
-      LinkHome:{
-        color: "#fff",
-        textTransform: "none",
-        underline: "none"
+    },
+    signIn: {
+        backgroundColor: theme.palette.primary.main,
+        color: theme.palette.secondary.main
+    },
+    LinkHome:{
+    color: "#fff",
+    textTransform: "none",
+    underline: "none"
     }
   }));
 
-export default function LoginModal (props){
+export default function LoginModal ({ inCart }){
       const classes = useStyles();
       const [open, setOpen] = useState(false);
 
@@ -50,13 +54,13 @@ export default function LoginModal (props){
  
       return (
         <>  
-            
-            <div underline="none" onClick={handleOpen} className={classes.toolbarOptions}>
-                <PersonIcon underline="none"/>
-                
-                <Button underline="none" className={classes.LinkHome}>LogIn</Button>
-            </div>
-            
+            { !inCart ?
+                <div onClick={handleOpen} className={classes.toolbarOptions}>
+                    <PersonIcon/>
+                    LogIn
+                </div>
+                      : <Button onClick={handleOpen} className={classes.signIn} >Sign in</Button>
+            }
             <Modal
                 className={classes.modal}
                 open={open}

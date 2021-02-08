@@ -12,18 +12,17 @@ const Cart = () => {
     const dispatch = useDispatch();
     const products = useSelector(state => state.cartReducer.productsInCart);
     const [ loading, setLoading ] = useState(true);
+    const userId = JSON.parse(localStorage.getItem('id'));
 
     useEffect(() => {
-        dispatch(getProductsInCart(1)); // userId hard-coded
-    }, []);
+        userId && dispatch(getProductsInCart(userId));
+    }, [dispatch]);
 
     useEffect(() => {
        setTimeout(() => setLoading(false), 1000);
     }, [products]);
 
-    const handleDeleteCart = () => {
-        dispatch(deleteAllCart(1)); // userId hard-coded
-    }
+    const handleDeleteCart = () => dispatch(deleteAllCart(userId));
 
     const cart = () => {
         return (
@@ -32,12 +31,12 @@ const Cart = () => {
                     <Container className={styles.cartItemsContainer} >
                         { products?.map(product => <CartItem key={product.id} product={product} />) }
                     </Container>
-                    <Container>
+                    <Container className={styles.totalContainer} >
                         <CartTotal products={products} />
                     </Container>
                 </Container>
-                <Container>
-                    <Button onClick={handleDeleteCart} >
+                <Container className={styles.deleteAllCart} >
+                    <Button onClick={handleDeleteCart} className={styles.deleteAllCartButton} >
                         Remove All Cart
                     </Button>
                 </Container>
