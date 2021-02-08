@@ -9641,7 +9641,7 @@
     "strip-ansi" "6.0.0"
     "text-table" "0.2.0"
 
-"react-dom@^16.13.1":
+"react-dom@^16.13.1", "react-dom@^16.8.0":
   "integrity" "sha512-81PIMmVLnCNLO/fFOQxdQkvEq/+Hfpv24XNJfpyZhTRfO0QcmQIF/PgCa1zCOj2w1hrn12MFLyaJ/G0+Mxtfag=="
   "resolved" "https://registry.npmjs.org/react-dom/-/react-dom-16.13.1.tgz"
   "version" "16.13.1"
@@ -9724,6 +9724,11 @@
     "loose-envify" "^1.4.0"
     "prop-types" "^15.7.2"
     "react-is" "^16.13.1"
+
+"react-responsive-masonry@^2.1.1":
+  "integrity" "sha512-ec39c5Ot/p8tcjOIBn6pORybHD3870hXZ332Xk1dK5Ky+lNAj7S8giRWSDr5PLaCKQvaf+4Xje3hIQH3D0By1Q=="
+  "resolved" "https://registry.npmjs.org/react-responsive-masonry/-/react-responsive-masonry-2.1.1.tgz"
+  "version" "2.1.1"
 
 "react-router-dom@^5.2.0":
   "integrity" "sha512-gxAmfylo2QUjcwxI63RhQ5G85Qqt4voZpUXSEqCwykV0baaOTQDR1f0PmY8AELqIyVc0NEZUj0Gov5lNGcXgsA=="
@@ -9825,7 +9830,7 @@
     "loose-envify" "^1.4.0"
     "prop-types" "^15.6.2"
 
-"react@^16.13.1":
+"react@^16.13.1", "react@^16.8.0":
   "integrity" "sha512-YMZQQq32xHLX0bz5Mnibv1/LHb3Sqzngu7xstSM+vrkE5Kzr9xE0yMByK5kMoTK30YVJE61WfbxIFFvfeDKT1w=="
   "resolved" "https://registry.npmjs.org/react/-/react-16.13.1.tgz"
   "version" "16.13.1"

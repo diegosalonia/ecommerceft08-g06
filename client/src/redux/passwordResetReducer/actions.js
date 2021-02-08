@@ -1,4 +1,4 @@
-import { RESET_PASSWORD, SEND_EMAIL } from '../constants';
+import { RESET_PASSWORD, SEND_EMAIL, CHANGE_PASSWORD } from '../constants';
 import axios from 'axios'
 
 export const sendEmail = (email) => dispatch =>{
@@ -27,4 +27,21 @@ export const resetPassword = (email, newPassword) => dispatch => {
     .catch(error => {
         console.log(error)
     })
+}
+
+export const changePasswordAction = (token, userId, newPassword) => dispatch => {
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+      };
+      const url = `http://localhost:3000/users/${userId}/passwordChange`  
+      axios.put(url, {newPassword}, config)
+      .then(response => {
+          console.log(response)
+          dispatch({
+              type: CHANGE_PASSWORD
+          })
+      })
+      .then(error =>{
+          console.log(error)
+      })
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import {Button, Avatar, Link, TextField, Typography} from '@material-ui/core';
+import {Button, Avatar, Link, TextField, Typography, Grid} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import {useStyles , validationSchema} from './styles'
 import {useDispatch} from 'react-redux'
@@ -79,9 +79,18 @@ const WithMaterialUI = ({onClose}) => {
         </Button>
       </form>
       <div className={classes.signUp}>
-        <Link variant="body2" to="/createcustomer" href="/user/sign-up">
-          {"Don't have an account? Sign Up"}
-        </Link>
+         <Grid container>
+            <Grid item xs className={classes.link}>
+              <Link href="/password-reset" variant="body2">
+                Forgot password?
+              </Link>
+            </Grid>
+            <Grid item>
+              <Link href="/user/sign-up" variant="body2">
+                Don't have an account? Sign Up
+              </Link>
+            </Grid>
+          </Grid>
       </div>
     </div>
   );

@@ -59,3 +59,7 @@ export const GET_PRODUCTS_BY_KEYWORD = "GET_PRODUCTS_BY_KEYWORD"
 /*password reset constants*/
 export const SEND_EMAIL = "SEND_EMAIL"
 export const RESET_PASSWORD = "RESET_PASSWORD"
+export const CHANGE_PASSWORD = "CHANGE_PASSWORD"
+
+/* user constants */
+export const GET_USER = "GET_USER"

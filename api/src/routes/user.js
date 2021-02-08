@@ -101,7 +101,7 @@ server.put('/:id/passwordChange', passport.authenticate('jwt', { session: false 
         res.send(response)
     })
     .catch(error => {
-        res.send(error)
+        res.send(error.message)
     })
 })
 server.put('/update/passwordReset', async (req, res) => {

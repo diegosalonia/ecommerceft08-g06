@@ -9,9 +9,9 @@ const PasswordReset = () => {
     const dispatch = useDispatch();
     const verifyCode = useSelector(state => state.passwordResetReducer.verifyCode)
     const [state, setState] = useState("")
-    const [email, setEmail] = useState()
-    const [code, setCode] = useState()
-    const [newPassword, setNewPassword] = useState()
+    const [email, setEmail] = useState("")
+    const [code, setCode] = useState("")
+    const [newPassword, setNewPassword] = useState("")
 
     const UseStylesResetPassword = makeStyles(theme => ({
         container:{
@@ -23,23 +23,21 @@ const PasswordReset = () => {
     const classes = UseStylesResetPassword()
 
     const handleChange = (event) => {
-        event.preventDefault()
         setEmail(event.target.value)
     }
 
     const handleChangeCode = (event) => {
-        event.preventDefault()
         setCode(event.target.value)
     }
 
     const handleChangePassword = (event) => {
-        event.preventDefault()
         setNewPassword(event.target.value)
     }
 
     const handleSubmit = (event) =>{
         event.preventDefault()
         console.log(email)
+        console.log("este es",code)
         dispatch(sendEmail(email))
     }
     const handleSubmitCode = (event) =>{
@@ -61,18 +59,16 @@ const PasswordReset = () => {
         setState("succesfull")
     }
 
-    useEffect(()=>{
+    useEffect(()=> {
         console.log(verifyCode)
     },[state,verifyCode])
 
     const InsertEmail = () => {
         return(
             <Container className={classes.container}>
-            <form onSubmit={handleSubmit} className={classes.container}>
-             <CssBaseline/>
                 <Typography variant="h5">Inserte su email:</Typography>
-                <Grid>
                 <TextField
+                   autoComplete
                    variant="outlined"
                    id="email"
                    name="email"
@@ -80,24 +76,20 @@ const PasswordReset = () => {
                    onChange={handleChange}
                    value={email}
                  />
-                 </Grid>
                  <Button
                     type="submit"
                     variant="contained"
-                    color="primary">
+                    color="primary"
+                    onClick={handleSubmit}>
                      enviar
                  </Button>
-            </form>
         </Container>
         )
     }
     const InsertCode = () => {
         return(
             <Container className={classes.container}>
-            <form onSubmit={handleSubmitCode} className={classes.container}>
-             <CssBaseline/>
                 <Typography variant="h5">Inserte su codigo de verificacion:</Typography>
-                <Grid>
                 <TextField
                    variant="outlined"
                    id="verifyCode"
@@ -106,14 +98,13 @@ const PasswordReset = () => {
                    onChange={handleChangeCode}
                    value={code}
                  />
-                 </Grid>
                  <Button
                     type="submit"
                     variant="contained"
-                    color="primary">
+                    color="primary"
+                    onClick={handleSubmitCode}>
                      enviar
                  </Button>
-            </form>
         </Container>
         )
     }
@@ -121,10 +112,7 @@ const PasswordReset = () => {
     const InsertPassword = () => {
         return(
             <Container className={classes.container}>
-            <form onSubmit={handleSubmitPassword} className={classes.container}>
-             <CssBaseline/>
                 <Typography variant="h5">Inserte su nueva contraseña</Typography>
-                <Grid>
                 <TextField
                    variant="outlined"
                    id="password"
@@ -133,21 +121,20 @@ const PasswordReset = () => {
                    onChange={handleChangePassword}
                    value={newPassword}
                  />
-                 </Grid>
                  <Button
                     type="submit"
                     variant="contained"
-                    color="primary">
+                    color="primary"
+                    onClick={handleSubmitPassword}>
                      enviar
                  </Button>
-            </form>
         </Container>
         )
     }
 
     return(
         <div>
-        {state==="password"?<InsertPassword/>:!verifyCode?<InsertEmail/>:<InsertCode/>}
+        {state==="password"?InsertPassword():!verifyCode?InsertEmail():InsertCode()}
         {state==="succesfull"&&<Redirect to="/"/>}
         </div>
     )
