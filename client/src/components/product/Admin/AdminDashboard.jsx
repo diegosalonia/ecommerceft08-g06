@@ -9,76 +9,99 @@ import orderImage from '../../../resources/orderList.jpg';
 
 function AdminDashboard() {
     const styles = useStylesDashboard();
+    const userRole = sessionStorage.getItem('role');
 
-    return (
-        <Container className={styles.container} >
-            <Typography variant='h4' align='center' >Admin Dashboard</Typography>
-            <Grid container spacing={4} className={styles.gridContainer} >
-                <Grid item lg={2} />
-                <Grid item lg={4} className={styles.card} >
-                    <Link to='/admin/products' className={styles.link} >
-                        <Card className={styles.cardShadow} >
-                            <CardMedia
-                                className={styles.images}
-                                image={productListImage}
-                            />
-                            <CardContent>
-                                <Typography variant='h5' align='center' >Product List</Typography>
-                                <Typography align='center' >Get acces to product list. Edit and delete your products!</Typography>
-                            </CardContent>
-                        </Card>
-                    </Link>
+    const dashboard = () => {
+        return (
+            <Container className={styles.container} >
+                <Typography variant='h4' align='center' >Admin Dashboard</Typography>
+                <Grid container spacing={4} className={styles.gridContainer} >
+                    <Grid item lg={2} />
+                    <Grid item lg={4} className={styles.card} >
+                        <Link to='/admin/products' className={styles.link} >
+                            <Card className={styles.cardShadow} >
+                                <CardMedia
+                                    className={styles.images}
+                                    image={productListImage}
+                                />
+                                <CardContent>
+                                    <Typography variant='h5' align='center' >Product List</Typography>
+                                    <Typography align='center' >Get acces to product list. Edit and delete your products!</Typography>
+                                </CardContent>
+                            </Card>
+                        </Link>
+                    </Grid>
+                    <Grid item lg={4} className={styles.card} >
+                        <Link to='/admin/products/create-product' className={styles.link} >
+                            <Card className={styles.cardShadow} >
+                                <CardMedia
+                                    className={styles.images}
+                                    image={addProduct}
+                                />
+                                <CardContent>
+                                    <Typography variant='h5' align='center' >Add product</Typography>
+                                    <Typography align='center' >Here you can add your new products. Name, price, stock and more!</Typography>
+                                </CardContent>
+                            </Card>
+                        </Link>
+                    </Grid>
+                    <Grid item lg={2} />
                 </Grid>
-                <Grid item lg={4} className={styles.card} >
-                    <Link to='/admin/products/create-product' className={styles.link} >
-                        <Card className={styles.cardShadow} >
-                            <CardMedia
-                                className={styles.images}
-                                image={addProduct}
-                            />
-                            <CardContent>
-                                <Typography variant='h5' align='center' >Add product</Typography>
-                                <Typography align='center' >Here you can add your new products. Name, price, stock and more!</Typography>
-                            </CardContent>
-                        </Card>
-                    </Link>
+                <Grid container spacing={4} className={styles.gridContainer} >
+                    <Grid item lg={2} />
+                    <Grid item lg={4} className={styles.card} >
+                        <Link to='/admin/categories/create-category' className={styles.link} >
+                            <Card className={styles.cardShadow} >
+                                <CardMedia
+                                    className={styles.images}
+                                    image={addCategory}
+                                />
+                                <CardContent>
+                                    <Typography variant='h5' align='center' >Add category</Typography>
+                                    <Typography align='center' >Here you can add your new categories. Name, description, image!</Typography>
+                                </CardContent>
+                            </Card>
+                        </Link>
+                    </Grid>
+                    <Grid item lg={4} className={styles.card} >
+                        <Link to='/admin/orders' className={styles.link} >
+                            <Card className={styles.cardShadow} >
+                                <CardMedia
+                                    className={styles.images}
+                                    image={orderImage}
+                                />
+                                <CardContent>
+                                    <Typography variant='h5' align='center' >Order List</Typography>
+                                    <Typography align='center' >Get acces to order list. Edit and see user orders!</Typography>
+                                </CardContent>
+                            </Card>
+                        </Link>
+                    </Grid>
+                    <Grid item lg={2} />
                 </Grid>
-                <Grid item lg={2} />
-            </Grid>
-            <Grid container spacing={4} className={styles.gridContainer} >
-                <Grid item lg={2} />
-                <Grid item lg={4} className={styles.card} >
-                    <Link to='/admin/categories/create-category' className={styles.link} >
-                        <Card className={styles.cardShadow} >
-                            <CardMedia
-                                className={styles.images}
-                                image={addCategory}
-                            />
-                            <CardContent>
-                                <Typography variant='h5' align='center' >Add category</Typography>
-                                <Typography align='center' >Here you can add your new categories. Name, description, image!</Typography>
-                            </CardContent>
-                        </Card>
-                    </Link>
+                <Grid container spacing={4} className={styles.gridContainer} >
+                    <Grid item lg={2} />
+                    <Grid item lg={4} className={styles.card} >
+                        <Link to='/admin/users' className={styles.link} >
+                            <Card className={styles.cardShadow} >
+                                <CardMedia
+                                    className={styles.images}
+                                    //image={addCategory}
+                                />
+                                <CardContent>
+                                    <Typography variant='h5' align='center' >User List</Typography>
+                                    <Typography align='center' >Here you can watch thes users. Name, description, etc</Typography>
+                                </CardContent>
+                            </Card>
+                        </Link>
+                    </Grid>
+                    <Grid item lg={2} />
                 </Grid>
-                <Grid item lg={4} className={styles.card} >
-                    <Link to='/admin/orders' className={styles.link} >
-                        <Card className={styles.cardShadow} >
-                            <CardMedia
-                                className={styles.images}
-                                image={orderImage}
-                            />
-                            <CardContent>
-                                <Typography variant='h5' align='center' >Order List</Typography>
-                                <Typography align='center' >Get acces to order list. Edit and see user orders!</Typography>
-                            </CardContent>
-                        </Card>
-                    </Link>
-                </Grid>
-                <Grid item lg={2} />
-            </Grid>
-        </Container>
-    );
+            </Container>
+        )
+    };
+
+    return userRole === 'admin' ? dashboard() : '404 NOT FOUND';
 };
 
 export default AdminDashboard;

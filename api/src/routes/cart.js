@@ -2,8 +2,9 @@ const server = require('express').Router();
 const { User, Order, Product, Order_line} = require('../db.js');
 
 server.post('/:idUser/cart', async (req, res)=>{ // crea y verifica
-    const product = await Product.findByPk(req.body.product.id);
-    const quantity = req.body.product.quantity;
+    const product = await Product.findByPk(Number(req.body.product.id));
+    console.log("REQ.BODY: ", req.body);
+    const quantity = Number(req.body.product.quantity);
     const price = product.price - (product.price * (product.discount / 100));
     const user = await User.findByPk(req.params.idUser);
     let order = await Order.findOne({ where:{ userId: user.id, status: 'cart'} });
@@ -40,7 +41,6 @@ server.put('/:idUser/cart',async (req, res)=>{ // actualiza el valor
 
     await product.addOrder(order, { through: { orderId: order.id, quantity, price } })
     .then(response =>{
-        console.log("RESPONSE PUT: ", quantity);
         res.json(quantity);
     })
     .catch(err =>{

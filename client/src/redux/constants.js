@@ -6,6 +6,9 @@ export const GET_PRODUCT_ERROR = 'GET_PRODUCT_ERROR';
 export const SHOW_LOADER = 'SHOW_LOADER';
 export const HIDE_LOADER = 'HIDE_LOADER';
 export const ADD_PRODUCT_TO_CART = 'ADD_PRODUCT_TO_CART';
+export const GET_ALL_REVIEWS = 'GET_ALL_REVIEWS';
+export const EDIT_REVIEW = 'EDIT_REVIEW';
+export const ADD_NEW_REVIEW = 'ADD_NEW_REVIEW';
 /* end productReducer */
 
 /* start createProductReducer */
@@ -34,6 +37,7 @@ export const DELETE_PRODUCT_FROM_CART = 'DELETE_PRODUCT_FROM_CART';
 export const DELETE_ALL_CART = 'DELETE_ALL_CART';
 export const GO_TO_CHECKOUT = 'GO_TO_CHECKOUT';
 export const CHANGE_ORDER_STATUS = 'CHANGE_ORDER_STATUS';
+export const CHANGE_PRODUCT_QUANTITY_NO_USER = 'CHANGE_PRODUCT_QUANTITY_NO_USER';
 /* end cartReducer */
 
 /* Catalog - Pagination */
@@ -51,7 +55,29 @@ export const GET_REVIEWS = "getReviews";
 /*start loginReducer*/
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
+export const ADD_NEW_ADDRESS = 'ADD_NEW_ADDRESS';
 /* end loginReducer*/
 
 /* searchBar constants */
-export const GET_PRODUCTS_BY_KEYWORD = "GET_PRODUCTS_BY_KEYWORD"
+
+/*password reset constants*/
+export const SEND_EMAIL = "SEND_EMAIL"
+export const RESET_PASSWORD = "RESET_PASSWORD"
+export const CHANGE_PASSWORD = "CHANGE_PASSWORD"
+
+/* user constants */
+export const GET_USER = "GET_USER"
+export const GET_PRODUCTS_BY_KEYWORD = "GET_PRODUCTS_BY_KEYWORD";
+
+/*start userListReducer */
+export const DELETE_USER = "DELETE_USER";
+export const UPDATE_USER = "UPDATE_USER";
+
+/* Config authentication */
+export const config = token => {
+    return {
+        headers: {
+             Authorization: `Bearer ${token}` 
+        }
+    }
+};

@@ -25,6 +25,9 @@ export const useStyles = makeStyles((theme) => ({
     },
     input:{
       paddingBottom: theme.spacing(2)
+    },
+    link:{
+      marginRight: theme.spacing(5)
     }
   }))
 

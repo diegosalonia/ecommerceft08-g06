@@ -1,25 +1,34 @@
-import React from 'react'
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import image from '../../resources/meme.jpg' 
 import { makeStyles } from '@material-ui/core/styles';
+import {Box} from '@material-ui/core'
+import CategoriesCollection from './CategoriesCollection';
 import { changeOrderStatus } from '../../redux/cartReducer/actions';
 
 export default function Home(){
     const dispatch = useDispatch();
-    if (window.location.href.includes('status')) {
-        dispatch(changeOrderStatus(1)); // userId hardcoded
-    }
+    const userId = JSON.parse(sessionStorage.getItem('id'));
+    
+    useEffect(() => {
+        if (window.location.href.includes('status')) {
+            dispatch(changeOrderStatus(userId)); // userId hardcoded
+        };
+    }, [dispatch, userId]);
+  
     const useStyles = makeStyles((theme) => ({
-
-        meme:{
-            alignItems: "center",
-            justifyContent: "center",
-            marginTop:"20px",
-        },
-       
-      }));
+            catCol:{
+                margin: "auto",
+                background: theme.palette.grey[200]   
+            },
+        })
+      );
       const classes = useStyles();
+
     return (
-        <div className={classes.meme}><img src={image} style = {{display:"block", margin:"auto"}} alt='falto el alt' /></div>
+        <>
+        <Box className={classes.catCol}>
+            <CategoriesCollection/>
+        </Box>
+        </>
     )
 }

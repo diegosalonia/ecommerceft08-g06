@@ -1,6 +1,6 @@
 import { GET_PRODUCTS_IN_CART, CHANGE_PRODUCT_QUANTITY, 
          DELETE_PRODUCT_FROM_CART, DELETE_ALL_CART,
-         GO_TO_CHECKOUT, CHANGE_ORDER_STATUS } from '../constants';
+         CHANGE_PRODUCT_QUANTITY_NO_USER } from '../constants';
 
 const initialState = {
     productsInCart: JSON.parse(localStorage.getItem('cart') || '[]')
@@ -12,6 +12,16 @@ const cartReducer = (state = initialState, action) => {
             return {
                 ...state,
                 productsInCart: action.products
+            };
+        case CHANGE_PRODUCT_QUANTITY_NO_USER:
+            return {
+                ...state,
+                productsInCart: state.productsInCart.map(el => {
+                    if (el.id === action.product.id) {
+                        el.quantity = action.product.quantity;
+                    }
+                    return el;
+                })
             };
         case CHANGE_PRODUCT_QUANTITY:
             return {

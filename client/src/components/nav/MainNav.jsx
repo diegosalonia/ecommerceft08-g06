@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Toolbar from '@material-ui/core/Toolbar';
-import { Typography, AppBar, IconButton, Drawer, MenuItem, Container } from '@material-ui/core';
+import { Typography, AppBar, IconButton, Drawer, MenuItem, Container, Button } from '@material-ui/core';
 import Link from '@material-ui/core/Link';
 import StorefrontIcon from '@material-ui/icons/Storefront';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -11,7 +11,9 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import SearchBar from './SearchBar';
 import EcoIcon from '@material-ui/icons/Eco';
 import LoginModal from '../login/LoginModal';
-import {useStyles} from './styles'
+import {useStyles} from './styles';
+import MenuListComposition from './ListUser';
+import MenuListCompositionAdmin from './ListAdmin';
 //import LoginModal from './LoginModal'
 
 
@@ -23,8 +25,7 @@ const sections = [
   
 
 const Header = ({ setSearch }) => {
-
-    const userRole = localStorage.getItem('role');
+    const userRole = sessionStorage.getItem('role');
 
     const [state, setState] = useState({
         mobileView: false,
@@ -33,6 +34,7 @@ const Header = ({ setSearch }) => {
     const classes = useStyles();
     const { mobileView, drawerOpen } = state;
     const localy = useHistory()
+
 
   
   useEffect(() => {
@@ -56,24 +58,24 @@ const Header = ({ setSearch }) => {
             <div className={classes.toolbarOptionsDiv}>
                 <div className={classes.toolbarOptions}>
                     <ShoppingCartIcon className={classes.icons}/>
-                    <Link className={classes.LinkHome} color="inherit" key="logIn" href='/cart'>Carrito</Link>
+                    <Button className={classes.LinkHome}><Link underline="none" className={classes.LinkHome} color="inherit" key="logIn" href='/cart'>Carrito</Link></Button>
                 </div>
                 <div className={classes.toolbarOptions}>
                     <AccountCircleIcon/>
-                    <Link className={classes.LinkHome} color="inherit" key="logIn" href='/admin'>Admin</Link>
+                    <MenuListCompositionAdmin/>
                 </div>
             </div>)
         }
-        if( userRole && userRole==='user'){
+        if( userRole && userRole === 'user'){
             return(
             <div className={classes.toolbarOptionsDiv}>
                 <div className={classes.toolbarOptions}>
                     <ShoppingCartIcon className={classes.icons}/>
-                    <Link className={classes.LinkHome} color="inherit" key="logIn" href='/cart'>Carrito</Link>
+                    <Button className={classes.LinkHome}> <Link underline="none" color="inherit" key="logIn" href='/cart'>Carrito</Link></Button>
                 </div>
                      <div className={classes.toolbarOptions}>
                      <AccountCircleIcon/>
-                     <Link className={classes.LinkHome} color="inherit" key="logIn" href='/user'>Usuario</Link>
+                     <MenuListComposition />                                        
                 </div>
             </div>)
         }
@@ -86,7 +88,7 @@ const Header = ({ setSearch }) => {
                 </div>
                 <div className={classes.toolbarOptions}>
                     <ShoppingCartIcon className={classes.icons}/>
-                    <Link className={classes.LinkHome} color="inherit" key="logIn" href='/cart'>Carrito</Link>
+                    <Button className={classes.LinkHome}><Link underline="none" className={classes.LinkHome} color="inherit" key="logIn" href='/cart'>Carrito</Link></Button>
                 </div>                
             </div>
         )
@@ -135,7 +137,7 @@ const Header = ({ setSearch }) => {
                 <div className={classes.logoContainer}>
                     <StorefrontIcon fontSize="default"/>
                 </div>
-                {!userRole?RightButtonDefault():RightButtons()}
+                {!userRole ? RightButtonDefault() : RightButtons()}
                 
             </Toolbar>
         )

@@ -11,8 +11,8 @@ server.post('/:userId', (req, res) => {
     const itemsToMP = products.map(item => {
         return {
             title: item.name,
-            unit_price: parseFloat(item.price - (item.price * (item.discount / 100))),
-            quantity: item.order_line.quantity
+            unit_price: Number(item.price - (item.price * (item.discount / 100))),
+            quantity: Number(item.order_line.quantity)
         };
     });
 
@@ -34,8 +34,8 @@ server.post('/:userId', (req, res) => {
 });
 
 server.put('/:userId', async (req, res) => {
-    const { userId } = req.params,
-    order = await Order.findOne({
+    const { userId } = req.params
+    const order = await Order.findOne({
         where: {
             userId: userId,
             status: 'cart'

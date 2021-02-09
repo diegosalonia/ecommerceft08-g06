@@ -1,14 +1,15 @@
-import { GET_PRODUCT, GET_PRODUCT_ERROR, SHOW_LOADER, HIDE_LOADER, ADD_PRODUCT_TO_CART } from '../constants';
+import { GET_PRODUCT, SHOW_LOADER, HIDE_LOADER, 
+         ADD_PRODUCT_TO_CART, GET_ALL_REVIEWS } from '../constants';
 
 const initialState = {
     product: {},
     isLoading: false,
     productId: 0,
-    isInCart: false
+    isInCart: false,
+    reviews: [],
 };
 
 const productReducer = (state = initialState, action) => {
-    // console.log("ACTION REDUCER: ", action);
     switch(action.type) {
         case SHOW_LOADER:
             return {
@@ -24,13 +25,23 @@ const productReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isLoading: false
-            }
+            };
         case ADD_PRODUCT_TO_CART:
             return {
                 ...state,
                 productId: action.id,
                 isInCart: true
-            }
+            };
+        case GET_ALL_REVIEWS:
+            return {
+                ...state,
+                reviews: action.reviews
+            };
+        case ADD_NEW_REVIEW:
+            return {
+                ...state,
+                reviewChanged: true
+            };
         default:
             return {
                 ...state

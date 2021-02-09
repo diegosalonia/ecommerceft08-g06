@@ -39,8 +39,9 @@ const UpdateProductForm = (props) => {
     const [ images, setImages ] = useState([]);
     const [ imageToShow, setImageToShow ] = useState(true);
     const [ checked, setChecked ] = useState([]);
-    const [ categoryList, setCategoryList ] = useState([]);
+    const [ setCategoryList ] = useState([]);
     const [ loadingProduct, setLoadingProduct ] = useState(true);
+    const userRole = sessionStorage.getItem('role');
 
     const handleDelete = imageToDelete => {
         product.image = product.image.filter(image => image !== imageToDelete);
@@ -50,7 +51,6 @@ const UpdateProductForm = (props) => {
     const handleToggle = value => () => {
         const currentIndex = checked.indexOf(value);
         const newCategory = product.categories.filter(category => category.id === value.id);
-        console.log("NEWCATEGORY: ", newCategory);
         const newChecked = [...checked];
         let arr = [];
 
@@ -63,30 +63,15 @@ const UpdateProductForm = (props) => {
             newChecked.forEach(el => !arr.includes(el) && arr.push(el.id));
         }
         setChecked(newChecked);
-        console.log("CATEGORYLIST: ", categoryList);
-        console.log("CHECKED: ", checked);
         return setCategoryList(arr);
     };
 
     useEffect(() => {
         dispatch(getProduct(id));
         dispatch(getCategories());
-    }, []);
+    }, [dispatch, id]);
 
-    useEffect(() => {
-        formik.values.name = product.name;
-        formik.values.price = product.price;
-        formik.values.description = product.description;
-        formik.values.stock = product.stock;
-        formik.values.discount = product.discount;
-        formik.values.featured = product.featured;
-        formik.values.image = product.image;
-        setChecked(product.categories);
-        setImages(product.image);
-        setTimeout(() => {
-            setLoadingProduct(false);
-        }, 1000);
-    },[product]);
+    
 
     const formik = useFormik({
         initialValues: {
@@ -128,6 +113,22 @@ const UpdateProductForm = (props) => {
             alert('Product updated');
         }
     });
+
+    useEffect(() => {
+        formik.values.name = product.name;
+        formik.values.price = product.price;
+        formik.values.description = product.description;
+        formik.values.stock = product.stock;
+        formik.values.discount = product.discount;
+        formik.values.featured = product.featured;
+        formik.values.image = product.image;
+        setChecked(product.categories);
+        setImages(product.image);
+        setTimeout(() => {
+            setLoadingProduct(false);
+        }, 1000);
+    },[product, formik.values.description, formik.values.discount, formik.values.featured,
+       formik.values.image, formik.values.name, formik.values.price, formik.values.stock]);
 
     const form = () => {
         return (
@@ -201,8 +202,7 @@ const UpdateProductForm = (props) => {
                         <Typography variant="h5">Categories</Typography>                      
                         {categories?.map(category => {    
                                 const labelId = `checkbox-list-label-${category.id}`;
-                                console.log(`WAS SELECTED? ${category.name} : ${product.categories.filter(el => el.id === category.id).length === 1}`);
-                                return product.categories.filter(el => el.id === category.id).length === 1 ? (
+                                return product.categories?.filter(el => el.id === category.id).length === 1 ? (
                                     <ListItem key={category.id} role={undefined} dense button onChange={handleToggle(category)}>
                                         <ListItemIcon>
                                             <Checkbox 
@@ -210,7 +210,6 @@ const UpdateProductForm = (props) => {
                                                 edge="start"
                                                 size="small"
                                                 defaultChecked
-                                                // checked={true}
                                                 tabIndex={-1}
                                                 disableRipple
                                                 inputProps={{'aria-labelledby': labelId}}
@@ -226,7 +225,6 @@ const UpdateProductForm = (props) => {
                                                 color="primary"
                                                 edge="start"
                                                 size="small"
-                                                // checked={false}
                                                 tabIndex={-1}
                                                 disableRipple
                                                 inputProps={{'aria-labelledby': labelId}}
@@ -251,7 +249,7 @@ const UpdateProductForm = (props) => {
                     <Container >
                         <Typography>Images</Typography>
                         <Container className={styles.imagesContainer} >
-                            { product.image.map(image => {
+                            { product.image?.map(image => {
                                 return (
                                     <Container key={image} className={styles.imageContainer} >
                                         <img src={image} alt={product.name} className={styles.img} />
@@ -285,9 +283,7 @@ const UpdateProductForm = (props) => {
         );
     }
 
-    return loadingProduct ? <CircularProgress disableShrink className={styles.isLoading} /> : form();
+    return userRole !== 'admin' ? '404 NOT FOUND' : loadingProduct ? <CircularProgress disableShrink className={styles.isLoading} /> : form();
 };
-
-/* "["https://firebasestorage.googleapis.com/v0/b/un-jardin-especial.appspot.com/o/category%2Fimages%2FProduct.png?alt=media&token=5c304650-c254-49e1-86d4-50dc2613ff86"]" */
 
 export default UpdateProductForm;

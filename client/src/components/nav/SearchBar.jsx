@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import { TextField, InputAdornment, makeStyles } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { getProductsByKeyword } from '../../redux/searchBarReducer/actions'
 import { Redirect } from 'react-router-dom';
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import {Typography, Grid, makeStyles} from '@material-ui/core';
 import ReviewDetail from './ReviewDetail'
 
 const ReviewList= (props) => {
@@ -7,14 +6,14 @@ const ReviewList= (props) => {
     const DisplayReviews = () => {
         if (reviews.length >= 1){
             return reviews.map((item, inx) => {
-                return <ReviewDetail key={inx} rating={item.rating} username={item.userId} createdAt={item.createdAt} comment={item.comment} email={item.user.email}/>             
+                return <ReviewDetail key={inx} rating={item.rating} username={item.userId} createdAt={item.createdAt} comment={item.comment} email={item.user?.email}/>             
             })
         }
         else{
-            return <></>
+            return <>No reviews for this product</>
         }
     }
-    console.log("REVIEWS REVIEWLIST PROP", reviews)
+    
     return <DisplayReviews />
 }
 

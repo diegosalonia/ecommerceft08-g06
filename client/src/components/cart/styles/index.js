@@ -1,5 +1,4 @@
 import { makeStyles } from '@material-ui/core';
-import cartImage from '../../../resources/cartImage.jpg';
 
 export const useStylesCartItem = makeStyles(theme => ({
     container: {
@@ -51,7 +50,7 @@ export const useStylesCart = makeStyles(theme => ({
         display: 'flex',
     },
     cartItemsContainer: {
-        maxWidth: '700px',
+        maxWidth: '65%',
         display: 'flex',
         flexDirection: 'column',
     },
@@ -72,7 +71,18 @@ export const useStylesCart = makeStyles(theme => ({
     buttonToCatalog: {
         color: theme.palette.secondary.main,
         backgroundColor: theme.palette.primary.main,
-    }
+    },
+    totalContainer: {
+        padding: '0 0',
+        width: '65%',
+    },
+    deleteAllCart: {
+        width: '55%',
+    },
+    deleteAllCartButton: {
+        color: theme.palette.secondary.main,
+        backgroundColor: theme.palette.primary.main,
+    },
 }));
 
 export const useStylesCartTotal = makeStyles(theme => ({
@@ -102,4 +112,39 @@ export const useStylesCartTotal = makeStyles(theme => ({
         paddingTop: '3%',
         paddingBottom: '3%'
     },
+    checkoutButton: {
+        display: 'flex',
+        justifyContent: 'center',
+        marginTop: '5%',
+    },
+    bigContainer: {
+        padding: '0 0',
+    },
+    modalContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        maxWidth: 'fit-content',
+        margin: 'auto',
+    },
+    fadeComponent: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
+        backgroundColor: "white",
+        borderRadius: theme.shape.borderRadius,
+        padding: theme.spacing(1),
+        marginTop: theme.spacing(2),
+    },
+    buttonConfirmAddress: {
+        color: theme.palette.secondary.main,
+        backgroundColor: theme.palette.primary.main,
+        marginTop: '2%',
+    },
+    containerModal: {
+        display: 'flex',
+        justifyContent: 'center'
+    },
+
 }));

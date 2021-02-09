@@ -45,24 +45,21 @@ server.use((req, res, next) => {
   next();
 });
 
-passport.use(
-  new JWTStrategy(
-    {
-      jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-      secretOrKey: "secret",
+
+passport.use(new JWTStrategy({
+    jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+    secretOrKey   : 'secret'
     },
     function (jwtPayload, next) {
-      console.log("aqui payload: ", jwtPayload);
-      User.findByPk(jwtPayload.user.id)
-        .then((user) => {
-          next(null, user);
+        User.findByPk(jwtPayload.user.id)
+        .then(user => {
+            next(null, user.id);
         })
-        .catch((err) => {
-          next(err);
+        .catch(err => {
+            next(err);
         });
     }
-  )
-);
+))
 
 passport.serializeUser((user, next) => next(null, user.id));
 

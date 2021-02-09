@@ -57,27 +57,26 @@ const FilterCatalog = (props) => {
             }
         )
         .catch(error => console.log(error))             
-    }, [])
+    }, [dispatch])
     //Set Category in Catalog. 
     useEffect(() => {
         if(currentCategory){ 
            dispatch(updateFilter({categories: currentCategory}));
         }
-    }, [currentCategory])
+    }, [currentCategory, dispatch])
     return (
-
-    <Card>
-        <CardHeader
-                  title="Categories"
-                  titleTypographyProps={{ align: 'center' }}
-                  className={classes.cardHeader}
-                />
-        <CardContent >      
-            <ButtonGroup fullWidth orientation="vertical"  color="primary">
-                {displayCategories()}
-            </ButtonGroup>
-        </CardContent>  
-    </Card>      
+        <Card>
+            <CardHeader
+                    title="Categories"
+                    titleTypographyProps={{ align: 'center' }}
+                    className={classes.cardHeader}
+                    />
+            <CardContent >      
+                <ButtonGroup fullWidth orientation="vertical"  color="primary">
+                    {displayCategories()}
+                </ButtonGroup>
+            </CardContent>  
+        </Card>      
     )   
 }
 

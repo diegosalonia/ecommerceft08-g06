@@ -29,10 +29,10 @@ const ReviewContainer = (props) => {
 
     useEffect(() => {
         dispatch(getDataReviews(productId));    
-    }, [productId])
+    }, [productId, dispatch]);
 
     useEffect(() => {
-        console.log("Reviews: ", reviews)    
+        
     }, [reviews])
     
     return (
