@@ -6,6 +6,13 @@ const passport = require("passport");
 const passportJWT = require("passport-jwt");
 const jwt = require ('jsonwebtoken')
 
+// Google login
+server.get("/google", passport.authenticate("google", {scope: ["profile", "email"],}));
+
+server.get('/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
+  res.callback('/good');
+});
+
 server.post('/login', (req, res, next) => {
   passport.authenticate('local', {session: false}, (err, user) => {
          
