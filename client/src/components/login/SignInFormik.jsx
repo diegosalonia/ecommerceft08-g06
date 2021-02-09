@@ -83,6 +83,11 @@ const WithMaterialUI = ({onClose}) => {
           {"Don't have an account? Sign Up"}
         </Link>
       </div>
+      <div className={classes.signUp}>
+        <Link href="http://localhost:3000/auth/google">Sign In with Google
+          {"Don't have an account? Sign Up"}
+        </Link>
+      </div>
     </div>
   );
 };
