@@ -1,6 +1,8 @@
 {
   "dependencies": {
+    "git": "^0.1.5",
     "passport-google-oauth": "^2.0.0",
-    "passport-google-oauth20": "^2.0.0"
+    "passport-google-oauth20": "^2.0.0",
+    "push": "^0.1.1"
   }
 }

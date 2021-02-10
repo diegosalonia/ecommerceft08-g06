@@ -33,6 +33,10 @@ module.exports = (sequelize) => {
         phone_number:{
             type: BIGINT
         },
+        active:{
+            type: ENUM("true","false"),
+            defaultValue: "true"
+        },
         user_role:{
             type: ENUM("admin", "user"),
             allowNull:false,
