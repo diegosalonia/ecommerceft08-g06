@@ -134,12 +134,25 @@ server.put('/update/passwordReset', async (req, res) => {
 
 server.delete('/:userId', async (req, res) => {
     const user = await User.findByPk(req.params.userId)
-    user.destroy()
-    .then( response => {
-        res.send("user deleted")
+    user.active = "false";
+    user.save()
+    .then(user=>{
+        res.send(user)
     })
-    .catch(error => {
-        res.send(error)
+    .catch(err=>{
+        res.send(err)
+    })
+})
+
+server.put('/active/:userId', async (req, res) => {
+    const user = await User.findByPk(req.params.userId)
+    user.active = "true";
+    user.save()
+    .then(user=>{
+        res.send(user)
+    })
+    .catch(err=>{
+        res.send(err)
     })
 })
 
