@@ -59,26 +59,26 @@ function AdminUserList() {
     
         swalWithBootstrapButtons.fire({
             title: 'Desactivar?',
-            text: "You won't be able to revert this!",
+            text: "estas seguro?",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'YES, DISABLE IT!',
-            cancelButtonText: 'NO, CANCEL!',
+            confirmButtonText: 'SI, DESACTIVALO!',
+            cancelButtonText: 'NO, CANCELAR!',
             reverseButtons: true
         })
         .then((result) => {
             if (result.isConfirmed) {
                 swalWithBootstrapButtons.fire(
                 'Desactivado!',
-                'Your file has been desactivado.',
+                'este usuario ha sido desactivado.',
                 'success'
                 );
                 dispatch(desactiveUsers(id, token));
                 setRows(rows.filter(row => row.id !== id));
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 swalWithBootstrapButtons.fire(
-                'Cancelled',
-                `Your product won't be desactivado`,
+                'cancelar',
+                `este usuario no se ha desactivado`,
                 'error'
                 );
             };
@@ -97,26 +97,26 @@ function AdminUserList() {
     
         swalWithBootstrapButtons.fire({
             title: 'Activar?',
-            text: "You won't be able to revert this!",
+            text: "estas seguro?",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'YES, ACTIVATE IT!',
-            cancelButtonText: 'NO, CANCEL!',
+            confirmButtonText: 'SI, DESACTIVALO',
+            cancelButtonText: 'NO, CANCELAR!',
             reverseButtons: true
         })
         .then((result) => {
             if (result.isConfirmed) {
                 swalWithBootstrapButtons.fire(
                 'Activar!',
-                'Your file has been activado.',
+                'este usuario ha sido activado.',
                 'success'
                 );
                 dispatch(activeUsers(id, token));
                 setRows(rows.filter(row => row.id !== id));
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 swalWithBootstrapButtons.fire(
-                'Cancelled',
-                `Your product won't be activado`,
+                'cancelar',
+                `este usuario no se ha activado`,
                 'error'
                 );
             };
@@ -135,24 +135,24 @@ function AdminUserList() {
     
         swalWithBootstrapButtons.fire({
             title: 'Convertir a Administrador',
-            text: "You won't be able to revert this!",
+            text: "estas seguro?",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'YES, CONVERTIR!',
-            cancelButtonText: 'NO, CANCEL!',
+            confirmButtonText: 'SI, CONVERTIR!',
+            cancelButtonText: 'NO, CANCELAR!',
             reverseButtons: true
         })
         .then((result) => {
             if (result.dismiss === Swal.DismissReason.cancel) {
                 swalWithBootstrapButtons.fire(
-                'Cancelled',
-                `Your product won't be update`,
+                'cancelar',
+                `este usuario no se ha asendido`,
                 'error'
                 );
             }else if (result.isConfirmed) {
                 swalWithBootstrapButtons.fire(
                 'Convertido en Administrador!',
-                'Your file has been updateado.',
+                'este usuario ha sido asendido.',
                 'success'
                 );
                 dispatch(updateUserAdmin(id, token));
@@ -173,24 +173,24 @@ function AdminUserList() {
     
         swalWithBootstrapButtons.fire({
             title: 'Convertir a Usuario',
-            text: "You won't be able to revert this!",
+            text: "estas seguro?",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'YES, CONVERTIR!',
-            cancelButtonText: 'NO, CANCEL!',
+            confirmButtonText: 'SI, CONVERTIR!',
+            cancelButtonText: 'NO, CANCELAR!',
             reverseButtons: true
         })
         .then((result) => {
             if (result.dismiss === Swal.DismissReason.cancel) {
                 swalWithBootstrapButtons.fire(
-                'Cancelled',
-                `Your product won't be update`,
+                'cancelar',
+                `este usuario no se ha degradado`,
                 'error'
                 );
             }else if (result.isConfirmed) {
                 swalWithBootstrapButtons.fire(
                 'Convertido en Usuario!',
-                'Your file has been updateado.',
+                'este ususario a sido degradado.',
                 'success'
                 );
                 dispatch(updateUser(id, token));
