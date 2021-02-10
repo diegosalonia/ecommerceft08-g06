@@ -47,6 +47,7 @@ export const UPDATE_PAGE = "updatePage";
 
 // order constansts
 export const GET_ORDER = "GET_ORDER";
+export const CHANGE_ORDER_STATUS_IN_ORDER_DETAIL = "CHANGE_ORDER_STATUS"
 
 /*Review Start */
 export const GET_REVIEWS = "getReviews";
