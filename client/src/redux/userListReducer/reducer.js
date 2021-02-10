@@ -5,7 +5,18 @@ const initialState = {
     isDeleted: false
 };
 
-function eliminar(array, elemento, newObj) {
+function update(array, elemento, newObj) {
+    var resultado = []
+    for (var i = 0; i < array.length; i++) {
+      if (array[i].id !== elemento) {
+        resultado.push(array[i]);
+      }
+    }
+    resultado.unshift(newObj)
+    return resultado;
+  }
+
+  function active(array, elemento, newObj) {
     var resultado = []
     for (var i = 0; i < array.length; i++) {
       if (array[i].id !== elemento) {
@@ -27,13 +38,13 @@ const userListReducer = (state=initialState, action)=>{
         case DELETE_USER:
             return {
                 ...state,
-                isDeleted: true
+                users: active(state.users,action.users.id,action.users)
             }
 
         case UPDATE_USER:
             return {
                 ...state,
-                users: eliminar(state.users,action.update.id,action.update)
+                users: update(state.users,action.update.id,action.update)
             }
         
         default:

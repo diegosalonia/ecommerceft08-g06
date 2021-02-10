@@ -84,7 +84,7 @@ const Header = ({ setSearch }) => {
         return (
             <div className={classes.toolbarOptionsDiv}>
                 <div className={classes.toolbarOptions}>
-                    <LoginModal/> 
+                 <LoginModal/>
                 </div>
                 <div className={classes.toolbarOptions}>
                     <ShoppingCartIcon className={classes.icons}/>
