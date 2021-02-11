@@ -17,3 +17,20 @@ export const getUser = (token) => dispatch => {
         console.log(error)
     })
 }
+
+export const getUserAdmin = (token, userId) => dispatch =>{
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+      };
+    const url = `http://localhost:3000/users/findUser/${userId}`
+    axios.get(url, config)
+    .then(response => {
+        dispatch({
+            type: GET_USER,
+            user: response.data
+        })
+    })
+    .catch(error => {
+        console.log(error)
+    })
+}
