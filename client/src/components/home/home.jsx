@@ -10,10 +10,9 @@ export default function Home(){
     const userId = JSON.parse(sessionStorage.getItem('id'));
     const user = useSelector(state => state.loginReducer);
     useEffect(() => {
-        if (window.location.href.includes('status')) {
-            dispatch(changeOrderStatus(userId)); // userId hardcoded
+        if (window.location.href.includes('&status')) {
+            dispatch(changeOrderStatus(userId));
         };
-        console.log("USER EN REDUX: ",user);
     }, [dispatch, userId, user]);
   
     const useStyles = makeStyles((theme) => ({

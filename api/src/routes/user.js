@@ -83,7 +83,48 @@ server.post('/send-order', async (req, res) => {
         from: 'dager2115@gmail.com',
         subject: 'This is your order from Un Jardin Especial',
         text: 'This is your order from Un Jardin Especial',
-        html: `<h1>Order<h1><p>${order}</p>`
+        html: `
+        <div>
+            <h1>Order</h1>
+            <table>
+                <tr>
+                    <th>Product</th>
+                    <th> | </th>
+                    <th>Quantity</th>
+                    <th> | </th>
+                    <th>Price</th>
+                </tr>
+                ${ order.map(({ name, order_line, price, discount }) => {
+                    return (
+                        `
+                        <tr>
+                            <td>${name}</td>
+                            <td> | </td>
+                            <td>${order_line.quantity}</td>
+                            <td> | </td>
+                            <td>${price - (price * (discount / 100))}</td>
+                        </tr>
+                        `
+                    )
+                })}
+                <tr>
+                    <td><hr /></td>
+                    <td><hr /></td>
+                    <td><hr /></td>
+                    <td><hr /></td>
+                    <td><hr /></td>
+                </tr>
+                <tr>
+                    <td>Total:</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>${order.reduce((acc, {order_line, price, discount}) => acc + ((price - (price * (discount / 100))) * order_line.quantity), 0)}</td>
+                </tr>
+            </table>
+            <h3>Thanks for your purchase!</h3>
+            </div>
+        `
     };
 
     sgMail.send(message)
