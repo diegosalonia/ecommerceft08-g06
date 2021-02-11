@@ -51,9 +51,9 @@ export default function UserForm(props){
             last_name: "",
             email: "",
             password: "",
-            phoneNumber: null,
-            shippingaddres: "",
-            billingaddres: "",
+            phone_number: null,
+            shipping_address: null,
+            billing_address: null,
             email_notification: false
         },
         validationSchema: validationSchema,
@@ -139,10 +139,10 @@ export default function UserForm(props){
                 <TextField
                    fullWidth
                    variant="outlined"
-                   id="phoneNumber"
-                   name="phoneNumber"
+                   id="phone_number"
+                   name="phone_number"
                    label="phone number(optional)"
-                   value={formik.values.phoneNumber}
+                   value={formik.values.phone_number}
                    onChange={formik.handleChange}
                  />
                 </Grid>
@@ -150,10 +150,10 @@ export default function UserForm(props){
                 <TextField
                    fullWidth
                    variant="outlined"
-                   id="shippingaddres"
-                   name="shippingaddres"
+                   id="shipping_address"
+                   name="shipping_address"
                    label="shipping addres(optional)"
-                   value={formik.values.shippingaddres}
+                   value={formik.shipping_address}
                    onChange={formik.handleChange}
                  />
                 </Grid>
@@ -161,10 +161,10 @@ export default function UserForm(props){
                 <TextField
                    fullWidth
                    variant="outlined"
-                   id="billingaddres"
-                   name="billingaddres"
+                   id="billing_address"
+                   name="billing_address"
                    label="billing addres(optional)"
-                   value={formik.values.billingaddres}
+                   value={formik.billing_address}
                    onChange={formik.handleChange}
                  />
                 </Grid>
