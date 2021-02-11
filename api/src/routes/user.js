@@ -74,6 +74,23 @@ server.put('/:userId/shipping-address', async (req, res) => {
     .catch(err => res.status(401).send(err));
 });
 
+server.post('/send-order', async (req, res) => {
+    const { order, userId } = req.body;
+    const user = await User.findByPk(userId);
+
+    const message = {
+        to: user.email,
+        from: 'dager2115@gmail.com',
+        subject: 'This is your order from Un Jardin Especial',
+        text: 'This is your order from Un Jardin Especial',
+        html: `<h1>Order<h1><p>${order}</p>`
+    };
+
+    sgMail.send(message)
+    .then(response => res.send(response))
+    .catch(err => console.log("ERROR ENVIANDO ORDEN: ", err));
+});
+
 server.post('/sendMail', (req, res) => {
     const msg = {
         to: req.body.email, // Change to your recipient

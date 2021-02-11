@@ -26,7 +26,7 @@ export const login = (user) => (dispatch, getState) => {
         sessionStorage.setItem('token', user.token)
         sessionStorage.setItem('role', user.user.user_role);
         sessionStorage.setItem('id', user.user.id);
-        setTimeout(() => window.location.reload(false), 2000);
+        // setTimeout(() => window.location.reload(false), 2000);
         showAlert('Succesfull sign in!', 2000);
     })
     .catch(err => console.log("ERROR EN SIGN IN ENVIANDO PRODUCTOS AL CARRITO: ", err));
@@ -52,9 +52,10 @@ export const logout = (token) => dispatch =>{
     return axios.post(url,null,config)
     .then(()=>{
         dispatch({type: LOGOUT})
-
-        sessionStorage.clear()
+        localStorage.clear();
+        sessionStorage.clear();
 
         window.location.replace("http://localhost:3001/")
     })
+    .catch(err => console.log("ERROR LOGOUT: ", err));
 }
