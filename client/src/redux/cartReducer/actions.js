@@ -138,7 +138,7 @@ export const changeOrderStatus = userId => (dispatch, getState) => {
                     type: CHANGE_ORDER_STATUS,
                     order: response.data
                 });
-                // window.location.search = window.location.search.split('?')[0];
+                window.location.search = window.location.search.split('?')[0];
                 localStorage.removeItem('cart');
             })
         })
@@ -150,7 +150,7 @@ export const changeOrderStatus = userId => (dispatch, getState) => {
             type: CHANGE_ORDER_STATUS,
             order: res.data
         });
-        // window.location.search = window.location.search.split('?')[0];
+        window.location.search = window.location.search.split('?')[0];
         localStorage.removeItem('cart');
         })
         .catch(err => console.log(err));
