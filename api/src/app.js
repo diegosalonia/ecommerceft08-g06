@@ -87,9 +87,10 @@ server.use((req, res, next) => {
      })
      .then((user) => {
        if (!user || !user.correctPassword(password)) { 
-         next(null, false, {msg: 'User or password incorrect'})
+          next(null, false, {msg: 'User or password incorrect'})
+       } else{
+          next(null, user, {msg: 'Login Successfull'});
        }
-       next(null, user, {msg: 'Login Successfull'});
      })
      .catch((err) => {   
         next(err);

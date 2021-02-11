@@ -38,11 +38,6 @@ const productReducer = (state = initialState, action) => {
                 ...state,
                 reviews: action.reviews
             };
-        case ADD_NEW_REVIEW:
-            return {
-                ...state,
-                reviewChanged: true
-            };
         default:
             return {
                 ...state

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { GET_PRODUCTS_IN_CART, CHANGE_PRODUCT_QUANTITY, 
          DELETE_PRODUCT_FROM_CART, DELETE_ALL_CART, 
          GO_TO_CHECKOUT, CHANGE_ORDER_STATUS,
-         CHANGE_PRODUCT_QUANTITY_NO_USER } from '../constants';
+         CHANGE_PRODUCT_QUANTITY_NO_USER, SEND_ORDER_EMAIL } from '../constants';
 
 export const getProductsInCart = userId => dispatch => {
     if (!userId) {
@@ -110,16 +110,26 @@ export const goToCheckout = (userId, products) => dispatch => {
     .catch(err => console.log(err));
 };
 
-export const changeOrderStatus = userId => dispatch => {
+export const changeOrderStatus = userId => (dispatch, getState) => {
     const url = window.location.href.slice(window.location.href.indexOf('?'));
     const status = url.slice(url.indexOf('&status') + 1).split('=')[1].split('&')[0];
     if (status === 'approved') {
         const products = JSON.parse(localStorage.getItem('cart'));
+        axios.post('http://localhost:3000/users/send-order', {order: products, userId})
+        .then(res => {
+            dispatch({
+                type: SEND_ORDER_EMAIL,
+                order: res.data
+            });
+        })
+        .catch(err => console.log("ERROR ENVIANDO MAIL: ", err));
+
         const promises = products.map(product => {
-            axios.put(`http://localhost:3000/products/${product.id}`, {form: {...product, stock: product.stock - product.order_line.quantity}})
+            return axios.put(`http://localhost:3000/products/${product.id}`, {form: {...product, stock: product.stock - product.order_line.quantity}})
             .then(res => console.log(res))
             .catch(err => console.log(err));
         });
+
         Promise.all(promises)
         .then(res => {
             return axios.put(`http://localhost:3000/checkout/${userId}`, {status})
