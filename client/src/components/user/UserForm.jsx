@@ -119,7 +119,7 @@ export default function UserForm(props){
                  <TextField
                    fullWidth
                    variant="outlined"
-                   id="firts_Name"
+                   id="first_Name"
                    name="first_name"
                    label="Nombre"
                    value={formik.values.first_name}
