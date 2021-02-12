@@ -37,7 +37,7 @@ const Cart = () => {
                 </Container>
                 <Container className={styles.deleteAllCart} >
                     <Button onClick={handleDeleteCart} className={styles.deleteAllCartButton} >
-                        Remove All Cart
+                        Vaciar carrito
                     </Button>
                 </Container>
             </Container>
@@ -48,9 +48,9 @@ const Cart = () => {
         return (
             <FadeIn transitionDuration={1000} >
                 <Container className={styles.emptyCartContainer} >
-                    <Typography>Your shopping cart is empty</Typography>
+                    <Typography>Tu carrito está vacío</Typography>
                         <Button className={styles.buttonToCatalog} href='/products' >
-                            Catalog
+                            Catálogo
                         </Button>
                 </Container>
             </FadeIn>

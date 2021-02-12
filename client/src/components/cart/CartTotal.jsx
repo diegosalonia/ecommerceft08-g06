@@ -11,7 +11,6 @@ const CartTotal = () => {
     const products = useSelector(state => state.cartReducer.productsInCart);
     const styles = useStylesCartTotal();
     const [ total, setTotal ] = useState();
-    const tax = total * (21 / 100);
     const userId = JSON.parse(sessionStorage.getItem('id'));
     const shippingAddress = useSelector(state => state.loginReducer.shipping_address);
     const [ open, setOpen ] = useState(false);
@@ -47,7 +46,7 @@ const CartTotal = () => {
     const addShippingAddress = () => {
         return (
             <Container className={styles.containerModal} >
-                <Button onClick={handleOpen} className={styles.buttonConfirmAddress} >Add Shipping Address</Button>
+                <Button onClick={handleOpen} className={styles.buttonConfirmAddress} >Ingresar dirección de envío</Button>
                 <Modal
                     className={styles.modalContainer}  
                     open={open}
@@ -82,24 +81,20 @@ const CartTotal = () => {
                     <Typography>{`$${total}`}</Typography>
                 </Container>
                 <Container className={styles.containerShipping} >
-                    <Typography>Shipping</Typography>
+                    <Typography>Envío</Typography>
                     <Typography>-</Typography>
-                </Container>
-                <Container className={styles.containerTax} >
-                    <Typography>Tax(IVA)</Typography>
-                    <Typography>{`$${tax.toFixed(2)}`}</Typography>
                 </Container>
                 <hr />
                 <Container className={styles.containerTotal} >
                     <Typography>Total</Typography>
-                    <Typography>{`$${(total + tax).toFixed(2)}`}</Typography>
+                    <Typography>{`$${total?.toFixed(2)}`}</Typography>
                 </Container>
             </Container>
             <Container className={styles.checkoutButton} >
                 {
                     userId && noAddress ? addShippingAddress()
                     : userId ? <Button onClick={handleCheckout} >
-                                    GO TO CHECKOUT
+                                    Pagar
                                </Button>
                     : <LoginModal inCart={true} />
                 }

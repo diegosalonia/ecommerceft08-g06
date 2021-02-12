@@ -10,6 +10,7 @@ import { DeleteForever } from '@material-ui/icons';
 import { useStylesUpdateProduct } from './styles/UpdateProductForm';
 import { getProduct, getCategories } from '../../../redux/updateProductForm/actions';
 import { config } from '../../../redux/constants';
+import Swal from 'sweetalert2';
 
 const validationSchema = yup.object({
     name: yup
@@ -51,6 +52,16 @@ const UpdateProductForm = (props) => {
         setImages(images.filter(image => image !== imageToDelete))
     }
 
+    const showAlert = () => {
+        return Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: '¡Producto editado!',
+            showConfirmButton: false,
+            timer: 2000,
+        });
+    };
+
     
     const handleToggle = value => () => {           
         
@@ -80,10 +91,6 @@ const UpdateProductForm = (props) => {
         //newChecked.forEach(el => !(el in myObj) && (myObj[el] = true) && newArr.push(el)) //deja solo un valor
         //function tiene_repetidos(array){return new Set(array).size!==array.length} // true o false si tiene 
 
-        
-        
-       
-       
         setChecked(newChecked);
         return setCategoryList(arr);
     };
@@ -132,7 +139,7 @@ const UpdateProductForm = (props) => {
                     .catch(err => console.log(err));
             }
             resetForm({values: ''});
-            alert('Product updated');
+            showAlert();
         }
     });
 

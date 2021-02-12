@@ -57,9 +57,9 @@ export default function LoginModal ({ inCart }){
             { !inCart ?
                 <div onClick={handleOpen} className={classes.toolbarOptions}>
                     <PersonIcon/>
-                    <Button className={classes.LinkHome}>Log In</Button>
+                    <Button className={classes.LinkHome}>Ingresar</Button>
                 </div>
-                      : <Button onClick={handleOpen} className={classes.signIn} >Sign in</Button>
+                      : <Button onClick={handleOpen} className={classes.signIn} >Ingresar</Button>
             }
             <Modal
                 className={classes.modal}
