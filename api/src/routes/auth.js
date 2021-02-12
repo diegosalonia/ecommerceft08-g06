@@ -4,29 +4,61 @@ const { User, Order } = require("../db.js");
 const passport = require("passport");
 const passportJWT = require("passport-jwt");
 const jwt = require ('jsonwebtoken')
+const { HOSTFRONT, secToken } = process.env;
+
 
 // Google login
-server.get("/google", passport.authenticate("google", {scope: ["profile", "email"],}));
+server.get('/google', passport.authenticate('google', {scope: ["profile", "email"],}));
 
-server.get('/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
-  res.callback('/good');
+// server.get('/google/callback', passport.authenticate("google"), (req, res, next) => {
+//    (err, user) => {    
+//       //const { first_name, last_name, email, user_role } = req.user.dataValues[0];      
+//       if (err) return next(err);      
+//       if (!user) {
+//         res.redirect(`${HOSTFRONT}/?error=401`);
+//       } else {
+// 		const token = jwt.sign(
+// 			{
+// 				first_name,
+// 				last_name,
+//         email,
+//         user_role
+// 			},
+// 			"secret"
+// 		)
+// 		//res.redirect(`${HOSTFRONT}/?jwt=${token}`);
+
+//     	}
+//     };
+// });
+
+server.get("/google/callback", (req, res, next) => {
+  passport.authenticate("google", (err, user) => {
+    if (err) return next(err);
+    if (!user) {
+      res.redirect(`http://localhost:3001/login?error=401`);
+    } else {
+      const token = jwt.sign(user.toJSON(), "secret");
+      res.redirect(`http://localhost:3001/?loginGoogle=true&t=${token}`);
+    }
+  })(req, res, next);
 });
 
 server.post('/login', (req, res, next) => {
   passport.authenticate('local', {session: false}, (err, user) => {
-         console.log("USER: ", user);
         if(user) {
-            const token = jwt.sign({user}, "secret");
-            return res.status(200).json({ user, token })
+          const token = jwt.sign( {user}, 'secret')
+            res.status(200).json({ user, token })
         }
     }) 
     (req, res, next)
+
 })
 
 
 server.post("/logout", passport.authenticate('jwt', { session: false }), (req, res, next) => {
   req.logout();
-  res.sendStatus(200).send('usted esta deslogueado');  
+  res.status(200).send('usted esta deslogueado');  
 })
 
 

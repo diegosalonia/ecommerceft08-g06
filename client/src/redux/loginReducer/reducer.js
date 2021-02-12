@@ -8,6 +8,8 @@ const initialState = {
 	shipping_address: undefined
 };
 
+//id: req.user[0].dataValues.id, email: req.user[0].dataValues.email, user_role:req.user[0].dataValues.user_role
+
 export default function userReducer(state = initialState, action) {
 	switch (action.type) {
 		

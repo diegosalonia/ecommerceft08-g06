@@ -6,22 +6,7 @@ const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const routes = require("./routes/index.js");
 const passport = require("passport");
-const passportJWT = require("passport-jwt");
-const JWTStrategy = passportJWT.Strategy;
-const ExtractJWT = passportJWT.ExtractJwt;
-const LocalStrategy = require("passport-local").Strategy;
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
-
-const { User } = require("./db.js");
-
-const {
-	googleClientID,
-	googleClientSecret,
-	githubClientID,
-	githubClientSecret,
-	facebookClientID,
-	facebookClientSecret
-} = process.env;
+require("./middlewares/passport");
 
 const server = express();
 
@@ -32,7 +17,7 @@ server.use(bodyParser.json({ limit: "50mb" }));
 server.use(cookieParser());
 server.use(morgan("dev"));
 server.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", req.headers.origin);
+  res.header("Access-Control-Allow-Origin", '*');
   //ToDo resolve origin conflicts.
   // update to match the domain you will make the request from
   res.header("Access-Control-Allow-Credentials", "true");
@@ -44,30 +29,15 @@ server.use((req, res, next) => {
 
   next();
 });
-
-
-passport.use(new JWTStrategy({
-    jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-    secretOrKey   : 'secret'
-    },
-    function (jwtPayload, next) {
-        User.findByPk(jwtPayload.user.id)
-        .then(user => {
-            next(null, user.id);
-        })
-        .catch(err => {
-            next(err);
-        });
-    }
-))
-
-passport.serializeUser((user, next) => next(null, user.id));
-
-passport.deserializeUser((id, next) => {
-  User.findByPk(id)
-    .then((user) => next(null, user))
-    .catch((err) => next(err, null));
+server.all("*", function (req, res, next) {
+  passport.authenticate("bearer", (err, user) => { 
+    if (err) return next(err);
+    if (user) { req.user = user; }
+    return next(); 
+  }) (req, res, next);
 });
+
+
 server.use(cookieParser("secret"));
 server.use(
   session({
@@ -85,56 +55,8 @@ server.use((req, res, next) => {
    next();
 });
 
-passport.use(
-  new LocalStrategy(
-    {
-      usernameField: "email",
-      passwordField: "password",
-    },
-    async (email, password, next) => {
-      await User.findOne({
-        where: {
-          email: email,
-        },
-      })
-        .then((user) => {
-          if (!user || !user.correctPassword(password)) {
-            next(null, false, { msg: "User or password incorrect" });
-          }
-          next(null, user, { msg: "Login Successfull" });
-        })
-        .catch((err) => {
-          next(err);
-        });
-    }
-  )
-);
 
-passport.use(
-	new GoogleStrategy(
-		{
-			clientID: googleClientID,
-			clientSecret: googleClientSecret,
-			callbackURL: 'http://localhost:3001/auth/google/callback'
-		},
-		async (accessToken, refreshToken, profile, next) => {
-      console.log('aqui un nuevo user: ', user)
-      const [User, created] = await User.findOrCreate({
-        where: {googleId: profile.id},
-        defaults: {name: profile.displayName, email: profile.emails[0].value}
-      })
-      .then((user) => {
-        console.log('que tiene el user: ', user)
-				if (!user) return next(null, false, {message: 'We could not log you in with that account'});
 
-				return next(null, user);
-      }) 
-      .catch ((err) => {
-				next(err);
-			})
-		}
-	)
-);
 
 // Error catching endware.
 server.use((err, req, res, next) => {
