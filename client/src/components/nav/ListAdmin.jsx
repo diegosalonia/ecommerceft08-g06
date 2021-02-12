@@ -32,6 +32,7 @@ export default function MenuListCompositionAdmin() {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
   const dispatch = useDispatch();
+  const email = localStorage.getItem('email');
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -79,7 +80,7 @@ export default function MenuListCompositionAdmin() {
           className={classes.td_title}
           onClick={handleToggle}
         >
-          Administrador
+          { email.split('@')[0] }
         </Button>
         <Popper open={open} anchorEl={anchorRef.current} placement={'bottom-end'} role={undefined} transition disablePortal>
           {({ TransitionProps, placement }) => (
@@ -90,7 +91,7 @@ export default function MenuListCompositionAdmin() {
               <Paper>
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                  <Link underline="none" className={classes.LinkHome} color="inherit" key="logIn" href='/admin'><MenuItem onClick={handleClose}>Administrador</MenuItem></Link>
+                  <Link underline="none" className={classes.LinkHome} color="inherit" key="logIn" href='/admin'><MenuItem onClick={handleClose}>{ email.split('@')[0] }</MenuItem></Link>
                     <MenuItem onClick={handleCloseLogout}>Cerra sesion</MenuItem>
                   </MenuList>
                 </ClickAwayListener>
