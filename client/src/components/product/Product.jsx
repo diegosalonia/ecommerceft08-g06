@@ -107,7 +107,7 @@ function Product(props) {
                               : <Typography>{product.description}</Typography>
                             }
                         </Container>
-                        { product.stock && <Container className={styles.quantityContainer} >
+                        { product.stock > 0 && <Container className={styles.quantityContainer} >
                             <TextField
                                 className={styles.quantity}
                                 type='number'
@@ -118,7 +118,10 @@ function Product(props) {
                             />
                             <Typography className={styles.stock} >{`(${product.stock} en stock)`}</Typography>
                         </Container>}
-                        { product.stock && <Button className={styles.addToCart} onClick={() => handleAddToCart()} ><ShoppingCartIcon /><Typography className={styles.textCart} >Añadir al carrito</Typography></Button>}
+                        { product.stock > 0 
+                        ? <Button className={styles.addToCart} onClick={() => handleAddToCart()} ><ShoppingCartIcon /><Typography className={styles.textCart} >Añadir al carrito</Typography></Button>
+                        : <Button className={styles.noStock} disabled='disabled' >Sin stock</Button>
+                        }
                     </Container>
                 </Container>
                 <Container ref={descriptionRef} className={styles.description} >
