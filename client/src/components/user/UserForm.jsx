@@ -96,7 +96,7 @@ export default function UserForm(props){
           axios.post('http://localhost:3000/users/', { form:values })
           .then((res) => {
             console.log("PROPS: ", props);
-            showAlertSuccess("usuario creado", 2000)
+            showAlertSuccess("Usuario creado", 2000)
             setTimeout(()=>{props.history.push('/');},2000)
           })
           .catch(err => {
