@@ -45,7 +45,7 @@ function AdminCategoryList(){
     
         swalWithBootstrapButtons.fire({
             title: 'Esta Seguro?',
-            text: "Esta desicion no tiene retorno!",
+            text: "Esta decisión no tiene retorno!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'YES, DELETE IT!',
