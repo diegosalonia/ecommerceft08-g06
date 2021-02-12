@@ -43,10 +43,10 @@ module.exports = (sequelize) => {
             defaultValue: "user"
         },
         shipping_address:{
-            type:INTEGER
+            type:STRING
         },
-        billing_addres:{
-            type:INTEGER
+        billing_address:{
+            type:STRING
         },
         email_notification:{
             type:BOOLEAN
