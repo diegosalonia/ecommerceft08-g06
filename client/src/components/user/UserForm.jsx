@@ -147,7 +147,7 @@ export default function UserForm(props){
                    variant="outlined"
                    id="email"
                    name="email"
-                   label="correo electronico"
+                   label="Correo electrónico"
                    value={formik.values.email}
                    onChange={formik.handleChange}
                    error={formik.touched.email && Boolean(formik.errors.email)}
