@@ -83,3 +83,6 @@ export const config = token => {
         }
     }
 };
+
+/*categoryListReducer constants */
+export const DELETE_CATEGORIES = "DELETE_CATEGORIES";
