@@ -41,6 +41,7 @@ export const login = (user) => (dispatch, getState) => {
             footer: '<a href>Para Mayor Informacion</a>'
           })        
     }
+
 }
 
 export const addNewAddress = (userId, newAddress) => dispatch => {
@@ -63,9 +64,10 @@ export const logout = (token) => dispatch =>{
     return axios.post(url,null,config)
     .then(()=>{
         dispatch({type: LOGOUT})
-
-        sessionStorage.clear()
+        localStorage.clear();
+        sessionStorage.clear();
 
         window.location.replace("http://localhost:3001/")
     })
+    .catch(err => console.log("ERROR LOGOUT: ", err));
 }

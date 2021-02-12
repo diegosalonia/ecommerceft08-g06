@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import {Box} from '@material-ui/core'
 import CategoriesCollection from './CategoriesCollection';
@@ -8,12 +8,12 @@ import { changeOrderStatus } from '../../redux/cartReducer/actions';
 export default function Home(){
     const dispatch = useDispatch();
     const userId = JSON.parse(sessionStorage.getItem('id'));
-    
+    const user = useSelector(state => state.loginReducer);
     useEffect(() => {
-        if (window.location.href.includes('status')) {
-            dispatch(changeOrderStatus(userId)); // userId hardcoded
+        if (window.location.href.includes('&status')) {
+            dispatch(changeOrderStatus(userId));
         };
-    }, [dispatch, userId]);
+    }, [dispatch, userId, user]);
   
     const useStyles = makeStyles((theme) => ({
             catCol:{
