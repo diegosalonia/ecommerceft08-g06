@@ -81,7 +81,7 @@ const UpdateProductForm = (props) => {
         
         
        
-        console.log("ARR NUM ",arr)
+       
         setChecked(newChecked);
         return setCategoryList(arr);
     };
