@@ -224,7 +224,7 @@ export default function UserForm(props){
                         value={formik.values.email_notification}
                         inputProps={{ 'aria-label': 'secondary checkbox' }}
                     />}
-                    label="Quiero recivir notificaciones via correo electronico."
+                    label="Quiero recibir notificaciones vía correo electrónico."
                   />
                 </Grid>
               </Grid>
