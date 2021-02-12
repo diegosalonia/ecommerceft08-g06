@@ -86,7 +86,6 @@ function AdminDashboard() {
                             <Card className={styles.cardShadow} >
                                 <CardMedia
                                     className={styles.images}
-                                    //image={addCategory}
                                 />
                                 <CardContent>
                                     <Typography variant='h5' align='center' >User List</Typography>
@@ -95,8 +94,22 @@ function AdminDashboard() {
                             </Card>
                         </Link>
                     </Grid>
+                    <Grid item lg={4} className={styles.card} >
+                        <Link to='/admin/categories' className={styles.link} >
+                            <Card className={styles.cardShadow} >
+                                <CardMedia
+                                    className={styles.images}
+                                />
+                                <CardContent>
+                                    <Typography variant='h5' align='center' >Category List</Typography>
+                                    <Typography align='center' >Here you can watch thes categories. Name and description</Typography>
+                                </CardContent>
+                            </Card>
+                        </Link>
+                    </Grid>
                     <Grid item lg={2} />
                 </Grid>
+                
             </Container>
         )
     };
