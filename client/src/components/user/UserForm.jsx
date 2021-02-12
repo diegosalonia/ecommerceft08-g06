@@ -210,7 +210,7 @@ export default function UserForm(props){
                    variant="outlined"
                    id="billing_address"
                    name="billing_address"
-                   label="Direccion de facturacion(opcional)"
+                   label="Dirección de facturación (opcional)"
                    value={formik.values.billing_address}
                    onChange={formik.handleChange}
                  />
