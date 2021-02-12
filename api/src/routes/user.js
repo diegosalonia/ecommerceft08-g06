@@ -53,7 +53,7 @@ server.post('/', async (req, res) => {
     let foundUser = await User.findOne({ where: {email: email }});
     console.log(foundUser)
     if (foundUser) {
-      return res.status(403).json({ msg: 'Email is already in use'});
+      return res.status(403).json({ msg: 'Correo electrónico ya registrado'});
     }else{
         const newUser = new User({ email, password, first_name, last_name, phone_number, user_role})
         await newUser.save()
