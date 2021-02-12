@@ -9,6 +9,7 @@ import { DropzoneArea } from 'material-ui-dropzone';
 import { DeleteForever } from '@material-ui/icons';
 import { useStylesUpdateProduct } from './styles/UpdateProductForm';
 import { getProduct, getCategories } from '../../../redux/updateProductForm/actions';
+import { config } from '../../../redux/constants';
 
 const validationSchema = yup.object({
     name: yup
@@ -42,6 +43,7 @@ const UpdateProductForm = (props) => {
     const [ setCategoryList ] = useState([]);
     const [ loadingProduct, setLoadingProduct ] = useState(true);
     const userRole = sessionStorage.getItem('role');
+    const token = sessionStorage.getItem('token');
 
     const handleDelete = imageToDelete => {
         product.image = product.image.filter(image => image !== imageToDelete);
@@ -98,14 +100,14 @@ const UpdateProductForm = (props) => {
                             .child(images[0].name)
                             .getDownloadURL()
                             .then(url => {
-                                axios.put(`http://localhost:3000/products/${id}`, {form: {...values, image: url}})
+                                axios.put(`http://localhost:3000/products/${id}`, {form: {...values, image: url}}, config(token))
                                     .then(res => console.log("res axios.put: ", res))
                                     .catch(err => console.log("err axios.put: ", err));
                             });
                     }
                 )
             } else {
-                axios.put(`http://localhost:3000/products/${id}`, {form: values})
+                axios.put(`http://localhost:3000/products/${id}`, {form: values}, config(token))
                     .then(res => console.log(res))
                     .catch(err => console.log(err));
             }
