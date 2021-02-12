@@ -82,12 +82,12 @@ function Product(props) {
                                 name='product-rating'
                                 precision={0.1}
                                 size='small'
-                                defaultValue={reviews.length ? reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length : 3}
+                                defaultValue={reviews.length ? reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length : 0}
                                 readOnly
                             />
                             <Link onClick={goToReviews} className={styles.reviewTotal} >{`${reviews.length} opiniones`}</Link>
                             {
-                                (editReview || addReview) && <Button className={styles.goToSetReview} onClick={goToSetReview}>Rate product</Button>
+                                (editReview || addReview) && <Button className={styles.goToSetReview} onClick={goToSetReview}>Calificar producto</Button>
                             }
                         </Container>
                         <Container className={styles.categories} >
@@ -102,12 +102,12 @@ function Product(props) {
                         }
                         <Container className={styles.descriptionContainer} >
                             { product.description?.length > 60 ? (<Typography>
-                                                                    {`${product.description.slice(0, 150)}...`}<Link className={styles.verMas} onClick={goToDescription} >More details</Link>
+                                                                    {`${product.description.slice(0, 150)}...`}<Link className={styles.verMas} onClick={goToDescription} >Más detalles</Link>
                                                                 </Typography>)
                               : <Typography>{product.description}</Typography>
                             }
                         </Container>
-                        <Container className={styles.quantityContainer} >
+                        { product.stock && <Container className={styles.quantityContainer} >
                             <TextField
                                 className={styles.quantity}
                                 type='number'
@@ -117,18 +117,18 @@ function Product(props) {
                                 onChange={handleChangeQuantity}
                             />
                             <Typography className={styles.stock} >{`(${product.stock} en stock)`}</Typography>
-                        </Container>
-                        <Button className={styles.addToCart} onClick={() => handleAddToCart()} ><ShoppingCartIcon /><Typography className={styles.textCart} >ADD TO CART</Typography></Button>
+                        </Container>}
+                        { product.stock && <Button className={styles.addToCart} onClick={() => handleAddToCart()} ><ShoppingCartIcon /><Typography className={styles.textCart} >Añadir al carrito</Typography></Button>}
                     </Container>
                 </Container>
                 <Container ref={descriptionRef} className={styles.description} >
-                    <Typography variant="h4" className={styles.descriptionTitle} >DESCRIPTION</Typography>
+                    <Typography variant="h4" className={styles.descriptionTitle} >DESCRIPCIÓN</Typography>
                     <Typography variant='body' >{ product.description }</Typography>
                 </Container>
                 <Container ref={reviewRef} className={styles.reviews} >
                     <ReviewContainer productId={id} />
                     {(editReview || addReview) && <Container ref={setReviewRef} className={styles.addRating} >
-                        <Typography className={styles.addRatingTitle} align='center' variant='h4' color='primary' >{editReview ? 'EDIT REVIEW' : 'ADD REVIEW'}</Typography>
+                        <Typography className={styles.addRatingTitle} align='center' variant='h4' color='primary' >{editReview ? 'EDITAR RESEÑA' : 'AÑADIR RESEÑA'}</Typography>
                         <Rating 
                             name='rating'
                             precision={1}
@@ -142,7 +142,7 @@ function Product(props) {
                             value={review.comment}
                             onChange={handleReview}
                         />
-                        <Button className={styles.ratingButton} onClick={editReview ? handleEditReview : handleAddReview} >{editReview ? 'Edit review' : 'Add review'}</Button>
+                        <Button className={styles.ratingButton} onClick={editReview ? handleEditReview : handleAddReview} >{editReview ? 'Editar reseña' : 'Añadir reseña'}</Button>
                     </Container>}
                 </Container>
             </Container>
@@ -153,7 +153,3 @@ function Product(props) {
 };
 
 export default Product;
-
-/* TODO:
-    - Default image
-*/
