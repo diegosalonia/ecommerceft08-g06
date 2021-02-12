@@ -232,7 +232,7 @@ export default function UserForm(props){
               <Grid container justify="flex-end">
                 <Grid item>
                   <Link href="/" variant="body2">
-                    ya tienes una cuenta?, inicia sesión
+                    ¿Ya tienes una cuenta? Inicia sesión
                   </Link>
                 </Grid>
               </Grid>
