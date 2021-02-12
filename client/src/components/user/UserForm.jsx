@@ -199,7 +199,7 @@ export default function UserForm(props){
                    variant="outlined"
                    id="shipping_address"
                    name="shipping_address"
-                   label="Dirección de Envío(opcional)"
+                   label="Dirección de Envío (opcional)"
                    value={formik.values.shipping_addres}
                    onChange={formik.handleChange}
                  />
