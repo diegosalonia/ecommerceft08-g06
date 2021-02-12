@@ -78,7 +78,7 @@ const UpdateProductForm = (props) => {
         //newChecked.forEach(el => !(el in myObj) && (myObj[el] = true) && newArr.push(el)) //deja solo un valor
         //function tiene_repetidos(array){return new Set(array).size!==array.length} // true o false si tiene 
 
-        console.log("CATEGORIA ",newCategory)
+        
         
         console.log("ARRAY ",newChecked)
         console.log("ARR NUM ",arr)
