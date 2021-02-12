@@ -79,7 +79,7 @@ const UpdateProductForm = (props) => {
         //function tiene_repetidos(array){return new Set(array).size!==array.length} // true o false si tiene 
 
         console.log("CATEGORIA ",newCategory)
-        console.log("CHEKED ",checked)
+        
         console.log("ARRAY ",newChecked)
         console.log("ARR NUM ",arr)
         setChecked(newChecked);
