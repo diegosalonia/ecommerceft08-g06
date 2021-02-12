@@ -65,7 +65,7 @@ const CartTotal = () => {
                                 value={newAddress}
                                 onChange={handleNewAddressValue}
                             />
-                            <Button onClick={handleNewAddress} className={styles.buttonConfirmAddress} >Add shipping address</Button>
+                            <Button onClick={handleNewAddress} className={styles.buttonConfirmAddress} >Ingresar dirección de envío</Button>
                         </Container>
                     </Fade>
                 </Modal>
