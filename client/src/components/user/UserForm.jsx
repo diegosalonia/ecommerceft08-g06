@@ -188,7 +188,7 @@ export default function UserForm(props){
                    variant="outlined"
                    id="phone_number"
                    name="phone_number"
-                   label="Numero Telefonico(opcional)"
+                   label="Número Telefónico (opcional)"
                    value={formik.values.phone_number}
                    onChange={formik.handleChange}
                  />
