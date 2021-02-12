@@ -14,7 +14,11 @@ server.get('/', (req, res) => {
         .then(orders => res.send(orders))
         .catch(err => console.log(err));
     } else {
-        Order.findAll()
+        Order.findAll({
+            where: {
+                status: ['canceled', 'approved', 'pending']
+            }
+        })
         .then(orders => {
             res.send(orders);
         })
