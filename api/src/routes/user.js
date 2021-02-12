@@ -34,6 +34,20 @@ server.get('/', passport.authenticate('jwt', { session: false }), async(req, res
     {res.status(401).send({message: 'not authorized'})}
 });
 
+server.get('/findUser/:userId', passport.authenticate('jwt', { session: false }), async(req, res, next) => {
+    const user = await User.findByPk(req.user)
+    if(user.user_role === 'admin') {
+    User.findOne({
+        where:{id: req.params.userId}
+    })
+    .then(response =>{
+        res.send(response)
+    })
+    .catch(next)
+    } else
+    {res.status(401).send({message: 'not authorized'})}
+});
+
 server.get('/:id/orders', (req, res) => {
     Order.findAll({
         where: {

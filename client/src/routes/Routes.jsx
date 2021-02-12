@@ -22,6 +22,7 @@ import ReviewContainer from '../components/Review/ReviewContainer';
 import Cart from '../components/cart/Cart';
 import PasswordReset from '../components/passwordReset/PasswordReset';
 import UserProfile from '../components/user/Profile';
+import UserProfileAdmin from '../components/user/ProfileEdit';
 
 const Routes = () => {
     return(
@@ -35,6 +36,7 @@ const Routes = () => {
                     <Route exact path='/admin/orders/:orderId' component={Order} />
                     <Route exact path='/admin/products' component={AdminProductList} />
                     <Route exact path='/admin/users' component={AdminUserList} />
+                    <Route exact path='/admin/users/:id/profile' component={UserProfileAdmin} />
                     <Route path='/admin/products/create-product' component={CreateProductForm} />
                     <Route path="/admin/categories/create-category" component={CategoryForm} />
                     <Route path='/admin/products/:id/edit' component={UpdateProductForm} />

@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { useStylesUserList } from './styles/AdminUserList';
 import PersonIcon from '@material-ui/icons/Person';
+import EditIcon from '@material-ui/icons/Edit';
 import Swal from 'sweetalert2';
 
 
@@ -200,7 +201,6 @@ function AdminUserList() {
         .catch(err => console.log(err));
     };
 
-
     useEffect(() => {
         dispatch(getUsers(token));
     }, [dispatch, token]);
@@ -267,7 +267,12 @@ function AdminUserList() {
                                                         <IconButton color='primary' onClick={() => handleDisable(row.id)} >
                                                             <PersonAddDisabledIcon/>
                                                         </IconButton>
-                                                    </TableCell>                                            
+                                                    </TableCell>    
+                                                    <TableCell>
+                                                        <IconButton color='primary' href = {`/admin/users/${row.id}/profile`} >
+                                                            <EditIcon/>
+                                                        </IconButton>
+                                                    </TableCell>                                         
                                             </TableRow>
                                         )
                                         }
