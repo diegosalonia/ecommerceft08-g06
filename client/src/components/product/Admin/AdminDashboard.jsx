@@ -102,7 +102,7 @@ function AdminDashboard() {
                                 />
                                 <CardContent>
                                     <Typography variant='h5' align='center' >Category List</Typography>
-                                    <Typography align='center' >Here you can watch thes categories. Name and description</Typography>
+                                    <Typography align='center' >Here you can watch the categories. Name and description</Typography>
                                 </CardContent>
                             </Card>
                         </Link>
