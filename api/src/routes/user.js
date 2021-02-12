@@ -53,14 +53,14 @@ server.post('/', async (req, res) => {
     let foundUser = await User.findOne({ where: {email: email }});
     console.log(foundUser)
     if (foundUser) {
-      return res.status(403).json({ error: 'Email is already in use'});
+      return res.status(403).json({ msg: 'Correo electrónico ya registrado'});
+    }else{
+        const newUser = new User({ email, password, first_name, last_name, phone_number, user_role})
+        await newUser.save()
+        // Generate JWT token
+        const token = genToken(newUser)
+        res.status(200).json({token})
     }
- 
-  const newUser = new User({ email, password, first_name, last_name, phone_number, user_role})
-  await newUser.save()
-  // Generate JWT token
-  const token = genToken(newUser)
-  res.status(200).json({token})
 });
 
 server.put('/:userId/shipping-address', async (req, res) => {
