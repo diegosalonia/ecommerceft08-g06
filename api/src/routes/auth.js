@@ -4,7 +4,7 @@ const { User, Order } = require("../db.js");
 const passport = require("passport");
 const passportJWT = require("passport-jwt");
 const jwt = require ('jsonwebtoken')
-const { HOSTFRONT, secToken } = process.env;
+const { HOSTFRONT, secToken, secret } = process.env;
 
 
 // Google login
