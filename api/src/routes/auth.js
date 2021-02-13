@@ -75,7 +75,7 @@ server.get("/github/callback", (req, res, next) => {
 server.post('/login', (req, res, next) => {
   passport.authenticate('local', {session: false}, (err, user) => {
         if(user) {
-          const token = jwt.sign( {user}, 'secret')
+          const token = jwt.sign( {user}, secret)
             res.status(200).json({ user, token })
         }
     }) 
