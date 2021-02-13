@@ -42,6 +42,11 @@ export const useStylesUserList = makeStyles(theme => ({
         padding: '2% 3%',
         marginRight: '10%',
         cursor: 'pointer'
+    },
+    buttons: {
+        display: 'flex',
+        flexDirection: 'column'
     }
 
 }));
+

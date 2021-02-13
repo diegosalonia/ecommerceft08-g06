@@ -1,18 +1,20 @@
 import {GET_USER, DELETE_USER, UPDATE_USER} from '../constants';
 
+
 const initialState = {
-    users: [],
-    isDeleted: false
+  users: []
 };
 
-function eliminar(array, elemento, newObj) {
+function updateActive(array, elemento, newObj) {
     var resultado = []
     for (var i = 0; i < array.length; i++) {
       if (array[i].id !== elemento) {
         resultado.push(array[i]);
       }
+      else if(array[i].id === elemento) {
+        resultado.push(newObj);
+      }
     }
-    resultado.push(newObj)
     return resultado;
   }
 
@@ -27,14 +29,15 @@ const userListReducer = (state=initialState, action)=>{
         case DELETE_USER:
             return {
                 ...state,
-                isDeleted: true
+                users: updateActive(state.users,action.users.id,action.users)
             }
 
         case UPDATE_USER:
             return {
-                ...state,
-                users: eliminar(state.users,action.update.id,action.update)
+              ...state,
+              users: updateActive(state.users,action.update.id,action.update) 
             }
+            
         
         default:
             return state;

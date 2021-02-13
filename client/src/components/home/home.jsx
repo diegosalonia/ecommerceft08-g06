@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useHistory } from "react-router-dom";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import {Box} from '@material-ui/core'
 import CategoriesCollection from './CategoriesCollection';
@@ -11,6 +11,7 @@ import jwt_decode from "jwt-decode";
 export default function Home(props){
     const dispatch = useDispatch();
     const userId = JSON.parse(sessionStorage.getItem('id'));
+
     const jwt = props.match.query?.jwt;
     const history = useHistory();
 
@@ -55,6 +56,14 @@ export default function Home(props){
     useEffect(() => {
         jwt && sessionStorage.setItem('token', jwt)
     }, [jwt]);
+
+    const user = useSelector(state => state.loginReducer);
+    useEffect(() => {
+        if (window.location.href.includes('&status')) {
+            dispatch(changeOrderStatus(userId));
+        };
+    }, [dispatch, userId, user]);
+
   
     const useStyles = makeStyles((theme) => ({
             catCol:{

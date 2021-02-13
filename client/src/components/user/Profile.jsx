@@ -3,19 +3,40 @@ import { Container, Typography, Grid, Card, CardContent, Link, Avatar, Button, T
 import PersonIcon from '@material-ui/icons/Person';
 import { useStylesUserProfile } from "./styles";
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser } from '../../redux/userReducer/actions';
+import { getUser, updateUser } from '../../redux/userReducer/actions';
 import { changePasswordAction } from '../../redux/passwordResetReducer/actions'
-
+import { useFormik } from 'formik';
+import Swal from 'sweetalert2';
 
 const UserProfile = () => {
-    const dispatch = useDispatch()
     const [changePassword, setChangePassword] = useState(false)
+    const [changeEmail , setChangeEmail] = useState(false)
+    const [changePhoneNumber , setChangePhoneNumber] = useState(false)
+    const [changeShippingAdress , setChangeShippingAdress] = useState(false)
+    const [changeBillingAdress , setChangeBillingAdress] = useState(false)
     const [newPassword, setNewPassword] = useState("")
+    // const [newEmail , setNewEmail] = useState("")
+    // const [newPhoneNumber , setNewPhoneNumber] = useState("")
+    // const [newShippingAdress , setNewShippingAdress] = useState("")
+    // const [newBillingAdress , setNewBillingAdress] = useState("")
+    
+    
+    const dispatch = useDispatch()
     const row = useSelector(state => state.userLoggedReducer.user[0])
     const token = sessionStorage.getItem("token")
     const userId = sessionStorage.getItem("id")
     const classes = useStylesUserProfile();
     const userRole = sessionStorage.getItem('role');
+
+    const showAlert = (message, time) => {
+        return Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: message,
+            showConfirmButton: false,
+            timer: time,
+        });
+    };
 
     const handleSubmitPassword = (event)=>{
         event.preventDefault()
@@ -32,8 +53,9 @@ const UserProfile = () => {
 
     const ChangePasswordForm = ()=>{
         return(
-         <Grid>
+         <Grid className={classes.formPassword}>
             <TextField
+            type="Password"
             id="newpassword"
             name="newpassword"
             label="new password"
@@ -57,9 +79,29 @@ const UserProfile = () => {
         )
     }
 
+    
+    const formik = useFormik({
+        initialValues:{
+            email: row?.email,
+            phone_number: row?.phone_number,
+            shipping_address: row?.shipping_adress,
+            billing_address: row?.billing_adress
+        },
+        onSubmit: (values) => {
+            setChangePhoneNumber(false)
+            setChangeShippingAdress(false)
+            setChangeEmail(false)
+            setChangeBillingAdress(false)
+            dispatch(updateUser(token, values, userId))
+            formik.resetForm()
+            showAlert("user info updated", 2000)
+            setTimeout(()=>{window.location.reload()}, 2000)
+        }
+    })
+
     useEffect(()=>{
         dispatch(getUser(token))
-    },[dispatch, token]);
+    },[]);
 
     const profile = () => {
         return (
@@ -80,28 +122,128 @@ const UserProfile = () => {
                                     </Grid>
                                     <Grid className={classes.userInfo}>
                                         <Typography variant="h5" className={classes.info}>Email: {row?.email}</Typography>
-                                        <Button className={classes.editar} variant="outlined">editar</Button>
+                                        <Button 
+                                        className={classes.editar} 
+                                        variant="outlined" 
+                                        onClick={()=> {
+                                            setChangeEmail(!changeEmail)
+                                            setChangePassword(false)}}
+                                        >
+                                        editar
+                                        </Button>
                                     </Grid>
                                     <Grid className={classes.userInfo}>
                                         <Typography variant="h5" className={classes.info}>Phone Number: {row?.phone_number || "sin agregar"}</Typography>
-                                        <Button className={classes.editar} variant="outlined">editar</Button>
+                                        <Button 
+                                        className={classes.editar} 
+                                        variant="outlined" 
+                                        onClick={()=> {
+                                            setChangePhoneNumber(!changePhoneNumber)
+                                            setChangePassword(false)}}
+                                        >
+                                        editar
+                                        </Button>
                                     </Grid>
                                     <Grid className={classes.userInfo}>
-                                        <Typography variant="h5" className={classes.info}>shipping Adress: {row?.shipping_adress || "sin agregar"}</Typography>
-                                        <Button className={classes.editar} variant="outlined">editar</Button>
+                                        <Typography variant="h5" className={classes.info}>shipping Address: {row?.shipping_address || "sin agregar"}</Typography>
+                                        <Button 
+                                        className={classes.editar} 
+                                        variant="outlined" 
+                                        onClick={()=> {
+                                            setChangeShippingAdress(!changeShippingAdress)
+                                            setChangePassword(false)
+                                        }}
+                                        >
+                                        editar
+                                        </Button>
                                     </Grid>
                                     <Grid className={classes.userInfo}>
-                                        <Typography variant="h5" className={classes.info}>Billing Adress: {row?.billing_adress || "sin agregar"}</Typography>
-                                        <Button className={classes.editar} variant="outlined">editar</Button>
+                                        <Typography variant="h5" className={classes.info}>Billing Address: {row?.billing_address || "sin agregar"}</Typography>
+                                        <Button 
+                                        className={classes.editar} 
+                                        variant="outlined" 
+                                        onClick={()=> {
+                                            setChangeBillingAdress(!changeBillingAdress) 
+                                            setChangePassword(false)}} >
+                                        editar
+                                        </Button>
                                     </Grid>
                                 </Grid>
                                 <Typography className={classes.info} variant="h6">
-                                    <Link to="#" onClick={()=>setChangePassword(true)}>quiero cambiar mi contraseña</Link>
+                                    <Link to="#" onClick={()=>{
+                                                setChangePassword(!changePassword)
+                                                setChangePhoneNumber(false)
+                                                setChangeShippingAdress(false)
+                                                setChangeEmail(false)
+                                                setChangeBillingAdress(false)}}>quiero cambiar mi contraseña</Link>
                                 </Typography>
                             </CardContent>
                         </Card>
                         <Card className={classes.cardEdit}>
                             <CardContent>
+                                <Typography variant="h5">Edit your profile:</Typography>
+                                <form className = {classes.form} onSubmit={formik.handleSubmit}>
+                                    {
+                                        changeEmail&&
+                                        <TextField
+                                        id="email"
+                                        name="email"
+                                        label="Email"
+                                        variant="outlined"
+                                        value={formik.values.email}
+                                        onChange={formik.handleChange}
+                                        className={classes.input}
+                                        />
+                                    }
+                                    {
+                                        changePhoneNumber&&
+                                        <TextField
+                                        id="phone_number"
+                                        name="phone_number"
+                                        label="Phone Number"
+                                        variant="outlined"
+                                        value={formik.values.phone_number}
+                                        onChange={formik.handleChange}
+                                        className={classes.input}
+                                        />
+                                    }
+                                    {
+                                        changeShippingAdress&&
+                                        <TextField
+                                        id="shipping_address"
+                                        name="shipping_address"
+                                        label="Shipping Address"
+                                        variant="outlined"
+                                        value={formik.values.shipping_adress}
+                                        onChange={formik.handleChange}
+                                        className={classes.input}
+                                        />
+                                    }
+                                    {
+                                        changeBillingAdress&&
+                                        <TextField
+                                        id="billing_address"
+                                        name="billing_address"
+                                        label="Billing Address"
+                                        variant="outlined"
+                                        value={formik.values.billing_adress}
+                                        onChange={formik.handleChange}
+                                        className={classes.input}
+                                        />
+                                    }
+                                    {(changeEmail || changePhoneNumber || changeShippingAdress || changeBillingAdress) && 
+                                    <Grid className={classes.formButton}>
+                                    <Button
+                                    type="submit"
+                                    variant="contained"
+                                    color="primary"
+                                    fullWidth 
+                                    >
+                                        Submit
+                                    </Button>
+                                    </Grid>
+                                    }
+                                </form>
                                 {changePassword&&ChangePasswordForm()}
                             </CardContent>
                         </Card>

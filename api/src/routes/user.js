@@ -53,14 +53,14 @@ server.post('/', async (req, res) => {
     let foundUser = await User.findOne({ where: {email: email }});
     console.log(foundUser)
     if (foundUser) {
-      return res.status(403).json({ error: 'Email is already in use'});
+      return res.status(403).json({ msg: 'Correo electrónico ya registrado'});
+    }else{
+        const newUser = new User({ email, password, first_name, last_name, phone_number, user_role})
+        await newUser.save()
+        // Generate JWT token
+        const token = genToken(newUser)
+        res.status(200).json({token})
     }
- 
-  const newUser = new User({ email, password, first_name, last_name, phone_number, user_role})
-  await newUser.save()
-  // Generate JWT token
-  const token = genToken(newUser)
-  res.status(200).json({token})
 });
 
 server.put('/:userId/shipping-address', async (req, res) => {
@@ -72,6 +72,65 @@ server.put('/:userId/shipping-address', async (req, res) => {
     user.save()
     .then(response => res.send(response))
     .catch(err => res.status(401).send(err));
+});
+
+server.post('/send-order', async (req, res) => {
+    const { order, userId } = req.body;
+    const user = await User.findByPk(userId);
+
+    const message = {
+        to: user.email,
+        from: 'dager2115@gmail.com',
+        subject: 'Ésta es su orden de Un Jardin Especial',
+        text: 'Ésta es su orden de Un Jardin Especial',
+        html: `
+        <div>
+            <h1>Order</h1>
+            <table>
+                <tr>
+                    <th>Producto</th>
+                    <th> | </th>
+                    <th>Cantidad</th>
+                    <th> | </th>
+                    <th>Precio</th>
+                </tr>
+                ${ order.map(({ name, order_line, price, discount }) => {
+                    return (
+                        `
+                        <tr>
+                            <td>${name}</td>
+                            <td> | </td>
+                            <td>${order_line.quantity}</td>
+                            <td> | </td>
+                            <td>${price - (price * (discount / 100))}</td>
+                        </tr>
+                        `
+                    )
+                })}
+                <tr>
+                    <td><hr /></td>
+                    <td><hr /></td>
+                    <td><hr /></td>
+                    <td><hr /></td>
+                    <td><hr /></td>
+                </tr>
+                <tr>
+                    <td>Total:</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>${order.reduce((acc, {order_line, price, discount}) => acc + ((price - (price * (discount / 100))) * order_line.quantity), 0)}</td>
+                </tr>
+            </table>
+            <a href=${`http://localhost:3001/user/orders/${order.id}`} >Ingrese aquí para ver los detalles de su compra</a>
+            <h3>¡Gracias por su compra!</h3>
+            </div>
+        `
+    };
+
+    sgMail.send(message)
+    .then(response => res.send(response))
+    .catch(err => console.log("ERROR ENVIANDO ORDEN: ", err));
 });
 
 server.post('/sendMail', (req, res) => {
@@ -97,14 +156,17 @@ server.post('/sendMail', (req, res) => {
 
 server.put('/:userId', async (req, res) => {
     const user = await User.findByPk(req.params.userId)
-    Object.assign(user, req.body.form)
-
+    Object.assign(user, req.body)
+    
     user.save()
     .then(response =>{
-        res.send(response)
+        res.send({
+            response,
+            userForm:req.body
+        })
     })
     .catch(err => {
-        res.send(err)
+        res.send(err.message)
     })
 });
 
@@ -134,12 +196,25 @@ server.put('/update/passwordReset', async (req, res) => {
 
 server.delete('/:userId', async (req, res) => {
     const user = await User.findByPk(req.params.userId)
-    user.destroy()
-    .then( response => {
-        res.send("user deleted")
+    user.active = "false";
+    user.save()
+    .then(user=>{
+        res.send(user)
     })
-    .catch(error => {
-        res.send(error)
+    .catch(err=>{
+        res.send(err)
+    })
+})
+
+server.put('/active/:userId', async (req, res) => {
+    const user = await User.findByPk(req.params.userId)
+    user.active = "true";
+    user.save()
+    .then(user=>{
+        res.send(user)
+    })
+    .catch(err=>{
+        res.send(err)
     })
 })
 

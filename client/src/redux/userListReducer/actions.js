@@ -12,11 +12,25 @@ export const getUsers = token => dispatch =>{
     .catch(err => console.log('ERROR GET: ', err))
 }
 
-export const deleteUsers = (id, token) => dispatch => {
+export const desactiveUsers = (id, token) => dispatch => {
     return axios.delete(`http://localhost:3000/users/${id}`, null, config(token))
     .then(user=>{
+        console.log(user)
         dispatch({
-            type: DELETE_USER
+            type: DELETE_USER,
+            users: user.data
+        })
+    })
+    .catch(err => console.log('ERROR DELETE: ', err))
+}
+
+export const activeUsers = (id, token) => dispatch => {
+    return axios.put(`http://localhost:3000/users/active/${id}`, null, config(token))
+    .then(user=>{
+        console.log(user)
+        dispatch({
+            type: DELETE_USER,
+            users: user.data
         })
     })
     .catch(err => console.log('ERROR DELETE: ', err))

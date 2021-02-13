@@ -1,4 +1,4 @@
-const { STRING, INTEGER, ENUM, BOOLEAN, BIGINT } = require('sequelize');
+const { STRING, ENUM, BOOLEAN, BIGINT } = require('sequelize');
 
 module.exports = (sequelize) => {
     sequelize.define('user',{
@@ -33,16 +33,20 @@ module.exports = (sequelize) => {
         phone_number:{
             type: BIGINT
         },
+        active:{
+            type: ENUM("true","false"),
+            defaultValue: "true"
+        },
         user_role:{
             type: ENUM("admin", "user"),
             allowNull:false,
             defaultValue: "user"
         },
         shipping_address:{
-            type:INTEGER
+            type:STRING
         },
-        billing_addres:{
-            type:INTEGER
+        billing_address:{
+            type:STRING
         },
         email_notification:{
             type:BOOLEAN

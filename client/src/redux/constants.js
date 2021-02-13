@@ -38,6 +38,7 @@ export const DELETE_ALL_CART = 'DELETE_ALL_CART';
 export const GO_TO_CHECKOUT = 'GO_TO_CHECKOUT';
 export const CHANGE_ORDER_STATUS = 'CHANGE_ORDER_STATUS';
 export const CHANGE_PRODUCT_QUANTITY_NO_USER = 'CHANGE_PRODUCT_QUANTITY_NO_USER';
+export const SEND_ORDER_EMAIL = 'SEND_ORDER_EMAIL';
 /* end cartReducer */
 
 /* Catalog - Pagination */
@@ -47,6 +48,7 @@ export const UPDATE_PAGE = "updatePage";
 
 // order constansts
 export const GET_ORDER = "GET_ORDER";
+export const CHANGE_ORDER_STATUS_IN_ORDER_DETAIL = "CHANGE_ORDER_STATUS"
 
 /*Review Start */
 export const GET_REVIEWS = "getReviews";
@@ -67,6 +69,7 @@ export const CHANGE_PASSWORD = "CHANGE_PASSWORD"
 
 /* user constants */
 export const GET_USER = "GET_USER"
+export const UPDATE_USER_PROFILE = "UPDATE_USER"
 export const GET_PRODUCTS_BY_KEYWORD = "GET_PRODUCTS_BY_KEYWORD";
 
 /*start userListReducer */
@@ -81,3 +84,6 @@ export const config = token => {
         }
     }
 };
+
+/*categoryListReducer constants */
+export const DELETE_CATEGORIES = "DELETE_CATEGORIES";
