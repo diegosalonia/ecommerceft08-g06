@@ -24,7 +24,7 @@ const {
 
 passport.use(new JWTStrategy({
     jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-    secretOrKey   : 'secret'
+    secretOrKey   : secret
     },
     function (jwtPayload, next) {
         console.log('AQUI PAYLOAD: ', jwtPayload)
