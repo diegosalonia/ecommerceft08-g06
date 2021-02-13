@@ -1,4 +1,4 @@
-const { STRING, INTEGER, ENUM, BOOLEAN, BIGINT } = require('sequelize');
+const { STRING, ENUM, BOOLEAN, BIGINT } = require('sequelize');
 
 module.exports = (sequelize) => {
     sequelize.define('user',{
