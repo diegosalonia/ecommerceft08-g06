@@ -52,7 +52,7 @@ server.get("/facebook/callback", (req, res, next) => {
     if (!user) {
       res.redirect(`http://localhost:3001/login?error=401`);
     } else {
-      const token = jwt.sign(user.toJSON(), "secret");
+      const token = jwt.sign(user.toJSON(), secret);
       res.redirect(`http://localhost:3001/?loginFacebook=true&t=${token}`);
     }
   })(req, res, next);
