@@ -153,7 +153,6 @@ passport.use(
         }
         else {
             const createdUser = await User.create(user)
-            console.log('USUARIO CREADO: ', user)
             done(null, createdUser)
             
         }
