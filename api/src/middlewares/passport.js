@@ -146,7 +146,6 @@ passport.use(
           last_name: '-',
           email: profile.emails[0].value
         }
-        console.log('AQUI USUARIO: ',user)
         const foundUser = await User.findOne({ where: { email: user.email } })
         if (foundUser) {
             const updatedUser = await foundUser.update(user);
