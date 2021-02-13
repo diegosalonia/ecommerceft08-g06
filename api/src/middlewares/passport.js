@@ -27,7 +27,6 @@ passport.use(new JWTStrategy({
     secretOrKey   : secret
     },
     function (jwtPayload, next) {
-        console.log('AQUI PAYLOAD: ', jwtPayload)
         User.findByPk( jwtPayload.id || jwtPayload.user.id )
         .then(user => {
             next(null, user.id);
