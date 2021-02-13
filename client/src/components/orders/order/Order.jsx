@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, Typography, Table, TableBody ,TableCell ,TableContainer, TableHead, TableRow, Paper, TextField, Button } from '@material-ui/core';
+import { Link } from 'react-router-dom';
+import { Container, Typography, Table, TableBody ,TableCell ,TableContainer, 
+         TableHead, TableRow, Paper, TextField, Button } from '@material-ui/core';
 import { getOrder, changeStatus } from '../../../redux/orderReducer/actions';
 import useStyles from './styles/styles'
 
@@ -64,7 +66,7 @@ export default function Order(props){
                       </TableRow>
                       {rows&&rows.map((row) => (
                         <TableRow key={row.id}>
-                          <TableCell component="th" scope="row" className={classes.cell}>{row.name}</TableCell>
+                          <TableCell component="th" scope="row" className={classes.cell}><Link className={classes.link} to={`/products/${row.id}`} >{row.name}</Link></TableCell>
                           <TableCell align="left" className={classes.cell}>{row.order_line.quantity}</TableCell>
                           <TableCell align="left" className={classes.cell}>{row.price}</TableCell>
                           <TableCell align="left" className={classes.cell}>{row.price * row.order_line.quantity}</TableCell>
@@ -77,19 +79,20 @@ export default function Order(props){
                       </TableRow>
                       <TableRow>
                           <TableCell align="left" colSpan={0} className={classes.cell}>Status</TableCell>
-                          <TableCell align="left" rowSpan={0} className={classes.cell}>{
-                          !change?
-                          <Typography>
-                            {status.toUpperCase()}
-                          </Typography>:
-                          <TextField
-                          id="status"
-                          name="status"
-                          className={classes.input}
-                          value={input}
-                          onChange={handleChange}
-                          />
-                          }
+                          <TableCell align="left" rowSpan={0} className={classes.cell}>
+                            {
+                              !change?
+                              <Typography>
+                                {status.toUpperCase()}
+                              </Typography>:
+                              <TextField
+                              id="status"
+                              name="status"
+                              className={classes.input}
+                              value={input}
+                              onChange={handleChange}
+                              />
+                            }
                           </TableCell>
                           <TableCell align="left" className={classes.cell}>
                             {

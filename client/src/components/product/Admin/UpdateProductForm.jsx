@@ -9,6 +9,8 @@ import { DropzoneArea } from 'material-ui-dropzone';
 import { DeleteForever } from '@material-ui/icons';
 import { useStylesUpdateProduct } from './styles/UpdateProductForm';
 import { getProduct, getCategories } from '../../../redux/updateProductForm/actions';
+import { config } from '../../../redux/constants';
+import Swal from 'sweetalert2';
 
 const validationSchema = yup.object({
     name: yup
@@ -38,30 +40,57 @@ const UpdateProductForm = (props) => {
     const { match: { params: { id }}} = props;
     const [ images, setImages ] = useState([]);
     const [ imageToShow, setImageToShow ] = useState(true);
+    const [ checkedRespaldo, setCheckedRespaldo ] = useState([]);
     const [ checked, setChecked ] = useState([]);
-    const [ setCategoryList ] = useState([]);
+    const [ categoryList , setCategoryList ] = useState([]);
     const [ loadingProduct, setLoadingProduct ] = useState(true);
     const userRole = sessionStorage.getItem('role');
+    const token = sessionStorage.getItem('token');
 
     const handleDelete = imageToDelete => {
         product.image = product.image.filter(image => image !== imageToDelete);
         setImages(images.filter(image => image !== imageToDelete))
     }
 
-    const handleToggle = value => () => {
-        const currentIndex = checked.indexOf(value);
-        const newCategory = product.categories.filter(category => category.id === value.id);
-        const newChecked = [...checked];
+    const showAlert = () => {
+        return Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: '¡Producto editado!',
+            showConfirmButton: false,
+            timer: 2000,
+        });
+    };
+
+    
+    const handleToggle = value => () => {           
+        
+        setChecked(checkedRespaldo)
+
+        const currentIndex = checked.indexOf(value);        
+
+        const newChecked = [...checked]         
         let arr = [];
 
-        if (newCategory.length === 0) {
+        const newArr = []
+        const myObj = {}
+
+        console.log(currentIndex)        
+        
+        if (currentIndex === - 1) {
             newChecked.push(value);
             newChecked.forEach(el => arr.push(el.id));
         } else {
             newChecked.splice(currentIndex, 1);
             arr = [];
-            newChecked.forEach(el => !arr.includes(el) && arr.push(el.id));
+            newChecked.forEach(el => arr.push(el.id));
         }
+
+        const newCategory = checked.filter(category => category.id !== value.id); 
+
+        //newChecked.forEach(el => !(el in myObj) && (myObj[el] = true) && newArr.push(el)) //deja solo un valor
+        //function tiene_repetidos(array){return new Set(array).size!==array.length} // true o false si tiene 
+
         setChecked(newChecked);
         return setCategoryList(arr);
     };
@@ -98,19 +127,19 @@ const UpdateProductForm = (props) => {
                             .child(images[0].name)
                             .getDownloadURL()
                             .then(url => {
-                                axios.put(`http://localhost:3000/products/${id}`, {form: {...values, image: url}})
+                                axios.put(`http://localhost:3000/products/${id}`, {form: {...values, image: url}}, config(token))
                                     .then(res => console.log("res axios.put: ", res))
                                     .catch(err => console.log("err axios.put: ", err));
                             });
                     }
                 )
             } else {
-                axios.put(`http://localhost:3000/products/${id}`, {form: values})
+                axios.put(`http://localhost:3000/products/${id}`, {form: values}, config(token))
                     .then(res => console.log(res))
                     .catch(err => console.log(err));
             }
             resetForm({values: ''});
-            alert('Product updated');
+            showAlert();
         }
     });
 
@@ -122,7 +151,7 @@ const UpdateProductForm = (props) => {
         formik.values.discount = product.discount;
         formik.values.featured = product.featured;
         formik.values.image = product.image;
-        setChecked(product.categories);
+        setCheckedRespaldo(product.categories);
         setImages(product.image);
         setTimeout(() => {
             setLoadingProduct(false);
@@ -202,7 +231,7 @@ const UpdateProductForm = (props) => {
                         <Typography variant="h5">Categories</Typography>                      
                         {categories?.map(category => {    
                                 const labelId = `checkbox-list-label-${category.id}`;
-                                return product.categories?.filter(el => el.id === category.id).length === 1 ? (
+                                return product.categories?.filter(el => el.id === category.id).length === 1 ?(
                                     <ListItem key={category.id} role={undefined} dense button onChange={handleToggle(category)}>
                                         <ListItemIcon>
                                             <Checkbox 
@@ -210,6 +239,7 @@ const UpdateProductForm = (props) => {
                                                 edge="start"
                                                 size="small"
                                                 defaultChecked
+                                                //checked={checked.indexOf(category) !== -1}
                                                 tabIndex={-1}
                                                 disableRipple
                                                 inputProps={{'aria-labelledby': labelId}}
@@ -225,6 +255,7 @@ const UpdateProductForm = (props) => {
                                                 color="primary"
                                                 edge="start"
                                                 size="small"
+                                                checked={checked.indexOf(category) !== -1}
                                                 tabIndex={-1}
                                                 disableRipple
                                                 inputProps={{'aria-labelledby': labelId}}

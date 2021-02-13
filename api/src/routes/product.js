@@ -271,7 +271,11 @@ server.get('/catalog/', (req, res) => {
 	.then(count =>{
 		totalProducts = count; 
 		Product.findAll(options)
-		.then(products => res.send({products, totalProducts}))
+		.then(products => {
+			console.log("PRODUCTS IN BACK: ", products);
+			!products.length && res.send("No hay productos");
+			products.length && res.send({products, totalProducts})
+		})
 		.catch(err => console.log(err));
 	})
 	.catch(err => res.status(400).send(err));

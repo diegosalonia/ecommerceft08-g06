@@ -74,11 +74,24 @@ export const useStylesUserProfile = makeStyles(theme => ({
         minWidth: theme.spacing(88)
     },
     password:{
-        minWidth:theme.spacing(60)
+        minWidth:theme.spacing(58),
     },
     button:{
         margin: theme.spacing(0,0,0,2),
         minHeight: theme.spacing(6.9),
         minWidth: theme.spacing(15)
+    },
+    form:{
+        display: "flex",
+        flexDirection: "column"
+    },
+    input:{
+        margin: theme.spacing(2,1,1,1)
+    },
+    formButton:{
+        padding: theme.spacing(1,1,1,1)
+    },
+    formPassword:{
+        padding: theme.spacing(1,1,1,1)
     }
 }));

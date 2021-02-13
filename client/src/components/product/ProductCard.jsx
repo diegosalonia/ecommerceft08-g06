@@ -8,7 +8,7 @@ import { addToCart } from '../../redux/productReducer/actions';
 
 function ProductCard(props) {
     const dispatch = useDispatch();
-    const {id, name, description, image, discount, price} = props.productProps;
+    const {id, name, description, image, discount, price, stock} = props.productProps;
     const history = useHistory();
     const userId = JSON.parse(sessionStorage.getItem('id'));
 
@@ -78,12 +78,14 @@ function ProductCard(props) {
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <Box className={classes.boxRow}>
+          { stock > 0 ?<Box className={classes.boxRow}>
             <SmartPrice />
             <Button size="small" color="primary" onClick={handleAddToCart} >
               <ShoppingCartIcon />
             </Button>
           </Box>
+          : <Button disabled='disabled' >Sin stock</Button>
+          }
         </CardActions>
       </Card>
     );

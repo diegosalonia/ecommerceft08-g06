@@ -69,6 +69,7 @@ export const CHANGE_PASSWORD = "CHANGE_PASSWORD"
 
 /* user constants */
 export const GET_USER = "GET_USER"
+export const UPDATE_USER_PROFILE = "UPDATE_USER"
 export const GET_PRODUCTS_BY_KEYWORD = "GET_PRODUCTS_BY_KEYWORD";
 
 /*start userListReducer */
@@ -83,3 +84,6 @@ export const config = token => {
         }
     }
 };
+
+/*categoryListReducer constants */
+export const DELETE_CATEGORIES = "DELETE_CATEGORIES";

@@ -53,14 +53,14 @@ server.post('/', async (req, res) => {
     let foundUser = await User.findOne({ where: {email: email }});
     console.log(foundUser)
     if (foundUser) {
-      return res.status(403).json({ error: 'Email is already in use'});
+      return res.status(403).json({ msg: 'Correo electrónico ya registrado'});
+    }else{
+        const newUser = new User({ email, password, first_name, last_name, phone_number, user_role})
+        await newUser.save()
+        // Generate JWT token
+        const token = genToken(newUser)
+        res.status(200).json({token})
     }
- 
-  const newUser = new User({ email, password, first_name, last_name, phone_number, user_role})
-  await newUser.save()
-  // Generate JWT token
-  const token = genToken(newUser)
-  res.status(200).json({token})
 });
 
 server.put('/:userId/shipping-address', async (req, res) => {
@@ -80,18 +80,18 @@ server.post('/send-order', async (req, res) => {
     const message = {
         to: user.email,
         from: 'dager2115@gmail.com',
-        subject: 'This is your order from Un Jardin Especial',
-        text: 'This is your order from Un Jardin Especial',
+        subject: 'Ésta es su orden de Un Jardin Especial',
+        text: 'Ésta es su orden de Un Jardin Especial',
         html: `
         <div>
             <h1>Order</h1>
             <table>
                 <tr>
-                    <th>Product</th>
+                    <th>Producto</th>
                     <th> | </th>
-                    <th>Quantity</th>
+                    <th>Cantidad</th>
                     <th> | </th>
-                    <th>Price</th>
+                    <th>Precio</th>
                 </tr>
                 ${ order.map(({ name, order_line, price, discount }) => {
                     return (
@@ -121,7 +121,8 @@ server.post('/send-order', async (req, res) => {
                     <td>${order.reduce((acc, {order_line, price, discount}) => acc + ((price - (price * (discount / 100))) * order_line.quantity), 0)}</td>
                 </tr>
             </table>
-            <h3>Thanks for your purchase!</h3>
+            <a href=${`http://localhost:3001/user/orders/${order.id}`} >Ingrese aquí para ver los detalles de su compra</a>
+            <h3>¡Gracias por su compra!</h3>
             </div>
         `
     };
@@ -154,14 +155,17 @@ server.post('/sendMail', (req, res) => {
 
 server.put('/:userId', async (req, res) => {
     const user = await User.findByPk(req.params.userId)
-    Object.assign(user, req.body.form)
-
+    Object.assign(user, req.body)
+    
     user.save()
     .then(response =>{
-        res.send(response)
+        res.send({
+            response,
+            userForm:req.body
+        })
     })
     .catch(err => {
-        res.send(err)
+        res.send(err.message)
     })
 });
 

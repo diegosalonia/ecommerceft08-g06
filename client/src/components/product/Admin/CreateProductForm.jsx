@@ -73,6 +73,8 @@ const CreateProductForm = () => {
             arr = [];
             newChecked.forEach(el => arr.push(el.id));
         }
+
+        
         setChecked(newChecked);
           
         return setCategoryList(arr);
