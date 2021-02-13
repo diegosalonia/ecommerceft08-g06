@@ -156,14 +156,17 @@ server.post('/sendMail', (req, res) => {
 
 server.put('/:userId', async (req, res) => {
     const user = await User.findByPk(req.params.userId)
-    Object.assign(user, req.body.form)
-
+    Object.assign(user, req.body)
+    
     user.save()
     .then(response =>{
-        res.send(response)
+        res.send({
+            response,
+            userForm:req.body
+        })
     })
     .catch(err => {
-        res.send(err)
+        res.send(err.message)
     })
 });
 
