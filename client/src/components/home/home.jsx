@@ -21,9 +21,7 @@ export default function Home(props){
         };
         if (url.includes('loginGoogle=true')){
              let token = url.slice(1).split("&")[1].slice(2);
-             console.log('AQUI TOKEN: ', token)
              let user = jwt_decode(token)
-             console.log('USER:', user);
              sessionStorage.setItem("token", token);
              sessionStorage.setItem('id', user.id);
              sessionStorage.setItem("role", user.user_role);
@@ -31,14 +29,27 @@ export default function Home(props){
              history.replace('/')
              
           }
-        //    if(url.includes('loginFacebook=true')){
-        //      let token = url.slice(1).split("&")[1].slice(2).split("#")[0];
-        //      let user = jwt.decode(token)
-        //      console.log(user)
-        //      localStorage.setItem("token", token);
-        //      dispatch(setUser(user))
-        //      history.replace('/')
-        //    } 
+           if(url.includes('loginFacebook=true')){
+             let token = url.slice(1).split("&")[1].slice(2).split("#")[0];
+             let user = jwt_decode(token)
+             console.log(user)
+             sessionStorage.setItem("token", token);
+             sessionStorage.setItem('id', user.id);
+             sessionStorage.setItem("role", user.user_role);
+             //dispatch(setUser(user))
+             history.replace('/')
+           } 
+
+           if(url.includes('logingithub=true')){
+            let token = url.slice(1).split("&")[1].slice(2);
+            let user = jwt_decode(token)
+            console.log(user)
+            sessionStorage.setItem("token", token);
+            sessionStorage.setItem('id', user.id);
+            sessionStorage.setItem("role", user.user_role);
+            //dispatch(setUser(user))
+            history.replace('/')
+          } 
     }, [dispatch, userId]);
 
     useEffect(() => {

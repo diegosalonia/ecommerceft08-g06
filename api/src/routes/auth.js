@@ -44,6 +44,34 @@ server.get("/google/callback", (req, res, next) => {
   })(req, res, next);
 });
 
+server.get('/facebook', passport.authenticate('facebook', {scope: ['email']}));
+
+server.get("/facebook/callback", (req, res, next) => {
+  passport.authenticate("facebook", (err, user) => {
+    if (err) return next(err);
+    if (!user) {
+      res.redirect(`http://localhost:3001/login?error=401`);
+    } else {
+      const token = jwt.sign(user.toJSON(), "secret");
+      res.redirect(`http://localhost:3001/?loginFacebook=true&t=${token}`);
+    }
+  })(req, res, next);
+});
+
+server.get('/github', passport.authenticate('github', {scope: ['email']}));
+
+server.get("/github/callback", (req, res, next) => {
+  passport.authenticate("github", (err, user) => {
+    if (err) return next(err);
+    if (!user) {
+      res.redirect(`http://localhost:3001/login?error=401`);
+    } else {
+      const token = jwt.sign(user.toJSON(), "secret");
+      res.redirect(`http://localhost:3001/?logingithub=true&t=${token}`);
+    }
+  })(req, res, next);
+});
+
 server.post('/login', (req, res, next) => {
   passport.authenticate('local', {session: false}, (err, user) => {
         if(user) {

@@ -1,29 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
-import {Button, Avatar, Link, TextField, Typography, Grid} from '@material-ui/core';
+import { Image, Button, Avatar, Link, TextField, Typography, Grid} from '@material-ui/core';
 import {useStyles , validationSchema} from './styles'
 import {useDispatch} from 'react-redux'
 import PersonIcon from '@material-ui/icons/Person';
 import axios  from 'axios'
 import { login } from '../../redux/loginReducer/actions'
+import Google from '../../assets/Google.svg'
+import facebook from '../../assets/facebook.svg';
+import github from '../../assets/github.svg'
 import {jwt} from 'jsonwebtoken'
-
-
-// function axiosInterceptor(user) {
-//   axios.interceptors.request.use((config) => {
-//     const token = jwt.sign({user}, "secret");
-//     if (token) {
-//       config.headers.Authorization = `bearer ${token}`;
-//     }
-//     return config;
-//   })}
-  
-//   axiosInterceptor();
-  
+ 
   const WithMaterialUI = ({onClose}) => {
-    // const [userSocial, setUserSocial] = useState(null);
-    // const [loadingUser, setLoadingUser] = useState(true);
-    // const token = jwt.sign({userSocial}, "secret");
     const dispatch = useDispatch();
     const params = new URLSearchParams()
     const classes = useStyles();
@@ -36,34 +24,15 @@ import {jwt} from 'jsonwebtoken'
     const signGoogle = () => {
       window.location.href = `http://localhost:3000/auth/google`;
     }
-    
-  //   useEffect(() => {
-       
-  //     async function chargeUser() {
-  //       if(!token) {
-  //       setLoadingUser(false);
-  //       return;
-  //     }
-  //     try {
-  //       const { data: user } = await axios.get("http://localhost:3000/auth/google");
-  //       setUserSocial(userSocial);
-  //       setLoadingUser(false);
-  //     } catch (err) {
-  //       console.log(err); 
-  //     }
-  //   }
-  //   chargeUser();
-  // }, []);
 
-  // const loginGoogle = () => {
-  //   axios.get("http://localhost:3000/auth/google")
-  //   .then(response => dispatch(login(response.data.user)))
-  //   .catch(err => console.log(err))
-  // }
-  // const loginGoogle = (user) => {
-  //   axios.get("http://localhost:3000/auth/google")
-  //   .then(dispatch(login(user))
-  // }
+    const signFacebook = () => {
+      window.location.href = `http://localhost:3000/auth/facebook`;
+    }
+
+    const signGitHub = () => {
+      window.location.href = `http://localhost:3000/auth/github`;
+    }
+    
   const url = "http://localhost:3000/auth/login";
 
   const formik = useFormik({
@@ -133,9 +102,15 @@ import {jwt} from 'jsonwebtoken'
             </Grid>
           </Grid>
       </div>
-      <div className={classes.signUp}>
-        <Button onClick = { signGoogle }> Sign In with Google
-          {"Don't have an account? Sign Up"}
+      <div className={classes.signUp}>  ingresar con
+        <Button onClick = { signGoogle } > 
+          {<img src={Google} />}
+        </Button>
+        <Button onClick = { signFacebook } > 
+          {<img src={facebook} />}
+        </Button>
+        <Button onClick = { signGitHub } > 
+          {<img src={github} />}
         </Button>
       </div>
     </div>
