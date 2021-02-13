@@ -110,7 +110,6 @@ passport.use(
           session: false
         },
     async function (accessToken, refreshToken, profile, done) {
-      console.log('AQUI PROFILE: ', profile)
       try {
         const user = {
           first_name: profile.name.givenName,
