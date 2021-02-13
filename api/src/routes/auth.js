@@ -38,7 +38,7 @@ server.get("/google/callback", (req, res, next) => {
     if (!user) {
       res.redirect(`http://localhost:3001/login?error=401`);
     } else {
-      const token = jwt.sign(user.toJSON(), "secret");
+      const token = jwt.sign(user.toJSON(), secret);
       res.redirect(`http://localhost:3001/?loginGoogle=true&t=${token}`);
     }
   })(req, res, next);
