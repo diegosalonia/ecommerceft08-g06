@@ -10,28 +10,6 @@ const { HOSTFRONT, secToken, secret } = process.env;
 // Google login
 server.get('/google', passport.authenticate('google', {scope: ["profile", "email"],}));
 
-// server.get('/google/callback', passport.authenticate("google"), (req, res, next) => {
-//    (err, user) => {    
-//       //const { first_name, last_name, email, user_role } = req.user.dataValues[0];      
-//       if (err) return next(err);      
-//       if (!user) {
-//         res.redirect(`${HOSTFRONT}/?error=401`);
-//       } else {
-// 		const token = jwt.sign(
-// 			{
-// 				first_name,
-// 				last_name,
-//         email,
-//         user_role
-// 			},
-// 			"secret"
-// 		)
-// 		//res.redirect(`${HOSTFRONT}/?jwt=${token}`);
-
-//     	}
-//     };
-// });
-
 server.get("/google/callback", (req, res, next) => {
   passport.authenticate("google", (err, user) => {
     if (err) return next(err);
