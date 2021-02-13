@@ -1,35 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import firebase, { storage } from '../../../firebase';
-import axios from 'axios';
-import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { CircularProgress, List, ListItem, ListItemIcon, ListItemText, Checkbox, Container, IconButton, TextField, Typography, Button, Switch, FormControlLabel } from '@material-ui/core';
+import axios from 'axios';
+import firebase, { storage } from '../../../firebase';
+import { useFormik } from 'formik';
+import { CircularProgress, List, ListItem, ListItemIcon, ListItemText, Checkbox, 
+         Container, IconButton, TextField, Typography, Button, Switch, 
+         FormControlLabel } from '@material-ui/core';
 import { DropzoneArea } from 'material-ui-dropzone';
 import { DeleteForever } from '@material-ui/icons';
 import { useStylesUpdateProduct } from './styles/UpdateProductForm';
-import { getProduct, getCategories } from '../../../redux/updateProductForm/actions';
+import { getProduct, getCategories, deleteImage, editProduct } from '../../../redux/updateProductForm/actions';
 import { config } from '../../../redux/constants';
 import Swal from 'sweetalert2';
 
 const validationSchema = yup.object({
     name: yup
-        .string('Enter product name').required('Product name is required'),
+        .string('Ingresa el nombre del producto')
+        .required('El nombre del producto es requerido'),
     price: yup
-        .number('Enter product price')
-        .required('Product price is required')
-        .positive('Product price must be positive'),
+        .number('Ingresa el precio del producto')
+        .required('El precio del producto es requerido')
+        .positive('Precio debe ser positivo'),
     description: yup
-        .string('Enter product description'),
+        .string('Ingrese una descripción para su producto'),
     stock: yup
-        .number('Enter stock quantity')
-        .required('Product stock is required')
-        .positive('Stock must be positive'),
+        .number('Ingresa el stock del producto')
+        .required('El stock del producto es requerido')
+        .positive('Stock debe ser positivo'),
     discount: yup
-        .number('Enter product discount')
-        .required('Discount is required'),
+        .number('Ingrsa el descuento de tu producto'),
     featured: yup
-        .boolean('Mark if product is featured'),
+        .boolean('Marca el cuadro para dejar el producto como destacado'),
   });
 
 const UpdateProductForm = (props) => {
@@ -39,43 +41,20 @@ const UpdateProductForm = (props) => {
     const categories = useSelector(state => state.updateProductReducer.categories);
     const { match: { params: { id }}} = props;
     const [ images, setImages ] = useState([]);
-    const [ imageToShow, setImageToShow ] = useState(true);
     const [ checkedRespaldo, setCheckedRespaldo ] = useState([]);
     const [ checked, setChecked ] = useState([]);
     const [ categoryList , setCategoryList ] = useState([]);
     const [ loadingProduct, setLoadingProduct ] = useState(true);
     const userRole = sessionStorage.getItem('role');
     const token = sessionStorage.getItem('token');
-
-    const handleDelete = imageToDelete => {
-        product.image = product.image.filter(image => image !== imageToDelete);
-        setImages(images.filter(image => image !== imageToDelete))
-    }
-
-    const showAlert = () => {
-        return Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: '¡Producto editado!',
-            showConfirmButton: false,
-            timer: 2000,
-        });
-    };
-
     
     const handleToggle = value => () => {           
-        
         setChecked(checkedRespaldo)
-
         const currentIndex = checked.indexOf(value);        
-
         const newChecked = [...checked]         
         let arr = [];
-
         const newArr = []
         const myObj = {}
-
-        console.log(currentIndex)        
         
         if (currentIndex === - 1) {
             newChecked.push(value);
@@ -95,12 +74,11 @@ const UpdateProductForm = (props) => {
         return setCategoryList(arr);
     };
 
-    useEffect(() => {
-        dispatch(getProduct(id));
-        dispatch(getCategories());
-    }, [dispatch, id]);
-
-    
+    const handleDelete = imageToDelete => {
+        product.image = product.image.filter(image => image !== imageToDelete);
+        setImages(images.filter(image => image !== imageToDelete));
+        dispatch(deleteImage(imageToDelete, token));
+    }
 
     const formik = useFormik({
         initialValues: {
@@ -115,33 +93,15 @@ const UpdateProductForm = (props) => {
         },
         validationSchema: validationSchema,
         onSubmit: (values, { resetForm }) => {
-            if (!imageToShow) {
-                const uploadImage = firebase.storage().ref().child(`/products/images/${product.name}/${images[0].name}`).put(images[0]);
-                uploadImage.on (
-                    "state_changed",
-                    snapshot => {},
-                    error => {console.log(error)},
-                    async () => {
-                        await storage
-                            .ref(`/products/images/${product.name}/`)
-                            .child(images[0].name)
-                            .getDownloadURL()
-                            .then(url => {
-                                axios.put(`http://localhost:3000/products/${id}`, {form: {...values, image: url}}, config(token))
-                                    .then(res => console.log("res axios.put: ", res))
-                                    .catch(err => console.log("err axios.put: ", err));
-                            });
-                    }
-                )
-            } else {
-                axios.put(`http://localhost:3000/products/${id}`, {form: values}, config(token))
-                    .then(res => console.log(res))
-                    .catch(err => console.log(err));
-            }
-            resetForm({values: ''});
-            showAlert();
+            dispatch(editProduct(values, images, categoryList, token, id));
+            resetForm();
         }
     });
+
+    useEffect(() => {
+        dispatch(getProduct(id));
+        dispatch(getCategories());
+    }, [dispatch, id]);
 
     useEffect(() => {
         formik.values.name = product.name;
@@ -156,8 +116,7 @@ const UpdateProductForm = (props) => {
         setTimeout(() => {
             setLoadingProduct(false);
         }, 1000);
-    },[product, formik.values.description, formik.values.discount, formik.values.featured,
-       formik.values.image, formik.values.name, formik.values.price, formik.values.stock]);
+    },[ product ]);
 
     const form = () => {
         return (
