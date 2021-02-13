@@ -88,7 +88,6 @@ passport.use(
           console.log('AQUI USUARIO: ',user)
           if (foundUser) {
               const updatedUser = await foundUser.update(user);
-              console.log('FOUNDUSER: ',foundUser)
               done(null, updatedUser)
           }
           else {
