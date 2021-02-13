@@ -57,12 +57,12 @@ const Header = ({ setSearch }) => {
             return(
             <div className={classes.toolbarOptionsDiv}>
                 <div className={classes.toolbarOptions}>
-                    <ShoppingCartIcon className={classes.icons}/>
-                    <Button className={classes.LinkHome}><Link underline="none" className={classes.LinkHome} color="inherit" key="logIn" href='/cart'>Carrito</Link></Button>
-                </div>
-                <div className={classes.toolbarOptions}>
                     <AccountCircleIcon/>
                     <MenuListCompositionAdmin/>
+                </div>
+                <div className={classes.toolbarOptions}>
+                    <ShoppingCartIcon className={classes.icons}/>
+                    <Button className={classes.LinkHome}><Link underline="none" className={classes.LinkHome} color="inherit" key="logIn" href='/cart'>Carrito</Link></Button>
                 </div>
             </div>)
         }
@@ -70,12 +70,12 @@ const Header = ({ setSearch }) => {
             return(
             <div className={classes.toolbarOptionsDiv}>
                 <div className={classes.toolbarOptions}>
-                    <ShoppingCartIcon className={classes.icons}/>
-                    <Button className={classes.LinkHome}> <Link underline="none" color="inherit" key="logIn" href='/cart'>Carrito</Link></Button>
-                </div>
-                     <div className={classes.toolbarOptions}>
                      <AccountCircleIcon/>
                      <MenuListComposition />                                        
+                </div>
+                <div className={classes.toolbarOptions}>
+                    <ShoppingCartIcon className={classes.icons}/>
+                    <Button className={classes.LinkHome}> <Link underline="none" color="inherit" key="logIn" href='/cart'>Carrito</Link></Button>
                 </div>
             </div>)
         }

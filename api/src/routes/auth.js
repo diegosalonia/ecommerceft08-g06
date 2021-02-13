@@ -19,7 +19,7 @@ server.post('/login', (req, res, next) => {
 
 server.post("/logout", passport.authenticate('jwt', { session: false }), (req, res, next) => {
   req.logout();
-  res.sendStatus(200).send('usted esta deslogueado');  
+  res.status(200).send('usted esta deslogueado');  
 })
 
 

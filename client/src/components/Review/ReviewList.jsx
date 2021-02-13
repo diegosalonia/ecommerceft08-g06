@@ -10,7 +10,7 @@ const ReviewList= (props) => {
             })
         }
         else{
-            return <>No reviews for this product</>
+            return <>No hay reseñas de este producto</>
         }
     }
     

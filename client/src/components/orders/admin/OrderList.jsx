@@ -17,10 +17,11 @@ const OrderList = () => {
 
   useEffect(() => {
     setOrderList(orders);
+    console.log(orders);
   }, [orders]);
 
 const columns = [
-    { field: 'id', headerName: 'Pedido', flex: 0.5, renderCell: (params) => <Link href={`orders/${params.row.id}`}>#{params.row.id} {params.row.userId}</Link>  },
+    { field: 'id', headerName: 'Pedido', flex: 0.5, renderCell: (params) => <Link href={`orders/${params.row.id}`}>#{params.row.id} {params.row.email}</Link>  },
     { field: 'status', headerName: 'Estado', flex: 0.75 },
     {
       field: 'createdAt',
@@ -37,7 +38,7 @@ const columns = [
           <DataGrid
             checkboxSelection
             onSelectionChange={(newSelection) => {
-                console.log(newSelection.rowIds); //ToDo something with this. 
+                // newSelection.rowIds //ToDo something with this. 
               }}
             columns={columns}
             rows={orderList}
