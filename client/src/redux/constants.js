@@ -38,6 +38,7 @@ export const DELETE_ALL_CART = 'DELETE_ALL_CART';
 export const GO_TO_CHECKOUT = 'GO_TO_CHECKOUT';
 export const CHANGE_ORDER_STATUS = 'CHANGE_ORDER_STATUS';
 export const CHANGE_PRODUCT_QUANTITY_NO_USER = 'CHANGE_PRODUCT_QUANTITY_NO_USER';
+export const SEND_ORDER_EMAIL = 'SEND_ORDER_EMAIL';
 /* end cartReducer */
 
 /* Catalog - Pagination */
@@ -83,3 +84,6 @@ export const config = token => {
         }
     }
 };
+
+/*categoryListReducer constants */
+export const DELETE_CATEGORIES = "DELETE_CATEGORIES";

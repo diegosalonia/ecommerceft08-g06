@@ -1,9 +1,30 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios'
 import { Button, CssBaseline, TextField, FormControlLabel, Link, Grid, Box, Typography, Container, Switch} from '@material-ui/core/';
+import Swal from 'sweetalert2';
+
+const showAlertConflict = (message, time) => {
+  return Swal.fire({
+      position: 'center',
+      icon: 'warning',
+      title: message,
+      showConfirmButton: false,
+      timer: time,
+  });
+};
+
+const showAlertSuccess = (message, time) => {
+  return Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: message,
+      showConfirmButton: false,
+      timer: time,
+  });
+};
 
 export default function UserForm(props){
   const useStylesUserForm = makeStyles(theme => ({
@@ -29,21 +50,33 @@ export default function UserForm(props){
 
     const classes = useStylesUserForm()
 
-    const validationSchema = yup.object({
-        first_name: yup
-          .string('Enter your first name')
-          .required('first name is required'),
-        last_name: yup
-          .string('Enter your last name')
-          .required('last name is required'),
-        email: yup
-        .string('Enter your email addres')
-        .required('email is required'),
-        password: yup
-          .string('Enter your password')
-          .required('password cannot be blank')
+    const numericRegex = /(?=.*[0-9])/
+    const lowerCaseRegex = /(?=.*[a-z])/
+    const upperCaseRegex = /(?=.*[A-Z])/
 
-      });
+    const validationSchema = yup.object({
+      first_name: yup
+        .string("Ingresa tu nombre")
+        .required("Tienes que ingresar tu nombre"),
+      last_name: yup
+      .string("Ingresa tu apellido")
+      .required("Tienes que ingresar tu apellido"),
+      email: yup
+        .string("Ingresa tu correo electronico")
+        .email("Debes ingresar un correo electronico valido")
+        .required("Debes ingresar un correo electronico"),
+      password: yup 
+        .string("Ingresa una contraseña")
+        .required("Debes ingresar una contraseña")
+        .min(8, "Debe tener minimo 8 caracteres")
+        .matches(numericRegex, "Debe tener minimo un numero")
+        .matches(lowerCaseRegex, "Debe tener minimo una minuscula")
+        .matches(upperCaseRegex, "Debe tener minimo una mayuscula"),
+      passwordConfirm: yup
+      .string("Confirma tu contraseña")  
+      .oneOf([yup.ref("password")], "Las contraseñas no son iguales")
+      .required("Debes confirmar tu contraseña")
+    })
 
     const formik = useFormik({
         initialValues:{
@@ -51,9 +84,10 @@ export default function UserForm(props){
             last_name: "",
             email: "",
             password: "",
+            passwordConfirm: "",
             phone_number: null,
-            shipping_address: null,
-            billing_address: null,
+            shipping_address: "",
+            billing_address: "",
             email_notification: false
         },
         validationSchema: validationSchema,
@@ -61,11 +95,14 @@ export default function UserForm(props){
         onSubmit:  (values) => {
           axios.post('http://localhost:3000/users/', { form:values })
           .then((res) => {
-            console.log("PROPS: ", props);
-            alert('User created');
-            props.history.push('/');
+            showAlertSuccess("Usuario creado", 2000)
+            setTimeout(()=>{props.history.push('/');},2000)
           })
-          .catch(error => console.log("Error on request: ",error));
+          .catch(err => {
+            console.log("Error on request: ", err.response.data.msg)
+            showAlertConflict(err.response.data.msg, 2000)
+          });
+        console.log(values)
         }
     })
 
@@ -74,18 +111,17 @@ export default function UserForm(props){
           <CssBaseline />
           <div className={classes.paper}>
               <Typography component="h1" variant="h5">
-              Sign up
+              Registrate
               </Typography>
             <form className={classes.form} onSubmit={formik.handleSubmit}>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                  <TextField
-                   required
                    fullWidth
                    variant="outlined"
-                   id="firts_Name"
+                   id="first_Name"
                    name="first_name"
-                   label="First Name"
+                   label="Nombre"
                    value={formik.values.first_name}
                    onChange={formik.handleChange}
                    error={formik.touched.first_name && Boolean(formik.errors.first_name)}
@@ -94,12 +130,11 @@ export default function UserForm(props){
                 </Grid>
                 <Grid item xs={12} sm={6}>
                 <TextField
-                   required
                    fullWidth
                    variant="outlined"
                    id="last_name"
                    name="last_name"
-                   label="last name"
+                   label="Apellido"
                    value={formik.values.last_name}
                    onChange={formik.handleChange}
                    error={formik.touched.last_name && Boolean(formik.errors.last_name)}
@@ -108,12 +143,11 @@ export default function UserForm(props){
                 </Grid>
                 <Grid item xs={12}>
                 <TextField
-                   required
                    fullWidth
                    variant="outlined"
                    id="email"
                    name="email"
-                   label="email addres"
+                   label="Correo electrónico"
                    value={formik.values.email}
                    onChange={formik.handleChange}
                    error={formik.touched.email && Boolean(formik.errors.email)}
@@ -122,12 +156,11 @@ export default function UserForm(props){
                 </Grid>
                 <Grid item xs={12}>
                 <TextField
-                   required
                    fullWidth
                    variant="outlined"
                    id="password"
                    name="password"
-                   label="password"
+                   label="Contraseña"
                    type="password"
                    value={formik.values.password}
                    onChange={formik.handleChange}
@@ -139,9 +172,23 @@ export default function UserForm(props){
                 <TextField
                    fullWidth
                    variant="outlined"
+                   id="passwordConfirm"
+                   name="passwordConfirm"
+                   label="Confirmar contraseña"
+                   type="password"
+                   value={formik.values.passwordConfirm}
+                   onChange={formik.handleChange}
+                   error={formik.touched.passwordConfirm && Boolean(formik.errors.passwordConfirm)}
+                   helperText={formik.touched.passwordConfirm && formik.errors.passwordConfirm}
+                 />
+                </Grid>
+                <Grid item xs={12}>
+                <TextField
+                   fullWidth
+                   variant="outlined"
                    id="phone_number"
                    name="phone_number"
-                   label="phone number(optional)"
+                   label="Número Telefónico (opcional)"
                    value={formik.values.phone_number}
                    onChange={formik.handleChange}
                  />
@@ -152,8 +199,8 @@ export default function UserForm(props){
                    variant="outlined"
                    id="shipping_address"
                    name="shipping_address"
-                   label="shipping addres(optional)"
-                   value={formik.shipping_address}
+                   label="Dirección de Envío (opcional)"
+                   value={formik.values.shipping_addres}
                    onChange={formik.handleChange}
                  />
                 </Grid>
@@ -163,8 +210,8 @@ export default function UserForm(props){
                    variant="outlined"
                    id="billing_address"
                    name="billing_address"
-                   label="billing addres(optional)"
-                   value={formik.billing_address}
+                   label="Dirección de facturación (opcional)"
+                   value={formik.values.billing_address}
                    onChange={formik.handleChange}
                  />
                 </Grid>
@@ -177,15 +224,15 @@ export default function UserForm(props){
                         value={formik.values.email_notification}
                         inputProps={{ 'aria-label': 'secondary checkbox' }}
                     />}
-                    label="I want to receive updates via email."
+                    label="Quiero recibir notificaciones vía correo electrónico."
                   />
                 </Grid>
               </Grid>
               
               <Grid container justify="flex-end">
                 <Grid item>
-                  <Link href="#" variant="body2">
-                    Already have an account? Sign in
+                  <Link href="/" variant="body2">
+                    ¿Ya tienes una cuenta? Inicia sesión
                   </Link>
                 </Grid>
               </Grid>
@@ -196,7 +243,7 @@ export default function UserForm(props){
             color="primary"
             className={classes.submit}
           >
-            Sign Up
+            Registrarse
           </Button>
             <Grid >
             

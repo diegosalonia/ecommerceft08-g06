@@ -26,6 +26,7 @@ const AdminProductList = () => {
     const [ page, setPage ] = useState(0);
     const [ rowsPerPage, setRowsPerPage ] = useState(10);
     const userRole = sessionStorage.getItem('role');
+    const token = sessionStorage.getItem('token');
 
     const handleChangePage = (e, newPage) => {
         setPage(newPage);
@@ -61,7 +62,7 @@ const AdminProductList = () => {
                 'Your file has been deleted.',
                 'success'
                 );
-                dispatch(deleteProduct(id));
+                dispatch(deleteProduct(id, token));
                 setRows(rows.filter(row => row.id !== id));
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 swalWithBootstrapButtons.fire(

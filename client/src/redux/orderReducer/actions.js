@@ -5,7 +5,7 @@ export function getOrder(orderId){
     return function(dispatch) {
       return axios.get(`http://localhost:3000/orders/${orderId}`)
         .then(response => {
-          console.log("RESPUESTA ORDEN: ", response.data.status);
+          console.log("RESPUESTA ORDEN: ", response.data);
           dispatch({ 
               type: GET_ORDER, 
               order: response.data
