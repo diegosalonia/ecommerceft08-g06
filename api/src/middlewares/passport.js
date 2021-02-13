@@ -163,7 +163,7 @@ passport.use(
 
   passport.use(
     new BearerStrategy((token, done) => {
-      jwt.verify(token, "secret", (err, user) => {
+      jwt.verify(token, secret, (err, user) => {
         if (err) return done(err);
         return done(null, user ? user : false);
       });
