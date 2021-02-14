@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Typography, Grid, Card, CardContent, Link, Avatar, Button, TextField, } from '@material-ui/core';
 import PersonIcon from '@material-ui/icons/Person';
-import { useStylesUserProfile } from "./styles";
+import { useStylesUserProfile, useStylesChangePassword } from "./styles";
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser, updateUser } from '../../redux/userReducer/actions';
-import { changePasswordAction } from '../../redux/passwordResetReducer/actions'
 import { useFormik } from 'formik';
+import { changePasswordAction } from '../../redux/passwordResetReducer/actions'
 import Swal from 'sweetalert2';
 
 const UserProfile = () => {
@@ -15,11 +15,6 @@ const UserProfile = () => {
     const [changeShippingAdress , setChangeShippingAdress] = useState(false)
     const [changeBillingAdress , setChangeBillingAdress] = useState(false)
     const [newPassword, setNewPassword] = useState("")
-    // const [newEmail , setNewEmail] = useState("")
-    // const [newPhoneNumber , setNewPhoneNumber] = useState("")
-    // const [newShippingAdress , setNewShippingAdress] = useState("")
-    // const [newBillingAdress , setNewBillingAdress] = useState("")
-    
     
     const dispatch = useDispatch()
     const row = useSelector(state => state.userLoggedReducer.user[0])
@@ -37,48 +32,6 @@ const UserProfile = () => {
             timer: time,
         });
     };
-
-    const handleSubmitPassword = (event)=>{
-        event.preventDefault()
-        console.log(newPassword)
-        alert("contraseña cambiada con exito")
-        setNewPassword("")
-        setChangePassword(false)
-        dispatch(changePasswordAction(token, userId, newPassword))
-    }
-
-    const handleChangePassword = (event) => {
-        setNewPassword(event.target.value)
-    }
-
-    const ChangePasswordForm = ()=>{
-        return(
-         <Grid className={classes.formPassword}>
-            <TextField
-            type="Password"
-            id="newpassword"
-            name="newpassword"
-            label="new password"
-            variant="outlined"
-            size="default"
-            className={classes.password}
-            value={newPassword}
-            onChange={handleChangePassword}
-            />
-            <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            size="large"
-            className={classes.button}
-            onClick={handleSubmitPassword}
-            >
-                enviar
-            </Button>
-        </Grid>
-        )
-    }
-
     
     const formik = useFormik({
         initialValues:{
@@ -102,6 +55,62 @@ const UserProfile = () => {
     useEffect(()=>{
         dispatch(getUser(token))
     },[]);
+
+    const ChangePasswordForm = ()=>{
+
+        const dispatch = useDispatch()
+        const token = sessionStorage.getItem("token")
+        const userId = sessionStorage.getItem("id")
+        const classes = useStylesChangePassword()
+            
+        const formik = useFormik({
+            initialValues:{
+                password: "",
+                passwordVerify: ""
+            },
+            onSubmit: (values) => {
+                // setChangePassword(false)
+                dispatch(changePasswordAction(token, userId, values.password))
+            }
+        })
+        
+    return(
+     <Grid className={classes.formPassword}>
+        <TextField
+        type="Password"
+        id="newpassword"
+        name="newpassword"
+        label="new password"
+        variant="outlined"
+        size="default"
+        className={classes.password}
+        value={formik.values.password}
+        onChange={formik.handleChange}
+        />
+        <TextField
+        type="Password"
+        id="newpassword"
+        name="newpassword"
+        label="new password"
+        variant="outlined"
+        size="default"
+        className={classes.password}
+        value={formik.values.passwordVerify}
+        onChange={formik.handleChange}
+        />
+        <Button
+        type="submit"
+        variant="contained"
+        color="primary"
+        size="large"
+        className={classes.button}
+        onClick={formik.handleSubmit}
+        >
+            enviar
+        </Button>
+    </Grid>
+    )
+    }
 
     const profile = () => {
         return (
@@ -244,7 +253,7 @@ const UserProfile = () => {
                                     </Grid>
                                     }
                                 </form>
-                                {changePassword&&ChangePasswordForm()}
+                                {changePassword&&<ChangePasswordForm/>}
                             </CardContent>
                         </Card>
                     </Grid>
