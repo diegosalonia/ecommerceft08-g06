@@ -234,7 +234,6 @@ function AdminUserList() {
                                     { rows?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map
                                     (row =>{
                                         if(userId != row.id){
-                                        
                                         return (
                                             <TableRow hover role="checkbox" tabIndex={-1} key={`${row.code} ${row.id}`}>
                                                 {columnUser.slice(0).map((colum)=>{                                                
@@ -257,13 +256,13 @@ function AdminUserList() {
                                                         </IconButton>                                                    
                                                     </TableCell>}
 
-                                                    { !row.active && <TableCell>
+                                                    { !JSON.parse(row.active) && <TableCell>
                                                         <IconButton color='primary' onClick={() => handleActivate(row.id)} >
                                                             <PersonAddIcon/>
                                                         </IconButton>
                                                     </TableCell> }
                                                     
-                                                    { row.active && <TableCell>
+                                                    { JSON.parse(row.active) && <TableCell>
                                                         <IconButton color='primary' onClick={() => handleDisable(row.id)} >
                                                             <PersonAddDisabledIcon/>
                                                         </IconButton>
