@@ -142,10 +142,12 @@ passport.use(
         },
     async function (accessToken, refreshToken, profile, done) {
       try {
+        const name = profile.displayName.split(' ')
+        const emailExist = profile._json.email
         const user = {
-          first_name: profile.displayName,
-          last_name: '-',
-          email: profile.emails[0].value
+          first_name: name.length === 2 ? name[0] : '${name[0]} ${name[1]}',
+          last_name: name[name.length-1],
+          email: emailExist !== null ? emailExist : "lean@gmail.com"
         }
         const foundUser = await User.findOne({ where: { email: user.email } })
         if (foundUser) {
