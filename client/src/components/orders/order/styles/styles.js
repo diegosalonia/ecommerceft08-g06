@@ -35,6 +35,10 @@ const useStyles = makeStyles(theme =>({
     },
     input:{
         width: theme.spacing(10)
+    },
+    link: {
+        textDecoration: 'none',
+        color: theme.palette.primary.main
     }
 }))
 

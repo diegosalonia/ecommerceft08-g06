@@ -16,14 +16,14 @@ import Swal from 'sweetalert2';
 
 const columnUser = [
     {id: 'email', label: 'Email', minWidth: 55, maxWidth: 55},
-    {id: 'first_name', label: 'First_name', minWidth: 45, maxWidth: 45},
-    {id: 'last_name', label: 'Last_name', minWidth: 45, maxWidth: 45},
-    {id: 'phone_number', label: 'Phone_number', minWidth: 40, maxWidth: 40},
-    {id: 'user_role', label: 'User_role', mindWidth: 30, maxWidth: 30},
-    {id: 'active', label: 'Active', mindWidth: 50, maxWidth: 50},
-    {id: 'shipping_address', label: 'Shipping_address', minWidth: 60, maxWidth: 60},
-    {id: 'billing_addres', label: 'Billing_addres', minWidth: 60, maxWidth: 60},
-    {id: 'email_notification', label: 'Email_notification', minWidth: 60, maxWidth: 60},
+    {id: 'first_name', label: 'Nombre', minWidth: 45, maxWidth: 45},
+    {id: 'last_name', label: 'Apellido', minWidth: 45, maxWidth: 45},
+    {id: 'phone_number', label: 'Teléfono', minWidth: 40, maxWidth: 40},
+    {id: 'user_role', label: 'Rol', mindWidth: 30, maxWidth: 30},
+    {id: 'active', label: 'Activo', mindWidth: 50, maxWidth: 50},
+    {id: 'shipping_address', label: 'Dirección', minWidth: 60, maxWidth: 60},
+    {id: 'billing_addres', label: 'Dirección de pago', minWidth: 60, maxWidth: 60},
+    {id: 'email_notification', label: 'Email Notificación', minWidth: 60, maxWidth: 60},
 ]
 
 
@@ -59,7 +59,7 @@ function AdminUserList() {
     
         swalWithBootstrapButtons.fire({
             title: 'Desactivar?',
-            text: "estas seguro?",
+            text: "Estas seguro?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'SI, DESACTIVALO!',
@@ -70,15 +70,15 @@ function AdminUserList() {
             if (result.isConfirmed) {
                 swalWithBootstrapButtons.fire(
                 'Desactivado!',
-                'este usuario ha sido desactivado.',
+                'Este usuario ha sido desactivado.',
                 'success'
                 );
                 dispatch(desactiveUsers(id, token));
                 setRows(rows.filter(row => row.id !== id));
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 swalWithBootstrapButtons.fire(
-                'cancelar',
-                `este usuario no se ha desactivado`,
+                'Cancelar',
+                `Este usuario no se ha desactivado`,
                 'error'
                 );
             };
@@ -96,11 +96,11 @@ function AdminUserList() {
         });
     
         swalWithBootstrapButtons.fire({
-            title: 'Activar?',
-            text: "estas seguro?",
+            title: '¿Activar?',
+            text: "¿Estás seguro?",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'SI, DESACTIVALO',
+            confirmButtonText: 'SI, ACTIVALO',
             cancelButtonText: 'NO, CANCELAR!',
             reverseButtons: true
         })
@@ -108,15 +108,15 @@ function AdminUserList() {
             if (result.isConfirmed) {
                 swalWithBootstrapButtons.fire(
                 'Activar!',
-                'este usuario ha sido activado.',
+                'Este usuario ha sido activado.',
                 'success'
                 );
                 dispatch(activeUsers(id, token));
                 setRows(rows.filter(row => row.id !== id));
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 swalWithBootstrapButtons.fire(
-                'cancelar',
-                `este usuario no se ha activado`,
+                'Cancelar',
+                `Este usuario no se ha activado`,
                 'error'
                 );
             };
@@ -135,7 +135,7 @@ function AdminUserList() {
     
         swalWithBootstrapButtons.fire({
             title: 'Convertir a Administrador',
-            text: "estas seguro?",
+            text: '¿Estás seguro?',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'SI, CONVERTIR!',
@@ -145,14 +145,14 @@ function AdminUserList() {
         .then((result) => {
             if (result.dismiss === Swal.DismissReason.cancel) {
                 swalWithBootstrapButtons.fire(
-                'cancelar',
-                `este usuario no se ha asendido`,
+                'Cancelar',
+                'Este usuario no se ha ascendido',
                 'error'
                 );
             }else if (result.isConfirmed) {
                 swalWithBootstrapButtons.fire(
                 'Convertido en Administrador!',
-                'este usuario ha sido asendido.',
+                'Este usuario ha sido ascendido',
                 'success'
                 );
                 dispatch(updateUserAdmin(id, token));
@@ -173,7 +173,7 @@ function AdminUserList() {
     
         swalWithBootstrapButtons.fire({
             title: 'Convertir a Usuario',
-            text: "estas seguro?",
+            text: "¿Estás seguro?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'SI, CONVERTIR!',
@@ -183,14 +183,14 @@ function AdminUserList() {
         .then((result) => {
             if (result.dismiss === Swal.DismissReason.cancel) {
                 swalWithBootstrapButtons.fire(
-                'cancelar',
-                `este usuario no se ha degradado`,
+                'Cancelar',
+                'Este usuario no se ha degradado',
                 'error'
                 );
             }else if (result.isConfirmed) {
                 swalWithBootstrapButtons.fire(
                 'Convertido en Usuario!',
-                'este ususario a sido degradado.',
+                'Este usuario ha sido degradado',
                 'success'
                 );
                 dispatch(updateUser(id, token));
@@ -245,29 +245,29 @@ function AdminUserList() {
                                                         </TableCell>
                                                     );
                                                 })}
-                                                    <TableCell  >                                                    
+                                                    { row.user_role === 'user' && <TableCell  >                                                    
                                                         <IconButton color='primary' onClick={() => handleUpdateAdmin(row.id)}>
                                                             < SupervisorAccountIcon />
                                                         </IconButton>                                                    
-                                                    </TableCell>
+                                                    </TableCell>}
 
-                                                    <TableCell  >                                                    
+                                                    { row.user_role === 'admin' && <TableCell  >                                                    
                                                         <IconButton color='primary' onClick={() => handleUpdateUser(row.id)}>
                                                             < PersonIcon />
                                                         </IconButton>                                                    
-                                                    </TableCell>
+                                                    </TableCell>}
 
-                                                    <TableCell>
+                                                    { !row.active && <TableCell>
                                                         <IconButton color='primary' onClick={() => handleActivate(row.id)} >
                                                             <PersonAddIcon/>
                                                         </IconButton>
-                                                    </TableCell> 
+                                                    </TableCell> }
                                                     
-                                                    <TableCell>
+                                                    { row.active && <TableCell>
                                                         <IconButton color='primary' onClick={() => handleDisable(row.id)} >
                                                             <PersonAddDisabledIcon/>
                                                         </IconButton>
-                                                    </TableCell>                                            
+                                                    </TableCell>                                            }
                                             </TableRow>
                                         )
                                         }

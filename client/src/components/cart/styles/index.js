@@ -71,6 +71,10 @@ export const useStylesCart = makeStyles(theme => ({
     buttonToCatalog: {
         color: theme.palette.secondary.main,
         backgroundColor: theme.palette.primary.main,
+        '&:hover': {
+            color: theme.palette.primary.main,
+            backgroundColor: theme.palette.secondary.main
+        }
     },
     totalContainer: {
         padding: '0 0',
@@ -82,6 +86,10 @@ export const useStylesCart = makeStyles(theme => ({
     deleteAllCartButton: {
         color: theme.palette.secondary.main,
         backgroundColor: theme.palette.primary.main,
+        '&:hover': {
+            color: theme.palette.primary.main,
+            backgroundColor: theme.palette.secondary.main
+        }
     },
 }));
 
@@ -141,6 +149,10 @@ export const useStylesCartTotal = makeStyles(theme => ({
         color: theme.palette.secondary.main,
         backgroundColor: theme.palette.primary.main,
         marginTop: '2%',
+        '&:hover': {
+            color: theme.palette.primary.main,
+            backgroundColor: theme.palette.secondary.main
+        }
     },
     containerModal: {
         display: 'flex',
