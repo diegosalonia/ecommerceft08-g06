@@ -9,7 +9,6 @@ import { login } from '../../redux/loginReducer/actions'
 import Google from '../../assets/Google.svg'
 import facebook from '../../assets/facebook.svg';
 import github from '../../assets/github.svg'
-import {jwt} from 'jsonwebtoken'
  
   const WithMaterialUI = ({onClose}) => {
     const dispatch = useDispatch();
