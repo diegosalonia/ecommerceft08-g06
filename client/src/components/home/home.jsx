@@ -38,6 +38,7 @@ export default function Home(props){
              sessionStorage.setItem("token", token);
              sessionStorage.setItem('id', user.id);
              sessionStorage.setItem("role", user.user_role);
+             sessionStorage.setItem("email", user.email)
              //dispatch(setUser(user))
              history.replace('/')
            } 
