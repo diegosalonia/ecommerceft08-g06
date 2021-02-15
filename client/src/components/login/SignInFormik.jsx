@@ -1,23 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
-import {Button, Avatar, Link, TextField, Typography, Grid} from '@material-ui/core';
+import { Image, Button, Avatar, Link, TextField, Typography, Grid} from '@material-ui/core';
 import {useStyles , validationSchema} from './styles'
 import {useDispatch} from 'react-redux'
 import PersonIcon from '@material-ui/icons/Person';
 import axios  from 'axios'
 import { login } from '../../redux/loginReducer/actions'
-
-
-const WithMaterialUI = ({onClose}) => {
-
-  const dispatch = useDispatch();
-  const params = new URLSearchParams()
-  const classes = useStyles();
-  const config = {
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
+import Google from '../../assets/Google.svg'
+import facebook from '../../assets/facebook.svg';
+import github from '../../assets/github.svg'
+ 
+  const WithMaterialUI = ({onClose}) => {
+    const dispatch = useDispatch();
+    const params = new URLSearchParams()
+    const classes = useStyles();
+    const config = {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
     }
-  }
+    
+    const signGoogle = () => {
+      window.location.href = `http://localhost:3000/auth/google`;
+    }
+
+    const signFacebook = () => {
+      window.location.href = `http://localhost:3000/auth/facebook`;
+    }
+
+    const signGitHub = () => {
+      window.location.href = `http://localhost:3000/auth/github`;
+    }
+    
   const url = "http://localhost:3000/auth/login";
 
   const formik = useFormik({
@@ -35,7 +49,6 @@ const WithMaterialUI = ({onClose}) => {
     },
   });
   
-
   return (
     <div className={classes.formcontainer}>
         <Avatar className={classes.avatar}>
@@ -87,6 +100,17 @@ const WithMaterialUI = ({onClose}) => {
               </Link>
             </Grid>
           </Grid>
+      </div>
+      <div className={classes.signUp}>  ingresar con
+        <Button onClick = { signGoogle } > 
+          {<img src={Google} />}
+        </Button>
+        <Button onClick = { signFacebook } > 
+          {<img src={facebook} />}
+        </Button>
+        <Button onClick = { signGitHub } > 
+          {<img src={github} />}
+        </Button>
       </div>
     </div>
   );
