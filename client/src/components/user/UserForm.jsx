@@ -99,10 +99,8 @@ export default function UserForm(props){
             setTimeout(()=>{props.history.push('/');},2000)
           })
           .catch(err => {
-            console.log("Error on request: ", err.response.data.msg)
             showAlertConflict(err.response.data.msg, 2000)
           });
-        console.log(values)
         }
     })
 
