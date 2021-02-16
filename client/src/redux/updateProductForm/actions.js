@@ -74,7 +74,8 @@ const addImages = (images, productName, id, form) => {
     .then(res => {
         axios.put(`http://localhost:3000/products/${id}`, { form })
         .then(res => {
-            window.location.reload(false);
+            showAlert();
+            setTimeout(() => window.location.reload(false), 1500);
         })
         .catch(err => console.log(err));
     });
@@ -87,17 +88,25 @@ export const editProduct = (form, images, categoryList, token, id) => (dispatch,
             const imageDeleted = firebase.storage().refFromURL(image);
 
             imageDeleted.delete()
-            .then(() => console.log("Image deleted"))
             .catch(err => console.log("ERROR WHILE DELETING IMAGE FROM FIREBASE: ", err));
         });
     };
     return axios.put(`http://localhost:3000/products/${id}`, { form }, config(token))
             .then(res => {
-                conectionRelation(id, categoryList, token);
                 addImages(images, form.name, id, form);
                 dispatch({
                     type: EDIT_PRODUCT,
                 });
             })
             .catch(err => console.log(err));
+};
+
+export const deleteCategory = (productId, categoryId, token) => dispatch => {
+    return axios.delete(`http://localhost:3000/products/${productId}/category/${categoryId}`, config(token))
+    .catch(err => console.log("ERROR AL ELIMINAR CATEGORIA: ", err));
+};
+
+export const addCategory = (productId, categoryId, token) => dispatch => {
+    return axios.post(`http://localhost:3000/products/${productId}/category/${categoryId}`, null, config(token))
+    .catch(err => console.log("ERROR AL AÑADIR CATEGORIA: ", err));
 };

@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as yup from 'yup';
-import axios from 'axios';
-import firebase, { storage } from '../../../firebase';
 import { useFormik } from 'formik';
 import { CircularProgress, List, ListItem, ListItemIcon, ListItemText, Checkbox, 
          Container, IconButton, TextField, Typography, Button, Switch, 
@@ -10,9 +8,7 @@ import { CircularProgress, List, ListItem, ListItemIcon, ListItemText, Checkbox,
 import { DropzoneArea } from 'material-ui-dropzone';
 import { DeleteForever } from '@material-ui/icons';
 import { useStylesUpdateProduct } from './styles/UpdateProductForm';
-import { getProduct, getCategories, deleteImage, editProduct } from '../../../redux/updateProductForm/actions';
-import { config } from '../../../redux/constants';
-import Swal from 'sweetalert2';
+import { getProduct, getCategories, deleteImage, editProduct, deleteCategory, addCategory } from '../../../redux/updateProductForm/actions';
 
 const validationSchema = yup.object({
     name: yup
@@ -48,30 +44,14 @@ const UpdateProductForm = (props) => {
     const userRole = sessionStorage.getItem('role');
     const token = sessionStorage.getItem('token');
     
-    const handleToggle = value => () => {           
-        setChecked(checkedRespaldo)
-        const currentIndex = checked.indexOf(value);        
-        const newChecked = [...checked]         
-        let arr = [];
-        const newArr = []
-        const myObj = {}
-        
-        if (currentIndex === - 1) {
-            newChecked.push(value);
-            newChecked.forEach(el => arr.push(el.id));
+    const handleToggle = value => () => {
+        if (checked.includes(value.id)) {
+            setChecked(checked.filter(el => el !== value.id));
+            dispatch(deleteCategory(id, value.id, token));
         } else {
-            newChecked.splice(currentIndex, 1);
-            arr = [];
-            newChecked.forEach(el => arr.push(el.id));
+            setChecked(checked.concat(value.id));
+            dispatch(addCategory(id, value.id, token));
         }
-
-        const newCategory = checked.filter(category => category.id !== value.id); 
-
-        //newChecked.forEach(el => !(el in myObj) && (myObj[el] = true) && newArr.push(el)) //deja solo un valor
-        //function tiene_repetidos(array){return new Set(array).size!==array.length} // true o false si tiene 
-
-        setChecked(newChecked);
-        return setCategoryList(arr);
     };
 
     const handleDelete = imageToDelete => {
@@ -93,7 +73,7 @@ const UpdateProductForm = (props) => {
         },
         validationSchema: validationSchema,
         onSubmit: (values, { resetForm }) => {
-            dispatch(editProduct(values, images, categoryList, token, id));
+            dispatch(editProduct(values, images, checked.map(el => el.id), token, id));
             resetForm();
         }
     });
@@ -111,7 +91,7 @@ const UpdateProductForm = (props) => {
         formik.values.discount = product.discount;
         formik.values.featured = product.featured;
         formik.values.image = product.image;
-        setCheckedRespaldo(product.categories);
+        setChecked(product.categories?.map(el => el.id));
         setImages(product.image);
         setTimeout(() => {
             setLoadingProduct(false);
@@ -191,14 +171,14 @@ const UpdateProductForm = (props) => {
                         {categories?.map(category => {    
                                 const labelId = `checkbox-list-label-${category.id}`;
                                 return product.categories?.filter(el => el.id === category.id).length === 1 ?(
-                                    <ListItem key={category.id} role={undefined} dense button onChange={handleToggle(category)}>
+                                    <ListItem key={category.id} role={undefined} dense button onChange={handleToggle(category)} >
                                         <ListItemIcon>
                                             <Checkbox 
                                                 color="primary"
                                                 edge="start"
                                                 size="small"
                                                 defaultChecked
-                                                //checked={checked.indexOf(category) !== -1}
+                                                // checked={checked.indexOf(category) !== -1}
                                                 tabIndex={-1}
                                                 disableRipple
                                                 inputProps={{'aria-labelledby': labelId}}
@@ -214,7 +194,7 @@ const UpdateProductForm = (props) => {
                                                 color="primary"
                                                 edge="start"
                                                 size="small"
-                                                checked={checked.indexOf(category) !== -1}
+                                                checked={checked.indexOf(category.id) !== -1}
                                                 tabIndex={-1}
                                                 disableRipple
                                                 inputProps={{'aria-labelledby': labelId}}
