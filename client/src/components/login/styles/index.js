@@ -1,3 +1,4 @@
+import { red } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
 import * as yup from 'yup';
 
@@ -28,6 +29,13 @@ export const useStyles = makeStyles((theme) => ({
     },
     link:{
       marginRight: theme.spacing(5)
+    },
+    messageContainer:{
+      display: "flex",
+      alignItems: "center",
+    },
+    messageIcon:{
+      margin: theme.spacing(0,1,0,0)
     }
   }))
 

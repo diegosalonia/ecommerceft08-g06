@@ -49,7 +49,8 @@ export const useStylesUserProfile = makeStyles(theme => ({
         margin: theme.spacing(4,0,0,0),
     },
     info:{
-        padding: theme.spacing(2,2,2,2)
+        padding: theme.spacing(2,2,2,2),
+        minWidth: theme.spacing(45)
     },
     container:{
         display: "flex",
@@ -59,7 +60,7 @@ export const useStylesUserProfile = makeStyles(theme => ({
     card:{
         margin: theme.spacing(2,0,0,0),
         minWidth: theme.spacing(60),
-        minHeight: theme.spacing(70),
+        minHeight: theme.spacing(110),
     },
     userInfo:{
         display: "flex",
@@ -67,10 +68,10 @@ export const useStylesUserProfile = makeStyles(theme => ({
     },
     editar:{
         margin: theme.spacing(0,1,0,0),
-        minWidth: theme.spacing(11)
+        minWidth: theme.spacing(11),
     },
     cardEdit:{
-        minHeight: theme.spacing(70),
+        minHeight: theme.spacing(110),
         margin: theme.spacing(2,0,0,2),
         minWidth: theme.spacing(88)
     },

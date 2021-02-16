@@ -1,6 +1,5 @@
 import React from 'react';
-import { Container, Typography, Grid, Card, CardMedia, CardContent } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import { Container, Typography, Grid, Card, CardMedia, CardContent, Link } from '@material-ui/core';
 import { useStylesUserDashboard } from './styles';
 import orderImage from '../../resources/orders.jpg';
 import reviewImage from '../../resources/reviews.jpg';
@@ -16,7 +15,7 @@ const UserDashboard = () => {
                 <Typography variant='h4' align='center' >Panel de usuario</Typography>
                 <Grid container spacing={8} className={styles.gridContainer} >
                     <Grid item lg={4} className={styles.card} >
-                        <Link to='/user/orders' className={styles.link} >
+                        <Link href='/user/orders' className={styles.link} underline="none" >
                             <Card className={styles.cardShadow} >
                                 <CardMedia
                                     className={styles.images}
@@ -30,7 +29,7 @@ const UserDashboard = () => {
                         </Link>
                     </Grid>
                     <Grid item lg={4} className={styles.card} >
-                        <Link to='/user/reviews/' className={styles.link} >
+                        <Link href='/user/reviews/' className={styles.link} underline="none" >
                             <Card className={styles.cardShadow} >
                                 <CardMedia
                                     className={styles.images}
@@ -44,7 +43,7 @@ const UserDashboard = () => {
                         </Link>
                     </Grid>
                     <Grid item lg={4} className={styles.card} >
-                        <Link to='/user/profile' className={styles.link} >
+                        <Link href='/user/profile' className={styles.link} underline="none" >
                             <Card className={styles.cardShadow} >
                                 <CardMedia
                                     className={styles.images}
