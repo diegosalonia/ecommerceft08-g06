@@ -4,6 +4,7 @@ import { Container, Typography, CircularProgress, Button } from '@material-ui/co
 import { getProductsInCart, deleteAllCart } from '../../redux/cartReducer/actions';
 import { useStylesCart } from './styles';
 import  FadeIn  from 'react-fade-in';
+import Swal from 'sweetalert2';
 import CartItem from './CartItem';
 import CartTotal from './CartTotal';
 
@@ -22,7 +23,42 @@ const Cart = () => {
        setTimeout(() => setLoading(false), 1000);
     }, [products]);
 
-    const handleDeleteCart = () => dispatch(deleteAllCart(userId));
+    const handleDeleteCart = () => {
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+              confirmButton: styles.confirmButton,
+              cancelButton: styles.cancelButton
+            },
+            buttonsStyling: false
+        });
+    
+        swalWithBootstrapButtons.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'YES, DELETE IT!',
+            cancelButtonText: 'NO, CANCEL!',
+            reverseButtons: true
+        })
+        .then((result) => {
+            if (result.isConfirmed) {
+                swalWithBootstrapButtons.fire(
+                'Deleted!',
+                'Your product has been deleted from cart',
+                'success'
+                );
+                dispatch(deleteAllCart(userId));
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                swalWithBootstrapButtons.fire(
+                'Cancelled',
+                `Your product won't be deleted`,
+                'error'
+                );
+            };
+        })
+        .catch(err => console.log(err));
+    }
 
     const cart = () => {
         return (
