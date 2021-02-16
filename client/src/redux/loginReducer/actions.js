@@ -13,9 +13,23 @@ const showAlert = (message, time) => {
     });
 };
 
+const showAlertWarning = (message, time) => {
+    return Swal.fire({
+        position: 'center',
+        icon: 'warning',
+        title: message,
+        showConfirmButton: false,
+        timer: time,
+    });
+};
+
 
 export const login = (user) => (dispatch, getState) => {
     if(user.user.active === "true"){
+        if(user.user.force_password === "pendiente") {
+            setTimeout(() => window.location.replace('/password-reset'), 2000);
+            return showAlertWarning("tienes que cambiar tu contraseña", 2000)
+        }
         dispatch({type: LOGIN, payload: user})
         const productsInCart = getState().cartReducer.productsInCart.slice();
         const promises = productsInCart.map(product => {
@@ -29,8 +43,8 @@ export const login = (user) => (dispatch, getState) => {
             sessionStorage.setItem('role', user.user.user_role);
             sessionStorage.setItem('id', user.user.id);
             sessionStorage.setItem('email', user.user.email);
-            setTimeout(() => window.location.reload(false), 2000);
             showAlert('Succesfull sign in!', 2000);
+            setTimeout(() => window.location.reload(false), 2000);
         })
         .catch(err => console.log("ERROR EN SIGN IN ENVIANDO PRODUCTOS AL CARRITO: ", err));
     }else{

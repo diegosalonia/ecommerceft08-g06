@@ -62,7 +62,7 @@ module.exports = (sequelize) => {
             type:STRING
         },
         billing_addres:{
-            type:INTEGER
+            type:STRING
         },
         email_notification:{
             type:BOOLEAN
@@ -72,6 +72,10 @@ module.exports = (sequelize) => {
         },
         verifyCodeExpireDate:{
             type: DATE
+        },
+        force_password:{
+            type: ENUM("pendiente","hecho"),
+            defaultValue: "hecho"
         }
     });
 };

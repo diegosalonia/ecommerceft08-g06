@@ -13,8 +13,13 @@ const UserProfile = () => {
     const [changePassword, setChangePassword] = useState(false)
     const [changeEmail , setChangeEmail] = useState(false)
     const [changePhoneNumber , setChangePhoneNumber] = useState(false)
-    const [changeShippingAdress , setChangeShippingAdress] = useState(false)
-    const [changeBillingAdress , setChangeBillingAdress] = useState(false)
+    const [changeLineAdress1 , setChangeLineAdress1] = useState(false)
+    const [changeLineAdress2 , setChangeLineAdress2] = useState(false)
+    const [changeCity, setChangeCity] = useState(false)
+    const [changeState, setChangeState] = useState(false)
+    const [changePostalCode, setChangePostalCode] = useState(false)
+    const [changeCountry, setChangeCountry] = useState(false)
+    const [changeBillingAddres , setChangeBillingAddres] = useState(false)
     
     const dispatch = useDispatch()
     const row = useSelector(state => state.userLoggedReducer.user[0])
@@ -42,15 +47,19 @@ const UserProfile = () => {
       email: yup
         .string("Ingresa tu correo electronico")
         .email("Debes ingresar un correo electronico valido")
-        .required("Debes ingresar un correo electronico"),
     })
     
     const formik = useFormik({
         initialValues:{
                 email: "",
                 phone_number: "",
-                shipping_address: "",
-                billing_address: "",
+                address_line1: "",
+                address_line2: "",
+                city: "",
+                state: "",
+                postal_code: "",
+                country: "",
+                billing_addres: "",
                 newPassword: "",
                 passwordVerify: ""
 
@@ -64,8 +73,13 @@ const UserProfile = () => {
                 const form = {}
                 changeEmail&&Object.assign(form, {email:values.email})
                 changePhoneNumber&&Object.assign(form, {phone_number:parseInt(values.phone_number, 10)})
-                changeShippingAdress&&Object.assign(form, {shipping_address:values.shipping_address})
-                changeBillingAdress&&Object.assign(form, {billing_address:values.billing_address})
+                changeLineAdress1&&Object.assign(form, {address_line1:values.address_line1})
+                changeLineAdress2&&Object.assign(form, {address_line2:values.address_line2})
+                changeCity&&Object.assign(form, {city:values.city})
+                changeState&&Object.assign(form, {state:values.state})
+                changePostalCode&&Object.assign(form, {postal_code:parseInt(values.postal_code, 10)})
+                changeCountry&&Object.assign(form, {country: values.country})
+                changeBillingAddres&&Object.assign(form, {billing_addres:values.billing_addres})
                dispatch(updateUser(token, form, userId))
                formik.resetForm()
             }
@@ -160,12 +174,12 @@ const UserProfile = () => {
                                         </Button>
                                     </Grid>
                                     <Grid className={classes.userInfo}>
-                                        <Typography variant="h5" className={classes.info}>Dirrecion de envio: {row?.shipping_address || "sin agregar"}</Typography>
+                                        <Typography variant="h5" className={classes.info}>Dirrecion linea 1: {row?.address_line1 || "sin agregar"}</Typography>
                                         <Button 
                                         className={classes.editar} 
                                         variant="outlined" 
                                         onClick={()=> {
-                                            setChangeShippingAdress(!changeShippingAdress)
+                                            setChangeLineAdress1(!changeLineAdress1)
                                             setChangePassword(false)
                                         }}
                                         >
@@ -173,12 +187,69 @@ const UserProfile = () => {
                                         </Button>
                                     </Grid>
                                     <Grid className={classes.userInfo}>
-                                        <Typography variant="h5" className={classes.info}>Direccion de facturacion: {row?.billing_address || "sin agregar"}</Typography>
+                                        <Typography variant="h5" className={classes.info}>Dirrecion linea 2 : {row?.address_line2 || "sin agregar"}</Typography>
                                         <Button 
                                         className={classes.editar} 
                                         variant="outlined" 
                                         onClick={()=> {
-                                            setChangeBillingAdress(!changeBillingAdress) 
+                                            setChangeLineAdress2(!changeLineAdress2)
+                                            setChangePassword(false)
+                                        }}
+                                        >
+                                        editar
+                                        </Button>
+                                    </Grid>
+                                    <Grid className={classes.userInfo}>
+                                        <Typography variant="h5" className={classes.info}>Ciudad: {row?.city || "sin agregar"}</Typography>
+                                        <Button 
+                                        className={classes.editar} 
+                                        variant="outlined" 
+                                        onClick={()=> {
+                                            setChangeCity(!changeCity) 
+                                            setChangePassword(false)}} >
+                                        editar
+                                        </Button>
+                                    </Grid>
+                                    <Grid className={classes.userInfo}>
+                                        <Typography variant="h5" className={classes.info}>Estado: {row?.state || "sin agregar"}</Typography>
+                                        <Button 
+                                        className={classes.editar} 
+                                        variant="outlined" 
+                                        onClick={()=> {
+                                            setChangeState(!changeState) 
+                                            setChangePassword(false)}} >
+                                        editar
+                                        </Button>
+                                    </Grid>
+                                    <Grid className={classes.userInfo}>
+                                        <Typography variant="h5" className={classes.info}>Codigo postal: {row?.postal_code || "sin agregar"}</Typography>
+                                        <Button 
+                                        className={classes.editar} 
+                                        variant="outlined" 
+                                        onClick={()=> {
+                                            setChangePostalCode(!changePostalCode) 
+                                            setChangePassword(false)}} >
+                                        editar
+                                        </Button>
+                                    </Grid>
+                                    <Grid className={classes.userInfo}>
+                                        <Typography variant="h5" className={classes.info}>Pais: {row?.country || "sin agregar"}</Typography>
+                                        <Button 
+                                        className={classes.editar} 
+                                        variant="outlined" 
+                                        onClick={()=> {
+                                            setChangeCountry(!changeCountry) 
+                                            setChangePassword(false)}} >
+                                        editar
+                                        </Button>
+                                    </Grid>
+                                    <Grid className={classes.userInfo}>
+                                        <Typography variant="h5" className={classes.info}>Direccion de facturacion: {row?.billing_addres || "sin agregar"}</Typography>
+                                        <Button 
+                                        className={classes.editar} 
+                                        variant="outlined" 
+                                        onClick={()=> {
+                                            setChangeBillingAddres(!changeBillingAddres) 
                                             setChangePassword(false)}} >
                                         editar
                                         </Button>
@@ -188,9 +259,14 @@ const UserProfile = () => {
                                     <Link to="#" onClick={()=>{
                                                 setChangePassword(!changePassword)
                                                 setChangePhoneNumber(false)
-                                                setChangeShippingAdress(false)
+                                                setChangeLineAdress1(false)
+                                                setChangeLineAdress2(false)
+                                                setChangePostalCode(false)
+                                                setChangeState(false)
+                                                setChangeCity(false)
+                                                setChangeCountry(false)
                                                 setChangeEmail(false)
-                                                setChangeBillingAdress(false)}}>quiero cambiar mi contraseña</Link>
+                                                setChangeBillingAddres(false)}}>quiero cambiar mi contraseña</Link>
                                 </Typography>
                             </CardContent>
                         </Card>
@@ -225,34 +301,100 @@ const UserProfile = () => {
                                         />
                                     }
                                     {
-                                        changeShippingAdress&&
+                                        changeLineAdress1&&
                                         <TextField
-                                        id="shipping_address"
-                                        name="shipping_address"
-                                        label="direccion de envio"
+                                        id="address_line1"
+                                        name="address_line1"
+                                        label="Direccion linea 1"
                                         variant="outlined"
-                                        value={formik.values.shipping_adress}
+                                        value={formik.values.address_line1}
                                         onChange={formik.handleChange}
                                         className={classes.input}
                                         />
                                     }
                                     {
-                                        changeBillingAdress&&
+                                        changeLineAdress2&&
                                         <TextField
-                                        id="billing_address"
-                                        name="billing_address"
-                                        label="direccion de facturacion"
+                                        id="address_line2"
+                                        name="address_line2"
+                                        label="Direccion linea 2"
                                         variant="outlined"
-                                        value={formik.values.billing_adress}
+                                        value={formik.values.address_line2}
                                         onChange={formik.handleChange}
                                         className={classes.input}
                                         />
                                     }
-                                    {(changeEmail || changePhoneNumber || changeShippingAdress || changeBillingAdress) && (
+                                    {
+                                        changeCity&&
+                                        <TextField
+                                        id="city"
+                                        name="city"
+                                        label="Ciudad"
+                                        variant="outlined"
+                                        value={formik.values.city}
+                                        onChange={formik.handleChange}
+                                        className={classes.input}
+                                        />
+                                    }
+                                    {
+                                        changeState&&
+                                        <TextField
+                                        id="state"
+                                        name="state"
+                                        label="Estado"
+                                        variant="outlined"
+                                        value={formik.values.state}
+                                        onChange={formik.handleChange}
+                                        className={classes.input}
+                                        />
+                                    }
+                                    {
+                                        changePostalCode&&
+                                        <TextField
+                                        id="postal_code"
+                                        name="postal_code"
+                                        label="Codigo postal"
+                                        variant="outlined"
+                                        value={formik.values.postal_code}
+                                        onChange={formik.handleChange}
+                                        className={classes.input}
+                                        />
+                                    }
+                                    {
+                                        changeCountry&&
+                                        <TextField
+                                        id="country"
+                                        name="country"
+                                        label="direccion de envio"
+                                        variant="outlined"
+                                        value={formik.values.country}
+                                        onChange={formik.handleChange}
+                                        className={classes.input}
+                                        />
+                                    }
+                                    {
+                                        changeBillingAddres&&
+                                        <TextField
+                                        id="billing_addres"
+                                        name="billing_addres"
+                                        label="direccion de facturacion"
+                                        variant="outlined"
+                                        value={formik.values.billing_addres}
+                                        onChange={formik.handleChange}
+                                        className={classes.input}
+                                        />
+                                    }
+                                    {(changeEmail || changePhoneNumber || changeLineAdress1 || changeLineAdress2 || 
+                                    changeCity || changeState || changePostalCode || changeCountry || changeBillingAddres) && (
                                     (changeEmail && !formik.values.email.length) || 
                                     (changePhoneNumber && !formik.values.phone_number.length) || 
-                                    (changeShippingAdress && !formik.values.shipping_address.length) ||
-                                    (changeBillingAdress && !formik.values.billing_address.length)?
+                                    (changeLineAdress1 && !formik.values.address_line1.length) ||
+                                    (changeLineAdress2 && !formik.values.address_line2.length) ||
+                                    (changeCity && !formik.values.city.length) ||
+                                    (changeState && !formik.values.state.length) ||
+                                    (changePostalCode && !formik.values.postal_code.length) ||
+                                    (changeCountry && !formik.values.country.length) ||
+                                    (changeBillingAddres && !formik.values.billing_addres.length)?
                                     <Grid className={classes.formButton}>
                                     <Button
                                     disabled

@@ -86,8 +86,13 @@ export default function UserForm(props){
             password: "",
             passwordConfirm: "",
             phone_number: null,
-            shipping_address: "",
-            billing_address: "",
+            address_line1: "",
+            address_line2: "",
+            city: "",
+            state: "",
+            postal_code: null,
+            country: "",
+            billing_addres: "",
             email_notification: false
         },
         validationSchema: validationSchema,
@@ -95,12 +100,14 @@ export default function UserForm(props){
         onSubmit:  (values) => {
           axios.post('http://localhost:3000/users/', { form:values })
           .then((res) => {
+            console.log(res.data)
             showAlertSuccess("Usuario creado", 2000)
             setTimeout(()=>{props.history.push('/');},2000)
           })
           .catch(err => {
-            showAlertConflict(err.response.data.msg, 2000)
+            showAlertConflict((err.response.data.msg || err), 2000)
           });
+          console.log(values)
         }
     })
 
@@ -195,10 +202,10 @@ export default function UserForm(props){
                 <TextField
                    fullWidth
                    variant="outlined"
-                   id="shipping_address"
-                   name="shipping_address"
-                   label="Dirección de Envío (opcional)"
-                   value={formik.values.shipping_addres}
+                   id="address_line1"
+                   name="address_line1"
+                   label="Dirección linea 1 (opcional)"
+                   value={formik.values.address_line1}
                    onChange={formik.handleChange}
                  />
                 </Grid>
@@ -206,10 +213,65 @@ export default function UserForm(props){
                 <TextField
                    fullWidth
                    variant="outlined"
-                   id="billing_address"
-                   name="billing_address"
+                   id="address_line2"
+                   name="address_line2"
+                   label="Dirección linea 2 (opcional)"
+                   value={formik.values.address_line2}
+                   onChange={formik.handleChange}
+                 />
+                </Grid>
+                <Grid item xs={12}>
+                <TextField
+                   fullWidth
+                   variant="outlined"
+                   id="city"
+                   name="city"
+                   label="Ciudad (opcional)"
+                   value={formik.values.city}
+                   onChange={formik.handleChange}
+                 />
+                </Grid>
+                <Grid item xs={12}>
+                <TextField
+                   fullWidth
+                   variant="outlined"
+                   id="state"
+                   name="state"
+                   label="Estado (opcional)"
+                   value={formik.values.state}
+                   onChange={formik.handleChange}
+                 />
+                </Grid>
+                <Grid item xs={12}>
+                <TextField
+                   fullWidth
+                   variant="outlined"
+                   id="postal_code"
+                   name="postal_code"
+                   label="Codigo postal (opcional)"
+                   value={formik.values.postal_code}
+                   onChange={formik.handleChange}
+                 />
+                </Grid>
+                <Grid item xs={12}>
+                <TextField
+                   fullWidth
+                   variant="outlined"
+                   id="country"
+                   name="country"
+                   label="Pais (opcional)"
+                   value={formik.values.country}
+                   onChange={formik.handleChange}
+                 />
+                </Grid>
+                <Grid item xs={12}>
+                <TextField
+                   fullWidth
+                   variant="outlined"
+                   id="billing_addres"
+                   name="billing_addres"
                    label="Dirección de facturación (opcional)"
-                   value={formik.values.billing_address}
+                   value={formik.values.billing_addres}
                    onChange={formik.handleChange}
                  />
                 </Grid>

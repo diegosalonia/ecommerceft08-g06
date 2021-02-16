@@ -58,3 +58,15 @@ export const updateUser = (id, token) => dispatch =>{
     .catch(err => console.log("ERROR DE UPDATE ",err))
 }
 
+export const forcePassword = (id, token) => dispatch => {
+    return axios.post(`http://localhost:3000/users/forcePassword/${id}`, null, config(token))
+    .then(user => {
+        dispatch({
+            type: UPDATE_USER,
+            update: user.data
+        })
+    })
+    .catch(error => {
+        console.log(error)
+    })
+}
