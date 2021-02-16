@@ -100,14 +100,14 @@ export default function UserForm(props){
         onSubmit:  (values) => {
           axios.post('http://localhost:3000/users/', { form:values })
           .then((res) => {
-            console.log(res.data)
+
             showAlertSuccess("Usuario creado", 2000)
             setTimeout(()=>{props.history.push('/');},2000)
           })
           .catch(err => {
             showAlertConflict((err.response.data.msg || err), 2000)
           });
-          console.log(values)
+
         }
     })
 
@@ -237,7 +237,7 @@ export default function UserForm(props){
                    variant="outlined"
                    id="state"
                    name="state"
-                   label="Estado (opcional)"
+                   label="Provincia (opcional)"
                    value={formik.values.state}
                    onChange={formik.handleChange}
                  />
