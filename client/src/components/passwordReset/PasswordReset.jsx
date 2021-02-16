@@ -1,20 +1,53 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Container, TextField, Typography, Card, CardContent, Grid, Link } from '@material-ui/core';
-import { sendEmail, resetPassword } from '../../redux/passwordResetReducer/actions';
-import { useSelector, useDispatch } from 'react-redux';
+import { Button, Container, TextField, Typography, Grid, Link } from '@material-ui/core';
+import { resetPassword } from '../../redux/passwordResetReducer/actions';
+import { useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { UseStylesResetPassword } from './styles'
+import { useFormik } from 'formik';
+import Swal from 'sweetalert2';
+import axios from 'axios'
+import * as yup from 'yup';
+
+
 
 const PasswordReset = () => {
     const dispatch = useDispatch();
-    const verifyCode = useSelector(state => state.passwordResetReducer.verifyCode)
+    const [verifyCode, setVerifyCode] = useState(false)
     const [state, setState] = useState("")
     const [email, setEmail] = useState("")
     const [code, setCode] = useState("")
-    const [newPassword, setNewPassword] = useState("");
 
+    const numericRegex = /(?=.*[0-9])/
+    const lowerCaseRegex = /(?=.*[a-z])/
+    const upperCaseRegex = /(?=.*[A-Z])/
 
-    
+    const validationSchema = yup.object({
+      newPassword: yup 
+        .string("Ingresa una contraseña")
+        .required("Debes ingresar una contraseña")
+        .min(8, "Debe tener minimo 8 caracteres")
+        .matches(numericRegex, "Debe tener minimo un numero")
+        .matches(lowerCaseRegex, "Debe tener minimo una minuscula")
+        .matches(upperCaseRegex, "Debe tener minimo una mayuscula"),
+      confirmPassword: yup
+        .string("Confirma tu contraseña")  
+        .oneOf([yup.ref("newPassword")], "Las contraseñas no son iguales")
+        .required("Debes confirmar tu contraseña")
+    })
+
+    const formik = useFormik({
+        initialValues:{
+            newPassword: "",
+            confirmPassword: ""
+        },
+        validationSchema: validationSchema,
+        onSubmit: (values) => {
+            dispatch(resetPassword(email, values.newPassword))
+            setTimeout(()=>setState("succesfull"), 2000)
+        }
+    })
+
     const classes = UseStylesResetPassword()
 
     const handleReset = () => {
@@ -29,39 +62,46 @@ const PasswordReset = () => {
         setCode(event.target.value)
     }
 
-    const handleChangePassword = (event) => {
-        setNewPassword(event.target.value)
-    }
+    const showAlertSuccess = (message, time) => {
+        return Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: message,
+            showConfirmButton: false,
+            timer: time,
+        });
+      };
+
+    const showAlertConflict = (message, time) => {
+        return Swal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: message,
+            showConfirmButton: false,
+            timer: time,
+        });
+      };
 
     const handleSubmit = (event) =>{
-        event.preventDefault()
-        console.log(email)
-        console.log("este es",code)
-        dispatch(sendEmail(email))
-        alert("codigo enviado")
+        axios.post('http://localhost:3000/users/sendMail', {email})
+        .then(response =>{
+            showAlertSuccess(response.data.msg, 1500)
+            setVerifyCode(true)
+        })
+        .catch(error =>{
+            showAlertConflict(error.response.data.msg, 1500)
+        })
     }
     const handleSubmitCode = (event) =>{
-        event.preventDefault()
-        if(parseInt(code, 10) === verifyCode){
+        axios.get(`http://localhost:3000/users/${code}/email/${email}`)
+        .then(response => {
+            showAlertSuccess(response.data.msg, 1500)
             setState("password")
-            console.log("son iguales")
-        }else{
-            console.log("no son iguales")
-            alert("el codigo ingresado es invalido")
-        }
+        })
+        .catch(error =>{
+            showAlertConflict(error.response?.data.msg , 1500)
+        })
     }
-
-    const handleSubmitPassword = (event) =>{
-        event.preventDefault()
-        console.log(event.target.value)
-        dispatch(resetPassword(email, newPassword))
-        alert("contraseña cambiada con exito")
-        setState("succesfull")
-    }
-
-    useEffect(()=> {
-        console.log(verifyCode)
-    },[state,verifyCode])
 
     const InsertEmail = () => {
         return(
@@ -79,7 +119,7 @@ const PasswordReset = () => {
                           variant="outlined"
                           id="email"
                           name="email"
-                          label="email"
+                          label="correo electronico"
                           onChange={handleChange}
                           value={email}
                           size="small"
@@ -107,7 +147,7 @@ const PasswordReset = () => {
                    variant="outlined"
                    id="verifyCode"
                    name="verifyCode"
-                   label="verify code"
+                   label="codigo de verificacion"
                    onChange={handleChangeCode}
                    value={code}
                    size="small"
@@ -139,31 +179,53 @@ const PasswordReset = () => {
     }
 
     const InsertPassword = () => {
+
         return(
             <Container className={classes.container}>
                 <Grid className={classes.title}>
                 <Typography variant="h5">Inserte su nueva contraseña</Typography>
                 </Grid>
+                <form className={classes.container} onSubmit={formik.handleSubmit}>
                 <Grid className={classes.inputContainer}>
                 <TextField
+                   size="small"
                    type="password"
                    variant="outlined"
-                   id="password"
-                   name="password"
-                   label="password"
-                   onChange={handleChangePassword}
-                   value={newPassword}
-                   size="small"
+                   id="newPassword"
+                   name="newPassword"
+                   label="nueva contraseña"
+                   value={formik.values.newPassword}
+                   onChange={formik.handleChange}
                    className={classes.inputPassword}
+                   error={formik.touched.newPassword && Boolean(formik.errors.newPassword)}
+                   helperText={formik.touched.newPassword && formik.errors.newPassword}
                  />
+                 </Grid>
+                 <Grid className={classes.inputContainer}>
+                <TextField
+                   size="small"
+                   type="password"
+                   variant="outlined"
+                   id="confirmPassword"
+                   name="confirmPassword"
+                   label="confirma tu contraseña"
+                   value={formik.values.confirmPassword}
+                   onChange={formik.handleChange}
+                   className={classes.inputPassword}
+                   error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
+                   helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
+                 />
+                 </Grid>
+                 <Grid>
                  <Button
+                    fullWidth
                     type="submit"
                     variant="contained"
-                    color="primary"
-                    onClick={handleSubmitPassword}>
+                    color="primary">
                      enviar
                  </Button>
                  </Grid>
+                 </form>
         </Container>
         )
     }

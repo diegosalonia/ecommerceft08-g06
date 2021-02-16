@@ -1,4 +1,4 @@
-const { STRING, ENUM, BOOLEAN, BIGINT } = require('sequelize');
+const { STRING, ENUM, BOOLEAN, BIGINT, DATE } = require('sequelize');
 
 module.exports = (sequelize) => {
     sequelize.define('user',{
@@ -50,6 +50,12 @@ module.exports = (sequelize) => {
         },
         email_notification:{
             type:BOOLEAN
+        },
+        verifyCode:{
+            type: BIGINT
+        },
+        verifyCodeExpireDate:{
+            type: DATE
         }
     });
 };
