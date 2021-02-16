@@ -81,7 +81,7 @@ export default function MenuListComposition() {
             className={classes.td_title}
             onClick={handleToggle}
           >
-            { email.split('@')[0] }
+            {  email?.split('@')[0] } 
           </Button>
           <Popper open={open} anchorEl={anchorRef.current} placement={'bottom-end'} role={undefined} transition disablePortal>
             {({ TransitionProps, placement }) => (
@@ -92,7 +92,7 @@ export default function MenuListComposition() {
                 <Paper>
                   <ClickAwayListener onClickAway={handleClose}>
                     <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                      <Link underline='none' className={classes.LinkHome} color="inherit" key="logIn" href='/user'><MenuItem onClick={handleClose}>{ email.split('@')[0] }</MenuItem></Link>
+                      <Link underline='none' className={classes.LinkHome} color="inherit" key="logIn" href='/user'><MenuItem onClick={handleClose}>{ email?.split('@')[0] }</MenuItem></Link>
                       <MenuItem onClick={handleCloseLogout}>Cerrar sesion</MenuItem>
                     </MenuList>
                   </ClickAwayListener>

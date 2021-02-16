@@ -21,14 +21,14 @@ export default function Home(props){
             dispatch(changeOrderStatus(userId)); // userId hardcoded
         };
         if (url.includes('loginGoogle=true')){
-             let token = url.slice(1).split("&")[1].slice(2);
+             let token = url.slice(1).split("&")[1].slice(2).split("#")[0];
              let user = jwt_decode(token)
              sessionStorage.setItem("token", token);
              sessionStorage.setItem('id', user.id);
              sessionStorage.setItem("role", user.user_role);
              sessionStorage.setItem("email", user.email)
              //dispatch(getUser(user))
-             history.replace('/')
+             history.replace('/')           
              
           }
            if(url.includes('loginFacebook=true')){
