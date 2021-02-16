@@ -32,7 +32,7 @@ export default function MenuListComposition() {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
   const dispatch = useDispatch();
-  const email = localStorage.getItem('email');
+  const email = sessionStorage.getItem('email');
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
