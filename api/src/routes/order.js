@@ -14,7 +14,11 @@ server.get('/', (req, res) => {
         .then(orders => res.send(orders))
         .catch(err => console.log(err));
     } else {
-        Order.findAll()
+        Order.findAll({
+            where: {
+                status: ['canceled', 'approved', 'pending']
+            }
+        })
         .then(orders => {
             res.send(orders);
         })
@@ -55,9 +59,12 @@ server.get('/:id', (req, res) => {
 
 server.put('/:id', async (req, res) => {
     const orderUpdate = await Order.findByPk(req.params.id);
-    Object.assign(orderUpdate, req.body.order);
+    Object.assign(orderUpdate, req.body);
     await orderUpdate.save()
-    .then(order => res.send(order))
+    .then(order => {
+        console.log("aqui esta la orden", order)
+        res.send(order)
+    })
     .catch(err => console.log(err));
 });
 

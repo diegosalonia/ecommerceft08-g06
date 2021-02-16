@@ -1,6 +1,7 @@
 import { LOGIN, LOGOUT, ADD_NEW_ADDRESS } from '../constants';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { styled } from '@material-ui/core';
 
 const showAlert = (message, time) => {
     return Swal.fire({
@@ -12,24 +13,36 @@ const showAlert = (message, time) => {
     });
 };
 
+
 export const login = (user) => (dispatch, getState) => {
-    console.log("USER LOGUEADO: ", user);
-    dispatch({type: LOGIN, payload: user})
-    const productsInCart = getState().cartReducer.productsInCart.slice();
-    const promises = productsInCart.map(product => {
-        return axios.post(`http://localhost:3000/users/${user.user.id}/cart`, {product: {id: product.id, quantity: product.quantity}})
-        .then(res => console.log(res))
-        .catch(err => console.log(err));
-    });
-    Promise.all(promises)
-    .then(res => {
-        sessionStorage.setItem('token', user.token)
-        sessionStorage.setItem('role', user.user.user_role);
-        sessionStorage.setItem('id', user.user.id);
-        setTimeout(() => window.location.reload(false), 2000);
-        showAlert('Succesfull sign in!', 2000);
-    })
-    .catch(err => console.log("ERROR EN SIGN IN ENVIANDO PRODUCTOS AL CARRITO: ", err));
+    if(user.user.active === "true"){
+        dispatch({type: LOGIN, payload: user})
+        const productsInCart = getState().cartReducer.productsInCart.slice();
+        const promises = productsInCart.map(product => {
+            return axios.post(`http://localhost:3000/users/${user.user.id}/cart`, {product: {id: product.id, quantity: product.quantity}})
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
+        });
+        Promise.all(promises)
+        .then(res => {
+            sessionStorage.setItem('token', user.token)
+            sessionStorage.setItem('role', user.user.user_role);
+            sessionStorage.setItem('id', user.user.id);
+            sessionStorage.setItem('email', user.user.email);
+            setTimeout(() => window.location.reload(false), 2000);
+            showAlert('Succesfull sign in!', 2000);
+        })
+        .catch(err => console.log("ERROR EN SIGN IN ENVIANDO PRODUCTOS AL CARRITO: ", err));
+    }else{
+       alert('lo mismo paro ma barato')
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Parece que no esta activado!',
+            footer: '<a href>Para Mayor Informacion</a>'
+          })        
+    }
+
 }
 
 export const addNewAddress = (userId, newAddress) => dispatch => {
@@ -52,9 +65,10 @@ export const logout = (token) => dispatch =>{
     return axios.post(url,null,config)
     .then(()=>{
         dispatch({type: LOGOUT})
-
-        sessionStorage.clear()
+        localStorage.clear();
+        sessionStorage.clear();
 
         window.location.replace("http://localhost:3001/")
     })
+    .catch(err => console.log("ERROR LOGOUT: ", err));
 }

@@ -214,6 +214,10 @@ export const useStylesProduct = makeStyles(theme => ({
     backgroundColor: theme.palette.secondary.main,
     color: theme.palette.primary.main,
     margin: '0 5%',
+  },
+  noStock: {
+    fontSize: '1.5rem',
+    border: '1px solid #ddd',
   }
 }));
 

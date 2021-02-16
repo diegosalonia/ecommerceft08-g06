@@ -1,5 +1,6 @@
 import { GET_PRODUCT, SHOW_LOADER, HIDE_LOADER, 
-         ADD_PRODUCT_TO_CART, GET_ALL_REVIEWS , ADD_NEW_REVIEW } from '../constants';
+         ADD_PRODUCT_TO_CART, GET_ALL_REVIEWS, ADD_NEW_REVIEW } from '../constants';
+
 
 const initialState = {
     product: {},
@@ -36,11 +37,6 @@ const productReducer = (state = initialState, action) => {
             return {
                 ...state,
                 reviews: action.reviews
-            };
-        case ADD_NEW_REVIEW:
-            return {
-                ...state,
-                reviewChanged: true
             };
         default:
             return {

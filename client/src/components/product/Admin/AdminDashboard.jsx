@@ -14,7 +14,7 @@ function AdminDashboard() {
     const dashboard = () => {
         return (
             <Container className={styles.container} >
-                <Typography variant='h4' align='center' >Admin Dashboard</Typography>
+                <Typography variant='h4' align='center' >Panel Administrador</Typography>
                 <Grid container spacing={4} className={styles.gridContainer} >
                     <Grid item lg={2} />
                     <Grid item lg={4} className={styles.card} >
@@ -25,8 +25,8 @@ function AdminDashboard() {
                                     image={productListImage}
                                 />
                                 <CardContent>
-                                    <Typography variant='h5' align='center' >Product List</Typography>
-                                    <Typography align='center' >Get acces to product list. Edit and delete your products!</Typography>
+                                    <Typography variant='h5' align='center' >Lista de Productos</Typography>
+                                    <Typography align='center' >Accede a la lista de productos. ¡Edita y borra tus productos!</Typography>
                                 </CardContent>
                             </Card>
                         </Link>
@@ -39,8 +39,8 @@ function AdminDashboard() {
                                     image={addProduct}
                                 />
                                 <CardContent>
-                                    <Typography variant='h5' align='center' >Add product</Typography>
-                                    <Typography align='center' >Here you can add your new products. Name, price, stock and more!</Typography>
+                                    <Typography variant='h5' align='center' >Agregar un producto</Typography>
+                                    <Typography align='center' >Aquí puede agregar sus nuevos productos. ¡Nombre, precio, stock y más!</Typography>
                                 </CardContent>
                             </Card>
                         </Link>
@@ -57,8 +57,8 @@ function AdminDashboard() {
                                     image={addCategory}
                                 />
                                 <CardContent>
-                                    <Typography variant='h5' align='center' >Add category</Typography>
-                                    <Typography align='center' >Here you can add your new categories. Name, description, image!</Typography>
+                                    <Typography variant='h5' align='center' >Agregar categoria</Typography>
+                                    <Typography align='center' >Aquí puede agregar sus nuevas categorías. Nombre, descripción, imagen!</Typography>
                                 </CardContent>
                             </Card>
                         </Link>
@@ -71,8 +71,8 @@ function AdminDashboard() {
                                     image={orderImage}
                                 />
                                 <CardContent>
-                                    <Typography variant='h5' align='center' >Order List</Typography>
-                                    <Typography align='center' >Get acces to order list. Edit and see user orders!</Typography>
+                                    <Typography variant='h5' align='center' >Lista de ordenes</Typography>
+                                    <Typography align='center' >Obtenga acceso a la lista de pedidos. ¡Edite y vea los pedidos de los usuarios!</Typography>
                                 </CardContent>
                             </Card>
                         </Link>
@@ -86,17 +86,30 @@ function AdminDashboard() {
                             <Card className={styles.cardShadow} >
                                 <CardMedia
                                     className={styles.images}
-                                    //image={addCategory}
                                 />
                                 <CardContent>
-                                    <Typography variant='h5' align='center' >User List</Typography>
-                                    <Typography align='center' >Here you can watch thes users. Name, description, etc</Typography>
+                                    <Typography variant='h5' align='center' >Lista de usuarios</Typography>
+                                    <Typography align='center' >Aquí puedes ver  todos los usuarios. Nombre, descripción, promover o desactivar.</Typography>
+                                </CardContent>
+                            </Card>
+                        </Link>
+                    </Grid>
+                    <Grid item lg={4} className={styles.card} >
+                        <Link to='/admin/categories' className={styles.link} >
+                            <Card className={styles.cardShadow} >
+                                <CardMedia
+                                    className={styles.images}
+                                />
+                                <CardContent>
+                                    <Typography variant='h5' align='center' >Lista de categoria</Typography>
+                                    <Typography align='center' >Aquí puedes ver todas las categorías. ¡Nombre, descripcion, eliminar, etc!</Typography>
                                 </CardContent>
                             </Card>
                         </Link>
                     </Grid>
                     <Grid item lg={2} />
                 </Grid>
+                
             </Container>
         )
     };

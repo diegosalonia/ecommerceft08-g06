@@ -15,7 +15,7 @@ const CartItem = ({ product }) => {
     useEffect(() => {
         userId && setQuantity(product.order_line.quantity);
         !userId && setQuantity(product.quantity);
-    }, [product.order_line.quantity, product.quantity, userId]);
+    }, [product.order_line?.quantity, product.quantity, userId]);
 
     const handleOnChangeQuantity = e => {
         if (quantity >= 1 && quantity <= stock && e.target.value >= 1 && e.target.value <= stock) {

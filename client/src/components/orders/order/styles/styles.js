@@ -32,6 +32,13 @@ const useStyles = makeStyles(theme =>({
     },
     paper:{
         boxShadow: "1px 5px 5px rgba(0,0,0,0.5)"
+    },
+    input:{
+        width: theme.spacing(10)
+    },
+    link: {
+        textDecoration: 'none',
+        color: theme.palette.primary.main
     }
 }))
 

@@ -22,7 +22,6 @@ const CatalogContainer = () => {
 
     useEffect(() => {
         if(firstRender.current){
-            console.log("query: ", query.get("catId"), storeFilterBox)
             if (query.get("catId")){
                 dispatch(getPaginatedProducts(page, 100, {...storeFilterBox, categories: [query.get("catId")]}));    
             }
@@ -42,7 +41,7 @@ const CatalogContainer = () => {
         }
         else{
             setProductsRender(productList);
-            if (productList.products.length === 0){
+            if (productList.products?.length === 0){
                 dispatch(updatePage(1))
             }
         }
