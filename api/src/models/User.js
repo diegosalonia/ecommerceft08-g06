@@ -74,8 +74,8 @@ module.exports = (sequelize) => {
             type: DATE
         },
         force_password:{
-            type: ENUM("pendiente","hecho"),
-            defaultValue: "hecho"
+            type: ENUM("sin pedir","pendiente","hecho"),
+            defaultValue: "sin pedir"
         }
     });
 };
