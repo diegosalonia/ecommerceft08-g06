@@ -132,7 +132,12 @@ server.post('/send-order', async (req, res) => {
     .catch(err => console.log("ERROR ENVIANDO ORDEN: ", err));
 });
 
-server.post('/sendMail', (req, res) => {
+server.post('/sendMail', async(req, res) => {
+    let foundUser = await User.findOne({ where: {email: req.body.email }});
+    console.log(foundUser)
+    if (!foundUser) {
+      return res.status(403).json({ msg: 'Este correo electrónico no esta registrado'});
+    }else{
     const msg = {
         to: req.body.email, // Change to your recipient
         from: 'dager2115@gmail.com', // Change to your verified sender
@@ -140,20 +145,48 @@ server.post('/sendMail', (req, res) => {
         text: 'this is the verify code',
         html: `<h1>${verifyCode}</h1>`,
       }
+
     sgMail.send(msg)
+    foundUser.verifyCode = verifyCode
+    foundUser.verifyCodeExpireDate = new Date().setHours(new Date().getHours() + 1)
+    await foundUser.save()
     .then(response =>{
         console.log("si se envio")
-        res.send({verifyCode})
+        res.send({verifyCode, msg: "codigo enviado"})
     })
     .catch(error =>{
         console.log(error)
         res.json({
             error:error.message,
         })
-    })
+    })}
 })
 
+
+server.get('/:verifyCode/email/:email', (req, res) => {
+    const date = Date.now()
+    User.findOne({where:{email: req.params.email}})
+    .then( user => {
+        const exp = Date.parse(user.verifyCodeExpireDate)
+        if(req.params.verifyCode !== user.verifyCode){
+            res.status(400).send({msg: "el codigo es incorrecto"})
+        }
+        if(req.params.verifyCode === user.verifyCode && exp < date){
+            res.status(400).send({msg: "el codigo a expirado"})
+        }
+        else{
+            res.status(200).send({msg: "el codigo es correcto"})
+        }
+    })
+    .catch( error => {
+        res.send({error, msg: "algo paso"})
+    })
+
+});
+
+
 server.put('/:userId', passport.authenticate('jwt', { session: false }), async (req, res) => {
+
     const user = await User.findByPk(req.params.userId)
     if(req.body.email){
     let foundUser = await User.findOne({ where: {email: req.body?.email }});

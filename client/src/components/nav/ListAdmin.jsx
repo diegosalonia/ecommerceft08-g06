@@ -32,7 +32,7 @@ export default function MenuListCompositionAdmin() {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
   const dispatch = useDispatch();
-  const email = localStorage.getItem('email');
+  const email = sessionStorage.getItem('email');
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -69,7 +69,7 @@ export default function MenuListCompositionAdmin() {
 
     prevOpen.current = open;
   }, [open]);
-
+  
   return (
     <div className={classes.root}>
       <div>
@@ -101,5 +101,5 @@ export default function MenuListCompositionAdmin() {
         </Popper>
       </div>
     </div>
-  );
-}
+    )
+  }
