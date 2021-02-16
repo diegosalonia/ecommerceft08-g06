@@ -23,6 +23,8 @@ import ReviewContainer from '../components/Review/ReviewContainer';
 import Cart from '../components/cart/Cart';
 import PasswordReset from '../components/passwordReset/PasswordReset';
 import UserProfile from '../components/user/Profile';
+import Email from './Email';
+import NewOrderList from '../components/orders/admin/NewOrderList';
 
 
 const Routes = () => {
@@ -33,7 +35,7 @@ const Routes = () => {
                     <Route exact path='/' component={Home}/>
                     <Route path="/review/:productId" component={ReviewContainer} />   
                     <Route exact path='/admin' component={AdminDashboard} />
-                    <Route exact path='/admin/orders' component={OrderList} />
+                    <Route exact path='/admin/orders' component={NewOrderList} />
                     <Route exact path='/admin/orders/:orderId' component={Order} />
                     <Route exact path='/admin/products' component={AdminProductList} />
                     <Route exact path='/admin/users' component={AdminUserList} />

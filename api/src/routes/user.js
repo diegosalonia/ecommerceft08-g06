@@ -96,13 +96,7 @@ server.put('/:userId/shipping-address', async (req, res) => {
 server.post('/send-order', async (req, res) => {
     const { order, userId } = req.body;
     const user = await User.findByPk(userId);
-
-    const message = {
-        to: user.email,
-        from: 'dager2115@gmail.com',
-        subject: 'Ésta es su orden de Un Jardin Especial',
-        text: 'Ésta es su orden de Un Jardin Especial',
-        html: `
+    const html = `
         <div>
             <h1>Order</h1>
             <table>
@@ -126,13 +120,9 @@ server.post('/send-order', async (req, res) => {
                         `
                     )
                 })}
-                <tr>
-                    <td><hr /></td>
-                    <td><hr /></td>
-                    <td><hr /></td>
-                    <td><hr /></td>
-                    <td><hr /></td>
-                </tr>
+            </table>
+            <hr />
+            <table>
                 <tr>
                     <td>Total:</td>
                     <td></td>
@@ -141,10 +131,19 @@ server.post('/send-order', async (req, res) => {
                     <td>${order.reduce((acc, {order_line, price, discount}) => acc + ((price - (price * (discount / 100))) * order_line.quantity), 0)}</td>
                 </tr>
             </table>
+            <br />
             <a href=${`http://localhost:3001/user/orders/${order.id}`} >Ingrese aquí para ver los detalles de su compra</a>
+            <br />
             <h3>¡Gracias por su compra!</h3>
-            </div>
-        `
+        </div>
+    `;
+
+    const message = {
+        to: user.email,
+        from: 'dager2115@gmail.com',
+        subject: 'Ésta es su orden de Un Jardin Especial',
+        text: 'Ésta es su orden de Un Jardin Especial',
+        html: html
     };
 
     sgMail.send(message)

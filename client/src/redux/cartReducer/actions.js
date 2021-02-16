@@ -113,7 +113,7 @@ export const goToCheckout = (userId, products) => dispatch => {
 export const changeOrderStatus = userId => (dispatch, getState) => {
     const url = window.location.href.slice(window.location.href.indexOf('?'));
     const status = url.slice(url.indexOf('&status') + 1).split('=')[1].split('&')[0];
-    if (status === 'approved') {
+    if (status === 'approved' || status === 'pending') {
         const products = JSON.parse(localStorage.getItem('cart'));
         axios.post('http://localhost:3000/users/send-order', {order: products, userId})
         .then(res => {

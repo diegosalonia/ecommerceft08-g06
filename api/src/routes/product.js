@@ -273,7 +273,6 @@ server.get('/catalog/', (req, res) => {
 		totalProducts = count; 
 		Product.findAll(options)
 		.then(products => {
-			console.log("PRODUCTS IN BACK: ", products);
 			!products.length && res.send("No hay productos");
 			products.length && res.send({products, totalProducts})
 		})

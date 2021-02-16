@@ -23,6 +23,7 @@ const OrderList = () => {
 const columns = [
     { field: 'id', headerName: 'Pedido', flex: 0.5, renderCell: (params) => <Link href={`orders/${params.row.id}`}>#{params.row.id} {params.row.email}</Link>  },
     { field: 'status', headerName: 'Estado', flex: 0.75 },
+    { field: 'shippingStatus', headerName: 'Estado de envío', flex: 0.75 },
     {
       field: 'createdAt',
       headerName: 'Fecha',
