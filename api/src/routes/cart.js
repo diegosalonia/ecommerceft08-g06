@@ -90,6 +90,18 @@ server.get('/:idUser/cart', async (req,res)=>{ // muestra todos lo de carrito
     });
 });
 
+server.get('/:userId/:orderId', async (req, res) => {
+    const { userId, orderId } = req.params;
+    const order = await Order.findOne({
+        where: {
+            userId: userId,
+            id: orderId
+        }
+    });
+    order.getProducts()
+    .then(order => res.send(order))
+    .catch(err => console.log("ERROR TRYING TO GET ORDER: ", err));
+})
 
 module.exports = server;
 
