@@ -1,4 +1,4 @@
-const { STRING, ENUM, BOOLEAN, BIGINT } = require('sequelize');
+const { STRING, ENUM, BOOLEAN, BIGINT, INTEGER } = require('sequelize');
 
 module.exports = (sequelize) => {
     sequelize.define('user',{
@@ -42,11 +42,26 @@ module.exports = (sequelize) => {
             allowNull:false,
             defaultValue: "user"
         },
-        shipping_address:{
+        address_line1:{
             type:STRING
         },
-        billing_address:{
+        address_line2:{
             type:STRING
+        },
+        city:{
+            type:STRING
+        },
+        state:{
+            type:STRING
+        },
+        postal_code:{
+            type:INTEGER
+        },
+        country:{
+            type:STRING
+        },
+        billing_addres:{
+            type:INTEGER
         },
         email_notification:{
             type:BOOLEAN
