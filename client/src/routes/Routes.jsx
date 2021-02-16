@@ -23,12 +23,15 @@ import ReviewContainer from '../components/Review/ReviewContainer';
 import Cart from '../components/cart/Cart';
 import PasswordReset from '../components/passwordReset/PasswordReset';
 import UserProfile from '../components/user/Profile';
+import Email from './Email';
+import NewOrderList from '../components/orders/admin/NewOrderList';
 
 const Routes = () => {
     return(
         <>
             <Route path='/' component={MainNav}/>
                 <Container style={{minHeight: "80vh", padding: "2em"}}>
+                    <Route exact path='/email' component={NewOrderList} />
                     <Route exact path='/' component={Home}/>
                     <Route path="/review/:productId" component={ReviewContainer} />   
                     <Route exact path='/admin' component={AdminDashboard} />

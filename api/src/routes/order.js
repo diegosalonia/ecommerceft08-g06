@@ -68,6 +68,17 @@ server.put('/:id', async (req, res) => {
     .catch(err => console.log(err));
 });
 
+server.put('/:id/:shippingStatus', async (req, res) => {
+    const { id, shippingStatus } = req.params;
+    const order = await Order.findByPk(id);
+
+    order.shippingStatus = shippingStatus;
+
+    order.save()
+    .then(response => res.send(response))
+    .catch(err => console.log("ERROR WHILE CHANGING SSTATUS: ", err));
+})
+
 server.delete('/:id', async (req, res) => {
     const order = await Order.findByPk(req.params.id);
     order.destroy()
