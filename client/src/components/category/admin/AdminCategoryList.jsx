@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Grid, Typography, IconButton, TablePagination,
      TableContainer, Table, TableRow, TableCell, TableHead, TableBody } from '@material-ui/core';
-import { DeleteForever } from '@material-ui/icons';
+import { DeleteForever, Edit } from '@material-ui/icons';
 import { getCategory , deleteCategory} from '../../../redux/categoryListReducer/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useStylesCategoryList } from './styles/AdminCategoryList';
 import Swal from 'sweetalert2';
+import { Link } from 'react-router-dom';
 
 const columnCategory = [
     {id: "image", label: 'Image', minWidth: 100, maxWidth: 100},
@@ -111,6 +112,15 @@ function AdminCategoryList(){
                                                             </TableCell>
                                                         )
                                                     })}
+                                                    <TableCell>
+
+                                                        <Link to={{pathname:`/admin/categories/${row.id}/edit`, state: row}} style={{cursor: 'pointer'}} >
+                                                        {/* <Link to={{pathname:`/admin/products/${row.id}/edit`, state: row}} style={{cursor: 'pointer'}} > */}
+                                                            <IconButton>
+                                                                < Edit />
+                                                            </IconButton>                                                            
+                                                        </Link>
+                                                    </TableCell>
                                                     <TableCell  >                                                    
                                                         <IconButton color='primary' onClick={()=>handleDelete(row.id)} >
                                                             < DeleteForever />

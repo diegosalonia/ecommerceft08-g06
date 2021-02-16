@@ -10,10 +10,11 @@ import orderListReducer from './orderListReducer/reducer';
 import reviewReducer from './ReviewReducer/reducer';
 import loginReducer from './loginReducer/reducer';
 import cartReducer from './cartReducer/reducer';
-import passwordResetReducer from './passwordResetReducer/reducer'
-import userLoggedReducer from './userReducer/reducer'
+import passwordResetReducer from './passwordResetReducer/reducer';
+import userLoggedReducer from './userReducer/reducer';
 import userListReducer from './userListReducer/reducer';
-import categoryList from './categoryListReducer/reducer'
+import categoryList from './categoryListReducer/reducer';
+import updateCategory from './updateCategoryForm/reducer'
 
 const rootReducer = combineReducers(
     {
@@ -31,7 +32,8 @@ const rootReducer = combineReducers(
         passwordResetReducer,
         userLoggedReducer,
         userListReducer,
-        categoryList
+        categoryList,
+        updateCategory
     }
 );
 

@@ -86,3 +86,4 @@ export const config = token => {
 
 /*categoryListReducer constants */
 export const DELETE_CATEGORIES = "DELETE_CATEGORIES";
+export const UPDATE_CATEGORIES = "UPDATE_CATEGORIES";

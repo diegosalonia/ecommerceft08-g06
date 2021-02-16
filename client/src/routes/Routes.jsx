@@ -9,6 +9,7 @@ import AdminProductList from '../components/product/Admin/AdminProductList';
 import AdminUserList from '../components/user/admin/AdminUserList';
 import AdminCategoryList from '../components/category/admin/AdminCategoryList';
 import UpdateProductForm from '../components/product/Admin/UpdateProductForm';
+import UpdateCategoryForm from '../components/category/admin/UpdateCategoryForm';
 import CategoryForm from '../components/category/CategoryForm';
 import MainNav from '../components/nav/MainNav';
 import Home from '../components/home/home';
@@ -41,6 +42,7 @@ const Routes = () => {
                     <Route path='/admin/products/create-product' component={CreateProductForm} />
                     <Route path="/admin/categories/create-category" component={CategoryForm} />
                     <Route path='/admin/products/:id/edit' component={UpdateProductForm} />
+                    <Route path='/admin/categories/:id/edit' component={UpdateCategoryForm} />
                     <Route exact path='/search' render={() => <CatalogContainerSearch/>}/>
                     <Route exact path='/user' component={UserDashboard} />
                     <Route exact path='/user/profile' component={UserProfile} />

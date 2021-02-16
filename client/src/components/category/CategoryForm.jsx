@@ -7,6 +7,7 @@ import {DropzoneArea} from 'material-ui-dropzone';
 import { storage } from "../../firebase"
 import firebase from "../../firebase"
 import { config } from '../../redux/constants';
+import Swal from 'sweetalert2';
 //ToDo: Clean console logs.
 const validationSchema = yup.object({
   name: yup
@@ -16,6 +17,16 @@ const validationSchema = yup.object({
   description: yup
   .string('Enter category description'),
 });
+
+const showAlert = () => {
+  return Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: '¡Categoria Creada!',
+      showConfirmButton: false,
+      timer: 2000,
+  });
+};
 
 const CategoryForm = () => {
   const token = sessionStorage.getItem('token');
@@ -37,14 +48,15 @@ const CategoryForm = () => {
     },
     validationSchema: validationSchema,
     //SUBMIT CONTROL -----------------------------------------
-    onSubmit:  (values) => {
+    onSubmit:  (values ,{ resetForm}) => {
       var formValues = {...values};
       axios.post('http://localhost:3000/category/', {form:values}, config(token))
       .then((res) => {
         console.log("Succes",res);
         formValues.id = res.data.id;
         sendImages(images, formValues);
-        alert('Category created');
+        showAlert();
+        resetForm({values: ''});
       })
       .catch(error => console.log("Error on request: ",error));
     },
@@ -83,7 +95,7 @@ const CategoryForm = () => {
             .ref(`category/${formval.name}`)
             .child(images[0].name)
             .getDownloadURL()
-            .then(url => {console.log("Download url: ",url ); sendImgUrl(url, formval)})
+            .then(url => {console.log("Download url: ",url ); sendImgUrl(url, formval) })
         }
       )
     }
