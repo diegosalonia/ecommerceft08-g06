@@ -66,7 +66,7 @@ server.post('/', async (req, res) => {
 server.put('/:userId/shipping-address', async (req, res) => {
     const { userId } = req.params;
     const user = await User.findByPk(userId);
-    Object.assign(user, req.body)
+    Object.assign(user, req.body.form)
     
     user.save()
     .then(response => res.send(response))
