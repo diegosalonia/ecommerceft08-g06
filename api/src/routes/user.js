@@ -162,6 +162,7 @@ server.post('/sendMail', async(req, res) => {
     })}
 })
 
+
 server.get('/:verifyCode/email/:email', (req, res) => {
     const date = Date.now()
     User.findOne({where:{email: req.params.email}})
@@ -183,8 +184,27 @@ server.get('/:verifyCode/email/:email', (req, res) => {
 
 });
 
-server.put('/:userId', async (req, res) => {
+
+server.put('/:userId', passport.authenticate('jwt', { session: false }), async (req, res) => {
+
     const user = await User.findByPk(req.params.userId)
+    if(req.body.email){
+    let foundUser = await User.findOne({ where: {email: req.body?.email }});
+
+    if(foundUser){
+        return res.status(403).json({ msg: 'Correo electrónico ya registrado'});
+    }
+    user.save()
+    .then(response =>{
+        res.send({
+            response,
+            userForm:req.body
+        })
+    })
+    .catch(err => {
+        res.send(err.message)
+    })
+   }
     Object.assign(user, req.body)
     
     user.save()

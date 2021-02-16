@@ -2,7 +2,6 @@ import { RESET_PASSWORD, CHANGE_PASSWORD } from '../constants';
 import axios from 'axios'
 import Swal from 'sweetalert2';
 
-
 export const resetPassword = (email, newPassword) => dispatch => {
 
     const showAlertSuccess = (message, time) => {
@@ -38,17 +37,27 @@ export const resetPassword = (email, newPassword) => dispatch => {
 }
 
 export const changePasswordAction = (token, userId, newPassword) => dispatch => {
+    const showAlert = (message, time) => {
+        return Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: message,
+            showConfirmButton: false,
+            timer: time,
+        });
+    };
     const config = {
         headers: { Authorization: `Bearer ${token}` }
       };
       const url = `http://localhost:3000/users/${userId}/passwordChange`  
       axios.put(url, {newPassword}, config)
       .then(response => {
+          showAlert("contraseña cambiada con exito", 1500)
           dispatch({
               type: CHANGE_PASSWORD
           })
       })
-      .then(error =>{
+      .catch(error =>{
           console.log(error)
       })
 }

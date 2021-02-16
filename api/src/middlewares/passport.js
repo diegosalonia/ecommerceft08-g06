@@ -11,7 +11,7 @@ const { User } = require("../db.js");
 const  jwt = require('jsonwebtoken')
 
 const {
-    secret,
+  secret,
 	googleClientID,
 	googleClientSecret,
 	githubClientID,

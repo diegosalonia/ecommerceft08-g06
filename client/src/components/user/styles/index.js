@@ -59,27 +59,20 @@ export const useStylesUserProfile = makeStyles(theme => ({
     card:{
         margin: theme.spacing(2,0,0,0),
         minWidth: theme.spacing(60),
-        minHeight: theme.spacing(60),
+        minHeight: theme.spacing(70),
     },
     userInfo:{
         display: "flex",
         alignItems: "center",
     },
     editar:{
-        margin: theme.spacing(0,1,0,0)
+        margin: theme.spacing(0,1,0,0),
+        minWidth: theme.spacing(11)
     },
     cardEdit:{
-        minHeight: theme.spacing(60),
+        minHeight: theme.spacing(70),
         margin: theme.spacing(2,0,0,2),
         minWidth: theme.spacing(88)
-    },
-    password:{
-        minWidth:theme.spacing(58),
-    },
-    button:{
-        margin: theme.spacing(0,0,0,2),
-        minHeight: theme.spacing(6.9),
-        minWidth: theme.spacing(15)
     },
     form:{
         display: "flex",
@@ -91,7 +84,20 @@ export const useStylesUserProfile = makeStyles(theme => ({
     formButton:{
         padding: theme.spacing(1,1,1,1)
     },
-    formPassword:{
-        padding: theme.spacing(1,1,1,1)
-    }
+
 }));
+
+export const useStylesChangePassword = makeStyles(theme => ({
+    password:{
+        minWidth:theme.spacing(58),
+        margin: theme.spacing(2,0,0,2),
+    },
+    button:{
+        margin: theme.spacing(2,0,0,2),
+    },
+    formPassword:{
+        padding: theme.spacing(1,1,1,1),
+        display: "flex",
+        flexDirection: "column"
+    }
+}))

@@ -92,6 +92,7 @@ server.get('/category/:name', async (req,res,next)=>{
 
 server.delete('/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
 	const user = await User.findByPk(req.user)
+	console.log(user)
     if(user.user_role === 'admin') {
 	const product = await Product.findByPk(req.params.id)
 	await product.destroy()
