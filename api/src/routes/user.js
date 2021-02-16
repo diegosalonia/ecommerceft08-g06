@@ -49,19 +49,39 @@ server.get('/:id/orders', (req, res) => {
 })
 
 server.post('/', async (req, res) => {
-    const { email, password, first_name, last_name, phone_number, user_role } = req.body.form;
+    const { email, password, first_name, last_name, phone_number, user_role, address_line1,
+         address_line2, city, state, postal_code, country, billing_addres, email_notification } = req.body.form;
     let foundUser = await User.findOne({ where: {email: email }});
     console.log(foundUser)
     if (foundUser) {
       return res.status(403).json({ msg: 'Correo electrónico ya registrado'});
     }else{
-        const newUser = new User({ email, password, first_name, last_name, phone_number, user_role})
+        const newUser = new User({ email, password, first_name, last_name, phone_number, user_role, address_line1,
+            address_line2, city, state, postal_code, country, billing_addres, email_notification })
         await newUser.save()
         // Generate JWT token
         const token = genToken(newUser)
         res.status(200).json({token})
     }
 });
+
+server.post('/forcePassword/:userId', passport.authenticate('jwt', { session: false }), async(req, res) => {
+    const admin = await User.findByPk(req.user)
+    if(admin.user_role === "admin"){
+        const user = await User.findByPk(req.params.userId)
+
+        user.force_password = "pendiente"
+        await user.save()
+        .then( response => {
+            res.send(response)
+        })
+        .catch( error => {
+            res.send(error.message)
+        })
+    }else{
+        res.status(401).send({message: 'not authorized'})
+    }
+})
 
 server.put('/:userId/shipping-address', async (req, res) => {
     const { userId } = req.params;
@@ -232,6 +252,7 @@ server.put('/:id/passwordChange', passport.authenticate('jwt', { session: false 
 })
 server.put('/update/passwordReset', async (req, res) => {
     const user = await User.findOne({where:{email:req.body.email}})
+    user.force_password = "hecho"
     user.password = req.body.newPassword
     await user.save()
     .then(response => {

@@ -58,7 +58,7 @@ passport.use(
         })
           .then((user) => {
             if (!user || !user.correctPassword(password)) {
-              next(null, false, { message: "User or password incorrect" });
+              next(null, false, { message: "Correo o contraseña incorrectos" });
             } else { 
             next(null, user, { message: "Login Successfull" });
             }

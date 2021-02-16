@@ -4,14 +4,17 @@ import { Container, Grid, Typography, IconButton, TablePagination,
 
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabled';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
 
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
-import {getUsers, desactiveUsers , activeUsers , updateUserAdmin, updateUser} from '../../../redux/userListReducer/actions';
+import {getUsers, desactiveUsers , activeUsers , updateUserAdmin, updateUser, forcePassword} from '../../../redux/userListReducer/actions';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useStylesUserList } from './styles/AdminUserList';
 import PersonIcon from '@material-ui/icons/Person';
 import Swal from 'sweetalert2';
+import axios from 'axios';
+import { config } from '../../../redux/constants';
 
 
 const columnUser = [
@@ -21,9 +24,15 @@ const columnUser = [
     {id: 'phone_number', label: 'Teléfono', minWidth: 40, maxWidth: 40},
     {id: 'user_role', label: 'Rol', mindWidth: 30, maxWidth: 30},
     {id: 'active', label: 'Activo', mindWidth: 50, maxWidth: 50},
-    {id: 'shipping_address', label: 'Dirección', minWidth: 60, maxWidth: 60},
-    {id: 'billing_addres', label: 'Dirección de pago', minWidth: 60, maxWidth: 60},
-    {id: 'email_notification', label: 'Email Notificación', minWidth: 60, maxWidth: 60},
+    {id: 'line_addres1', label: 'Dirección linea 1', minWidth: 60, maxWidth: 60},
+    {id: 'line_addres2', label: 'Dirección linea 2', minWidth: 60, maxWidth: 60},
+    {id: 'city', label: 'Ciudad', minWidth: 60, maxWidth: 60},
+    {id: 'state', label: 'Estado', minWidth: 60, maxWidth: 60},
+    {id: 'postal_code', label: 'Codigo postal', minWidth: 60, maxWidth: 60},
+    {id: 'country', label: 'Pais', minWidth: 60, maxWidth: 60},
+    {id: 'billing_address', label: 'Dirección de pago', minWidth: 60, maxWidth: 60},
+    {id: 'email_notification', label: 'Notificacion de correo', minWidth: 60, maxWidth: 60},
+    {id: 'force_password', label: 'forzar contraseña', minWidth: 60, maxWidth: 60},
 ]
 
 
@@ -200,6 +209,11 @@ function AdminUserList() {
         .catch(err => console.log(err));
     };
 
+    const handleForcePassword = (userId) => {
+        dispatch(forcePassword(userId, token))
+        setRows(rows.filter(row => row.id !== userId));
+    }
+
 
     useEffect(() => {
         dispatch(getUsers(token));
@@ -240,7 +254,7 @@ function AdminUserList() {
                                                     const value = row[colum.id];                                                    
                                                     return (
                                                         <TableCell key={`${colum.id} ${row.id}`} align={colum.align}>
-                                                            {value}
+                                                            {value?.toString()}
                                                         </TableCell>
                                                     );
                                                 })}
@@ -266,7 +280,12 @@ function AdminUserList() {
                                                         <IconButton color='primary' onClick={() => handleDisable(row.id)} >
                                                             <PersonAddDisabledIcon/>
                                                         </IconButton>
-                                                    </TableCell>                                            }
+                                                    </TableCell>}
+                                                    <TableCell>
+                                                        <IconButton color='primary' onClick={() => handleForcePassword(row.id)} >
+                                                            <VpnKeyIcon/>
+                                                        </IconButton>
+                                                    </TableCell> 
                                             </TableRow>
                                         )
                                         }
