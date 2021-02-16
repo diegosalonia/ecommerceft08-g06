@@ -31,11 +31,10 @@ const Routes = () => {
         <>
             <Route path='/' component={MainNav}/>
                 <Container style={{minHeight: "80vh", padding: "2em"}}>
-                    <Route exact path='/email' component={NewOrderList} />
                     <Route exact path='/' component={Home}/>
                     <Route path="/review/:productId" component={ReviewContainer} />   
                     <Route exact path='/admin' component={AdminDashboard} />
-                    <Route exact path='/admin/orders' component={OrderList} />
+                    <Route exact path='/admin/orders' component={NewOrderList} />
                     <Route exact path='/admin/orders/:orderId' component={Order} />
                     <Route exact path='/admin/products' component={AdminProductList} />
                     <Route exact path='/admin/users' component={AdminUserList} />
