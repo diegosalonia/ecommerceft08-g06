@@ -180,6 +180,7 @@ const UpdateProductForm = (props) => {
                         id="name"
                         name="name"
                         label="Name"
+                        //defaultValue={formik.values.name}
                         value={formik.values.name}
                         onChange={formik.handleChange}
                         error={formik.touched.name && Boolean(formik.errors.name)}

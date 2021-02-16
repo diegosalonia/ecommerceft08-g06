@@ -47,27 +47,27 @@ const AdminProductList = () => {
         });
     
         swalWithBootstrapButtons.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
+            title: '¿Estas seguro?',
+            text: "Esto no se puede revertir!",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'YES, DELETE IT!',
-            cancelButtonText: 'NO, CANCEL!',
+            confirmButtonText: 'SI, ELIMINALE!',
+            cancelButtonText: 'NO, CANCELAR!',
             reverseButtons: true
         })
         .then((result) => {
             if (result.isConfirmed) {
                 swalWithBootstrapButtons.fire(
-                'Deleted!',
-                'Your file has been deleted.',
+                'Borrado!',
+                'Tu producto ha sido eliminado',
                 'success'
                 );
                 dispatch(deleteProduct(id, token));
                 setRows(rows.filter(row => row.id !== id));
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 swalWithBootstrapButtons.fire(
-                'Cancelled',
-                `Your product won't be deleted`,
+                'Cancelado',
+                `Tu produto ha sido eliminado`,
                 'error'
                 );
             };
