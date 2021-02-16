@@ -9,8 +9,11 @@ import { login } from '../../redux/loginReducer/actions'
 import Google from '../../assets/Google.svg'
 import facebook from '../../assets/facebook.svg';
 import github from '../../assets/github.svg'
+import ErrorOutlineRoundedIcon from '@material-ui/icons/ErrorOutlineRounded';
  
   const WithMaterialUI = ({onClose}) => {
+    const [error, setError] = useState(false)
+    const [message, setMessage] = useState("")
     const dispatch = useDispatch();
     const params = new URLSearchParams()
     const classes = useStyles();
@@ -44,8 +47,16 @@ import github from '../../assets/github.svg'
       params.append('email', values.email)
       params.append('password', values.password)
 
-      const user = await axios.post(url, params, config)
-      dispatch(login(user.data));
+      axios.post(url, params, config)
+      .then(user => {
+        onClose(true)
+        dispatch(login(user.data));
+      })
+      .catch(error => {
+        console.log("hay un error", error.response.data.message)
+        setError(true)
+        setMessage(error.response.data.message)
+      })
     },
   });
   
@@ -55,8 +66,14 @@ import github from '../../assets/github.svg'
           <PersonIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+           Iniciar sesión
         </Typography>
+        {error&&
+        <Grid className={classes.messageContainer}>
+          <ErrorOutlineRoundedIcon color="error" className={classes.messageIcon}/>
+          <Typography variant="h6" color="error">{message}</Typography>
+        </Grid>
+        }
       <form onSubmit={formik.handleSubmit} className={classes.form}>
         <TextField
           className={classes.input}
@@ -64,7 +81,7 @@ import github from '../../assets/github.svg'
           variant="outlined"
           id="email"
           name="email"
-          label="Email"
+          label="Correo electronico"
           value={formik.values.email}
           onChange={formik.handleChange}
           error={formik.touched.email && Boolean(formik.errors.email)}
@@ -76,7 +93,7 @@ import github from '../../assets/github.svg'
           variant="outlined"
           id="password"
           name="password"
-          label="Password"
+          label="Contraseña"
           type="password"
           value={formik.values.password}
           onChange={formik.handleChange}
@@ -91,12 +108,12 @@ import github from '../../assets/github.svg'
          <Grid container>
             <Grid item xs className={classes.link}>
               <Link href="/password-reset" variant="body2">
-                Forgot password?
+                ¿Olvidaste tu contraseña?
               </Link>
             </Grid>
             <Grid item>
               <Link href="/user/sign-up" variant="body2">
-                Don't have an account? Sign Up
+                ¿No tienes cuenta? Registrate
               </Link>
             </Grid>
           </Grid>

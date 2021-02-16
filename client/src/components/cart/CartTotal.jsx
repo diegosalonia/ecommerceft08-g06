@@ -17,13 +17,13 @@ import { addNewAddress } from "../../redux/loginReducer/actions";
 import LoginModal from "../login/LoginModal";
 import axios from "axios";
 import * as yup from 'yup'
+import Swal from 'sweetalert2'
 
 
 const validationSchema = yup.object({
     email: yup
-      .string('INgresar Email.')
-      .email('Ingrese un email válido.')
-      .required('El Email es requerido.'),
+      .string('Ingresar Email.')
+      .email('Ingrese un email válido.'),
     address_line1: yup
       .string('Ingresar dirección.')
       .required('la dirección es requerida.'),
@@ -90,7 +90,7 @@ const CartTotal = () => {
 
   const formik = useFormik({
     initialValues: {
-      email: "",
+      email: sessionStorage.getItem("email"),
       address_line1: "",
       address_line2: "",
       city: "",
@@ -105,11 +105,17 @@ const CartTotal = () => {
       };
       var formValues = { ...values };
       axios
-        .put(`http://localhost:3000/users/${userId}`, { form: values }, config)
+        .put(`http://localhost:3000/users/${userId}/shipping-address`, { form: values }, config)
         .then((res) => {
           console.log("Succes", res);
           formValues.id = res.data.id;
-          alert("Address Updated");
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Datos actualizados',
+            showConfirmButton: false,
+            timer: 1500
+          })
         })
         .catch((error) => console.log("Error on request: ", error));
     },
@@ -119,7 +125,7 @@ const CartTotal = () => {
     return (
       <Container className={styles.containerModal}>
         <Button onClick={handleOpen} className={styles.buttonConfirmAddress}>
-          Add Shipping Address
+          Añadir dirección de envío
         </Button>
         <Modal
           className={styles.modalContainer}
@@ -138,7 +144,6 @@ const CartTotal = () => {
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
                     <TextField
-                      required
                       id="email"
                       name="email"
                       label="email"
@@ -235,7 +240,7 @@ const CartTotal = () => {
                     
                   </Grid>
                   <Grid item xs={12}>
-                      <Button color="primary" variant="contained" fullWidth type="submit" >
+                      <Button color="primary" variant="contained" fullWidth type="submit" onClick={handleClose} >
                         Guardar
                     </Button>
                     </Grid>
