@@ -62,12 +62,10 @@ const CartTotal = () => {
   const handleClose = () => setOpen(false);
 
   useEffect(() => {
-    console.log("ADDRESS: ", shippingAddress);
     dispatch(getUser(token));
   }, [dispatch]);
   
   useEffect(() => {
-    console.log("ADDRESS2: ", shippingAddress);
     !shippingAddress && setNoAddress(true);
     shippingAddress && setNoAddress(false);
   }, [shippingAddress])
