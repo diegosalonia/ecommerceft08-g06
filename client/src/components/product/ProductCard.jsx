@@ -69,7 +69,7 @@ function ProductCard(props) {
           <CardContent>
             <Typography gutterBottom variant="body1" component="h4" color="primary" justify="center" className={classes.title}>
               <Box>
-                {name}
+                {name.length > 15 ? `${name.slice(0, 15)}...` : name}
               </Box>
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">

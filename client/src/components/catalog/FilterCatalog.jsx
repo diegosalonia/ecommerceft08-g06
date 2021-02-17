@@ -21,7 +21,6 @@ const FilterCatalog = (props) => {
     const enabledCategories = (id) => {
         if (currentCategory && Array.isArray(currentCategory)){
             if (currentCategory.includes(id)){
-                console.log("Ya la tengo: ", currentCategory)
                 let removedId = currentCategory.filter(cat => cat !== id)
                 setCurrentCategory(removedId);
             }

@@ -88,7 +88,7 @@ function AdminDashboard() {
                                 />
                                 <CardContent>
                                     <Typography variant='h5' align='center' >Lista de usuarios</Typography>
-                                    <Typography align='center' >Aquí puedes ver  todos los usuarios. Nombre, descripción, promover o desactivar.</Typography>
+                                    <Typography align='center' >Aquí puedes ver  todos los usuarios. Nombre, promover o desactivar.</Typography>
                                 </CardContent>
                             </Card>
                         </Link>

@@ -77,10 +77,8 @@ const NewOrderList = () => {
     const handleClose = () => setOpen(false);
 
     const handleChangeReason = e => {
-        console.log("E.TARGET: ",e.target);
         setReason(e.target.value);
-        console.log("REASON: ", reason);
-    }
+    };
 
     const handleChangePage = (e, newPage) => {
         setPage(newPage);

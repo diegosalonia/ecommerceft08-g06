@@ -53,9 +53,9 @@ import ErrorOutlineRoundedIcon from '@material-ui/icons/ErrorOutlineRounded';
         dispatch(login(user.data));
       })
       .catch(error => {
-        console.log("hay un error", error.response.data.message)
+        console.log("hay un error", error)
         setError(true)
-        setMessage(error.response.data.message)
+        setMessage(error.response.data.message);
       })
     },
   });

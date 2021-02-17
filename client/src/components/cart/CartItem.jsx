@@ -36,26 +36,26 @@ const CartItem = ({ product }) => {
         });
     
         swalWithBootstrapButtons.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
+            title: '¿Estás seguro?',
+            text: "¡No vas a poder revertir los cambios!",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'YES, DELETE IT!',
-            cancelButtonText: 'NO, CANCEL!',
+            confirmButtonText: 'SI, BORRALO!',
+            cancelButtonText: 'NO, CANCELAR!',
             reverseButtons: true
         })
         .then((result) => {
             if (result.isConfirmed) {
                 swalWithBootstrapButtons.fire(
-                'Deleted!',
-                'Your product has been deleted from cart',
+                '¡Borrado!',
+                'El producto ha sido eliminado del carrito',
                 'success'
                 );
                 dispatch(deleteProductInCart(userId, id));
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 swalWithBootstrapButtons.fire(
-                'Cancelled',
-                `Your product won't be deleted`,
+                'Cancelado',
+                `El producto no será eliminado`,
                 'error'
                 );
             };

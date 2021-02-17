@@ -23,6 +23,19 @@ const showAlertWarning = (message, time) => {
     });
 };
 
+export const addItemsToCart = userId => dispatch => {
+    const productsInCart = JSON.parse(localStorage.getItem('cart'));
+    if (productsInCart?.length > 0) {
+        axios.post(`http://localhost:3000/users/${userId}/cart`, { product: {id: productsInCart[0].id, quantity: productsInCart[0].quantity}})
+        .then(async res => {
+            productsInCart.slice(1).map(product => {
+            return axios.put(`http://localhost:3000/users/${userId}/cart`, { product: { id: product.id, quantity: product.quantity}})
+            .catch(err => console.log("ERROR SUBIENDO OTRO PRODUCT: ", err));
+            });
+        })
+        .catch(err => console.log("ERROR EN ADDITEMSTOCART: ", err));
+    }
+};
 
 export const login = (user) => (dispatch, getState) => {
     if(user.user.active === "true"){
@@ -32,12 +45,15 @@ export const login = (user) => (dispatch, getState) => {
         }
         dispatch({type: LOGIN, payload: user})
         const productsInCart = getState().cartReducer.productsInCart.slice();
-        const promises = productsInCart.map(product => {
-            return axios.post(`http://localhost:3000/users/${user.user.id}/cart`, {product: {id: product.id, quantity: product.quantity}})
-            .then(res => console.log(res))
-            .catch(err => console.log(err));
-        });
-        Promise.all(promises)
+        var promises;
+        if (productsInCart?.length > 0) {
+            axios.post(`http://localhost:3000/users/${user.user.id}/cart`, { product: {id: productsInCart[0].id, quantity: productsInCart[0].quantity}})
+        .then(async res => {
+            promises = await productsInCart.slice(1).map(product => {
+                return axios.put(`http://localhost:3000/users/${user.user.id}/cart`, { product: { id: product.id, quantity: product.quantity}})
+                .catch(err => console.log("ERROR SUBIENDO OTRO PRODUCT: ", err));
+            });
+        })
         .then(res => {
             sessionStorage.setItem('token', user.token)
             sessionStorage.setItem('role', user.user.user_role);
@@ -47,8 +63,16 @@ export const login = (user) => (dispatch, getState) => {
             setTimeout(() => window.location.reload(false), 2000);
         })
         .catch(err => console.log("ERROR EN SIGN IN ENVIANDO PRODUCTOS AL CARRITO: ", err));
+        } else {
+            sessionStorage.setItem('token', user.token)
+            sessionStorage.setItem('role', user.user.user_role);
+            sessionStorage.setItem('id', user.user.id);
+            sessionStorage.setItem('email', user.user.email);
+            showAlert('Succesfull sign in!', 2000);
+            setTimeout(() => window.location.reload(false), 2000);
+        }
+
     }else{
-       alert('lo mismo paro ma barato')
         Swal.fire({
             icon: 'error',
             title: 'Oops...',

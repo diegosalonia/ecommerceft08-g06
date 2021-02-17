@@ -7,7 +7,7 @@ export const getProducts = () => dispatch => {
         dispatch({
             type: GET_PRODUCTS,
             products: products.data            
-        }); console.log('aqui products',products)
+        });
     })
     .catch(err => console.log(err));
 };

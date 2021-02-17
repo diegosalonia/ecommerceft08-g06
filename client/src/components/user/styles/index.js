@@ -117,5 +117,89 @@ export const useStylesOrderList = makeStyles(theme => ({
     buttonConfirmAddress: {
         backgroundColor: theme.palette.primary.main,
         color: theme.palette.secondary.main,
+    },
+    buttonConfirmAddress: {
+        backgroundColor: theme.palette.primary.main,
+        color: theme.palette.secondary.main,
+    },
+    searchBar: {
+        width: '17%',
+    },
+    searchBarContainer: {
+        display: 'flex',
+        justifyContent: 'flex-end'
+    },
+    formControl: {
+        width: '17%',
+        marginRight: '1%',
+    },
+    noResults: {
+        marginTop: '10%',
     }
+}));
+
+export const useStyles = makeStyles(theme =>({
+    containers:{
+        display:"flex",
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop:"20px",
+        minWidth: 800,
+        borderRadius: "5px"
+    },
+    container:{
+        display:"flex",
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop:"20px",
+        minWidth: 800,
+    },
+    table: {
+        minWidth: "100%",
+        // minHeight: 300
+    },
+    cellname:{
+        padding: theme.spacing(1, 1, 1, 2),
+    },
+    cell:{
+        padding: theme.spacing(2, 1, 2, 2),
+    },
+    title:{
+        padding: theme.spacing(2, 1, 2, 2),
+        backgroundColor: theme.palette.primary.light
+    },
+    paper:{
+        boxShadow: "1px 5px 5px rgba(0,0,0,0.5)"
+    },
+    input:{
+        width: theme.spacing(10)
+    },
+    link: {
+        textDecoration: 'none',
+        color: theme.palette.primary.main
+    },
+    cancelOrderButton: {
+        backgroundColor: theme.palette.primary.main,
+        color: theme.palette.secondary.main,
+    },
+    confirmButton: {
+        backgroundColor: '#ED4C3C',
+        border: '2px solid #ef7f75',
+        borderRadius: '.25em',
+        background: 'initial',
+        color: '#fff',
+        marginLeft: '10%',
+        padding: '2% 3%',
+        cursor: 'pointer'
+    },
+    cancelButton: {
+        backgroundColor: '#28A745',
+        border: '2px solid #30ec2f',
+        borderRadius: '.25em',
+        background: 'initial',
+        marginLeft: '10%',
+        color: '#fff',
+        padding: '2% 3%',
+        cursor: 'pointer'
+    },
 }));

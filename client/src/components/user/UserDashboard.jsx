@@ -14,6 +14,7 @@ const UserDashboard = () => {
             <Container>
                 <Typography variant='h4' align='center' >Panel de usuario</Typography>
                 <Grid container spacing={8} className={styles.gridContainer} >
+                    <Grid item lg={1} />
                     <Grid item lg={4} className={styles.card} >
                         <Link href='/user/orders' className={styles.link} underline="none" >
                             <Card className={styles.cardShadow} >
@@ -28,7 +29,7 @@ const UserDashboard = () => {
                             </Card>
                         </Link>
                     </Grid>
-                    <Grid item lg={4} className={styles.card} >
+                    {/* <Grid item lg={4} className={styles.card} >
                         <Link href='/user/reviews/' className={styles.link} underline="none" >
                             <Card className={styles.cardShadow} >
                                 <CardMedia
@@ -41,7 +42,8 @@ const UserDashboard = () => {
                                 </CardContent>
                             </Card>
                         </Link>
-                    </Grid>
+                    </Grid> */}
+                    <Grid item lg={1} />
                     <Grid item lg={4} className={styles.card} >
                         <Link href='/user/profile' className={styles.link} underline="none" >
                             <Card className={styles.cardShadow} >

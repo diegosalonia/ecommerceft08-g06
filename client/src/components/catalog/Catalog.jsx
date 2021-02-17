@@ -3,8 +3,8 @@ import FilterCatalog from './FilterCatalog';
 import {Container, Grid} from '@material-ui/core';
 import ProductCard from '../product/ProductCard';
 import Pagination from  './Pagination'
+
 const Catalog = (props) => {
-    console.log("PRODUCTS: ", props.products);
     var renderProducts = () => <>No hay productos</>;
     if(props.products){
         renderProducts = () => Array.isArray(props.products.products) ? props.products.products.map((item, index) => {

@@ -13,7 +13,7 @@ import {
 import { useFormik } from "formik";
 import { useStylesCartTotal } from "./styles";
 import { goToCheckout } from "../../redux/cartReducer/actions";
-import { addNewAddress } from "../../redux/loginReducer/actions";
+import { getUser } from '../../redux/userReducer/actions';
 import LoginModal from "../login/LoginModal";
 import axios from "axios";
 import * as yup from 'yup'
@@ -51,7 +51,7 @@ const CartTotal = () => {
   const tax = total * (21 / 100);
   const userId = JSON.parse(sessionStorage.getItem("id"));
   const shippingAddress = useSelector(
-    (state) => state.loginReducer.shipping_address
+    (state) => state.userLoggedReducer.user.address_line1
   );
   const [open, setOpen] = useState(false);
   const [noAddress, setNoAddress] = useState(false);
@@ -62,8 +62,15 @@ const CartTotal = () => {
   const handleClose = () => setOpen(false);
 
   useEffect(() => {
+    console.log("ADDRESS: ", shippingAddress);
+    dispatch(getUser(token));
+  }, [dispatch]);
+  
+  useEffect(() => {
+    console.log("ADDRESS2: ", shippingAddress);
     !shippingAddress && setNoAddress(true);
-  }, [shippingAddress]);
+    shippingAddress && setNoAddress(false);
+  }, [shippingAddress])
 
   useEffect(() => {
     userId &&
@@ -107,8 +114,10 @@ const CartTotal = () => {
       axios
         .put(`http://localhost:3000/users/${userId}/shipping-address`, { form: values }, config)
         .then((res) => {
-          console.log("Succes", res);
+          console.log("Succes", res.data);
           formValues.id = res.data.id;
+          handleClose();
+          setNoAddress(false);
           Swal.fire({
             position: 'center',
             icon: 'success',
@@ -203,7 +212,7 @@ const CartTotal = () => {
                       name="state"
                       label="Provincia"
                       fullWidth
-                      autocomplete="State"
+                      autoComplete="State"
                       value={formik.values.state}
                       onChange={formik.handleChange}
                       error={formik.touched.state && Boolean(formik.errors.state)}
@@ -240,7 +249,7 @@ const CartTotal = () => {
                     
                   </Grid>
                   <Grid item xs={12}>
-                      <Button color="primary" variant="contained" fullWidth type="submit" onClick={handleClose} >
+                      <Button color="primary" variant="contained" fullWidth type="submit" >
                         Guardar
                     </Button>
                     </Grid>
@@ -278,7 +287,7 @@ const CartTotal = () => {
         {userId && noAddress ? (
           addShippingAddress()
         ) : userId ? (
-          <Button onClick={handleCheckout}>GO TO CHECKOUT</Button>
+          <Button onClick={handleCheckout} className={styles.buttonConfirmAddress} >GO TO CHECKOUT</Button>
         ) : (
           <LoginModal inCart={true} />
         )}
