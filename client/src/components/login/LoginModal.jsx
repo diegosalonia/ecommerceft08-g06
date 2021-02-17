@@ -5,6 +5,7 @@ import SignInFormik from './SignInFormik';
 import PersonIcon from '@material-ui/icons/Person';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
+import { Button } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -20,20 +21,26 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        cursor: 'pointer',
-        '&:hover':{
-            textDecoration: "underline"
-        }
+        cursor: 'pointer'
         //padding: theme.spacing(1),
     },
     modal: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-      },
+    },
+    signIn: {
+        backgroundColor: theme.palette.primary.main,
+        color: theme.palette.secondary.main
+    },
+    LinkHome:{
+    color: "#fff",
+    textTransform: "none",
+    underline: "none"
+    }
   }));
 
-export default function LoginModal (props){
+export default function LoginModal ({ inCart }){
       const classes = useStyles();
       const [open, setOpen] = useState(false);
 
@@ -47,15 +54,20 @@ export default function LoginModal (props){
  
       return (
         <>  
-            <div onClick={handleOpen} className={classes.toolbarOptions}>
-                <PersonIcon/>
-                LogIn
-            </div>
+            { !inCart ?
+                <div onClick={handleOpen} className={classes.toolbarOptions}>
+                    <PersonIcon/>
+                    <Button className={classes.LinkHome}>Ingresar</Button>
+                </div>
+                      : <Button onClick={handleOpen} className={classes.signIn} >Ingresar</Button>
+            }
             <Modal
                 className={classes.modal}
                 open={open}
                 onClose={handleClose}
                 closeAfterTransition
+                disableAutoFocus
+                disableEnforceFocus
                 BackdropComponent={Backdrop}
                 BackdropProps={{timeout: 2000,}}>
                 <Fade in={open}>

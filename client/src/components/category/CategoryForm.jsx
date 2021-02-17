@@ -2,11 +2,12 @@ import React, {useState, useEffect} from 'react';
 import {useFormik} from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
-import {Button, TextField, CssBaseline, Container, makeStyles, Typography} from '@material-ui/core';
+import {Button, TextField, Container, makeStyles, Typography} from '@material-ui/core';
 import {DropzoneArea} from 'material-ui-dropzone';
-import AttachFileIcon from '@material-ui/icons/AttachFile';
 import { storage } from "../../firebase"
 import firebase from "../../firebase"
+import { config } from '../../redux/constants';
+import Swal from 'sweetalert2';
 //ToDo: Clean console logs.
 const validationSchema = yup.object({
   name: yup
@@ -17,9 +18,20 @@ const validationSchema = yup.object({
   .string('Enter category description'),
 });
 
-const CategoryForm = () => {
+const showAlert = () => {
+  return Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: '¡Categoria Creada!',
+      showConfirmButton: false,
+      timer: 2000,
+  });
+};
 
+const CategoryForm = () => {
+  const token = sessionStorage.getItem('token');
   const [images, setImages] = useState(false);
+  const userRole = sessionStorage.getItem('role');
 
   useEffect(() => {
     if(images){
@@ -36,14 +48,15 @@ const CategoryForm = () => {
     },
     validationSchema: validationSchema,
     //SUBMIT CONTROL -----------------------------------------
-    onSubmit:  (values) => {
+    onSubmit:  (values ,{ resetForm}) => {
       var formValues = {...values};
-      axios.post('http://localhost:3000/category/', {form:values})
+      axios.post('http://localhost:3000/category/', {form:values}, config(token))
       .then((res) => {
         console.log("Succes",res);
         formValues.id = res.data.id;
         sendImages(images, formValues);
-        alert('Category created');
+        showAlert();
+        resetForm({values: ''});
       })
       .catch(error => console.log("Error on request: ",error));
     },
@@ -69,7 +82,7 @@ const CategoryForm = () => {
 
   //IMAGE CONTROL ------------------------------------------------- 
   const sendImages = (images, formval) => {
-    if (images, formval){
+    if (images || formval){
       console.log("Start image upload");
       const uploadTask = firebase.storage().ref().child(`/category/${formval.name}/${images[0].name}`).put(images[0]);
       uploadTask.on(
@@ -82,7 +95,7 @@ const CategoryForm = () => {
             .ref(`category/${formval.name}`)
             .child(images[0].name)
             .getDownloadURL()
-            .then(url => {console.log("Download url: ",url ); sendImgUrl(url, formval)})
+            .then(url => {console.log("Download url: ",url ); sendImgUrl(url, formval) })
         }
       )
     }
@@ -94,20 +107,18 @@ const CategoryForm = () => {
     const valuesToDb = {...formval};
     valuesToDb.image = url;
     console.log("Values to Db: ",valuesToDb);
-      axios.put(`http://localhost:3000/category/${valuesToDb.id}`, {form:valuesToDb})
+      axios.put(`http://localhost:3000/category/${valuesToDb.id}`, {form:valuesToDb}, config(token))
       .then((res) => {
         console.log("Succes, writed in db with img",res);
       })
       .catch(error => console.log("Error on request: ",error))
   }
 
-
-
-  return (
-    <div className={classes.paper}>
-      <form onSubmit={formik.handleSubmit} className={classes.form}>
-      <Container component="main" maxWidth="xs">
-            <CssBaseline />
+  const categoryForm = () => {
+    return (
+      <div className={classes.paper}>
+        <form onSubmit={formik.handleSubmit} className={classes.form}>
+          <Container component="main" maxWidth="xs">
             <Typography component="h1" variant="h5">
                 New Category
             </Typography>
@@ -145,11 +156,13 @@ const CategoryForm = () => {
             <Button color="primary" variant="contained" fullWidth type="submit" className={classes.submit}>
             Submit
             </Button>
-        </Container>    
-        
-      </form>
-    </div>
-  );
+          </Container>    
+        </form>
+      </div>
+    )
+  }
+
+  return userRole === 'admin' ? categoryForm() : '404 NOT FOUND';
 };
 
 export default CategoryForm;

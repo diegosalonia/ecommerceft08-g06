@@ -3,15 +3,16 @@ import FilterCatalog from './FilterCatalog';
 import {Container, Grid} from '@material-ui/core';
 import ProductCard from '../product/ProductCard';
 import Pagination from  './Pagination'
-const Catalog = (props) => {
 
-    var renderProducts = () => <></>;
+const Catalog = (props) => {
+    var renderProducts = () => <>No hay productos</>;
     if(props.products){
-        renderProducts = () => props.products.products.map((item, index) => {
+        renderProducts = () => Array.isArray(props.products.products) ? props.products.products.map((item, index) => {
             return (<Grid item xs={12} sm={6} md={4} lg={3} key={item.id} >
                     <ProductCard productProps={item} key={index} />
                 </Grid>)    
-            });
+            })
+            : 'No hay productos';
     }
     return (
         <Container>
@@ -20,7 +21,7 @@ const Catalog = (props) => {
                     <FilterCatalog filterBox={props.filterBox} setFilterBox={props.setFilterBox}/>
                 </Grid>
                 <Grid container item xs={12} sm={9} spacing={3} justify="center" alignItems="center">
-                    {renderProducts()}    
+                    { renderProducts() }    
                 </Grid>
                 <Pagination />
             </Grid>

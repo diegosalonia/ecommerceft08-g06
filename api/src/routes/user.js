@@ -1,13 +1,37 @@
 const server = require('express').Router();
 const { Order, User } = require('../db.js');
-const { Sequelize } = require('sequelize');
+const jwt = require('jsonwebtoken');
+const passport = require("passport");
+const SENDGRID_API_KEY = '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'
+const sgMail = require('@sendgrid/mail')
 
-server.get('/', (req, res, next) => {
+sgMail.setApiKey(SENDGRID_API_KEY)
+
+const getRandomArbitrary = (min, max) => {
+    return Math.random() * (max - min) + min;
+}
+
+const verifyCode = Math.round(getRandomArbitrary(100000,999999))
+
+genToken = user => {
+  return jwt.sign({
+    iss: 'Luri',
+    sub: user.id,
+    iat: new Date().getTime(),
+    exp: new Date().setDate(new Date().getDate() + 1)
+  }, 'joanlouji');
+}
+
+server.get('/', passport.authenticate('jwt', { session: false }), async(req, res, next) => {
+    const user = await User.findByPk(req.user)
+    if(user.user_role === 'admin') {
     User.findAll()
     .then(response =>{
         res.send(response)
     })
     .catch(next)
+    } else
+    {res.status(401).send({message: 'not authorized'})}
 });
 
 server.get('/:id/orders', (req, res) => {
@@ -24,28 +48,259 @@ server.get('/:id/orders', (req, res) => {
 	})
 })
 
-server.post('/', (req, res) => {
-    User.create(req.body.form)
+server.post('/', async (req, res) => {
+    const { email, password, first_name, last_name, phone_number, user_role, address_line1,
+         address_line2, city, state, postal_code, country, billing_addres, email_notification } = req.body.form;
+    let foundUser = await User.findOne({ where: {email: email }});
+    console.log(foundUser)
+    if (foundUser) {
+      return res.status(403).json({ msg: 'Correo electrónico ya registrado'});
+    }else{
+        const newUser = new User({ email, password, first_name, last_name, phone_number, user_role, address_line1,
+            address_line2, city, state, postal_code, country, billing_addres, email_notification })
+        await newUser.save()
+        // Generate JWT token
+        const token = genToken(newUser)
+        res.status(200).json({token})
+    }
+});
+
+server.post('/forcePassword/:userId', passport.authenticate('jwt', { session: false }), async(req, res) => {
+    const admin = await User.findByPk(req.user)
+    if(admin.user_role === "admin"){
+        const user = await User.findByPk(req.params.userId)
+
+        user.force_password = "pendiente"
+        await user.save()
+        .then( response => {
+            res.send(response)
+        })
+        .catch( error => {
+            res.send(error.message)
+        })
+    }else{
+        res.status(401).send({message: 'not authorized'})
+    }
+})
+
+server.put('/:userId/shipping-address', async (req, res) => {
+    const { userId } = req.params;
+    const user = await User.findByPk(userId);
+    Object.assign(user, req.body.form)
+    
+    user.save()
+    .then(response => res.send(response))
+    .catch(err => res.status(401).send(err));
+});
+
+server.post('/send-order', async (req, res) => {
+    const { order, userId } = req.body;
+    const user = await User.findOne({
+        where: {
+            id: userId
+        },
+        include: [
+            {
+                model: Order,
+                where: {
+                    status: 'cart',
+                }, 
+                attributes: ['id']
+            }
+        ]
+    });
+    console.log("USER WITH ORDER: ", user.dataValues.orders[0].dataValues.id);
+    const orderId = user.dataValues.orders[0].dataValues.id;
+    const html = `
+        <div>
+            <h1>Order</h1>
+            <table>
+                <tr>
+                    <th>Producto</th>
+                    <th> | </th>
+                    <th>Cantidad</th>
+                    <th> | </th>
+                    <th>Precio</th>
+                </tr>
+                ${ order.map(({ name, order_line, price, discount }) => {
+                    return (
+                        `
+                        <tr>
+                            <td>${name}</td>
+                            <td> | </td>
+                            <td>${order_line.quantity}</td>
+                            <td> | </td>
+                            <td>${price - (price * (discount / 100))}</td>
+                        </tr>
+                        `
+                    )
+                })}
+            </table>
+            <hr />
+            <table>
+                <tr>
+                    <td>Total:</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>${order.reduce((acc, {order_line, price, discount}) => acc + ((price - (price * (discount / 100))) * order_line.quantity), 0)}</td>
+                </tr>
+            </table>
+            <br />
+            <a href=${`http://localhost:3001/user/orders/${orderId}`} >Ingrese aquí para ver los detalles de su compra</a>
+            <br />
+            <h3>¡Gracias por su compra!</h3>
+        </div>
+    `;
+
+    const message = {
+        to: user.email,
+        from: 'dager2115@gmail.com',
+        subject: 'Ésta es su orden de Un Jardin Especial',
+        text: 'Ésta es su orden de Un Jardin Especial',
+        html: html
+    };
+
+    sgMail.send(message)
+    .then(response => res.send(response))
+    .catch(err => console.log("ERROR ENVIANDO ORDEN: ", err));
+});
+
+server.post('/sendMail', async(req, res) => {
+    let foundUser = await User.findOne({ where: {email: req.body.email }});
+    console.log(foundUser)
+    if (!foundUser) {
+      return res.status(403).json({ msg: 'Este correo electrónico no esta registrado'});
+    }else{
+    const msg = {
+        to: req.body.email, // Change to your recipient
+        from: 'dager2115@gmail.com', // Change to your verified sender
+        subject: 'this is the verify code',
+        text: 'this is the verify code',
+        html: `<h1>${verifyCode}</h1>`,
+      }
+
+    sgMail.send(msg)
+    foundUser.verifyCode = verifyCode
+    foundUser.verifyCodeExpireDate = new Date().setHours(new Date().getHours() + 1)
+    await foundUser.save()
+    .then(response =>{
+        console.log("si se envio")
+        res.send({verifyCode, msg: "codigo enviado"})
+    })
+    .catch(error =>{
+        console.log(error)
+        res.json({
+            error:error.message,
+        })
+    })}
+})
+
+
+server.get('/:verifyCode/email/:email', (req, res) => {
+    const date = Date.now()
+    User.findOne({where:{email: req.params.email}})
+    .then( user => {
+        const exp = Date.parse(user.verifyCodeExpireDate)
+        if(req.params.verifyCode !== user.verifyCode){
+            res.status(400).send({msg: "el codigo es incorrecto"})
+        }
+        if(req.params.verifyCode === user.verifyCode && exp < date){
+            res.status(400).send({msg: "el codigo a expirado"})
+        }
+        else{
+            res.status(200).send({msg: "el codigo es correcto"})
+        }
+    })
+    .catch( error => {
+        res.send({error, msg: "algo paso"})
+    })
+
+});
+
+
+server.put('/:userId', passport.authenticate('jwt', { session: false }), async (req, res) => {
+
+    const user = await User.findByPk(req.params.userId)
+    if(req.body.email){
+    let foundUser = await User.findOne({ where: {email: req.body?.email }});
+
+    if(foundUser){
+        return res.status(403).json({ msg: 'Correo electrónico ya registrado'});
+    }
+    user.save()
+    .then(response =>{
+        res.send({
+            response,
+            userForm:req.body
+        })
+    })
+    .catch(err => {
+        res.send(err.message)
+    })
+   }
+    Object.assign(user, req.body)
+    
+    user.save()
+    .then(response =>{
+        res.send({
+            response,
+            userForm:req.body
+        })
+    })
+    .catch(err => {
+        res.send(err.message)
+    })
+});
+
+server.put('/:id/passwordChange', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    const user = await User.findByPk(req.params.id)
+    user.password = req.body.newPassword
+    await user.save()
     .then(response => {
         res.send(response)
     })
-    .catch(err =>{
-        res.send(err)
+    .catch(error => {
+        res.send(error.message)
     })
-});
-
-server.put('/:userId', async (req, res) => {
-    const user = await User.findByPk(req.params.userId)
-    Object.assign(user, req.body.form)
-
-    user.save()
-    .then(response =>{
+})
+server.put('/update/passwordReset', async (req, res) => {
+    const user = await User.findOne({where:{email:req.body.email}})
+    user.force_password = "hecho"
+    user.password = req.body.newPassword
+    await user.save()
+    .then(response => {
         res.send(response)
     })
-    .catch(err => {
+    .catch(error => {
+        res.send(error)
+    })
+})
+
+
+server.delete('/:userId', async (req, res) => {
+    const user = await User.findByPk(req.params.userId)
+    user.active = "false";
+    user.save()
+    .then(user=>{
+        res.send(user)
+    })
+    .catch(err=>{
         res.send(err)
     })
-});
+})
+
+server.put('/active/:userId', async (req, res) => {
+    const user = await User.findByPk(req.params.userId)
+    user.active = "true";
+    user.save()
+    .then(user=>{
+        res.send(user)
+    })
+    .catch(err=>{
+        res.send(err)
+    })
+})
 
 
 module.exports = server;

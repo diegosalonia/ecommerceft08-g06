@@ -21,7 +21,6 @@ const FilterCatalog = (props) => {
     const enabledCategories = (id) => {
         if (currentCategory && Array.isArray(currentCategory)){
             if (currentCategory.includes(id)){
-                console.log("Ya la tengo: ", currentCategory)
                 let removedId = currentCategory.filter(cat => cat !== id)
                 setCurrentCategory(removedId);
             }
@@ -50,36 +49,33 @@ const FilterCatalog = (props) => {
     }
     //Display categories. 
     useEffect(() => {
-        console.log("loading..")
         axios.get('http://localhost:3000/category/all')
         .then(categories => 
             {
-                console.log("categories: ", categories)
                 setCategories(categories.data)
             }
         )
         .catch(error => console.log(error))             
-    }, [])
+    }, [dispatch])
     //Set Category in Catalog. 
     useEffect(() => {
         if(currentCategory){ 
            dispatch(updateFilter({categories: currentCategory}));
         }
-    }, [currentCategory])
+    }, [currentCategory, dispatch])
     return (
-
-    <Card>
-        <CardHeader
-                  title="Categorias"
-                  titleTypographyProps={{ align: 'center' }}
-                  className={classes.cardHeader}
-                />
-        <CardContent >      
-            <ButtonGroup fullWidth orientation="vertical"  color="primary">
-                {displayCategories()}
-            </ButtonGroup>
-        </CardContent>  
-    </Card>      
+        <Card>
+            <CardHeader
+                    title="Categories"
+                    titleTypographyProps={{ align: 'center' }}
+                    className={classes.cardHeader}
+                    />
+            <CardContent >      
+                <ButtonGroup fullWidth orientation="vertical"  color="primary">
+                    {displayCategories()}
+                </ButtonGroup>
+            </CardContent>  
+        </Card>      
     )   
 }
 

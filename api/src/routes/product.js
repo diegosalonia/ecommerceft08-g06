@@ -1,9 +1,10 @@
 const server = require('express').Router();
 const { response } = require('express');
 const { Sequelize } = require('sequelize');
-const { Product, Category, Order, Review } = require('../db.js');
+const { Product, Category, Order, Review, User} = require('../db.js');
+const passport = require('passport')
 
-server.get('/', (req, res, next) => {
+server.get('/',  (req, res, next) => {
 	Product.findAll({
 		include: [{model: Category}]
 	})
@@ -15,18 +16,32 @@ server.get('/', (req, res, next) => {
 
 ///Start review routes
 
-server.post('/:id/review', (req, res) => {
-	Review.create({...req.body.form, productId: req.params.id})
-	.then(product => {
-			res.status(201).send(product)
+
+server.post('/:id/review/:userId', async (req, res) => {
+	const { id, userId } = req.params;
+	const olderReview = await Review.findAll({
+		where: {
+			productId: id,
+			userId: userId
+		}
+	});
+	console.log("REVIEW: ", olderReview);
+	if (!olderReview.length) {
+		Review.create({...req.body.form, productId: req.params.id, userId:  req.params.userId})
+		.then(product => {
+				res.status(201).send(product)
+			})
+		.catch(error => {
+			res.status(400).send(error)
 		})
-	.catch(error => {
-		res.status(400).send(error)
-	})
+	} else {
+		res.send("Already had a review for this product!");
+	}
+
 })
 
 server.get('/:id/review', (req, res) => {
-	Review.findAll({where: {productId: req.params.id}})
+	Review.findAll({where: {productId: req.params.id}, include: [{model: User, attributes: ["email", 'id']}]})
 	.then(products => {
 			res.status(201).send(products)
 		})
@@ -75,7 +90,10 @@ server.get('/category/:name', async (req,res,next)=>{
 	})
 });
 
-server.delete('/:id',  async (req, res) => {
+server.delete('/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
+	const user = await User.findByPk(req.user)
+	console.log(user)
+    if(user.user_role === 'admin') {
 	const product = await Product.findByPk(req.params.id)
 	await product.destroy()
 	.then(() => {
@@ -83,18 +101,21 @@ server.delete('/:id',  async (req, res) => {
 	})
 	.catch(error => {
 		res.send(error)
-	})
+	})} else
+    {res.status(401).send({message: 'not authorized'})}
 });
 
-server.post('/', (req, res) =>{
-
+server.post('/', passport.authenticate('jwt', { session: false }), async (req, res) =>{
+	const user = await User.findByPk(req.user)
+    if(user.user_role === 'admin') {
     Product.create(req.body.form)
     .then(product => {
         res.status(201).send(product)
     })
     .catch(error =>{
         res.status(400).send(error)
-    })
+	})} else
+    {res.status(401).send({message: 'not authorized'})}
 });
 
 server.get('/search', (req, res) =>{
@@ -116,7 +137,6 @@ server.get('/search', (req, res) =>{
 server.put('/:id', async (req, res) =>{
 	const product = await Product.findByPk(req.params.id)
 	Object.assign(product, req.body.form)
-
 	product.save()
 	 .then(response =>{
 		 res.status(200).send(response)
@@ -126,7 +146,9 @@ server.put('/:id', async (req, res) =>{
 	 })
 });
 
-server.post('/:productId/category/:categoryId', async (req, res) =>{
+server.post('/:productId/category/:categoryId', passport.authenticate('jwt', { session: false }), async (req, res) =>{
+	const user = await User.findByPk(req.user)
+    if(user.user_role === 'admin') {
 	const category =  await Category.findByPk(req.params.categoryId)
 	const product = await Product.findByPk(req.params.productId)
 
@@ -139,35 +161,91 @@ server.post('/:productId/category/:categoryId', async (req, res) =>{
 	})
 	.catch(error =>{
 		res.send(error)
-	})
+	})} else
+    {res.status(401).send({message: 'not authorized'})}
 });
 
-server.get('/product-detail/:id', async (req, res) => {
-	Product.findOne({
+server.get('/product-detail/:productId', async (req, res) => {
+	const { productId } = req.params;
+	const { userId } = req.query;
+	const product = await Product.findOne({
 		where: {
-			id: req.params.id
+			id: productId
 		},
 		include: [
-			{model: Category},
-			{model: Order}
+			{model: Category}
 		]
-	})
-	.then(product => {
-		const newProductForm = {
-			name: product.dataValues.name,
-			price: product.dataValues.price,
-			description: product.dataValues.description,
-			discount: product.dataValues.discount,
-			image: product.dataValues.image,
-			stock: product.dataValues.stock,
-			featured: product.dataValues.featured,
-			categories: product.dataValues.categories.map(category => category.dataValues.name),
-			quantity: product.dataValues.orders[0]?.order_line.dataValues.quantity,
-			userId: product.dataValues.orders[0]?.userId
-		}
-		res.send(newProductForm);
-	})
-	.catch(err => console.log(err));
+	});
+	let toEditReview;
+	let noReviewed = false;
+	let quantity = 1;
+	if (JSON.parse(userId)) {
+		const order = await Order.findOne({
+			where : {
+				userId: userId,
+				status: 'cart'
+			},
+			include: [
+				{
+					model: Product
+				}
+			]
+		});
+	
+		const userCompletedOrders = await Order.findAll({
+			where: {
+				userId: userId,
+				status: 'approved'
+			},
+			include: [
+				{
+					model: Product,
+				}
+			]
+		});
+		
+		const user = await User.findOne({
+			where: {
+				id: userId
+			},
+			include: [
+				{
+					model: Review, 
+					attributes: ['productId']
+				},
+			]
+		});
+		
+		toEditReview = user.dataValues.reviews.filter(review => review.dataValues.productId === product.dataValues.id).length === 1;
+
+		userCompletedOrders.forEach(order => order.dataValues.products.forEach(product => {
+			if (product.dataValues.id == productId) {
+				noReviewed = true;
+			}
+		}));
+		
+		order && order.dataValues.products.forEach(el => {
+			if (product.dataValues.id === el.dataValues.id) {
+				quantity = el.dataValues.order_line.dataValues.quantity
+			}
+		})
+	}
+
+	const newProductForm = {
+		id: productId,
+		name: product.dataValues.name,
+		price: product.dataValues.price,
+		description: product.dataValues.description,
+		discount: product.dataValues.discount,
+		image: product.dataValues.image,
+		stock: product.dataValues.stock,
+		featured: product.dataValues.featured,
+		categories: product.dataValues.categories.map(category => category.dataValues.name),
+		quantity,
+		toEditReview,
+		noReviewed
+	};
+	res.send(newProductForm);
 });
 
 //Query like this: http://localhost:3000/products/catalog/?page=1&pageSize=1
@@ -194,27 +272,34 @@ server.get('/catalog/', (req, res) => {
 	.then(count =>{
 		totalProducts = count; 
 		Product.findAll(options)
-		.then(products => res.send({products, totalProducts}))
+		.then(products => {
+			!products.length && res.send("No hay productos");
+			products.length && res.send({products, totalProducts})
+		})
 		.catch(err => console.log(err));
 	})
 	.catch(err => res.status(400).send(err));
 });
 	 
 
-server.delete('/:productId/category/:categoryId', async (req, res) =>{
-	const category =  await Category.findByPk(req.params.categoryId)
-	const product = await Product.findByPk(req.params.productId)
+server.delete('/:productId/category/:categoryId', passport.authenticate('jwt', { session: false }), async (req, res) =>{
+	const { productId, categoryId } = req.params;
+	const user = await User.findByPk(req.user)
+    if(user.user_role === 'admin') {
+	const category =  await Category.findByPk(Number(categoryId))
+	const product = await Product.findByPk(Number(productId));
 
 	if(!category){res.status(404).send("this category doesn't exist")}
 	if(!product){res.status(404).send("this product doesn't exist")}
 
 	await product.removeCategory(category)
 	.then(response =>{
-		res.status(response).send("has been successfully removed")
+		return res.send("has been successfully removed")
 	})
 	.catch(error =>{
 		res.send(error)
-	})
+	})} else
+    {res.status(401).send({message: 'not authorized'})}
 });
 
 server.get('/:id', (req, res) => {

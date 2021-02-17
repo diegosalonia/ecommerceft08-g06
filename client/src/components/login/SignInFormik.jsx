@@ -1,100 +1,99 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
-import * as yup from 'yup';
-import Button from '@material-ui/core/Button';
-import Avatar from '@material-ui/core/Avatar';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Link from '@material-ui/core/Link'
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography'
-// import {getToken} from '../../redux/LoginReducer/actions'
+import { Image, Button, Avatar, Link, TextField, Typography, Grid} from '@material-ui/core';
+import {useStyles , validationSchema} from './styles'
 import {useDispatch} from 'react-redux'
-import { makeStyles } from '@material-ui/core/styles';
+import PersonIcon from '@material-ui/icons/Person';
+import axios  from 'axios'
+import { login } from '../../redux/loginReducer/actions'
+import Google from '../../assets/Google.svg'
+import facebook from '../../assets/facebook.svg';
+import github from '../../assets/github.svg'
+import ErrorOutlineRoundedIcon from '@material-ui/icons/ErrorOutlineRounded';
+ 
+  const WithMaterialUI = ({onClose}) => {
+    const [error, setError] = useState(false)
+    const [message, setMessage] = useState("")
+    const dispatch = useDispatch();
+    const params = new URLSearchParams()
+    const classes = useStyles();
+    const config = {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    }
+    
+    const signGoogle = () => {
+      window.location.href = `http://localhost:3000/auth/google`;
+    }
 
+    const signFacebook = () => {
+      window.location.href = `http://localhost:3000/auth/facebook`;
+    }
 
+    const signGitHub = () => {
+      window.location.href = `http://localhost:3000/auth/github`;
+    }
+    
+  const url = "http://localhost:3000/auth/login";
 
-const validationSchema = yup.object({
-  email: yup
-    .string('Enter your email')
-    .email('Enter a valid email')
-    .required('Email is required'),
-  password: yup
-    .string('Enter your password')
-    .min(8, 'Password should be of minimum 8 characters length')
-    .required('Password is required'),
-});
-
-
-const WithMaterialUI = ({onClose}) => {
-  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
       email: '',
       password: '',
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      // dispatch(getToken(values.email, values.password));
-      setTimeout(function(){
-        if(window.localStorage.getItem("loggedin")){
-          console.log("Logged in, user id: ", window.localStorage.getItem("userId"))
-          onClose();
-        }
-      }, 500);
+    onSubmit: async (values) => {
+      params.append('email', values.email)
+      params.append('password', values.password)
 
+      axios.post(url, params, config)
+      .then(user => {
+        onClose(true)
+        dispatch(login(user.data));
+      })
+      .catch(error => {
+        console.log("hay un error", error)
+        setError(true)
+        setMessage(error.response.data.message);
+      })
     },
   });
-
-  const useStyles = makeStyles((theme) => ({
-    form: {
-      backgroundColor: theme.palette.background.paper,
-      borderRadius: theme.shape.borderRadius,
-      padding: theme.spacing(1),
-      marginTop: theme.spacing(2),
-    },
-    avatar: {
-      margin: theme.spacing(1),
-      backgroundColor: theme.palette.secondary.main,
-    },
-    formcontainer: {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      backgroundColor: theme.palette.grey[200],
-      borderRadius: theme.shape.borderRadius,
-      padding: theme.spacing(1)
-    },
-    signUp:{
-      padding: theme.spacing(2),
-    }
-  }))
-
-  const classes = useStyles();
-
+  
   return (
     <div className={classes.formcontainer}>
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
+          <PersonIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+           Iniciar sesión
         </Typography>
+        {error&&
+        <Grid className={classes.messageContainer}>
+          <ErrorOutlineRoundedIcon color="error" className={classes.messageIcon}/>
+          <Typography variant="h6" color="error">{message}</Typography>
+        </Grid>
+        }
       <form onSubmit={formik.handleSubmit} className={classes.form}>
         <TextField
+          className={classes.input}
           fullWidth
+          variant="outlined"
           id="email"
           name="email"
-          label="Email"
+          label="Correo electronico"
           value={formik.values.email}
           onChange={formik.handleChange}
           error={formik.touched.email && Boolean(formik.errors.email)}
           helperText={formik.touched.email && formik.errors.email}
         />
         <TextField
+          className={classes.input}
           fullWidth
+          variant="outlined"
           id="password"
           name="password"
-          label="Password"
+          label="Contraseña"
           type="password"
           value={formik.values.password}
           onChange={formik.handleChange}
@@ -106,9 +105,29 @@ const WithMaterialUI = ({onClose}) => {
         </Button>
       </form>
       <div className={classes.signUp}>
-        <Link variant="body2" to="/createcustomer" href="/createcustomer">
-          {"Don't have an account? Sign Up"}
-        </Link>
+         <Grid container>
+            <Grid item xs className={classes.link}>
+              <Link href="/password-reset" variant="body2">
+                ¿Olvidaste tu contraseña?
+              </Link>
+            </Grid>
+            <Grid item>
+              <Link href="/user/sign-up" variant="body2">
+                ¿No tienes cuenta? Registrate
+              </Link>
+            </Grid>
+          </Grid>
+      </div>
+      <div className={classes.signUp}>  ingresar con
+        <Button onClick = { signGoogle } > 
+          {<img src={Google} />}
+        </Button>
+        <Button onClick = { signFacebook } > 
+          {<img src={facebook} />}
+        </Button>
+        <Button onClick = { signGitHub } > 
+          {<img src={github} />}
+        </Button>
       </div>
     </div>
   );

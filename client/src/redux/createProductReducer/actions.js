@@ -1,13 +1,11 @@
 import axios from "axios"
 import firebase, { storage } from '../../firebase';
-import { CREATE_PRODUCT, GET_CATEGORIES } from '../constants';
+import { CREATE_PRODUCT, GET_CATEGORIES, config } from '../constants';
 
-
-
-const conectionRelation = (productId, categoryList) => {
+const conectionRelation = (productId, categoryList, token) => {
     categoryList.forEach(category => {
-        axios.post(`http://localhost:3000/products/${productId}/category/${category}`)
-        .then(res => console.log(res))
+        axios.post(`http://localhost:3000/products/${productId}/category/${category}`, null, config(token))
+        .then(res => res)
         .catch(err => console.log(err));
     });
 };
@@ -32,7 +30,6 @@ const addImages = (images, productName, id, form) => {
             );
        });
     });
-    // 
     Promise.all(promises)
     .then(res => {
         axios.put(`http://localhost:3000/products/${id}`, { form })
@@ -43,11 +40,11 @@ const addImages = (images, productName, id, form) => {
     });
 };
 
-export const addProduct = (form, images, categoryList) => dispatch => {
-    return axios.post('http://localhost:3000/products', { form })
+export const addProduct = (form, images, categoryList, token) => dispatch => {
+    return axios.post('http://localhost:3000/products', { form }, config(token))
             .then(res => {
                 const { id } = res.data
-                conectionRelation(id, categoryList);
+                conectionRelation(id, categoryList, token);
                 addImages(images, form.name, id, form);
                 dispatch({
                     type: CREATE_PRODUCT,

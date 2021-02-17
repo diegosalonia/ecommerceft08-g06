@@ -1,9 +1,9 @@
 const server = require('express').Router();
-const { User, Order, Product} = require('../db.js');
+const { User, Order, Product, Order_line} = require('../db.js');
 
-server.post('/:idUser/cart', async (req, res)=>{
-    const product = await Product.findByPk(req.body.product.id);
-    const quantity = req.body.product.quantity;
+server.post('/:idUser/cart', async (req, res)=>{ // crea y verifica
+    const product = await Product.findByPk(Number(req.body.product.id));
+    const quantity = Number(req.body.product.quantity);
     const price = product.price - (product.price * (product.discount / 100));
     const user = await User.findByPk(req.params.idUser);
     let order = await Order.findOne({ where:{ userId: user.id, status: 'cart'} });
@@ -28,26 +28,79 @@ server.post('/:idUser/cart', async (req, res)=>{
     });
 });
 
-server.delete('/:idUser/cart', async (req,res)=>{
-    const order = await Order.findOne({where:{ id: req.body.form.id}})
+server.put('/:idUser/cart',async (req, res)=>{ // actualiza el valor
 
-    await order.destroy().then(resp =>{
-        res.send()
-    }).catch(err=>{res.send(err)})
+    const product = await Product.findByPk(req.body.product.id);
+    const quantity = req.body.product.quantity;
+    const price = product.price;
+    const user = await User.findByPk(req.params.idUser);
+    let order = await Order.findOne({ where:{ status: 'cart', userId: req.params.idUser}});
+
+    if(!user){ res.status(400).send("this user doens't exist") };
+
+    await product.addOrder(order, { through: { orderId: order.id, quantity, price } })
+    .then(response =>{
+        res.json(quantity);
+    })
+    .catch(err =>{
+        console.log(err)
+        res.send({
+            mgs:"todo mal",
+            error: err
+        });
+    });
 })
 
-server.get('/:idUser/cart/:orderId', async (req,res)=>{
-    const order = await Order.findOne({where:{ id: req.params.orderId}})
+server.delete('/:idUser/cart', async (req,res)=>{ // borra todo los valores
+    const order = await Order.findOne({where:{ userId: req.params.idUser, status: 'cart'}});
 
-    await order.getProducts()
-    .then(orders =>{
-        res.send(orders)
+    await order.destroy()
+    .then(resp => res.send(resp))
+    .catch(err=>{res.send(err)});
+});
+
+server.delete('/:idUser/cart/:idProduct', async (req,res)=>{ //borra un solo valor
+    let order = await Order.findOne({ where: { userId: req.params.idUser, status: 'cart'}});
+    let product = await order.getProducts({where:{id:req.params.idProduct}});
+    
+    await order.removeProduct(product)
+    .then(resp=>{
+        res.json(resp)
     })
     .catch(err=>{
         res.send(err)
     })
 })
 
+server.get('/:idUser/cart', async (req,res)=>{ // muestra todos lo de carrito
+    const order = await Order.findOne({
+                                        where:{
+                                            userId: req.params.idUser,
+                                            status: 'cart', 
+                                        }
+                                    });
+    if (!order) return res.send('nothing in cart');
+    await order.getProducts()
+    .then(orders =>{
+        res.send(orders);
+    })
+    .catch(err=>{
+        res.send(err)
+    });
+});
 
+server.get('/:userId/:orderId', async (req, res) => {
+    const { userId, orderId } = req.params;
+    const order = await Order.findOne({
+        where: {
+            userId: userId,
+            id: orderId
+        }
+    });
+    order.getProducts()
+    .then(order => res.send(order))
+    .catch(err => console.log("ERROR TRYING TO GET ORDER: ", err));
+})
 
 module.exports = server;
+

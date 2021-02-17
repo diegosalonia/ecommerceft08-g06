@@ -1,13 +1,14 @@
 import axios from 'axios'
-import { GET_ORDER } from '../constants'
+import { GET_ORDER, CHANGE_ORDER_STATUS_IN_ORDER_DETAIL } from '../constants'
 
-export function getOrder(userId, orderId){
+export function getOrder(orderId){
     return function(dispatch) {
-      return axios.get(`http://localhost:3000/users/${userId}/cart/${orderId}`)
+      return axios.get(`http://localhost:3000/orders/${orderId}`)
         .then(response => {
+          console.log("RESPUESTA ORDEN: ", response.data);
           dispatch({ 
               type: GET_ORDER, 
-              products: response.data
+              order: response.data
             });
         })
         .catch( error => {
@@ -15,4 +16,23 @@ export function getOrder(userId, orderId){
         })
     };
   }
+
+export function changeStatus(orderId, status){
+  const order = {
+    status
+  }
+  return function(dispatch){
+    return axios.put(`http://localhost:3000/orders/${orderId}`, order)
+    .then(response => {
+      dispatch({
+        type: CHANGE_ORDER_STATUS_IN_ORDER_DETAIL,
+        order: response.data
+      });
+    })
+    .catch(error =>{
+      console.log(error)
+    })
+  }
+
+}  
   

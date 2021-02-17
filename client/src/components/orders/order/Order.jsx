@@ -1,18 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, Grid, Typography, Table, TableBody ,TableCell ,TableContainer, TableHead, TableRow, Paper } from '@material-ui/core';
-import { getOrder } from '../../../redux/orderReducer/actions';
+import { Link } from 'react-router-dom';
+import { Container, Typography, Table, TableBody ,TableCell ,TableContainer, 
+         TableHead, TableRow, Paper, TextField, Button } from '@material-ui/core';
+import { getOrder, changeStatus } from '../../../redux/orderReducer/actions';
 import useStyles from './styles/styles'
 
 export default function Order(props){
   const classes = useStyles()
-    const { userId, orderId } = props.match.params
+    const { orderId } = props.match.params
+    const [input, setInput] = useState("")
+    const [change, setChange] = useState(false)
+    const order = useSelector(state => state.orderReducer.order)
     const products = useSelector(state => state.orderReducer.products)
-    const date = useSelector(state => state.orderReducer.products[0]?.order_line.createdAt)
+    const status = useSelector(state => state.orderReducer.status)
+    const date = useSelector(state => state.orderReducer.order.createdAt)
     const dispatch = useDispatch()
 
-    const rows = [...products];
-
+    const rows = products || order.products;
 
     const total = (array) => {
         let result = 0;
@@ -23,8 +28,18 @@ export default function Order(props){
     }
 
     useEffect(() => {      
-       dispatch(getOrder(userId, orderId))  
-    },[])
+       dispatch(getOrder(orderId))  
+    },[orderId]);
+
+    const handleChange = (event) => {
+      setInput(event.target.value)
+    }
+
+    const handleSubmit = () => {
+      dispatch(changeStatus(orderId, input))
+      setInput("")
+      setChange(false)
+    }
 
     return(
         <Container className={classes.container}>
@@ -35,23 +50,23 @@ export default function Order(props){
                     <TableHead>
                         <TableRow>
                               <TableCell className={classes.title}>
-                                 <Typography variant="h4">Order # {orderId}</Typography>
+                                 <Typography variant="h4">Orden # {orderId}</Typography>
                               </TableCell>                       
-                              <TableCell align="left" className={classes.title}></TableCell>
-                              <TableCell align="left" className={classes.title}>Date:</TableCell>
+                              <TableCell align="left" className={classes.title}>{order.user?.email}</TableCell>
+                              <TableCell align="left" className={classes.title}>Fecha:</TableCell>
                               <TableCell align="left" className={classes.title}>{date?.slice(0,10)}</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                     <TableRow className={classes.row}>
-                        <TableCell className={classes.cellname}>Product</TableCell>
-                        <TableCell align="left" className={classes.cellname}>Quantity</TableCell>
-                        <TableCell align="left" className={classes.cellname}>Price</TableCell>
+                        <TableCell className={classes.cellname}>Producto</TableCell>
+                        <TableCell align="left" className={classes.cellname}>Cantidad</TableCell>
+                        <TableCell align="left" className={classes.cellname}>Precio</TableCell>
                         <TableCell align="left" className={classes.cellname}>Subtotal</TableCell>
                       </TableRow>
-                      {rows.map((row) => (
+                      {rows&&rows.map((row) => (
                         <TableRow key={row.id}>
-                          <TableCell component="th" scope="row" className={classes.cell}>{row.name}</TableCell>
+                          <TableCell component="th" scope="row" className={classes.cell}><Link className={classes.link} to={`/products/${row.id}`} >{row.name}</Link></TableCell>
                           <TableCell align="left" className={classes.cell}>{row.order_line.quantity}</TableCell>
                           <TableCell align="left" className={classes.cell}>{row.price}</TableCell>
                           <TableCell align="left" className={classes.cell}>{row.price * row.order_line.quantity}</TableCell>
@@ -60,7 +75,32 @@ export default function Order(props){
                       <TableRow>
                           <TableCell align="left" rowSpan={3} className={classes.cell}></TableCell>
                           <TableCell align="left" colSpan={2} className={classes.cell}>Total</TableCell>
-                          <TableCell align="left" className={classes.cell}>{total(rows)}</TableCell>
+                          <TableCell align="left" className={classes.cell}>{rows&&total(rows)}</TableCell>
+                      </TableRow>
+                      <TableRow>
+                          <TableCell align="left" colSpan={0} className={classes.cell}>Estado</TableCell>
+                          <TableCell align="left" rowSpan={0} className={classes.cell}>
+                            {
+                              !change?
+                              <Typography>
+                                {status.toUpperCase()}
+                              </Typography>:
+                              <TextField
+                              id="status"
+                              name="status"
+                              className={classes.input}
+                              value={input}
+                              onChange={handleChange}
+                              />
+                            }
+                          </TableCell>
+                          <TableCell align="left" className={classes.cell}>
+                            {
+                              !change?
+                              <Button variant="outlined" size="small" onClick={()=>setChange(true)}>Editar</Button>:
+                              <Button variant="outlined" size="small" onClick={handleSubmit}>Enviar</Button>
+                            }
+                          </TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>

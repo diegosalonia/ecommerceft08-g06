@@ -1,4 +1,5 @@
-const { STRING, INTEGER, ENUM, BOOLEAN, BIGINT } = require('sequelize');
+const { STRING, ENUM, BOOLEAN, BIGINT, INTEGER, DATE } = require('sequelize');
+
 
 module.exports = (sequelize) => {
     sequelize.define('user',{
@@ -12,7 +13,15 @@ module.exports = (sequelize) => {
         },
         password:{
             type: STRING,
-            allowNull: false
+            get() {
+                return () => this.getDataValue('password')
+            }
+        },
+        salt:{
+            type: STRING,
+            get() {
+                return() => this.getDataValue('salt')
+            }
         },
         first_name:{
             type: STRING,
@@ -25,19 +34,48 @@ module.exports = (sequelize) => {
         phone_number:{
             type: BIGINT
         },
+        active:{
+            type: ENUM("true","false"),
+            defaultValue: "true"
+        },
         user_role:{
             type: ENUM("admin", "user"),
             allowNull:false,
             defaultValue: "user"
         },
-        shipping_address:{
+        address_line1:{
+            type:STRING
+        },
+        address_line2:{
+            type:STRING
+        },
+        city:{
+            type:STRING
+        },
+        state:{
+            type:STRING
+        },
+        postal_code:{
             type:INTEGER
         },
+        country:{
+            type:STRING
+        },
         billing_addres:{
-            type:INTEGER
+            type:STRING
         },
         email_notification:{
             type:BOOLEAN
+        },
+        verifyCode:{
+            type: BIGINT
+        },
+        verifyCodeExpireDate:{
+            type: DATE
+        },
+        force_password:{
+            type: ENUM("sin pedir","pendiente","hecho"),
+            defaultValue: "sin pedir"
         }
     });
 };

@@ -19,10 +19,20 @@
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const server = require('./src/app.js');
 const { conn } = require('./src/db.js');
+const { User } = require('./src/db.js');
 
 // Syncing all the models at once.
 conn.sync({ force: false}).then(() => {
+  
   server.listen(3000, () => {
     console.log('%s listening at 3000'); // eslint-disable-line no-console
+    //  User.create({
+    //    email: "dager@gmail.com",
+    //    password: "dager",
+    //    first_name: "Lean",
+    //    last_name: "Nicolau",
+    //    phone_number: "3517728831",
+    //    user_role: "admin"
+    // });
   });
 });

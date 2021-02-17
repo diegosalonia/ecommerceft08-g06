@@ -16,6 +16,7 @@ export const useStylesDashboard = makeStyles(theme => ({
         height: '150px',
     },
     card: {
+        maxWidth: '370px',
         transition: 'transform .5s',
         '&:hover': {
             transform: 'scale(1.1)',
