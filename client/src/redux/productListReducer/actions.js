@@ -6,8 +6,8 @@ export const getProducts = () => dispatch => {
     .then(products => {
         dispatch({
             type: GET_PRODUCTS,
-            products: products.data
-        });
+            products: products.data            
+        }); console.log('aqui products',products)
     })
     .catch(err => console.log(err));
 };

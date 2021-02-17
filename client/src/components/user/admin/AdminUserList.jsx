@@ -24,6 +24,7 @@ const columnUser = [
     {id: 'phone_number', label: 'Teléfono', minWidth: 40, maxWidth: 40},
     {id: 'user_role', label: 'Rol', mindWidth: 30, maxWidth: 30},
     {id: 'active', label: 'Activo', mindWidth: 50, maxWidth: 50},
+
     {id: 'line_addres1', label: 'Dirección linea 1', minWidth: 60, maxWidth: 60},
     {id: 'line_addres2', label: 'Dirección linea 2', minWidth: 60, maxWidth: 60},
     {id: 'city', label: 'Ciudad', minWidth: 60, maxWidth: 60},
@@ -261,31 +262,39 @@ function AdminUserList() {
                                                     { row.user_role === 'user' && <TableCell  >                                                    
                                                         <IconButton color='primary' onClick={() => handleUpdateAdmin(row.id)}>
                                                             < SupervisorAccountIcon />
-                                                        </IconButton>                                                    
+                                                        </IconButton>
+                                                        <small>Promover</small>                                                    
                                                     </TableCell>}
 
-                                                    { row.user_role === 'admin' && <TableCell  >                                                    
+                                                    { row.user_role === 'admin' && <TableCell>                                                    
                                                         <IconButton color='primary' onClick={() => handleUpdateUser(row.id)}>
                                                             < PersonIcon />
-                                                        </IconButton>                                                    
+                                                        </IconButton>
+                                                        <small>Degradar</small>                                                    
                                                     </TableCell>}
 
                                                     { !JSON.parse(row.active) && <TableCell>
                                                         <IconButton color='primary' onClick={() => handleActivate(row.id)} >
                                                             <PersonAddIcon/>
                                                         </IconButton>
+                                                        <small>Activar</small>
                                                     </TableCell> }
                                                     
                                                     { JSON.parse(row.active) && <TableCell>
                                                         <IconButton color='primary' onClick={() => handleDisable(row.id)} >
                                                             <PersonAddDisabledIcon/>
                                                         </IconButton>
+
+                                                        <small>Desactivar</small>
+
                                                     </TableCell>}
+                                    
                                                     <TableCell>
                                                         <IconButton color='primary' onClick={() => handleForcePassword(row.id)} >
                                                             <VpnKeyIcon/>
                                                         </IconButton>
                                                     </TableCell> 
+
                                             </TableRow>
                                         )
                                         }

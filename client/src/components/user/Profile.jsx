@@ -22,7 +22,7 @@ const UserProfile = () => {
     const [changeBillingAddres , setChangeBillingAddres] = useState(false)
     
     const dispatch = useDispatch()
-    const row = useSelector(state => state.userLoggedReducer.user[0])
+    const row = useSelector(state => state.userLoggedReducer.user)
     const token = sessionStorage.getItem("token")
     const userId = sessionStorage.getItem("id")
     const classes = useStylesUserProfile();
@@ -119,6 +119,8 @@ const UserProfile = () => {
         error={formik.touched.passwordVerify && Boolean(formik.errors.passwordVerify)}
         helperText={formik.touched.passwordVerify && formik.errors.passwordVerify}
         />
+        {
+        (formik.values.newPassword.length && formik.values.passwordVerify.length)?
         <Button
         fullWidth
         type="submit"
@@ -127,7 +129,18 @@ const UserProfile = () => {
         className={classesPassword.button}
         >
             enviar
+        </Button>:
+        <Button
+        disabled
+        fullWidth
+        type="submit"
+        variant="contained"
+        color="primary"
+        className={classesPassword.button}
+        >
+            enviar
         </Button>
+        }
     </form>
     )
     }

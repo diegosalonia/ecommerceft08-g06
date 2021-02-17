@@ -7,10 +7,11 @@ const initialState = {
 
 const productListReducer = (state = initialState, action) => {
     switch (action.type) {
-        case GET_PRODUCTS:
+        case GET_PRODUCTS:            
             return {
                 ...state,
-                products: action.products
+                products: action.products,
+                
             };
         case DELETE_PRODUCT:
             return {

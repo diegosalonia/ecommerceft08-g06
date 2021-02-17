@@ -1429,6 +1429,7 @@
     "@types/yargs" "^15.0.0"
     "chalk" "^4.0.0"
 
+
 "@material-ui/core@^4.0.0", "@material-ui/core@^4.11.2", "@material-ui/core@4.0.1":
   "integrity" "sha512-/D1+AQQeYX/WhT/FUk78UCRj8ch/RCglsQLYujYTIqPSJlwZHKcvHidNeVhODXeApojeXjkl0tWdk5C9ofwOkQ=="
   "resolved" "https://registry.npmjs.org/@material-ui/core/-/core-4.11.2.tgz"
@@ -1456,7 +1457,7 @@
     "prop-types" "^15.7.2"
     "reselect" "^4.0.0"
 
-"@material-ui/icons@^4.11.2":
+"@material-ui/icons@^4.11.2", "@material-ui/icons@^4.9.1":
   "integrity" "sha512-fQNsKX2TxBmqIGJCSi3tGTO/gZ+eJgWmMJkgDiOfyNaunNaxcklJQFaFogYcFl0qFuaEz1qaXYXboa/bUXVSOQ=="
   "resolved" "https://registry.npmjs.org/@material-ui/icons/-/icons-4.11.2.tgz"
   "version" "4.11.2"
@@ -1956,7 +1957,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*":
+"@types/react@*", "@types/react@^16.8.12":
   "integrity" "sha512-BtLoJrXdW8DVZauKP+bY4Kmiq7ubcJq+H/aCpRfvPF7RAT3RwR73Sg8szdc2YasbAlWBDrQ6Q+AFM0KwtQY+WQ=="
   "resolved" "https://registry.npmjs.org/@types/react/-/react-16.9.44.tgz"
   "version" "16.9.44"
@@ -2605,6 +2606,13 @@
   "integrity" "sha512-7prDjvt9HmqiZ0cl5CRjtS84sEyhsHP2coDkaZKRKVfCDo9s7iw7ChVmar78Gu9pC4SoR/28wFu/G5JJhTnqEg=="
   "resolved" "https://registry.npmjs.org/attr-accept/-/attr-accept-2.2.2.tgz"
   "version" "2.2.2"
+
+"auto-bind@^2.1.1":
+  "integrity" "sha512-NUwV1i9D3vxxY1KnfZgSZ716d6ovY7o8LfOwLhGIPFBowIb6Ln6DBW64+jCqPzUznel2hRSkQnYQqvh7/ldw8A=="
+  "resolved" "https://registry.npmjs.org/auto-bind/-/auto-bind-2.1.1.tgz"
+  "version" "2.1.1"
+  dependencies:
+    "@types/react" "^16.8.12"
 
 "autoprefixer@^9.6.1":
   "integrity" "sha512-g0Ya30YrMBAEZk60lp+qfX5YQllG+S5W3GYCFvyHTvhOki0AEQJLPEcIuGRsqVwLi8FvXPVtwTGhfr38hVpm0g=="
@@ -3308,7 +3316,6 @@
     "anymatch" "^2.0.0"
     "async-each" "^1.0.1"
     "braces" "^2.3.2"
-    "fsevents" "^1.2.7"
     "glob-parent" "^3.1.0"
     "inherits" "^2.0.3"
     "is-binary-path" "^1.0.0"
@@ -3328,7 +3335,6 @@
     "anymatch" "^2.0.0"
     "async-each" "^1.0.1"
     "braces" "^2.3.2"
-    "fsevents" "^1.2.7"
     "glob-parent" "^3.1.0"
     "inherits" "^2.0.3"
     "is-binary-path" "^1.0.0"
@@ -3347,7 +3353,6 @@
   dependencies:
     "anymatch" "~3.1.1"
     "braces" "~3.0.2"
-    "fsevents" "~2.1.2"
     "glob-parent" "~5.1.0"
     "is-binary-path" "~2.1.0"
     "is-glob" "~4.0.1"
@@ -6807,7 +6812,6 @@
     "@jest/types" "^24.9.0"
     "anymatch" "^2.0.0"
     "fb-watchman" "^2.0.0"
-    "fsevents" "^1.2.7"
     "graceful-fs" "^4.1.15"
     "invariant" "^2.2.4"
     "jest-serializer" "^24.9.0"
@@ -9982,7 +9986,16 @@
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
   "version" "16.13.1"
 
-"react-redux@^7.1.1", "react-redux@^7.2.2":
+
+"react-material-ui-carousel@^2.1.2":
+  "integrity" "sha512-84BWvZM+Sl/0sposrzMJcl/yVcEOgYK9BmvVNLWv2RizaIvFUudSI0vzGPVh2q197Fn5LSxddPllbWud2ioMiw=="
+  "resolved" "https://registry.npmjs.org/react-material-ui-carousel/-/react-material-ui-carousel-2.1.2.tgz"
+  "version" "2.1.2"
+  dependencies:
+    "auto-bind" "^2.1.1"
+    "react-swipeable" "^5.5.1"
+
+"react-redux@^7.2.2":
   "integrity" "sha512-8+CQ1EvIVFkYL/vu6Olo7JFLWop1qRUeb46sGtIMDCSpgwPQq8fPLpirIB0iTqFe9XYEFPHssdX8/UwN6pAkEA=="
   "resolved" "https://registry.npmjs.org/react-redux/-/react-redux-7.2.2.tgz"
   "version" "7.2.2"
@@ -10061,7 +10074,6 @@
     "eslint-plugin-react-hooks" "^1.6.1"
     "file-loader" "4.3.0"
     "fs-extra" "^8.1.0"
-    "fsevents" "2.1.2"
     "html-webpack-plugin" "4.0.0-beta.11"
     "identity-obj-proxy" "3.0.0"
     "jest" "24.9.0"
@@ -10093,7 +10105,15 @@
   optionalDependencies:
     "fsevents" "2.1.2"
 
-"react-transition-group@^4.0.0", "react-transition-group@^4.4.0":
+"react-swipeable@^5.5.1":
+  "integrity" "sha512-EQObuU3Qg3JdX3WxOn5reZvOSCpU4fwpUAs+NlXSN3y+qtsO2r8VGkVnOQzmByt3BSYj9EWYdUOUfi7vaMdZZw=="
+  "resolved" "https://registry.npmjs.org/react-swipeable/-/react-swipeable-5.5.1.tgz"
+  "version" "5.5.1"
+  dependencies:
+    "prop-types" "^15.6.2"
+
+"react-transition-group@^4.4.0":
+
   "integrity" "sha512-Djqr7OQ2aPUiYurhPalTrVy9ddmFCCzwhqQmtN+J3+3DzLO209Fdr70QrN8Z3DsglWql6iY1lDWAfpFiBtuKGw=="
   "resolved" "https://registry.npmjs.org/react-transition-group/-/react-transition-group-4.4.1.tgz"
   "version" "4.4.1"
@@ -10103,7 +10123,9 @@
     "loose-envify" "^1.4.0"
     "prop-types" "^15.6.2"
 
-"react@^16.13.1", "react@^16.8.0", "react@^16.8.0 || ^17.0.0", "react@^16.8.4", "react@^16.8.5", "react@>= 0.14.7", "react@>=16.8", "react@~0.14.9 || ^15.0.0 || ^16.0.0", "react@16.8.4":
+
+"react@^16.0.0-0", "react@^16.13.1", "react@^16.8.0", "react@~0.14.9 || ^15.0.0 || ^16.0.0":
+
   "integrity" "sha512-YMZQQq32xHLX0bz5Mnibv1/LHb3Sqzngu7xstSM+vrkE5Kzr9xE0yMByK5kMoTK30YVJE61WfbxIFFvfeDKT1w=="
   "resolved" "https://registry.npmjs.org/react/-/react-16.13.1.tgz"
   "version" "16.13.1"
