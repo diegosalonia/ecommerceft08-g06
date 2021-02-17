@@ -92,6 +92,7 @@ server.get('/category/:name', async (req,res,next)=>{
 
 server.delete('/:id', passport.authenticate('jwt', { session: false }), async (req, res) => {
 	const user = await User.findByPk(req.user)
+	console.log(user)
     if(user.user_role === 'admin') {
 	const product = await Product.findByPk(req.params.id)
 	await product.destroy()
@@ -272,7 +273,6 @@ server.get('/catalog/', (req, res) => {
 		totalProducts = count; 
 		Product.findAll(options)
 		.then(products => {
-			console.log("PRODUCTS IN BACK: ", products);
 			!products.length && res.send("No hay productos");
 			products.length && res.send({products, totalProducts})
 		})
@@ -283,17 +283,18 @@ server.get('/catalog/', (req, res) => {
 	 
 
 server.delete('/:productId/category/:categoryId', passport.authenticate('jwt', { session: false }), async (req, res) =>{
+	const { productId, categoryId } = req.params;
 	const user = await User.findByPk(req.user)
     if(user.user_role === 'admin') {
-	const category =  await Category.findByPk(req.params.categoryId)
-	const product = await Product.findByPk(req.params.productId)
+	const category =  await Category.findByPk(Number(categoryId))
+	const product = await Product.findByPk(Number(productId));
 
 	if(!category){res.status(404).send("this category doesn't exist")}
 	if(!product){res.status(404).send("this product doesn't exist")}
 
 	await product.removeCategory(category)
 	.then(response =>{
-		res.status(response).send("has been successfully removed")
+		return res.send("has been successfully removed")
 	})
 	.catch(error =>{
 		res.send(error)

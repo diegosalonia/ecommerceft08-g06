@@ -1,4 +1,5 @@
-import { GET_USER, UPDATE_USER_PROFILE } from '../constants' 
+import { GET_USER } from '../constants' 
+import Swal from 'sweetalert2';
 import axios from 'axios'
 
 export const getUser = (token) => dispatch => {
@@ -10,7 +11,8 @@ export const getUser = (token) => dispatch => {
     .then(response => {
         dispatch({
             type: GET_USER,
-            user: response.data
+            user: response.data[0],
+            orders: response.data[0].orders.filter(order => order.status !== "cart")
         })
     })
     .catch(error => {
@@ -19,21 +21,38 @@ export const getUser = (token) => dispatch => {
 }
 
 export const updateUser = (token, user, id) => dispatch => {
-    console.log(user)
+
+    const showAlert = (message, time) => {
+        return Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: message,
+            showConfirmButton: false,
+            timer: time,
+        });
+    };
+
+    const showAlertConflict = (message, time) => {
+        return Swal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: message,
+            showConfirmButton: false,
+            timer: time,
+        });
+      };
+
     const config = {
         headers: { Authorization: `Bearer ${token}` }
       };
     const url = `http://localhost:3000/users/${id}`
 
-    axios.put(url, user)
+    axios.put(url, user, config)
     .then(response => {
-        console.log("aqui esta", response.data)
-        dispatch({
-            type: UPDATE_USER_PROFILE,
-            user: response.data
-        })
+        showAlert("Datos actualizados", 2000)
+        setTimeout(()=>{window.location.reload()}, 2000)
     })
     .catch(error => {
-        console.log(error.message)
+        showAlertConflict(error.response.data.msg, 2000)
     })
 }

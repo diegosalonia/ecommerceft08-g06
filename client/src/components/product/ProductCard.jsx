@@ -56,7 +56,7 @@ function ProductCard(props) {
       }
     }
 
-    const handleAddToCart = () => dispatch(addToCart(userId, Number(id), 1, props.productProps));
+    const handleAddToCart = () => dispatch(addToCart(userId, Number(id), 1, props.productProps, true));
 
     return (
         <Card className={classes.root}>

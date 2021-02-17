@@ -11,7 +11,7 @@ const { User } = require("../db.js");
 const  jwt = require('jsonwebtoken')
 
 const {
-    secret,
+  secret,
 	googleClientID,
 	googleClientSecret,
 	githubClientID,
@@ -58,7 +58,7 @@ passport.use(
         })
           .then((user) => {
             if (!user || !user.correctPassword(password)) {
-              next(null, false, { message: "User or password incorrect" });
+              next(null, false, { message: "Correo o contraseña incorrectos" });
             } else { 
             next(null, user, { message: "Login Successfull" });
             }
@@ -148,6 +148,7 @@ passport.use(
           first_name: name.length === 2 ? name[0] : `${name[0]} ${name[1]}`,
           last_name: name[name.length-1],
           email: emailExist !== null ? emailExist : done(null, false)
+
         }
         const foundUser = await User.findOne({ where: { email: user.email } })
         if (foundUser) {

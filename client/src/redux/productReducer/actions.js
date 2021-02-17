@@ -37,7 +37,7 @@ export const hideLoader = () => dispatch => {
     });
 };
 
-export const addToCart = (userId, id, quantity, product) => dispatch => {
+export const addToCart = (userId, id, quantity, product, fromCatalog = false) => dispatch => {
     if (!userId) {
         let cartInLocalStorage = JSON.parse(localStorage.getItem('cart'));
         if (!cartInLocalStorage) {
@@ -45,10 +45,13 @@ export const addToCart = (userId, id, quantity, product) => dispatch => {
         } else {
             let inCart = false
             cartInLocalStorage.forEach(productInCart => {
-                if (productInCart.id === id) {
+                if (productInCart.id === id && fromCatalog) {
+                    productInCart.quantity += 1;
+                    inCart = true;
+                } else if (productInCart.id === id) {
                     productInCart.quantity = quantity;
                     inCart = true;
-                }
+                };
             });
             
             !inCart && cartInLocalStorage.push({...product, quantity});
@@ -56,6 +59,26 @@ export const addToCart = (userId, id, quantity, product) => dispatch => {
         }
         showAlert('Product in cart! Thanks', 1500);
         return;
+    } else if (userId && fromCatalog) {
+        axios.get(`http://localhost:3000/users/${userId}/cart`)
+        .then(res => {
+            console.log("RES.DATA GETTING CART FROMCATALOG: ", res.data);
+            const cart = res.data;
+            Array.isArray(cart) && cart.forEach(product => {
+                if (product.id === id) {
+                    return axios.post(`http://localhost:3000/users/${userId}/cart`, { product: { id, quantity: product.order_line.quantity + 1}})
+                    .then(res => {
+                        dispatch({
+                            type: ADD_PRODUCT_TO_CART,
+                            id
+                        });
+                        showAlert('Quantity in cart + 1! Thanks', 1500);
+                    })
+                    .catch(err => console.log("ERROR MODIFICANDO QUANTITY FROMCATALOG: ", err));
+                };
+            })
+        })
+        .catch(err => console.log("ERROR TRYING TO GET ORDER WHEN ADD FROM CARD: ", err));
     }
     return axios.post(`http://localhost:3000/users/${userId}/cart`, { product: {id, quantity}})
     .then(response => {

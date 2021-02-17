@@ -1,20 +1,17 @@
-import { GET_USER, UPDATE_USER_PROFILE } from '../constants' 
+import { GET_USER } from '../constants' 
 
 const initialValues = {
-    user: {}
+    user: {},
+    orders: []
 }
 
 export default function userLoggedReducer (state=initialValues, action){
     switch (action.type) {
         case GET_USER:
             return {
-                user: action.user
+                user: action.user,
+                orders: action.orders
             }
-
-        case UPDATE_USER_PROFILE:
-            return {
-                user: action.user
-            }    
     
         default:
             return state

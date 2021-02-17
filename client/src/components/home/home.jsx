@@ -42,7 +42,6 @@ export default function Home(props) {
       //dispatch(setUser(user))
       history.replace("/");
     }
-
     if (url.includes("logingithub=true")) {
       let token = url.slice(1).split("&")[1].slice(2);
       let user = jwt_decode(token);
@@ -55,6 +54,7 @@ export default function Home(props) {
       history.replace("/");
     }
   }, [dispatch, userId]);
+
 
   useEffect(() => {
     jwt && sessionStorage.setItem("token", jwt);
@@ -105,4 +105,5 @@ export default function Home(props) {
       </Box>
     </>
   );
+
 }

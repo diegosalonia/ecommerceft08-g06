@@ -51,10 +51,12 @@ server.get("/github/callback", (req, res, next) => {
 });
 
 server.post('/login', (req, res, next) => {
-  passport.authenticate('local', {session: false}, (err, user) => {
+  passport.authenticate('local', {session: false}, (err, user, message) => {
         if(user) {
           const token = jwt.sign( {user}, secret)
             res.status(200).json({ user, token })
+        }else{
+          res.status(402).send(message)
         }
     }) 
     (req, res, next)

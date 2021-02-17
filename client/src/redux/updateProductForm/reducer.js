@@ -1,8 +1,9 @@
-import { GET_PRODUCT, GET_CATEGORIES } from '../constants';
+import { GET_PRODUCT, GET_CATEGORIES, DELETE_IMAGE, EDIT_PRODUCT } from '../constants';
 
 const initialState = {
     product: {},
-    categories: []
+    categories: [],
+    deletedImages: []
 };
 
 const updateProductReducer = (state = initialState, action) => {
@@ -17,6 +18,12 @@ const updateProductReducer = (state = initialState, action) => {
                 ...state,
                 categories: action.categories
             };
+        case DELETE_IMAGE:
+            return {
+                ...state,
+                deletedImages: state.deletedImages.concat(action.image),
+                product: {...state.product, image: state.product.image.filter(image => image !== action.image)}
+            }
         default:
             return state;
     };

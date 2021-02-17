@@ -1,22 +1,18 @@
-import { RESET_PASSWORD, SEND_EMAIL, CHANGE_PASSWORD } from '../constants'
+import { RESET_PASSWORD, CHANGE_PASSWORD } from '../constants'
 
 const initailValues = {
-    verifyCode: 0
+    status: false
 }
 
 export default function passwordResetReducer (state = initailValues, action) {
     switch (action.type) {
-        case SEND_EMAIL:
-            return {
-                verifyCode: action.verifyCode
-            }
         case RESET_PASSWORD:
             return{
-                verifyCode:initailValues.verifyCode
+                status:true
             }
         case CHANGE_PASSWORD:
             return {
-                verifyCode:initailValues.verifyCode
+                status:true
             }
         default:
             return state

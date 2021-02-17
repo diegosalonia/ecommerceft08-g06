@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Typography, Grid, Card, CardMedia, CardContent, Link, } from '@material-ui/core';
+import { Container, Typography, Grid, Card, CardMedia, CardContent, Link } from '@material-ui/core';
 import { useStylesUserDashboard } from './styles';
 import orderImage from '../../resources/orders.jpg';
 import reviewImage from '../../resources/reviews.jpg';
@@ -12,24 +12,24 @@ const UserDashboard = () => {
     const dashboard = () => {
         return (
             <Container>
-                <Typography variant='h4' align='center' >User Dashboard</Typography>
+                <Typography variant='h4' align='center' >Panel de usuario</Typography>
                 <Grid container spacing={8} className={styles.gridContainer} >
                     <Grid item lg={4} className={styles.card} >
-                        <Link to='/user/orders' className={styles.link} >
+                        <Link href='/user/orders' className={styles.link} underline="none" >
                             <Card className={styles.cardShadow} >
                                 <CardMedia
                                     className={styles.images}
                                     image={orderImage}
                                 />
                                 <CardContent>
-                                    <Typography variant='h5' align='center' >Orders</Typography>
-                                    <Typography align='center' >Here you can see your orders. Date, amount, products and more!</Typography>
+                                    <Typography variant='h5' align='center' >Ordenes</Typography>
+                                    <Typography align='center' >Aquí puedes ver tus ordenes. ¡Fecha en la cual las hiciste! entre mas</Typography>
                                 </CardContent>
                             </Card>
                         </Link>
                     </Grid>
                     <Grid item lg={4} className={styles.card} >
-                        <Link to='/user/reviews/' className={styles.link} >
+                        <Link href='/user/reviews/' className={styles.link} underline="none" >
                             <Card className={styles.cardShadow} >
                                 <CardMedia
                                     className={styles.images}
@@ -37,13 +37,13 @@ const UserDashboard = () => {
                                 />
                                 <CardContent>
                                     <Typography variant='h5' align='center' >Reviews</Typography>
-                                    <Typography align='center' >Here you can see your reviews. Product, comment, stars!</Typography>
+                                    <Typography align='center' >Aquí puedes ver tus reseñas. Del producto, comentario, estrellas!</Typography>
                                 </CardContent>
                             </Card>
                         </Link>
                     </Grid>
                     <Grid item lg={4} className={styles.card} >
-                        <Link to='/user/profile' className={styles.link} >
+                        <Link href='/user/profile' className={styles.link} underline="none" >
                             <Card className={styles.cardShadow} >
                                 <CardMedia
                                     className={styles.images}
@@ -51,7 +51,7 @@ const UserDashboard = () => {
                                 />
                                 <CardContent>
                                     <Typography variant='h5' align='center' >Profile</Typography>
-                                    <Typography align='center' >Here you can see your profile data. Name, email, password and more!</Typography>
+                                    <Typography align='center' >Aquí puede ver los datos de su perfil. ¡Nombre, correo electrónico!</Typography>
                                 </CardContent>
                             </Card>
                         </Link>
