@@ -5,11 +5,15 @@ export const useStylesCartItem = makeStyles(theme => ({
         display: 'flex',
         flexDirection: 'row',
         border: '1px solid rgba(0, 0, 0, .5)',
-        maxHeight: '100px',
-        maxWidth: '700px',
         justifyContent: 'flex-start',
         margin: '1% 0',
-        paddingRight: '0'
+        paddingRight: '0',
+        width: '40rem',
+        height: '5.1rem',
+        transition: 'transform .5s',
+        '&:hover': {
+            transform: 'scale(1.1)',
+        }
     },
     imageContainer: {
         display: 'flex',
@@ -41,6 +45,30 @@ export const useStylesCartItem = makeStyles(theme => ({
     },
     button: {
         padding: '0',
+        color: theme.palette.primary.main
+    },
+    confirmButton: {
+        backgroundColor: '#ED4C3C',
+        border: '2px solid #ef7f75',
+        borderRadius: '.25em',
+        background: 'initial',
+        color: '#fff',
+        marginLeft: '10%',
+        padding: '2% 3%',
+        cursor: 'pointer'
+    },
+    cancelButton: {
+        backgroundColor: '#28A745',
+        border: '2px solid #30ec2f',
+        borderRadius: '.25em',
+        background: 'initial',
+        color: '#fff',
+        padding: '2% 3%',
+        cursor: 'pointer'
+    },
+    link: {
+        cursor: 'pointer',
+        textDecoration: 'none',
         color: theme.palette.primary.main
     }
 }));
@@ -90,6 +118,25 @@ export const useStylesCart = makeStyles(theme => ({
             color: theme.palette.primary.main,
             backgroundColor: theme.palette.secondary.main
         }
+    },
+    confirmButton: {
+        backgroundColor: '#ED4C3C',
+        border: '2px solid #ef7f75',
+        borderRadius: '.25em',
+        background: 'initial',
+        color: '#fff',
+        marginLeft: '10%',
+        padding: '2% 3%',
+        cursor: 'pointer'
+    },
+    cancelButton: {
+        backgroundColor: '#28A745',
+        border: '2px solid #30ec2f',
+        borderRadius: '.25em',
+        background: 'initial',
+        color: '#fff',
+        padding: '2% 3%',
+        cursor: 'pointer'
     },
 }));
 

@@ -17,8 +17,8 @@ export default function Home(props){
 
     useEffect(() => {
         const url = window.location.href
-        if (url.includes('status')) {
-            dispatch(changeOrderStatus(userId)); // userId hardcoded
+        if (url.includes('&status')) {
+            dispatch(changeOrderStatus(userId));
         };
         if (url.includes('loginGoogle=true')){
              let token = url.slice(1).split("&")[1].slice(2).split("#")[0];
@@ -59,14 +59,6 @@ export default function Home(props){
     useEffect(() => {
         jwt && sessionStorage.setItem('token', jwt)
     }, [jwt]);
-
-    const user = useSelector(state => state.loginReducer);
-    useEffect(() => {
-        if (window.location.href.includes('&status')) {
-            dispatch(changeOrderStatus(userId));
-        };
-    }, [dispatch, userId, user]);
-
   
     const useStyles = makeStyles((theme) => ({
             catCol:{
