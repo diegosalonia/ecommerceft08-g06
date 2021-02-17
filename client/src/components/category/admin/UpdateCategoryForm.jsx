@@ -1,20 +1,18 @@
 import React, {useEffect, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import firebase, { storage } from '../../../firebase';
-import axios from 'axios';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { TextField, Typography, Button, Container, CircularProgress, IconButton } from '@material-ui/core';
 import { useStylesUpdateCategory } from './styles/UpdateCategory';
-import { getCategoryOne } from '../../../redux/updateCategoryForm/actions'
-import { config } from '../../../redux/constants'
+import { getCategoryOne , updateCategory , deleteImage} from '../../../redux/updateCategoryForm/actions'
 import Swal from 'sweetalert2';
 import { DeleteForever } from '@material-ui/icons';
 import { DropzoneArea } from 'material-ui-dropzone';
 
 const validationSchema = yup.object({
     name: yup
-        .string('Enter product name').required('Product name is required'),
+        .string('Enter product name')
+        .required('Product name is required'),
     description: yup
         .string('Enter product description'),
   });
@@ -23,17 +21,14 @@ const UpdateCategoryForm = (props) => {
     const styles = useStylesUpdateCategory();
     const dispatch = useDispatch();
     const categories = useSelector(state => state.updateCategory.category);
-    console.log(categories)
     const { match: { params: { id }}} = props;
-    const [ images, setImages ] = useState([]);
-    const [ imageToShow, setImageToShow ] = useState(true);
+    const [ images, setImages ] = useState("");
     const [ loadingCategory, setLoadingCategory ] = useState(true);
     const userRole = sessionStorage.getItem('role');
     const token = sessionStorage.getItem('token');
 
     const handleDelete = imageToDelete => {
-        categories.image = categories.image.filter(image => image !== imageToDelete);
-        setImages(images.filter(image => image !== imageToDelete))
+        dispatch(deleteImage(imageToDelete, token))
     }
 
     const showAlert = () => {
@@ -44,58 +39,35 @@ const UpdateCategoryForm = (props) => {
             showConfirmButton: false,
             timer: 2000,
         });
-    };
+    };    
+
+    const formik = useFormik({
+        initialValues: {
+            id: id,
+            name: categories.name,
+            description: categories.description,
+            image: categories.image 
+        },
+        validationSchema: validationSchema,
+        onSubmit: (values, {resetForm}) => {
+            dispatch(updateCategory(values, images, token, id));
+            showAlert();
+        }
+    });
 
     useEffect(()=>{
         dispatch(getCategoryOne(id));
     },[dispatch, id])
 
-    const formik = useFormik({
-        initialValues : {
-            id : id,
-            name : categories.name,
-            description : categories.description,
-            image : categories.image 
-        },
-        validationSchema: validationSchema,
-        onSubmit: (values, {resetForm}) => {
-            if(!imageToShow){
-                const uploadImage = firebase.storage().ref().child(`/category/images/${categories.name}/${images[0].name}`).put(images[0]);
-                uploadImage.on (
-                    "state_changed",
-                    snapshot => {},
-                    error => {console.log(error)},
-                    async () => {
-                        await storage
-                        .ref(`/categories/images/${categories.name}/`)
-                        .child(images[0].name)
-                        .getDownloadURL()
-                        .then(url=>{
-                            axios.put(`http://localhost:3000/category/${id}`, {form: {...values, image: url}} , config(token))
-                                .then(res => console.log("res axios.put: ", res))
-                                .catch(err => console.log("err axios.put: ", err));
-                        })
-                    }
-                )
-            }else{
-                axios.put(`http://localhost:3000/category/${id}`, {form: values} , config(token))
-                    .then(res => console.log("res axios.put: ", res))
-                    .catch(err => console.log("err axios.put: ", err));
-            }
-            resetForm({values: ''});
-            showAlert();
-        }
-    })
-
     useEffect(()=>{
         formik.values.name = categories.name;
         formik.values.description = categories.description;
-        formik.values.image = categories.image;
+        formik.values.image = categories.image;        
         setImages(categories.image);
         setTimeout(() => {
             setLoadingCategory(false);
         }, 2000);
-    },[categories, formik.values.name, formik.values.description, formik.values.image])
+    },[ categories ])
 
     const form = () =>{
         return (
@@ -136,18 +108,13 @@ const UpdateCategoryForm = (props) => {
                     <Container>
                         <Typography>Images</Typography>
                         <Container className={styles.imagesContainer}>
-                            <img src={categories.image} alt={categories.name}  />
+                            {
+                                categories.image  ? 
+                                <img src={categories.image} alt={categories.name} className={styles.img}/>                                
+                                : <Typography>No hay imagenes</Typography> 
+                            }
                             <IconButton onClick={() => handleDelete(categories.image)} className={styles.trash} ><DeleteForever/></IconButton>
-                            {/* {
-                                categories.image?.map(image => {
-                                    return (
-                                        <Container key={image}  >
-                                            <img src={image} alt={categories.name}  />
-                                            <IconButton onClick={() => handleDelete(image)} ><DeleteForever/></IconButton>
-                                        </Container>
-                                    )
-                                })
-                            } */}
+
                         </Container>
                     </Container>
                     <DropzoneArea 

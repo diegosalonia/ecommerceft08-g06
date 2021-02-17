@@ -1,7 +1,8 @@
-import {UPDATE_CATEGORIES} from '../constants'
+import {UPDATE_CATEGORIES, DELETE_IMAGE_CATEGORY} from '../constants'
 
 const initialState = {
-    category : {}
+    category : {},
+    deletedImage: ""
 }
 
 const updateCategory = (state = initialState, action) =>{
@@ -10,6 +11,12 @@ const updateCategory = (state = initialState, action) =>{
             return {
                 ...state,
                 category: action.category
+            }
+        case DELETE_IMAGE_CATEGORY:
+            return{
+                ...state,
+                deletedImage: action.image,
+                category: {...state.category, image: null}
             }
         default:
             return state

@@ -9,9 +9,9 @@ import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
 
 const columnCategory = [
-    {id: "image", label: 'Image', minWidth: 100, maxWidth: 100},
-    {id: "name", label: 'Name', minWidth: 30, maxWidth: 30},
-    {id: "description", label: 'Description', minWidth: 65, maxWidth: 65}
+    {id: "image", label: 'Imagen', minWidth: 100, maxWidth: 100},
+    {id: "name", label: 'Nombre', minWidth: 30, maxWidth: 30},
+    {id: "description", label: 'Descripción', minWidth: 65, maxWidth: 65}
 ]
 
 function AdminCategoryList(){
@@ -49,8 +49,8 @@ function AdminCategoryList(){
             text: "Esta decisión no tiene retorno!",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'YES, DELETE IT!',
-            cancelButtonText: 'NO, CANCEL!',
+            confirmButtonText: 'SI, BORRAR!',
+            cancelButtonText: 'NO, CANCELAR!',
             reverseButtons: true
         })
         .then((result) => {
@@ -84,7 +84,7 @@ function AdminCategoryList(){
     const categoryList = ()=>{
         return (
             <Container>
-                <Typography variant='h3' align='center'>Category List</Typography>
+                <Typography variant='h3' align='center'>Lista de Categorias</Typography>
                 <Container>
                     <Grid container>
                         <TableContainer>
