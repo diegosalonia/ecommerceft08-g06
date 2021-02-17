@@ -23,6 +23,7 @@ import ReviewContainer from '../components/Review/ReviewContainer';
 import Cart from '../components/cart/Cart';
 import PasswordReset from '../components/passwordReset/PasswordReset';
 import UserProfile from '../components/user/Profile';
+import UserOrderList from '../components/user/UserOrderList';
 import Email from './Email';
 import NewOrderList from '../components/orders/admin/NewOrderList';
 
@@ -46,6 +47,7 @@ const Routes = () => {
                     <Route exact path='/search' render={() => <CatalogContainerSearch/>}/>
                     <Route exact path='/user' component={UserDashboard} />
                     <Route exact path='/user/profile' component={UserProfile} />
+                    <Route exact path='/user/orders' component={UserOrderList} />
                     <Route path='/user/sign-up' component={UserForm} />
                     <Route path="/products/:id" component={Product}/>
                     <Route exact path="/products" component={CatalogContainer} />
