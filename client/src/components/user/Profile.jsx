@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUser, updateUser } from '../../redux/userReducer/actions';
 import { useFormik } from 'formik';
 import { changePasswordAction } from '../../redux/passwordResetReducer/actions'
+import { desactiveUsers } from '../../redux/userListReducer/actions';
 import * as yup from 'yup';
 import Swal from 'sweetalert2';
 
@@ -89,6 +90,47 @@ const UserProfile = () => {
     useEffect(()=>{
         dispatch(getUser(token))
     },[]);
+
+    const handleDisable = id => {
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+              confirmButton: classes.cancelButtonDelete,
+              cancelButton: classes.confirmButtonDelete
+            },
+            buttonsStyling: false
+        });
+    
+        swalWithBootstrapButtons.fire({
+            title: 'Desactivar?',
+            text: "Estas seguro?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'SI, DESACTIVALO!',
+            cancelButtonText: 'NO, CANCELAR!',
+            reverseButtons: true
+        })
+        .then((result) => {
+            if (result.isConfirmed) {
+                swalWithBootstrapButtons.fire(
+                'Desactivado!',
+                'Tu cuenta ha sido desactivada.',
+                'success'
+                );
+                dispatch(desactiveUsers(id, token));
+                sessionStorage.clear()
+                localStorage.clear()
+                setTimeout(() => {window.location.replace('/')}, 1000)
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                swalWithBootstrapButtons.fire(
+                'Cancelar',
+                `Tu cuenta no se ha desactivado`,
+                'error'
+                );
+            };
+        })
+        .catch(err => console.log(err));
+    };
+
 
     const ChangePasswordForm = ()=>{
             
@@ -281,6 +323,9 @@ const UserProfile = () => {
                                                 setChangeEmail(false)
                                                 setChangeBillingAddres(false)}}>quiero cambiar mi contraseña</Link>
                                 </Typography>
+                                <Button className={classes.formButton} color='primary' variant='contained' onClick={() => handleDisable(userId)}>
+                                    Desactivar mi cuenta
+                                </Button>
                             </CardContent>
                         </Card>
                         <Card className={classes.cardEdit}>

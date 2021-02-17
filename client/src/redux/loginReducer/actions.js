@@ -48,7 +48,6 @@ export const login = (user) => (dispatch, getState) => {
         })
         .catch(err => console.log("ERROR EN SIGN IN ENVIANDO PRODUCTOS AL CARRITO: ", err));
     }else{
-       alert('lo mismo paro ma barato')
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
