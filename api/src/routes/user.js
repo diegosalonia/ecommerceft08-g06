@@ -95,7 +95,22 @@ server.put('/:userId/shipping-address', async (req, res) => {
 
 server.post('/send-order', async (req, res) => {
     const { order, userId } = req.body;
-    const user = await User.findByPk(userId);
+    const user = await User.findOne({
+        where: {
+            id: userId
+        },
+        include: [
+            {
+                model: Order,
+                where: {
+                    status: 'cart',
+                }, 
+                attributes: ['id']
+            }
+        ]
+    });
+    console.log("USER WITH ORDER: ", user.dataValues.orders[0].dataValues.id);
+    const orderId = user.dataValues.orders[0].dataValues.id;
     const html = `
         <div>
             <h1>Order</h1>
@@ -132,7 +147,7 @@ server.post('/send-order', async (req, res) => {
                 </tr>
             </table>
             <br />
-            <a href=${`http://localhost:3001/user/orders/${order.id}`} >Ingrese aquí para ver los detalles de su compra</a>
+            <a href=${`http://localhost:3001/user/orders/${orderId}`} >Ingrese aquí para ver los detalles de su compra</a>
             <br />
             <h3>¡Gracias por su compra!</h3>
         </div>

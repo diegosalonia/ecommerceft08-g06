@@ -64,7 +64,7 @@ export default function Order(props){
             );
             dispatch(changeShippingStatus(orderId, 'cancelled'));
             dispatch(cancelShipping('Orden cancelada por usuario', {id: order.id, userId: order.userId}));
-            window.location.reload(false);
+            setTimeout(() => window.location.reload(false), 1500);
         } else if (result.dismiss === Swal.DismissReason.cancel) {
             swalWithBootstrapButtons.fire(
             'Cancelado',
