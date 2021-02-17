@@ -49,7 +49,7 @@ Product.hasMany(Review);
 Review.belongsTo(Product);
 
 User.hasMany(Order);
-
+Order.belongsTo(User);
 
 //password encryption//
 User.generateSalt = function() {

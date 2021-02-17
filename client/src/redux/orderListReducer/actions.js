@@ -4,6 +4,7 @@ import { GET_ORDERS } from '../constants';
 export const getOrders = () => dispatch => {
     return axios.get('http://localhost:3000/orders')
     .then(orders => {
+        console.log("ORDERS IN FRONT: ", orders.data);
         dispatch({
             type: GET_ORDERS,
             orders: orders.data

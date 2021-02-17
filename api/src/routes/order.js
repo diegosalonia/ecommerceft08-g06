@@ -13,7 +13,10 @@ server.get('/', (req, res) => {
         Order.findAll({
             where: {
                 status: status
-            }
+            },
+            includes: [
+                {model: User, attributes: ['email']}
+            ]
         })
         .then(orders => res.send(orders))
         .catch(err => console.log(err));
@@ -21,10 +24,21 @@ server.get('/', (req, res) => {
         Order.findAll({
             where: {
                 status: ['canceled', 'approved', 'pending']
-            }
+            },
+            include: User
         })
         .then(orders => {
-            res.send(orders);
+            const newOrders = orders.map(order => {
+                return {
+                    email: order.dataValues.user.dataValues.email,
+                    id: order.dataValues.id,
+                    status: order.dataValues.status,
+                    shippingStatus: order.dataValues.shippingStatus,
+                    createdAt: order.dataValues.createdAt,
+                    userId: order.dataValues.userId
+                };
+            })
+            res.send(newOrders);
         })
         .catch(err => console.log(err));
     }
@@ -51,11 +65,17 @@ server.get('/:id', (req, res) => {
         include: [
             {
                 model: Product
+            },
+            {
+                model: User,
+                attributes: [
+                    'email'
+                ]
             }
         ]
     })
     .then(order => {
-        console.log("ORDER IN BACK: ", order);
+        console.log("ORDER IN BACK: ", order.dataValues.user);
         res.send(order);
     })
     .catch(err => console.log(err));
