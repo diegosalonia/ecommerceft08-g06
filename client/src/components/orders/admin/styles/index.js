@@ -14,5 +14,19 @@ export const useStylesOrderList = makeStyles(theme => ({
     buttonConfirmAddress: {
         backgroundColor: theme.palette.primary.main,
         color: theme.palette.secondary.main,
+    },
+    searchBar: {
+        width: '17%',
+    },
+    searchBarContainer: {
+        display: 'flex',
+        justifyContent: 'flex-end'
+    },
+    formControl: {
+        width: '17%',
+        marginRight: '1%',
+    },
+    noResults: {
+        marginTop: '10%',
     }
 }));

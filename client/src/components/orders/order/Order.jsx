@@ -50,18 +50,18 @@ export default function Order(props){
                     <TableHead>
                         <TableRow>
                               <TableCell className={classes.title}>
-                                 <Typography variant="h4">Order # {orderId}</Typography>
+                                 <Typography variant="h4">Orden # {orderId}</Typography>
                               </TableCell>                       
-                              <TableCell align="left" className={classes.title}></TableCell>
-                              <TableCell align="left" className={classes.title}>Date:</TableCell>
+                              <TableCell align="left" className={classes.title}>{order.user?.email}</TableCell>
+                              <TableCell align="left" className={classes.title}>Fecha:</TableCell>
                               <TableCell align="left" className={classes.title}>{date?.slice(0,10)}</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                     <TableRow className={classes.row}>
-                        <TableCell className={classes.cellname}>Product</TableCell>
-                        <TableCell align="left" className={classes.cellname}>Quantity</TableCell>
-                        <TableCell align="left" className={classes.cellname}>Price</TableCell>
+                        <TableCell className={classes.cellname}>Producto</TableCell>
+                        <TableCell align="left" className={classes.cellname}>Cantidad</TableCell>
+                        <TableCell align="left" className={classes.cellname}>Precio</TableCell>
                         <TableCell align="left" className={classes.cellname}>Subtotal</TableCell>
                       </TableRow>
                       {rows&&rows.map((row) => (
@@ -78,7 +78,7 @@ export default function Order(props){
                           <TableCell align="left" className={classes.cell}>{rows&&total(rows)}</TableCell>
                       </TableRow>
                       <TableRow>
-                          <TableCell align="left" colSpan={0} className={classes.cell}>Status</TableCell>
+                          <TableCell align="left" colSpan={0} className={classes.cell}>Estado</TableCell>
                           <TableCell align="left" rowSpan={0} className={classes.cell}>
                             {
                               !change?
@@ -97,8 +97,8 @@ export default function Order(props){
                           <TableCell align="left" className={classes.cell}>
                             {
                               !change?
-                              <Button variant="outlined" size="small" onClick={()=>setChange(true)}>Edit</Button>:
-                              <Button variant="outlined" size="small" onClick={handleSubmit}>Submit</Button>
+                              <Button variant="outlined" size="small" onClick={()=>setChange(true)}>Editar</Button>:
+                              <Button variant="outlined" size="small" onClick={handleSubmit}>Enviar</Button>
                             }
                           </TableCell>
                       </TableRow>

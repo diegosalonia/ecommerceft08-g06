@@ -14,6 +14,7 @@ import {logout} from '../../redux/loginReducer/actions'
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+    zIndex: '1111',
   },
   paper: {
     marginRight: theme.spacing(2),
