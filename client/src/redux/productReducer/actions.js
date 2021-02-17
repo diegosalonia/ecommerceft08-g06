@@ -62,7 +62,6 @@ export const addToCart = (userId, id, quantity, product, fromCatalog = false) =>
     } else if (userId && fromCatalog) {
         axios.get(`http://localhost:3000/users/${userId}/cart`)
         .then(res => {
-            console.log("RES.DATA GETTING CART FROMCATALOG: ", res.data);
             const cart = res.data;
             Array.isArray(cart) && cart.forEach(product => {
                 if (product.id === id) {
@@ -72,7 +71,7 @@ export const addToCart = (userId, id, quantity, product, fromCatalog = false) =>
                             type: ADD_PRODUCT_TO_CART,
                             id
                         });
-                        showAlert('Quantity in cart + 1! Thanks', 1500);
+                        showAlert('Cantidad en el carrito + 1! Gracias!', 1500);
                     })
                     .catch(err => console.log("ERROR MODIFICANDO QUANTITY FROMCATALOG: ", err));
                 };
@@ -86,7 +85,7 @@ export const addToCart = (userId, id, quantity, product, fromCatalog = false) =>
             type: ADD_PRODUCT_TO_CART,
             id
         });
-        showAlert('Product in cart! Thanks', 1500);
+        showAlert('Producto añadido al carrito! Gracias', 1500);
     })
     .catch(err => console.log(err));
 };
@@ -110,7 +109,7 @@ export const editReviewAction = (review, reviewId, productId) => dispatch => {
             review: res.data
         });
         setTimeout(() => window.location.reload(false),2000);
-        showAlert('Review edited!', 2000);
+        showAlert('Reseña editada!', 2000);
     })
     .catch(err => console.log(err));
 };
@@ -124,7 +123,7 @@ export const addNewReview = (review, productId, userId) => dispatch => {
             newReview: res.data
         });
         setTimeout(() => window.location.reload(false),2000);
-        showAlert('Review created! Thanks!! Vuelva prontoss!', 2000);
+        showAlert('Reseña creada! Gracias!! Vuelva prontoss!', 2000);
     })
     .catch(err => console.log(err));
 };

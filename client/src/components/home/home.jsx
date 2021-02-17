@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { makeStyles, Typography, Avatar } from "@material-ui/core";
+import { makeStyles, Typography, Avatar, Container } from "@material-ui/core";
 import { Box } from "@material-ui/core";
 import CategoriesCollection from "./CategoriesCollection";
 import { changeOrderStatus } from "../../redux/cartReducer/actions";
@@ -62,6 +62,7 @@ export default function Home(props) {
     catCol: {
       margin: "auto",
       background: theme.palette.grey[200],
+      backgroundColor: 'transparent',
     },
     letra: {
       color: "#fff",
@@ -83,7 +84,7 @@ export default function Home(props) {
   const classes = useStyles();
 
   return (
-    <>
+    <Container>
       <grid className={classes.title} >
         <Typography className={classes.letra} variant="h3" align="center">
           Bienvenidos a Un Jardin Especial
@@ -94,7 +95,7 @@ export default function Home(props) {
       <Box className={classes.catCol}>
         <CategoriesCollection />
       </Box>
-    </>
+    </Container>
   );
 
 }
