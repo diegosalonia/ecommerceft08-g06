@@ -55,7 +55,6 @@ export default function Home(props) {
     }
   }, [dispatch, userId]);
 
-
   useEffect(() => {
     jwt && sessionStorage.setItem("token", jwt);
   }, [jwt]);

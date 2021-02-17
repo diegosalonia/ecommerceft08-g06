@@ -58,4 +58,24 @@ server.get('/all', (req, res) => {
     .catch(error => res.status(500).send(error))
 })
 
+server.get('/:id', (req,res)=>{
+    const id = req.params.id
+    Category.findOne({
+        where: {
+            id: id
+        }
+    })
+    .then(category => {
+        const newCategory = {
+            name: category.dataValues.name,
+            description: category.dataValues.description,
+            image: category.dataValues.image
+        }
+        res.send(newCategory)
+    })
+    .catch(err => {
+        res.send(err)
+    })
+})
+
 module.exports = server;

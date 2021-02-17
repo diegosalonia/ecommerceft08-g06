@@ -91,4 +91,7 @@ export const config = token => {
 };
 
 /*categoryListReducer constants */
+export const GET_CATEGORIES_ONE = "GET_CATEGORIES_ONE"
 export const DELETE_CATEGORIES = "DELETE_CATEGORIES";
+export const UPDATE_CATEGORIES = "UPDATE_CATEGORIES";
+export const DELETE_IMAGE_CATEGORY = "DELETE_IMAGE_CATEGORY";

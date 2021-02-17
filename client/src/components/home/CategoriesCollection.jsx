@@ -11,7 +11,7 @@ const CategoriesCollection = (props) => {
     useEffect(() => {
         axios.get('http://localhost:3000/category/all')
         .then(categories => 
-            {
+            {                
                 setCategories(categories.data);
             }
         )
