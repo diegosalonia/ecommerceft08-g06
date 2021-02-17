@@ -11,7 +11,8 @@ export const getUser = (token) => dispatch => {
     .then(response => {
         dispatch({
             type: GET_USER,
-            user: response.data
+            user: response.data[0],
+            orders: response.data[0].orders.filter(order => order.status !== "cart")
         })
     })
     .catch(error => {
