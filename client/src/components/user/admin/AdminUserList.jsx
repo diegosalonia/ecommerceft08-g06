@@ -21,8 +21,8 @@ const columnUser = [
     {id: 'phone_number', label: 'Teléfono', minWidth: 40, maxWidth: 40},
     {id: 'user_role', label: 'Rol', mindWidth: 30, maxWidth: 30},
     {id: 'active', label: 'Activo', mindWidth: 50, maxWidth: 50},
-    {id: 'shipping_address', label: 'Dirección', minWidth: 60, maxWidth: 60},
-    {id: 'billing_addres', label: 'Dirección de pago', minWidth: 60, maxWidth: 60},
+    {id: 'shipping_address', label: 'Dirección', minWidth: 70, maxWidth: 70},
+    {id: 'billing_addres', label: 'Dirección de pago', minWidth: 90, maxWidth: 90},
     {id: 'email_notification', label: 'Email Notificación', minWidth: 60, maxWidth: 60},
 ]
 
@@ -248,26 +248,30 @@ function AdminUserList() {
                                                     { row.user_role === 'user' && <TableCell  >                                                    
                                                         <IconButton color='primary' onClick={() => handleUpdateAdmin(row.id)}>
                                                             < SupervisorAccountIcon />
-                                                        </IconButton>                                                    
+                                                        </IconButton>
+                                                        <small>Promover</small>                                                    
                                                     </TableCell>}
 
-                                                    { row.user_role === 'admin' && <TableCell  >                                                    
+                                                    { row.user_role === 'admin' && <TableCell>                                                    
                                                         <IconButton color='primary' onClick={() => handleUpdateUser(row.id)}>
                                                             < PersonIcon />
-                                                        </IconButton>                                                    
+                                                        </IconButton>
+                                                        <small>Degradar</small>                                                    
                                                     </TableCell>}
 
                                                     { !row.active && <TableCell>
                                                         <IconButton color='primary' onClick={() => handleActivate(row.id)} >
                                                             <PersonAddIcon/>
                                                         </IconButton>
+                                                        <small>Activar</small>
                                                     </TableCell> }
                                                     
                                                     { row.active && <TableCell>
                                                         <IconButton color='primary' onClick={() => handleDisable(row.id)} >
                                                             <PersonAddDisabledIcon/>
                                                         </IconButton>
-                                                    </TableCell>                                            }
+                                                        <small>Desactivar</small>
+                                                    </TableCell>}
                                             </TableRow>
                                         )
                                         }

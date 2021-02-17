@@ -28,7 +28,7 @@ const Routes = () => {
     return(
         <>
             <Route path='/' component={MainNav}/>
-                <Container style={{minHeight: "80vh", padding: "2em"}}>
+                <Container style={{minHeight: "80vh", padding: "0em"}}>
                     <Route exact path='/' component={Home}/>
                     <Route path="/review/:productId" component={ReviewContainer} />   
                     <Route exact path='/admin' component={AdminDashboard} />

@@ -9,10 +9,10 @@ import {ThemeProvider} from '@material-ui/core/styles';
 import theme from './theme';
 
 ReactDOM.render(
-  <React.StrictMode>
+  <React.StrictMode >
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <App/>
+        <App style={{backgraundColor: 'black'}}/>
       </ThemeProvider>  
     </Provider>
   </React.StrictMode>,

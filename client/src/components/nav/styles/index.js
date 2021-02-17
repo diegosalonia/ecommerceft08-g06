@@ -29,7 +29,8 @@ export const useStyles = makeStyles((theme) => ({
     toolbarOptionsDiv: {
         display: 'flex',
         flexDirection: 'row',
-        backgroundColor: theme.palette.primary.main
+        backgroundColor: theme.palette.primary.main,
+        zIndex: 100000
 
     },
     toolbarOptions: {
