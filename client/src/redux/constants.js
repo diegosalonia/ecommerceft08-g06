@@ -76,6 +76,11 @@ export const GET_PRODUCTS_BY_KEYWORD = "GET_PRODUCTS_BY_KEYWORD";
 export const DELETE_USER = "DELETE_USER";
 export const UPDATE_USER = "UPDATE_USER";
 
+/*start carouselReducer*/
+export const NEXT = "NEXT";
+export const PREV = "PREV";
+/* end carouselReducer*/
+
 /* Config authentication */
 export const config = token => {
     return {

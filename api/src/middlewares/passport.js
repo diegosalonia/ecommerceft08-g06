@@ -145,9 +145,10 @@ passport.use(
         const name = profile.displayName.split(' ')
         const emailExist = profile._json.email
         const user = {
-          first_name: name.length === 4 ?  `${name[0]} ${name[1]}` : name[0],
-          last_name: name.length === 4 ?  `${name[2]} ${name[3]}` : `${name[1]} ${name[2]}`,
-          email: emailExist !== null ? emailExist : "lean@gmail.com"
+          first_name: name.length === 2 ? name[0] : `${name[0]} ${name[1]}`,
+          last_name: name[name.length-1],
+          email: emailExist !== null ? emailExist : done(null, false)
+
         }
         const foundUser = await User.findOne({ where: { email: user.email } })
         if (foundUser) {
