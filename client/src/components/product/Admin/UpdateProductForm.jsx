@@ -36,10 +36,8 @@ const UpdateProductForm = (props) => {
     const product = useSelector(state => state.updateProductReducer.product);
     const categories = useSelector(state => state.updateProductReducer.categories);
     const { match: { params: { id }}} = props;
-    const [ images, setImages ] = useState([]);
-    const [ checkedRespaldo, setCheckedRespaldo ] = useState([]);
-    const [ checked, setChecked ] = useState([]);
-    const [ categoryList , setCategoryList ] = useState([]);
+    const [ images, setImages ] = useState([]);    
+    const [ checked, setChecked ] = useState([]);    
     const [ loadingProduct, setLoadingProduct ] = useState(true);
     const userRole = sessionStorage.getItem('role');
     const token = sessionStorage.getItem('token');
